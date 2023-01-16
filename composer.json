@@ -1,17 +1,17 @@
 {
-    "name": ":vendor_slug/:package_slug",
-    "description": ":package_description",
+    "name": "keepsuit/laravel-cookie-solution",
+    "description": "Make your apply comply with EU cookie law",
     "keywords": [
-        ":vendor_name",
+        "keepsuit",
         "laravel",
-        ":package_slug"
+        "laravel-cookie-solution"
     ],
-    "homepage": "https://github.com/:vendor_slug/:package_slug",
+    "homepage": "https://github.com/keepsuit/laravel-cookie-solution",
     "license": "MIT",
     "authors": [
         {
-            "name": ":author_name",
-            "email": "author@domain.com",
+            "name": "Fabio Capucci",
+            "email": "f.capucci@keepsuit.com",
             "role": "Developer"
         }
     ],
@@ -35,13 +35,13 @@
     },
     "autoload": {
         "psr-4": {
-            "VendorName\\Skeleton\\": "src",
-            "VendorName\\Skeleton\\Database\\Factories\\": "database/factories"
+            "Keepsuit\\CookieSolution\\": "src",
+            "Keepsuit\\CookieSolution\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "VendorName\\Skeleton\\Tests\\": "tests"
+            "Keepsuit\\CookieSolution\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -61,10 +61,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "VendorName\\Skeleton\\SkeletonServiceProvider"
+                "Keepsuit\\CookieSolution\\CookieSolutionServiceProvider"
             ],
             "aliases": {
-                "Skeleton": "VendorName\\Skeleton\\Facades\\Skeleton"
+                "CookieSolution": "Keepsuit\\CookieSolution\\Facades\\CookieSolution"
             }
         }
     },

@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Keepsuit\CookieSolution\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class CookieSolutionCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-cookie-solution';
 
     public $description = 'My command';
 
