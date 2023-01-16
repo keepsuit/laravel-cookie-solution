@@ -3,8 +3,8 @@
 namespace Keepsuit\CookieSolution\Tests;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use Keepsuit\CookieSolution\CookieSolutionServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {
