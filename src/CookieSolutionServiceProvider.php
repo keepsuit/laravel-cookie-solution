@@ -2,7 +2,6 @@
 
 namespace Keepsuit\CookieSolution;
 
-use Keepsuit\CookieSolution\Commands\CookieSolutionCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
