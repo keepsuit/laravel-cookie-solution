@@ -116,3 +116,9 @@ class CookieSolutionBanner extends LitElement {
         `;
     }
 }
+
+declare global {
+    interface HTMLElementTagNameMap {
+        'cookie-solution-banner': CookieSolutionBanner;
+    }
+}
