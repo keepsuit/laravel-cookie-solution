@@ -13,6 +13,7 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
         $package
             ->name('laravel-cookie-solution')
             ->hasConfigFile()
+            ->hasTranslations()
             ->hasViews();
     }
 }
