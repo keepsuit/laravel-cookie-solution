@@ -7,4 +7,10 @@ return [
             '_ga_*' => 'Used to maintain session status.',
         ],
     ],
+    'facebook_pixel' => [
+        'cookies' => [
+            '_fbp' => 'Used to store and track visits across websites.',
+            'fr' => 'Used to provide ad delivery or retargeting.',
+        ]
+    ]
 ];
