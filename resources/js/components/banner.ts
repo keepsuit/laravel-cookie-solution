@@ -11,6 +11,18 @@ interface AcceptStatus {
 
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
 
+function newEmptyStatus(): AcceptStatus {
+    return {
+        timestamp: new Date().toISOString(),
+        purposes: {
+            necessary: true,
+            preferences: false,
+            statistics: false,
+            marketing: false,
+        },
+    };
+}
+
 @customElement('cookie-solution-banner')
 export class CookieSolutionBanner extends LitElement {
     static styles = [styleSheet];
@@ -38,8 +50,6 @@ export class CookieSolutionBanner extends LitElement {
 
         this._loadConfig();
         this._loadStatus();
-
-        console.log(this._config, this._status);
 
         if (!this._status) {
             this.show();
@@ -108,19 +118,30 @@ export class CookieSolutionBanner extends LitElement {
         this.hide();
     }
 
-    private _onRefuse(): void {
-        this._status = {
-            timestamp: new Date().toISOString(),
-            purposes: {
-                necessary: true,
-                preferences: false,
-                statistics: false,
-                marketing: false,
-            },
-        };
+    private _onAcceptSelected(): void {
+        if (!this._status) {
+            this._status = newEmptyStatus();
+        }
+
+        this._status.timestamp = new Date().toISOString();
 
         this._saveStatus();
         this.hide();
+    }
+
+    private _onRefuse(): void {
+        this._status = newEmptyStatus();
+
+        this._saveStatus();
+        this.hide();
+    }
+
+    private _onPurposeChange(purpose: CookiePurpose, value: boolean): void {
+        if (!this._status) {
+            this._status = newEmptyStatus();
+        }
+
+        this._status.purposes[purpose] = value;
     }
 
     protected render(): unknown {
@@ -137,7 +158,9 @@ export class CookieSolutionBanner extends LitElement {
             >
                 <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
                     ${this.header()}
-                    <div class="flex-1 overflow-auto p-4">${this._tab === 0 ? this.consentTab() : null}</div>
+                    <div class="flex-1 overflow-auto p-4">
+                        ${this._tab === 0 ? this.consentTab() : null} ${this._tab === 1 ? this.customizeTab() : null}
+                    </div>
                     ${this.footer()}
                 </div>
             </div>
@@ -200,6 +223,7 @@ export class CookieSolutionBanner extends LitElement {
             <div>
                 <button
                     class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
+                    @click="${this._onAcceptSelected}"
                 >
                     ${this._config?.texts?.button_accept_selected ?? 'Accept selected'}
                 </button>
@@ -241,6 +265,46 @@ export class CookieSolutionBanner extends LitElement {
                         and analytics partners who may combine it with other information that you've provided to them or
                         that they've collected from your use of their services.
                     `}
+                </div>
+            </div>
+        `;
+    }
+
+    protected customizeTab(): unknown {
+        return html`
+            <div class="divide-y divide-gray-100">
+                <div class="flex h-16 items-center">
+                    <div class="flex-1">Necessari</div>
+                    <div>
+                        <cookie-solution-toggle checked readonly></cookie-solution-toggle>
+                    </div>
+                </div>
+                <div class="flex h-16 items-center">
+                    <div class="flex-1">Preferenze</div>
+                    <div>
+                        <cookie-solution-toggle
+                            ?checked="${this._status?.purposes?.preferences}"
+                            @change="${($event: CustomEvent) => this._onPurposeChange('preferences', $event.detail)}"
+                        ></cookie-solution-toggle>
+                    </div>
+                </div>
+                <div class="flex h-16 items-center">
+                    <div class="flex-1">Statistiche</div>
+                    <div>
+                        <cookie-solution-toggle
+                            ?checked="${this._status?.purposes?.statistics}"
+                            @change="${($event: CustomEvent) => this._onPurposeChange('statistics', $event.detail)}"
+                        ></cookie-solution-toggle>
+                    </div>
+                </div>
+                <div class="flex h-16 items-center">
+                    <div class="flex-1">Marketing</div>
+                    <div>
+                        <cookie-solution-toggle
+                            ?checked="${this._status?.purposes?.marketing}"
+                            @change="${($event: CustomEvent) => this._onPurposeChange('marketing', $event.detail)}"
+                        ></cookie-solution-toggle>
+                    </div>
                 </div>
             </div>
         `;
