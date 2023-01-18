@@ -11,6 +11,6 @@ return [
         'cookies' => [
             '_fbp' => 'Utilizzato per memorizzare e tracciare le visite su siti Web.',
             'fr' => 'Utilizzato per gli annunci o il retargeting.',
-        ]
-    ]
+        ],
+    ],
 ];

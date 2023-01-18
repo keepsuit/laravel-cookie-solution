@@ -11,6 +11,6 @@ return [
         'cookies' => [
             '_fbp' => 'Used to store and track visits across websites.',
             'fr' => 'Used to provide ad delivery or retargeting.',
-        ]
-    ]
+        ],
+    ],
 ];

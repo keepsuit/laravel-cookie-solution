@@ -25,13 +25,13 @@ class FacebookPixel implements Service
                 name: '_fbp',
                 purpose: CookiePurpose::MARKETING,
                 duration: 3 * 30,
-                description: __('cookiesolution::services.facebook_pixel.cookies._fbp'),
+                description: __('cookie-solution::services.facebook_pixel.cookies._fbp'),
             ),
             new Cookie(
                 name: 'fr',
                 purpose: CookiePurpose::MARKETING,
                 duration: 3 * 30,
-                description: __('cookiesolution::services.facebook_pixel.cookies.fr'),
+                description: __('cookie-solution::services.facebook_pixel.cookies.fr'),
             ),
         ];
     }

@@ -2,7 +2,9 @@
 
 namespace Keepsuit\CookieSolution;
 
-class Cookie
+use Illuminate\Contracts\Support\Arrayable;
+
+class Cookie implements Arrayable
 {
     public function __construct(
         public readonly string $name,
@@ -14,5 +16,15 @@ class Cookie
         public readonly int $duration,
         public readonly string $description,
     ) {
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'description' => $this->description,
+            'purpose' => $this->purpose->value,
+            'duration' => $this->duration,
+        ];
     }
 }

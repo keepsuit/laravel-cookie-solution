@@ -2,8 +2,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleSheet } from '../style';
 import { readCookie, setCookie } from '../utils/cookie';
-
-type CookiePurpose = 'necessary' | 'preferences' | 'statistics' | 'marketing';
+import { CookieConfig, CookiePurpose, CookieSolutionConfig } from '../types';
 
 interface AcceptStatus {
     timestamp: string;
@@ -13,11 +12,14 @@ interface AcceptStatus {
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
 
 @customElement('cookie-solution-banner')
-class CookieSolutionBanner extends LitElement {
+export class CookieSolutionBanner extends LitElement {
     static styles = [styleSheet];
 
     @property({ type: String, attribute: 'cookie-name' })
     cookieName: string = 'laravel_cookie_solution';
+
+    @state()
+    private _config?: CookieSolutionConfig;
 
     @state()
     private _showModal = false;
@@ -34,11 +36,18 @@ class CookieSolutionBanner extends LitElement {
     connectedCallback() {
         super.connectedCallback();
 
+        this._loadConfig();
         this._loadStatus();
+
+        console.log(this._config, this._status);
 
         if (!this._status) {
             this.show();
         }
+    }
+
+    private _loadConfig(): void {
+        this._config = window._cookieSolution;
     }
 
     private _loadStatus(): void {
@@ -145,7 +154,7 @@ class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 0}"
                     @click="${this._onTabSelected}"
                 >
-                    Consenso
+                    ${this._config?.texts?.tab_consent ?? 'Consent'}
                 </button>
                 <button
                     class="h-14 w-full text-sm font-medium duration-300 aria-selected:text-highlight"
@@ -154,7 +163,7 @@ class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 1}"
                     @click="${this._onTabSelected}"
                 >
-                    Personalizza
+                    ${this._config?.texts?.tab_customize ?? 'Customize'}
                 </button>
                 <button
                     class="h-14 w-full text-sm font-medium duration-300 aria-selected:text-highlight"
@@ -163,7 +172,7 @@ class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 2}"
                     @click="${this._onTabSelected}"
                 >
-                    Informazioni
+                    ${this._config?.texts?.tab_information ?? 'Information'}
                 </button>
                 <div class="relative">
                     <hr
@@ -182,7 +191,7 @@ class CookieSolutionBanner extends LitElement {
                     class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                     @click="${() => (this._tab = 1)}"
                 >
-                    <slot name="customize-button">Customize</slot>
+                    ${this._config?.texts?.button_customize ?? 'Customize'}
                 </button>
             </div>
         `;
@@ -192,7 +201,7 @@ class CookieSolutionBanner extends LitElement {
                 <button
                     class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                 >
-                    <slot name="accept-selected-button">Accept selected</slot>
+                    ${this._config?.texts?.button_accept_selected ?? 'Accept selected'}
                 </button>
             </div>
         `;
@@ -204,7 +213,7 @@ class CookieSolutionBanner extends LitElement {
                         class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                         @click="${this._onRefuse}"
                     >
-                        <slot name="refuse-button">Refuse</slot>
+                        ${this._config?.texts?.button_refuse ?? 'Refuse'}
                     </button>
                 </div>
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
@@ -213,7 +222,7 @@ class CookieSolutionBanner extends LitElement {
                         class="block h-12 w-full bg-highlight text-sm font-bold text-white duration-300 hover:opacity-90"
                         @click="${this._onAcceptAll}"
                     >
-                        <slot name="accept-all-button">Accept all</slot>
+                        ${this._config?.texts?.button_accept_all ?? 'Accept all'}
                     </button>
                 </div>
             </div>
@@ -223,16 +232,15 @@ class CookieSolutionBanner extends LitElement {
     protected consentTab(): unknown {
         return html`
             <div>
-                <div class="text-sm font-bold">
-                    <slot name="title">This site uses cookies</slot>
-                </div>
+                <div class="text-sm font-bold">${this._config?.texts?.consent_title ?? 'This site uses cookies'}</div>
                 <div class="mt-2 text-sm">
-                    <slot name="message">
+                    ${this._config?.texts?.consent_message ??
+                    `
                         We use cookies to customize content and ads, to provide social media features and to analyze our
                         traffic. We also share information about your use of our site with our social media, advertising
                         and analytics partners who may combine it with other information that you've provided to them or
                         that they've collected from your use of their services.
-                    </slot>
+                    `}
                 </div>
             </div>
         `;
@@ -253,11 +261,5 @@ class CookieSolutionBanner extends LitElement {
                 </button>
             </div>
         `;
-    }
-}
-
-declare global {
-    interface HTMLElementTagNameMap {
-        'cookie-solution-banner': CookieSolutionBanner;
     }
 }

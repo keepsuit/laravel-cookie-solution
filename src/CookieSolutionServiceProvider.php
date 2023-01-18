@@ -15,4 +15,9 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
             ->hasTranslations()
             ->hasViews();
     }
+
+    public function packageRegistered()
+    {
+        $this->app->singleton(CookieSolution::class);
+    }
 }

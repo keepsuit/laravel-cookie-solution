@@ -15,7 +15,7 @@ enum AmazonWebServicesLocation
     case INDIA;
     case IRELAND;
     case ITALY;
-    CASE JAPAN;
+    case JAPAN;
     case SINAGAPORE;
     case SOUTH_AFRICA;
     case SOUTH_KOREA;
