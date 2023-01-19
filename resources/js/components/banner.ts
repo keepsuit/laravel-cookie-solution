@@ -1,3 +1,6 @@
+import './toggle';
+import './collapsable';
+
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { styleSheet } from '../style';
@@ -324,19 +327,42 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
+        const dispatchOpenEvent = (event: Event) =>
+            event.target?.dispatchEvent(
+                new CustomEvent('toggle-open', {
+                    bubbles: true,
+                    composed: true,
+                })
+            );
+
         return html`
-            <div>
-                <div class="mb-4 flex gap-8">
-                    <div class="flex-1">
-                        <span class="block flex h-12 items-center text-sm font-bold">
+            <cookie-solution-collapsable>
+                <div class="mb-4 flex gap-4">
+                    <div class="flex h-12 w-6 items-center">
+                        ${this._config.cookies[purpose].length > 0
+                            ? html`
+                                  <button @click="${dispatchOpenEvent}">
+                                      <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          viewBox="0 0 48 48"
+                                          class="h-6 w-6 fill-current"
+                                      >
+                                          <path d="m24 30.75-12-12 2.15-2.15L24 26.5l9.85-9.85L36 18.8Z" />
+                                      </svg>
+                                  </button>
+                              `
+                            : null}
+                    </div>
+                    <div class="flex-1 pr-4">
+                        <button class="block flex h-12 items-center text-sm font-bold" @click="${dispatchOpenEvent}">
                             ${this._config.texts[`customize_purpose_${purpose}`]}
-                        </span>
+                        </button>
 
                         <p class="text-sm text-gray-800">
                             ${this._config.texts[`customize_purpose_${purpose}_description`]}
                         </p>
                     </div>
-                    <div class="flex h-12 items-center">
+                    <div class="flex h-12 w-12 items-center">
                         ${purpose === 'necessary'
                             ? html` <cookie-solution-toggle checked readonly></cookie-solution-toggle> `
                             : html`
@@ -349,11 +375,11 @@ export class CookieSolutionBanner extends LitElement {
                     </div>
                 </div>
 
-                <div>
-                    <div class="mb-8 hidden">
+                <div slot="content">
+                    <div class="mb-8 ml-10 mr-16">
                         ${this._config.cookies[purpose].map(
                             (service) => html`
-                                <div class="mx-4 mt-4 border-l-4 border-gray-300 px-4">
+                                <div class="mt-4 border-l-4 border-gray-300 px-4">
                                     <div class="text-sm">
                                         <span class="font-medium">${service.name}</span>
                                         <span>(${service.provider})</span>
@@ -366,7 +392,7 @@ export class CookieSolutionBanner extends LitElement {
                         )}
                     </div>
                 </div>
-            </div>
+            </cookie-solution-collapsable>
         `;
     }
 
@@ -377,11 +403,11 @@ export class CookieSolutionBanner extends LitElement {
                     <span class="text-xs font-bold italic">${cookie.name}</span>
                 </div>
                 <div class="px-1">
-                    <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700"
-                        >${this.formatDuration(cookie.duration)}</span
-                    >
+                    <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700">
+                        ${this.formatDuration(cookie.duration)}
+                    </span>
                 </div>
-                <div class="col-span-2 px-1 text-sm">${cookie.description}</div>
+                <div class="col-span-2 px-1 text-xs">${cookie.description}</div>
             </div>
         `;
     }

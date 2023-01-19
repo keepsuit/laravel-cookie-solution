@@ -1,4 +1,3 @@
-import './components/toggle';
 import './components/banner';
 import { CookieSolutionConfig } from './types';
 import { CookieSolutionBanner } from './components/banner';
