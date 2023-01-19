@@ -18,6 +18,11 @@ class FacebookPixel implements Service
         return $this->location->provider();
     }
 
+    public function name(): string
+    {
+        return 'Facebook Pixel';
+    }
+
     public function cookies(): array
     {
         return [

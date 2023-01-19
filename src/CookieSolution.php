@@ -26,6 +26,14 @@ class CookieSolution
                 'button_customize' => __('cookie-solution::banner.button_customize'),
                 'consent_title' => __('cookie-solution::banner.consent_title'),
                 'consent_message' => __('cookie-solution::banner.consent_message'),
+                'customize_purpose_necessary' => __('cookie-solution::banner.customize_purpose_necessary'),
+                'customize_purpose_necessary_description' => __('cookie-solution::banner.customize_purpose_necessary_description'),
+                'customize_purpose_preferences' => __('cookie-solution::banner.customize_purpose_preferences'),
+                'customize_purpose_preferences_description' => __('cookie-solution::banner.customize_purpose_preferences_description'),
+                'customize_purpose_statistics' => __('cookie-solution::banner.customize_purpose_statistics'),
+                'customize_purpose_statistics_description' => __('cookie-solution::banner.customize_purpose_statistics_description'),
+                'customize_purpose_marketing' => __('cookie-solution::banner.customize_purpose_marketing'),
+                'customize_purpose_marketing_description' => __('cookie-solution::banner.customize_purpose_marketing_description'),
             ],
             'cookies' => [
                 CookiePurpose::NECESSARY->value => $this->getCookiesConfigForPurpose(CookiePurpose::NECESSARY),
@@ -50,10 +58,12 @@ class CookieSolution
                 $cookies = collect($service->cookies())
                     ->filter(fn (Cookie $cookie) => $cookie->purpose === $cookiePurpose)
                     ->map(fn (Cookie $cookie) => Arr::except($cookie->toArray(), 'purpose'))
+                    ->values()
                     ->all();
 
                 return [
                     'provider' => $service->provider(),
+                    'name' => $service->name(),
                     'cookies' => $cookies,
                 ];
             })

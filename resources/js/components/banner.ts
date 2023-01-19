@@ -45,11 +45,20 @@ export class CookieSolutionBanner extends LitElement {
     @state()
     private _status: AcceptStatus | undefined = undefined;
 
+    private _relativeTimeFormatter = new Intl.RelativeTimeFormat(undefined, {
+        style: 'long',
+    });
+
     connectedCallback() {
         super.connectedCallback();
 
         this._loadConfig();
         this._loadStatus();
+
+        if (!this._config) {
+            console.error('CookieSolution: No configuration found.');
+            return;
+        }
 
         if (!this._status) {
             this.show();
@@ -145,6 +154,10 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected render(): unknown {
+        if (!this._config) {
+            return null;
+        }
+
         if (!this._showModal) {
             return this.modalToggle();
         }
@@ -154,7 +167,7 @@ export class CookieSolutionBanner extends LitElement {
                 role="dialog"
                 class="${this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
                     ? 'opacity-0 scale-75'
-                    : ''} fixed top-1/2 left-1/2 z-max max-h-[80vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
+                    : ''} fixed top-1/2 left-1/2 z-max flex max-h-[80vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
             >
                 <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
                     ${this.header()}
@@ -168,6 +181,10 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected header(): unknown {
+        if (!this._config) {
+            return;
+        }
+
         return html`
             <div class="grid shrink-0 grid-cols-3 border-b border-gray-200">
                 <button
@@ -177,7 +194,7 @@ export class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 0}"
                     @click="${this._onTabSelected}"
                 >
-                    ${this._config?.texts?.tab_consent ?? 'Consent'}
+                    ${this._config.texts.tab_consent}
                 </button>
                 <button
                     class="h-14 w-full text-sm font-medium duration-300 aria-selected:text-highlight"
@@ -186,7 +203,7 @@ export class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 1}"
                     @click="${this._onTabSelected}"
                 >
-                    ${this._config?.texts?.tab_customize ?? 'Customize'}
+                    ${this._config.texts.tab_customize}
                 </button>
                 <button
                     class="h-14 w-full text-sm font-medium duration-300 aria-selected:text-highlight"
@@ -195,7 +212,7 @@ export class CookieSolutionBanner extends LitElement {
                     aria-selected="${this._tab === 2}"
                     @click="${this._onTabSelected}"
                 >
-                    ${this._config?.texts?.tab_information ?? 'Information'}
+                    ${this._config.texts.tab_information}
                 </button>
                 <div class="relative">
                     <hr
@@ -208,13 +225,17 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected footer(): unknown {
+        if (!this._config) {
+            return;
+        }
+
         const customizeButton = html`
             <div>
                 <button
                     class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                     @click="${() => (this._tab = 1)}"
                 >
-                    ${this._config?.texts?.button_customize ?? 'Customize'}
+                    ${this._config.texts.button_customize}
                 </button>
             </div>
         `;
@@ -225,7 +246,7 @@ export class CookieSolutionBanner extends LitElement {
                     class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                     @click="${this._onAcceptSelected}"
                 >
-                    ${this._config?.texts?.button_accept_selected ?? 'Accept selected'}
+                    ${this._config.texts.button_accept_selected}
                 </button>
             </div>
         `;
@@ -237,7 +258,7 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
                         @click="${this._onRefuse}"
                     >
-                        ${this._config?.texts?.button_refuse ?? 'Refuse'}
+                        ${this._config.texts.button_refuse}
                     </button>
                 </div>
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
@@ -246,7 +267,7 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-12 w-full bg-highlight text-sm font-bold text-white duration-300 hover:opacity-90"
                         @click="${this._onAcceptAll}"
                     >
-                        ${this._config?.texts?.button_accept_all ?? 'Accept all'}
+                        ${this._config.texts.button_accept_all}
                     </button>
                 </div>
             </div>
@@ -254,58 +275,29 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected consentTab(): unknown {
+        if (!this._config) {
+            return;
+        }
+
         return html`
             <div>
-                <div class="text-sm font-bold">${this._config?.texts?.consent_title ?? 'This site uses cookies'}</div>
-                <div class="mt-2 text-sm">
-                    ${this._config?.texts?.consent_message ??
-                    `
-                        We use cookies to customize content and ads, to provide social media features and to analyze our
-                        traffic. We also share information about your use of our site with our social media, advertising
-                        and analytics partners who may combine it with other information that you've provided to them or
-                        that they've collected from your use of their services.
-                    `}
-                </div>
+                <div class="text-sm font-bold">${this._config.texts.consent_title}</div>
+                <div class="mt-2 text-sm">${this._config.texts.consent_message}</div>
             </div>
         `;
     }
 
     protected customizeTab(): unknown {
+        if (!this._config) {
+            return null;
+        }
+
         return html`
             <div class="divide-y divide-gray-100">
-                <div class="flex h-16 items-center">
-                    <div class="flex-1">Necessari</div>
-                    <div>
-                        <cookie-solution-toggle checked readonly></cookie-solution-toggle>
-                    </div>
-                </div>
-                <div class="flex h-16 items-center">
-                    <div class="flex-1">Preferenze</div>
-                    <div>
-                        <cookie-solution-toggle
-                            ?checked="${this._status?.purposes?.preferences}"
-                            @change="${($event: CustomEvent) => this._onPurposeChange('preferences', $event.detail)}"
-                        ></cookie-solution-toggle>
-                    </div>
-                </div>
-                <div class="flex h-16 items-center">
-                    <div class="flex-1">Statistiche</div>
-                    <div>
-                        <cookie-solution-toggle
-                            ?checked="${this._status?.purposes?.statistics}"
-                            @change="${($event: CustomEvent) => this._onPurposeChange('statistics', $event.detail)}"
-                        ></cookie-solution-toggle>
-                    </div>
-                </div>
-                <div class="flex h-16 items-center">
-                    <div class="flex-1">Marketing</div>
-                    <div>
-                        <cookie-solution-toggle
-                            ?checked="${this._status?.purposes?.marketing}"
-                            @change="${($event: CustomEvent) => this._onPurposeChange('marketing', $event.detail)}"
-                        ></cookie-solution-toggle>
-                    </div>
-                </div>
+                ${this.cookiePurposeRow('necessary')}
+                ${this._config.cookies.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
+                ${this._config.cookies.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
+                ${this._config.cookies.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
             </div>
         `;
     }
@@ -325,5 +317,90 @@ export class CookieSolutionBanner extends LitElement {
                 </button>
             </div>
         `;
+    }
+
+    protected cookiePurposeRow(purpose: CookiePurpose): unknown {
+        if (!this._config) {
+            return;
+        }
+
+        return html`
+            <div>
+                <div class="mb-4 flex gap-8">
+                    <div class="flex-1">
+                        <span class="block flex h-12 items-center text-sm font-bold">
+                            ${this._config.texts[`customize_purpose_${purpose}`]}
+                        </span>
+
+                        <p class="text-sm text-gray-800">
+                            ${this._config.texts[`customize_purpose_${purpose}_description`]}
+                        </p>
+                    </div>
+                    <div class="flex h-12 items-center">
+                        ${purpose === 'necessary'
+                            ? html` <cookie-solution-toggle checked readonly></cookie-solution-toggle> `
+                            : html`
+                                  <cookie-solution-toggle
+                                      ?checked="${this._status?.purposes?.[purpose]}"
+                                      @change="${($event: CustomEvent) =>
+                                          this._onPurposeChange(purpose, $event.detail)}"
+                                  ></cookie-solution-toggle>
+                              `}
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mb-8 hidden">
+                        ${this._config.cookies[purpose].map(
+                            (service) => html`
+                                <div class="mx-4 mt-4 border-l-4 border-gray-300 px-4">
+                                    <div class="text-sm">
+                                        <span class="font-medium">${service.name}</span>
+                                        <span>(${service.provider})</span>
+                                    </div>
+                                    <div class="mt-2 divide-y divide-gray-100">
+                                        ${service.cookies.map((cookie) => this.cookieRow(cookie))}
+                                    </div>
+                                </div>
+                            `
+                        )}
+                    </div>
+                </div>
+            </div>
+        `;
+    }
+
+    protected cookieRow(cookie: CookieConfig): unknown {
+        return html`
+            <div class="grid grid-cols-4 items-center py-1">
+                <div class="px-1">
+                    <span class="text-xs font-bold italic">${cookie.name}</span>
+                </div>
+                <div class="px-1">
+                    <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700"
+                        >${this.formatDuration(cookie.duration)}</span
+                    >
+                </div>
+                <div class="col-span-2 px-1 text-sm">${cookie.description}</div>
+            </div>
+        `;
+    }
+
+    protected formatDuration(duration: number): string {
+        if (duration === 0) {
+            return 'session';
+        }
+
+        let parts;
+
+        if (duration % 365 === 0) {
+            parts = this._relativeTimeFormatter.formatToParts(duration / 365, 'year');
+        } else if (duration % 30 === 0) {
+            parts = this._relativeTimeFormatter.formatToParts(duration / 30, 'month');
+        } else {
+            parts = this._relativeTimeFormatter.formatToParts(duration, 'day');
+        }
+
+        return `${parts[1].value} ${parts[2].value}`;
     }
 }

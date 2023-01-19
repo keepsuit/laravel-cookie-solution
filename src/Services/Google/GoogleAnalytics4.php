@@ -19,6 +19,11 @@ class GoogleAnalytics4 implements Service
         return $this->location->provider();
     }
 
+    public function name(): string
+    {
+        return 'Google Analytics 4';
+    }
+
     public function cookies(): array
     {
         return [

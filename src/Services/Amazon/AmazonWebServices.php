@@ -16,6 +16,11 @@ class AmazonWebServices implements Service
         return 'Amazon Web Services, Inc.';
     }
 
+    public function name(): string
+    {
+        return 'Amazon Web Services';
+    }
+
     public function cookies(): array
     {
         return [];

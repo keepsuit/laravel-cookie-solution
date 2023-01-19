@@ -16,6 +16,11 @@ class GoogleTagManager implements Service
         return $this->location->provider();
     }
 
+    public function name(): string
+    {
+        return 'Google Tag Manager';
+    }
+
     public function cookies(): array
     {
         return [];

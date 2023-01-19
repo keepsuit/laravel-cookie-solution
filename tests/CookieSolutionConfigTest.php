@@ -25,6 +25,14 @@ it('generate base config for cookie solution', function () {
                 'button_customize' => __('cookie-solution::banner.button_customize'),
                 'consent_title' => __('cookie-solution::banner.consent_title'),
                 'consent_message' => __('cookie-solution::banner.consent_message'),
+                'customize_purpose_necessary' => __('cookie-solution::banner.customize_purpose_necessary'),
+                'customize_purpose_necessary_description' => __('cookie-solution::banner.customize_purpose_necessary_description'),
+                'customize_purpose_preferences' => __('cookie-solution::banner.customize_purpose_preferences'),
+                'customize_purpose_preferences_description' => __('cookie-solution::banner.customize_purpose_preferences_description'),
+                'customize_purpose_statistics' => __('cookie-solution::banner.customize_purpose_statistics'),
+                'customize_purpose_statistics_description' => __('cookie-solution::banner.customize_purpose_statistics_description'),
+                'customize_purpose_marketing' => __('cookie-solution::banner.customize_purpose_marketing'),
+                'customize_purpose_marketing_description' => __('cookie-solution::banner.customize_purpose_marketing_description'),
             ],
         ]);
 });
@@ -44,6 +52,7 @@ it('generate config with configured services', function () {
             'statistics' => [
                 [
                     'provider' => 'Google Ireland Limited',
+                    'name' => 'Google Analytics 4',
                     'cookies' => [
                         ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730],
                         ['name' => '_ga_*', 'description' => 'Used to maintain session status.', 'duration' => 730],
@@ -53,6 +62,7 @@ it('generate config with configured services', function () {
             'marketing' => [
                 [
                     'provider' => 'Meta Platforms Ireland Limited',
+                    'name' => 'Facebook Pixel',
                     'cookies' => [
                         ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90],
                         ['name' => 'fr', 'description' => 'Used to provide ad delivery or retargeting.', 'duration' => 90],
