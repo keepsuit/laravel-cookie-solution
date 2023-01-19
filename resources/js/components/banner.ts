@@ -166,18 +166,21 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div
-                role="dialog"
-                class="${this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
-                    ? 'opacity-0 scale-75'
-                    : ''} fixed top-1/2 left-1/2 z-max flex max-h-[80vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
-            >
-                <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
-                    ${this.header()}
-                    <div class="flex-1 overflow-auto p-4">
-                        ${this._tab === 0 ? this.consentTab() : null} ${this._tab === 1 ? this.customizeTab() : null}
+            <div class="fixed inset-0 z-max bg-gray-900/30">
+                <div
+                    role="dialog"
+                    class="${this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
+                        ? 'opacity-0 scale-75'
+                        : ''} fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
+                >
+                    <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
+                        ${this.header()}
+                        <div class="flex-1 overflow-auto p-4">
+                            ${this._tab === 0 ? this.consentTab() : null}
+                            ${this._tab === 1 ? this.customizeTab() : null}
+                        </div>
+                        ${this.footer()}
                     </div>
-                    ${this.footer()}
                 </div>
             </div>
         `;
@@ -235,7 +238,7 @@ export class CookieSolutionBanner extends LitElement {
         const customizeButton = html`
             <div>
                 <button
-                    class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
+                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${() => (this._tab = 1)}"
                 >
                     ${this._config.texts.button_customize}
@@ -246,7 +249,7 @@ export class CookieSolutionBanner extends LitElement {
         const acceptSelectedButton = html`
             <div>
                 <button
-                    class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
+                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${this._onAcceptSelected}"
                 >
                     ${this._config.texts.button_accept_selected}
@@ -255,10 +258,10 @@ export class CookieSolutionBanner extends LitElement {
         `;
 
         return html`
-            <div class="grid shrink-0 grid-cols-3 gap-2 border-t border-gray-200 p-4">
+            <div class="grid shrink-0 gap-2 border-t border-gray-200 p-4 md:grid-cols-3">
                 <div>
                     <button
-                        class="block h-12 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100"
+                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onRefuse}"
                     >
                         ${this._config.texts.button_refuse}
@@ -267,7 +270,7 @@ export class CookieSolutionBanner extends LitElement {
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
                 <div>
                     <button
-                        class="block h-12 w-full bg-highlight text-sm font-bold text-white duration-300 hover:opacity-90"
+                        class="block h-10 w-full bg-highlight text-sm font-bold text-white duration-300 hover:opacity-90 md:h-12"
                         @click="${this._onAcceptAll}"
                     >
                         ${this._config.texts.button_accept_all}
@@ -337,30 +340,25 @@ export class CookieSolutionBanner extends LitElement {
 
         return html`
             <cookie-solution-collapsable>
-                <div class="mb-4 flex gap-4">
-                    <div class="flex h-12 w-6 items-center">
+                <div class="flex gap-8">
+                    <div class="flex h-12 flex-1 items-center">
                         ${this._config.cookies[purpose].length > 0
                             ? html`
                                   <button @click="${dispatchOpenEvent}">
                                       <svg
                                           xmlns="http://www.w3.org/2000/svg"
                                           viewBox="0 0 48 48"
-                                          class="h-6 w-6 fill-current"
+                                          class="mr-4 h-6 w-6 fill-current"
                                       >
                                           <path d="m24 30.75-12-12 2.15-2.15L24 26.5l9.85-9.85L36 18.8Z" />
                                       </svg>
                                   </button>
                               `
-                            : null}
-                    </div>
-                    <div class="flex-1 pr-4">
+                            : html` <div class="md:mr-4 md:w-6"></div>`}
+
                         <button class="block flex h-12 items-center text-sm font-bold" @click="${dispatchOpenEvent}">
                             ${this._config.texts[`customize_purpose_${purpose}`]}
                         </button>
-
-                        <p class="text-sm text-gray-800">
-                            ${this._config.texts[`customize_purpose_${purpose}_description`]}
-                        </p>
                     </div>
                     <div class="flex h-12 w-12 items-center">
                         ${purpose === 'necessary'
@@ -375,14 +373,20 @@ export class CookieSolutionBanner extends LitElement {
                     </div>
                 </div>
 
+                <div class="mb-4 md:pl-10 md:pr-20">
+                    <p class="text-sm text-gray-800">
+                        ${this._config.texts[`customize_purpose_${purpose}_description`]}
+                    </p>
+                </div>
+
                 <div slot="content">
-                    <div class="mb-8 ml-10 mr-16">
+                    <div class="mb-8 md:ml-10 md:mr-16">
                         ${this._config.cookies[purpose].map(
                             (service) => html`
                                 <div class="mt-4 border-l-4 border-gray-300 px-4">
-                                    <div class="text-sm">
-                                        <span class="font-medium">${service.name}</span>
-                                        <span>(${service.provider})</span>
+                                    <div>
+                                        <span class="block text-sm font-medium md:inline">${service.name}</span>
+                                        <span class="block text-xs md:inline md:text-sm">(${service.provider})</span>
                                     </div>
                                     <div class="mt-2 divide-y divide-gray-100">
                                         ${service.cookies.map((cookie) => this.cookieRow(cookie))}
@@ -398,16 +402,16 @@ export class CookieSolutionBanner extends LitElement {
 
     protected cookieRow(cookie: CookieConfig): unknown {
         return html`
-            <div class="grid grid-cols-4 items-center py-1">
-                <div class="px-1">
+            <div class="grid grid-cols-2 items-center gap-2 py-1 sm:grid-cols-4">
+                <div>
                     <span class="text-xs font-bold italic">${cookie.name}</span>
                 </div>
-                <div class="px-1">
+                <div class="flex justify-end sm:justify-start">
                     <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700">
                         ${this.formatDuration(cookie.duration)}
                     </span>
                 </div>
-                <div class="col-span-2 px-1 text-xs">${cookie.description}</div>
+                <div class="col-span-2 text-xs">${cookie.description}</div>
             </div>
         `;
     }

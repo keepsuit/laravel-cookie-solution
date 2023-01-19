@@ -22,7 +22,16 @@ export class CookieSolutionCollapsable extends LitElement {
             const height = this.contentRef.value.getBoundingClientRect().height;
             this.contentRef.value.style.height = `0px`;
 
-            requestAnimationFrame(() => (this.contentRef.value!.style.height = `${height}px`));
+            requestAnimationFrame(() => {
+                this.contentRef.value!.style.height = `${height}px`;
+                this.contentRef.value!.addEventListener(
+                    'transitionend',
+                    () => {
+                        this.contentRef.value!.style.height = 'auto';
+                    },
+                    { once: true }
+                );
+            });
         } else {
             this.contentRef.value.style.height = '0px';
         }
@@ -37,7 +46,6 @@ export class CookieSolutionCollapsable extends LitElement {
     }
 
     protected firstUpdated() {
-        console.log(this.contentRef);
         this._updateContentStyle();
     }
 
