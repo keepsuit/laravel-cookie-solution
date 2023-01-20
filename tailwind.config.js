@@ -7,7 +7,7 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                highlight: 'var(--highlight, #ea580c)',
+                highlight: 'var(--cs--color-highlight, #ea580c)',
             },
             zIndex: {
                 max: '999999',

@@ -64,13 +64,20 @@ You can automate this using composer `post-update-cmd` script:
 }
 ```
 
-
 ## Usage
 
 Include the cookie solution script in your layout (it's recommended to include it in the `<head>` tag):
 
 ```blade
 @include('cookie-solution::script')
+```
+
+You can customize the highlight color of the cookie solution change the `--cs--color-highlight` CSS variable.
+
+```css
+:root {
+    --cs--color-highlight: #3522dd;
+}
 ```
 
 Register used services in your 'AppServiceProvider':
