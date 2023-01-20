@@ -3,6 +3,7 @@
 namespace Keepsuit\CookieSolution;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\HtmlString;
 
 class CookieSolution
 {
@@ -10,6 +11,11 @@ class CookieSolution
      * @var Service[]
      */
     protected array $services = [];
+
+    public function __construct(
+        protected CookieSolutionAssets $assets,
+    ) {
+    }
 
     public function getConfig(): array
     {
@@ -70,5 +76,19 @@ class CookieSolution
             ->filter(fn (array $service) => count($service['cookies']) > 0)
             ->values()
             ->all();
+    }
+
+    public function script(): HtmlString
+    {
+        $scriptUrl = $this->assets->getScriptUrl();
+        $config = json_encode($this->getConfig());
+
+        return new HtmlString(<<<HTML
+            <script>
+            window._cookieSolution = $config;
+            </script>
+            <script type="module" src="$scriptUrl"></script>
+            HTML
+        );
     }
 }

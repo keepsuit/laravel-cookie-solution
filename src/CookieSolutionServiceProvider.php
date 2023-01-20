@@ -13,11 +13,13 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
             ->name('laravel-cookie-solution')
             ->hasConfigFile()
             ->hasTranslations()
-            ->hasViews();
+            ->hasViews()
+            ->hasRoute('routes');
     }
 
-    public function packageRegistered()
+    public function packageRegistered(): void
     {
         $this->app->singleton(CookieSolution::class);
+        $this->app->singleton(CookieSolutionAssets::class);
     }
 }
