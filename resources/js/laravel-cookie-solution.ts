@@ -13,3 +13,6 @@ declare global {
         'cookie-solution-banner': CookieSolutionBanner;
     }
 }
+
+const cookieSolutionBanner = document.createElement('cookie-solution-banner');
+document.body.append(cookieSolutionBanner);
