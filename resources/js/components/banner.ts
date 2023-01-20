@@ -75,10 +75,39 @@ export class CookieSolutionBanner extends LitElement {
     private _loadStatus(): void {
         const status = readCookie(this.cookieName);
         this._status = status ? JSON.parse(status) : undefined;
+
+        this._emitStatusChange();
     }
 
     private _saveStatus(): void {
         setCookie(this.cookieName, JSON.stringify(this._status), 365);
+
+        this._emitStatusChange();
+    }
+
+    private _emitStatusChange(): void {
+        this.dispatchEvent(
+            new CustomEvent('cookie-solution-status-change', {
+                detail: this._status,
+            })
+        );
+
+        try {
+            if (typeof gtag === 'function') {
+                gtag('consent', 'update', {
+                    ad_storage: this._status?.purposes.marketing ? 'granted' : 'denied',
+                    analytics_storage: this._status?.purposes.statistics ? 'granted' : 'denied',
+                    functionality_storage: this._status?.purposes.necessary ? 'granted' : 'denied',
+                    personalization_storage: this._status?.purposes.preferences ? 'granted' : 'denied',
+                });
+            }
+        } catch (e) {}
+
+        try {
+            if (typeof fbq === 'function') {
+                fbq('consent', this._status?.purposes.marketing ? 'grant' : 'revoke');
+            }
+        } catch (e) {}
     }
 
     private show(): void {
