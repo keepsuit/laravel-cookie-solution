@@ -34,5 +34,6 @@ export interface CookieSolutionConfig {
         customize_purpose_statistics_description: string;
         customize_purpose_marketing: string;
         customize_purpose_marketing_description: string;
+        information_text: string;
     };
 }

@@ -1,8 +1,10 @@
+import './duration';
 import './toggle';
 import './collapsable';
 
 import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
+import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { readCookie, setCookie } from '../utils/cookie';
 import { CookieConfig, CookiePurpose, CookieSolutionConfig } from '../types';
@@ -47,10 +49,6 @@ export class CookieSolutionBanner extends LitElement {
 
     @state()
     private _status: AcceptStatus | undefined = undefined;
-
-    private _relativeTimeFormatter = new Intl.RelativeTimeFormat(undefined, {
-        style: 'long',
-    });
 
     connectedCallback() {
         super.connectedCallback();
@@ -207,6 +205,7 @@ export class CookieSolutionBanner extends LitElement {
                         <div class="flex-1 overflow-auto p-4">
                             ${this._tab === 0 ? this.consentTab() : null}
                             ${this._tab === 1 ? this.customizeTab() : null}
+                            ${this._tab === 2 ? this.informationTab() : null}
                         </div>
                         ${this.footer()}
                     </div>
@@ -337,6 +336,16 @@ export class CookieSolutionBanner extends LitElement {
         `;
     }
 
+    protected informationTab(): unknown {
+        if (!this._config) {
+            return null;
+        }
+
+        console.log(this._config.texts.information_text);
+
+        return html` <div class="prose prose-sm">${unsafeHTML(this._config.texts.information_text)}</div> `;
+    }
+
     protected modalToggle(): unknown {
         return html`
             <div class="fixed bottom-4 right-4 z-max">
@@ -437,29 +446,11 @@ export class CookieSolutionBanner extends LitElement {
                 </div>
                 <div class="flex justify-end sm:justify-start">
                     <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700">
-                        ${this.formatDuration(cookie.duration)}
+                        <cookie-solution-duration duration="${cookie.duration}"></cookie-solution-duration>
                     </span>
                 </div>
                 <div class="col-span-2 text-xs">${cookie.description}</div>
             </div>
         `;
-    }
-
-    protected formatDuration(duration: number): string {
-        if (duration === 0) {
-            return 'session';
-        }
-
-        let parts;
-
-        if (duration % 365 === 0) {
-            parts = this._relativeTimeFormatter.formatToParts(duration / 365, 'year');
-        } else if (duration % 30 === 0) {
-            parts = this._relativeTimeFormatter.formatToParts(duration / 30, 'month');
-        } else {
-            parts = this._relativeTimeFormatter.formatToParts(duration, 'day');
-        }
-
-        return `${parts[1].value} ${parts[2].value}`;
     }
 }

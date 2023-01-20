@@ -1,6 +1,8 @@
+import './components/duration';
 import './components/banner';
 import { CookieSolutionConfig } from './types';
 import { CookieSolutionBanner } from './components/banner';
+import { CookieSolutionDuration } from './components/duration';
 
 export type { CookieSolutionConfig, ServiceConfig, CookieConfig, CookiePurpose } from './types';
 
@@ -15,6 +17,7 @@ declare global {
 
     interface HTMLElementTagNameMap {
         'cookie-solution-banner': CookieSolutionBanner;
+        'cookie-solution-duration': CookieSolutionDuration;
     }
 }
 

@@ -13,6 +13,7 @@
         "format": "prettier --write resources/js"
     },
     "devDependencies": {
+        "@tailwindcss/typography": "^0.5.9",
         "@types/node": "^18.11.18",
         "postcss": "^8.4.21",
         "prettier": "^2.8.3",

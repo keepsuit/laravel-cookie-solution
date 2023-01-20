@@ -12,7 +12,23 @@ module.exports = {
             zIndex: {
                 max: '999999',
             },
+            typography: ({ theme }) => ({
+                DEFAULT: {
+                    css: {
+                        maxWidth: '100%',
+                    },
+                },
+                sm: {
+                    css: {
+                        h3: {
+                            fontSize: '1.1em',
+                        },
+                    },
+                },
+            }),
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/typography'),
+    ],
 };
