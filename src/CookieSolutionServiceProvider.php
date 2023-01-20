@@ -14,6 +14,7 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasTranslations()
             ->hasViews()
+            ->hasAssets()
             ->hasRoute('routes');
     }
 

@@ -2,16 +2,16 @@
 
 namespace Keepsuit\CookieSolution;
 
-use Illuminate\Support\Str;
-
 class CookieSolutionAssets
 {
+    const SCRIPT_FILENAME = 'laravel-cookie-solution.mjs';
+
     protected ?array $manifest = null;
 
     protected function getManifest(): array
     {
         if ($this->manifest === null) {
-            $this->manifest = json_decode(file_get_contents(__DIR__.'/../dist/manifest.json'), true, JSON_THROW_ON_ERROR);
+            $this->manifest = json_decode(file_get_contents($this->getAssetPath('manifest.json')), true, JSON_THROW_ON_ERROR);
         }
 
         return $this->manifest;
@@ -19,25 +19,18 @@ class CookieSolutionAssets
 
     public function getScriptUrl(): string
     {
-        $version = Str::of($this->getScriptFileName())
-            ->beforeLast('.')
-            ->explode('-')
-            ->last();
+        $versionedScript = $this->getManifest()[self::SCRIPT_FILENAME];
 
-        return sprintf('/cookie-solution/laravel-cookie-solution.js?id=%s', $version);
+        return sprintf('/cookie-solution/%s', $versionedScript);
     }
 
     public function getScriptFilePath(): string
     {
-        return __DIR__.'/../dist/'.$this->getScriptFileName();
+        return $this->getAssetPath(self::SCRIPT_FILENAME);
     }
 
-    protected function getScriptFileName(): string
+    protected function getAssetPath(string $asset): string
     {
-        $manifest = $this->getManifest();
-
-        $asset = $manifest['resources/js/laravel-cookie-solution.ts'];
-
-        return $asset['file'];
+        return __DIR__.'/../resources/dist/'.$asset;
     }
 }
