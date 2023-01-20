@@ -8,6 +8,13 @@ class CookieSolutionAssets
 
     protected ?array $manifest = null;
 
+    protected bool $usePublishedAssets;
+
+    public function __construct()
+    {
+        $this->usePublishedAssets = file_exists(public_path('vendor/cookie-solution/manifest.json'));
+    }
+
     protected function getManifest(): array
     {
         if ($this->manifest === null) {
@@ -21,6 +28,10 @@ class CookieSolutionAssets
     {
         $versionedScript = $this->getManifest()[self::SCRIPT_FILENAME];
 
+        if ($this->usePublishedAssets) {
+            return asset('vendor/cookie-solution/'.$versionedScript);
+        }
+
         return sprintf('/cookie-solution/%s', $versionedScript);
     }
 
@@ -31,6 +42,10 @@ class CookieSolutionAssets
 
     protected function getAssetPath(string $asset): string
     {
+        if ($this->usePublishedAssets) {
+            return public_path('vendor/cookie-solution/'.$asset);
+        }
+
         return __DIR__.'/../resources/dist/'.$asset;
     }
 }
