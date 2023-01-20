@@ -17,6 +17,11 @@ class CookieSolution
     ) {
     }
 
+    public function enabled(): bool
+    {
+        return config('cookie-solution.enabled', true);
+    }
+
     public function getConfig(): array
     {
         return [
