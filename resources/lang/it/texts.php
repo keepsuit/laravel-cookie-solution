@@ -26,5 +26,5 @@ return [
         'purpose_statistics_description' => 'Questi cookie raccolgono informazioni su come i visitatori utilizzano il sito Web (ad esempio quali pagine i visitatori visitano più spesso). Le informazioni raccolte sono aggregate e anonime.',
         'purpose_marketing' => 'Marketing',
         'purpose_marketing_description' => 'Questi cookie vengono utilizzati per fornire annunci pubblicitari più pertinenti per te e per i tuoi interessi. Sono anche utilizzati per limitare il numero di volte in cui si vede un annuncio pubblicitario e per aiutare a misurare l\'efficacia della campagna pubblicitaria. Consentono agli editori e agli inserzionisti di terze parti di indirizzare gli annunci a te e ai tuoi interessi.',
-    ]
+    ],
 ];

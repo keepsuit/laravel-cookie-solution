@@ -10,7 +10,7 @@ use Keepsuit\CookieSolution\Service;
  * @method static bool enabled()
  * @method static array getConfig()
  * @method static Service[] services()
- * @method static array servicesGroupedByPurpose()
+ * @method static array servicesGroupedByCookiePurpose()
  * @method static HtmlString script()
  * @method static HtmlString cookiePolicyHtml()
  * @method static \Keepsuit\CookieSolution\CookieSolution register(\Keepsuit\CookieSolution\Service $service)

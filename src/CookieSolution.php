@@ -29,7 +29,7 @@ class CookieSolution
         return $this->services;
     }
 
-    public function servicesGroupedByPurpose(): array
+    public function servicesGroupedByCookiePurpose(): array
     {
         return [
             CookiePurpose::NECESSARY->value => $this->getCookiesConfigForPurpose(CookiePurpose::NECESSARY),
@@ -64,7 +64,7 @@ class CookieSolution
                 'customize_purpose_marketing_description' => __('cookie-solution::texts.cookie_policy.purpose_marketing_description'),
                 'information_text' => $this->cookiePolicyText(app()->getLocale()) ?? $this->cookiePolicyText('en'),
             ],
-            'cookies' => $this->servicesGroupedByPurpose(),
+            'cookies' => $this->servicesGroupedByCookiePurpose(),
         ];
     }
 

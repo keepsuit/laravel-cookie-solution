@@ -5,7 +5,7 @@
         {{ __('cookie-solution::texts.cookie_policy.cookies_list') }}
     </h3>
     <div class="space-y-8 mt-8">
-        @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::servicesGroupedByPurpose() as $purpose => $services)
+        @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::servicesGroupedByCookiePurpose() as $purpose => $services)
             @if(count($services) > 0)
                 <div>
                     <div>
