@@ -104,46 +104,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->afterResolving(CookieSolution::class, function (CookieSolution $cookieSolution) {
-            $cookieSolution->register(new GoogleAnalytics4ServiceFactory(GoogleDataProcessingLocation::IRELAND))
-                ->register(new GoogleTagManagerServiceFactory(GoogleDataProcessingLocation::IRELAND))
-                ->register(new FacebookPixelServiceFactory(MetaDataProcessingLocation::IRELAND));
+            $cookieSolution->register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+                ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+                ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
         });
     }
 }
 ```
 
-You can create your own services by implementing the `Keepsuit\CookieSolution\Contracts\Service` interface.
-
-```php
-use Keepsuit\CookieSolution\Cookie;
-use Keepsuit\CookieSolution\CookiePurpose;
-use Keepsuit\CookieSolution\Service;
-
-class YourService implements Service
-{
-    public function provider(): string
-    {
-        return 'Your service provider';
-    }
-
-    public function name(): string
-    {
-        return 'Your service name';
-    }
-
-    public function cookies(): array
-    {
-        return [
-            new Cookie(
-                name: '_cookie_name',
-                purpose: CookiePurpose::STATISTICS,
-                duration: 30,
-                description: 'Cookie description',
-            ),
-        ];
-    }
-}
-```
+You can register your own services with `Service` class.
 
 ## Testing
 
