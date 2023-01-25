@@ -74,7 +74,7 @@ class CookieSolution
                 'customize_purpose_statistics_description' => __('cookie-solution::texts.cookie_policy.purpose_statistics_description'),
                 'customize_purpose_marketing' => __('cookie-solution::texts.cookie_policy.purpose_marketing'),
                 'customize_purpose_marketing_description' => __('cookie-solution::texts.cookie_policy.purpose_marketing_description'),
-                'information_text' => $this->cookiePolicyText(app()->getLocale()) ?? $this->cookiePolicyText('en'),
+                'information_text' => $this->cookiePolicyHtml()->toHtml(),
             ],
             'cookies' => $this->servicesGroupedByCookiePurpose()->toArray(),
         ];
