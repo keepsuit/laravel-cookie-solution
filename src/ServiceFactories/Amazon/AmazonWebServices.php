@@ -21,6 +21,7 @@ class AmazonWebServices extends ServiceFactory
         return new Service(
             name: 'Amazon Web Services',
             provider: 'Amazon Web Services, Inc.',
+            privacyPolicyUrl: 'https://aws.amazon.com/compliance/data-privacy-faq/'
         );
     }
 }

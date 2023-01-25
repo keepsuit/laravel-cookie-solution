@@ -54,6 +54,7 @@ it('generate config with configured services', function () {
                 [
                     'name' => 'Google Analytics 4',
                     'provider' => 'Google Ireland Limited',
+                    'privacy_policy_url' => 'https://policies.google.com/privacy',
                     'cookies' => [
                         ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730, 'purpose' => 'statistics'],
                         ['name' => '_ga_*', 'description' => 'Used to maintain session status.', 'duration' => 730, 'purpose' => 'statistics'],
@@ -64,6 +65,7 @@ it('generate config with configured services', function () {
                 [
                     'provider' => 'Meta Platforms Ireland Limited',
                     'name' => 'Facebook Pixel',
+                    'privacy_policy_url' => 'https://www.facebook.com/privacy/explanation',
                     'cookies' => [
                         ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90, 'purpose' => 'marketing'],
                         ['name' => 'fr', 'description' => 'Used to provide ad delivery or retargeting.', 'duration' => 90, 'purpose' => 'marketing'],

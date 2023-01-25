@@ -23,6 +23,7 @@ class FacebookPixelServiceFactory extends ServiceFactory
         return new Service(
             name: 'Facebook Pixel',
             provider: $this->location->provider(),
+            privacyPolicyUrl: 'https://www.facebook.com/privacy/explanation',
             cookies: [
                 new Cookie(
                     name: '_fbp',

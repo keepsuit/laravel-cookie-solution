@@ -102,6 +102,7 @@ class CookieSolution
                 return new Service(
                     name: $service->name,
                     provider: $service->provider,
+                    privacyPolicyUrl: $service->privacyPolicyUrl,
                     cookies: $cookies,
                 );
             })

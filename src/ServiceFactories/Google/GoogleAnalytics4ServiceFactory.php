@@ -32,6 +32,7 @@ class GoogleAnalytics4ServiceFactory extends ServiceFactory
         return new Service(
             name: 'Google Analytics 4',
             provider: $this->location->provider(),
+            privacyPolicyUrl: 'https://policies.google.com/privacy',
             cookies: [
                 new Cookie(
                     name: '_ga',
