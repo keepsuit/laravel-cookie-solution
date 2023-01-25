@@ -6,6 +6,10 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/keepsuit/laravel-cookie-solution.svg?style=flat-square)](https://packagist.org/packages/keepsuit/laravel-cookie-solution)
 
 This package provides a configurable cookie banner for your Laravel application.
+It also includes templates for cookie policy and privacy policy pages.
+
+Note that this package is not a legal advice.
+You should always consult a lawyer and change texts and policies for your needs.
 
 ## Installation
 
