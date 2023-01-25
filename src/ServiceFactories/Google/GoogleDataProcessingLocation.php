@@ -1,6 +1,6 @@
 <?php
 
-namespace Keepsuit\CookieSolution\Services\Google;
+namespace Keepsuit\CookieSolution\ServiceFactories\Google;
 
 enum GoogleDataProcessingLocation
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Keepsuit\CookieSolution\Services\Meta;
+namespace Keepsuit\CookieSolution\ServiceFactories\Meta;
 
 enum MetaDataProcessingLocation
 {

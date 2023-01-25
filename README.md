@@ -89,20 +89,20 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Keepsuit\CookieSolution\CookieSolution;
-use Keepsuit\CookieSolution\Services\Google\GoogleAnalytics4;
-use Keepsuit\CookieSolution\Services\Google\GoogleDataProcessingLocation;
-use Keepsuit\CookieSolution\Services\Google\GoogleTagManager;
-use Keepsuit\CookieSolution\Services\Meta\FacebookPixel;
-use Keepsuit\CookieSolution\Services\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->app->afterResolving(CookieSolution::class, function (CookieSolution $cookieSolution) {
-            $cookieSolution->register(new GoogleAnalytics4(GoogleDataProcessingLocation::IRELAND))
-                ->register(new GoogleTagManager(GoogleDataProcessingLocation::IRELAND))
-                ->register(new FacebookPixel(MetaDataProcessingLocation::IRELAND));
+            $cookieSolution->register(new GoogleAnalytics4ServiceFactory(GoogleDataProcessingLocation::IRELAND))
+                ->register(new GoogleTagManagerServiceFactory(GoogleDataProcessingLocation::IRELAND))
+                ->register(new FacebookPixelServiceFactory(MetaDataProcessingLocation::IRELAND));
         });
     }
 }

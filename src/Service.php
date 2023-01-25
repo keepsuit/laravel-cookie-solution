@@ -2,22 +2,26 @@
 
 namespace Keepsuit\CookieSolution;
 
-interface Service
+use Illuminate\Contracts\Support\Arrayable;
+
+class Service implements Arrayable
 {
-    /**
-     * Service provider name
-     */
-    public function provider(): string;
+    public function __construct(
+        public readonly string $name,
+        public readonly string $provider,
+        /**
+         * @var Cookie[]
+         */
+        public readonly array $cookies = []
+    ) {
+    }
 
-    /**
-     * Service name
-     */
-    public function name(): string;
-
-    /**
-     * Cookies controlled by this service
-     *
-     * @return Cookie[]
-     */
-    public function cookies(): array;
+    public function toArray(): array
+    {
+        return [
+            'name' => $this->name,
+            'provider' => $this->provider,
+            'cookies' => array_map(fn (Cookie $cookie) => $cookie->toArray(), $this->cookies),
+        ];
+    }
 }

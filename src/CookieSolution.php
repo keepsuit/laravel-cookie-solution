@@ -2,7 +2,7 @@
 
 namespace Keepsuit\CookieSolution;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
@@ -24,19 +24,31 @@ class CookieSolution
         return config('cookie-solution.enabled', true);
     }
 
-    public function services(): array
+    /**
+     * @return Collection<array-key,Service>
+     */
+    public function services(): Collection
     {
-        return $this->services;
+        return Collection::make($this->services);
     }
 
-    public function servicesGroupedByCookiePurpose(): array
+    public function hasCookies(): bool
     {
-        return [
+        return $this->services()
+            ->reduce(fn (bool $hasCookies, Service $service) => $hasCookies || count($service->cookies) > 0, false);
+    }
+
+    /**
+     * @return Collection<string,Collection<array-key,Service>>
+     */
+    public function servicesGroupedByCookiePurpose(): Collection
+    {
+        return Collection::make([
             CookiePurpose::NECESSARY->value => $this->getCookiesConfigForPurpose(CookiePurpose::NECESSARY),
             CookiePurpose::PREFERENCES->value => $this->getCookiesConfigForPurpose(CookiePurpose::PREFERENCES),
             CookiePurpose::STATISTICS->value => $this->getCookiesConfigForPurpose(CookiePurpose::STATISTICS),
             CookiePurpose::MARKETING->value => $this->getCookiesConfigForPurpose(CookiePurpose::MARKETING),
-        ];
+        ]);
     }
 
     public function getConfig(): array
@@ -64,7 +76,7 @@ class CookieSolution
                 'customize_purpose_marketing_description' => __('cookie-solution::texts.cookie_policy.purpose_marketing_description'),
                 'information_text' => $this->cookiePolicyText(app()->getLocale()) ?? $this->cookiePolicyText('en'),
             ],
-            'cookies' => $this->servicesGroupedByCookiePurpose(),
+            'cookies' => $this->servicesGroupedByCookiePurpose()->toArray(),
         ];
     }
 
@@ -75,25 +87,26 @@ class CookieSolution
         return $this;
     }
 
-    protected function getCookiesConfigForPurpose(CookiePurpose $cookiePurpose): array
+    /**
+     * @return Collection<array-key,Service>
+     */
+    protected function getCookiesConfigForPurpose(CookiePurpose $cookiePurpose): Collection
     {
-        return collect($this->services)
+        return Collection::make($this->services)
             ->map(function (Service $service) use ($cookiePurpose) {
-                $cookies = collect($service->cookies())
+                $cookies = Collection::make($service->cookies)
                     ->filter(fn (Cookie $cookie) => $cookie->purpose === $cookiePurpose)
-                    ->map(fn (Cookie $cookie) => Arr::except($cookie->toArray(), 'purpose'))
                     ->values()
                     ->all();
 
-                return [
-                    'provider' => $service->provider(),
-                    'name' => $service->name(),
-                    'cookies' => $cookies,
-                ];
+                return new Service(
+                    name: $service->name,
+                    provider: $service->provider,
+                    cookies: $cookies,
+                );
             })
-            ->filter(fn (array $service) => count($service['cookies']) > 0)
-            ->values()
-            ->all();
+            ->filter(fn (Service $service) => count($service->cookies) > 0)
+            ->values();
     }
 
     public function script(): HtmlString

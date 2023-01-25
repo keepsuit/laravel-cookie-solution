@@ -2,6 +2,7 @@
 
 namespace Keepsuit\CookieSolution\Facades;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
 use Keepsuit\CookieSolution\Service;
@@ -9,8 +10,9 @@ use Keepsuit\CookieSolution\Service;
 /**
  * @method static bool enabled()
  * @method static array getConfig()
- * @method static Service[] services()
- * @method static array servicesGroupedByCookiePurpose()
+ * @method static Collection<int, Service> services()
+ * @method static Collection<string, Collection<string,Collection<array-key,Service>>> servicesGroupedByCookiePurpose()
+ * @method static bool hasCookies()
  * @method static HtmlString script()
  * @method static HtmlString cookiePolicyHtml()
  * @method static \Keepsuit\CookieSolution\CookieSolution register(\Keepsuit\CookieSolution\Service $service)

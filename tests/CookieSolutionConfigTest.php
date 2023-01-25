@@ -1,11 +1,11 @@
 <?php
 
 use Keepsuit\CookieSolution\Facades\CookieSolution;
-use Keepsuit\CookieSolution\Services\Google\GoogleAnalytics4;
-use Keepsuit\CookieSolution\Services\Google\GoogleDataProcessingLocation;
-use Keepsuit\CookieSolution\Services\Google\GoogleTagManager;
-use Keepsuit\CookieSolution\Services\Meta\FacebookPixel;
-use Keepsuit\CookieSolution\Services\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
 
 it('generate base config for cookie solution', function () {
     $config = CookieSolution::getConfig();
@@ -39,9 +39,9 @@ it('generate base config for cookie solution', function () {
 });
 
 it('generate config with configured services', function () {
-    CookieSolution::register(new GoogleAnalytics4(GoogleDataProcessingLocation::IRELAND))
-        ->register(new GoogleTagManager(GoogleDataProcessingLocation::IRELAND))
-        ->register(new FacebookPixel(MetaDataProcessingLocation::IRELAND));
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
 
     $config = CookieSolution::getConfig();
 
@@ -52,11 +52,11 @@ it('generate config with configured services', function () {
         ->toMatchArray([
             'statistics' => [
                 [
-                    'provider' => 'Google Ireland Limited',
                     'name' => 'Google Analytics 4',
+                    'provider' => 'Google Ireland Limited',
                     'cookies' => [
-                        ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730],
-                        ['name' => '_ga_*', 'description' => 'Used to maintain session status.', 'duration' => 730],
+                        ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730, 'purpose' => 'statistics'],
+                        ['name' => '_ga_*', 'description' => 'Used to maintain session status.', 'duration' => 730, 'purpose' => 'statistics'],
                     ],
                 ],
             ],
@@ -65,8 +65,8 @@ it('generate config with configured services', function () {
                     'provider' => 'Meta Platforms Ireland Limited',
                     'name' => 'Facebook Pixel',
                     'cookies' => [
-                        ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90],
-                        ['name' => 'fr', 'description' => 'Used to provide ad delivery or retargeting.', 'duration' => 90],
+                        ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90, 'purpose' => 'marketing'],
+                        ['name' => 'fr', 'description' => 'Used to provide ad delivery or retargeting.', 'duration' => 90, 'purpose' => 'marketing'],
                     ],
                 ],
             ],

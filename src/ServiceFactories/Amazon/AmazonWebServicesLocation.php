@@ -1,6 +1,6 @@
 <?php
 
-namespace Keepsuit\CookieSolution\Services\Amazon;
+namespace Keepsuit\CookieSolution\ServiceFactories\Amazon;
 
 enum AmazonWebServicesLocation
 {
