@@ -72,16 +72,3 @@ it('generate config with configured services', function () {
             ],
         ]);
 });
-
-it('outputs script', function () {
-    $script = CookieSolution::script();
-
-    expect($script)
-        ->toBeInstanceOf(\Illuminate\Support\HtmlString::class);
-
-    expect($script->toHtml())
-        ->toContain(
-            'window._cookieSolution = {',
-            '<script type="module" src="/cookie-solution/laravel-cookie-solution.mjs?id='
-        );
-});

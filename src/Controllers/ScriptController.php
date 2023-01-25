@@ -2,6 +2,7 @@
 
 namespace Keepsuit\CookieSolution\Controllers;
 
+use Carbon\Carbon;
 use Keepsuit\CookieSolution\CookieSolutionAssets;
 
 class ScriptController
@@ -11,7 +12,7 @@ class ScriptController
         $file = $script->getScriptFilePath();
         $mimeType = 'application/javascript';
 
-        $expires = strtotime('+1 year');
+        $expires = Carbon::now()->addYear()->timestamp;
         $lastModified = filemtime($file);
         $cacheControl = 'public, max-age=31536000';
 
