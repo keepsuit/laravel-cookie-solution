@@ -21,4 +21,7 @@ return [
     'amazon_web_services' => [
         'description' => "Amazon Web Services (AWS) è un servizio di hosting che ci consente di archiviare ed elaborare i dati in modo sicuro e affidabile. I dati archiviati su AWS possono includere informazioni personali come nomi, indirizzi e-mail e dati di navigazione. Amazon può utilizzare i dati in conformità con la propria politica sulla privacy, che può essere trovata sul sito web di Amazon Web Services. Adottiamo misure ragionevoli per garantire che i dati archiviati su AWS siano protetti e sicuri, ma non possiamo garantire l'assoluta sicurezza dei dati archiviati su server di terze parti.",
     ],
+    'paypal' => [
+        'description' => 'PayPal è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. PayPal potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
+    ],
 ];

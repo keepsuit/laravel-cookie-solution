@@ -21,4 +21,7 @@ return [
     'amazon_web_services' => [
         'description' => 'Amazon Web Services (AWS) is hosting service that allows us to store and process data in a secure and reliable manner. Data stored on AWS may include personal information such as names, email addresses, and browsing data. Amazon may use the data in accordance with its own privacy policy, which can be found on the Amazon Web Services website. We take reasonable steps to ensure that data stored on AWS is protected and secure, but we cannot guarantee the absolute security of data stored on third-party servers.',
     ],
+    'paypal' => [
+        'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
+    ],
 ];
