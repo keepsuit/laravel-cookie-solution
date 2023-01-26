@@ -17,6 +17,12 @@ return [
     'cookie_lifetime' => 365,
 
     /**
+     * Banner highlight color (ex. #3522dd).
+     * If null, the default color will be used.
+     */
+    'highlight_color' => null,
+
+    /**
      * The entity responsible for the processing of the data.
      */
     'data_owner' => [

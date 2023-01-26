@@ -45,6 +45,12 @@ return [
     'cookie_lifetime' => 365,
     
     /**
+     * Banner highlight color (ex. #3522dd).
+     * If null, the default color will be used.
+     */
+    'highlight_color' => null,
+    
+    /**
      * The entity responsible for the processing of the data.
      */
     'data_owner' => [
@@ -90,14 +96,6 @@ Include the cookie solution script in your layout (it's recommended to include i
 
 ```blade
 @include('cookie-solution::script')
-```
-
-You can customize the highlight color of the cookie solution change the `--cs--color-highlight` CSS variable.
-
-```css
-:root {
-    --cs--color-highlight: #3522dd;
-}
 ```
 
 Register used services in your 'AppServiceProvider' (You can register your own services with `Service` class):
