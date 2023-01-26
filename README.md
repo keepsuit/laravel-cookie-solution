@@ -43,6 +43,22 @@ return [
      * The cookie's lifetime in days.
      */
     'cookie_lifetime' => 365,
+    
+    /**
+     * The entity responsible for the processing of the data.
+     */
+    'data_owner' => [
+        /**
+         * Email address of the data owner.
+         */
+        'contact_email' => null,
+
+        /**
+         * Name/Company name and address of the data owner.
+         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
+         */
+        'name_and_address' => null,
+    ],
 ];
 ```
 
@@ -84,7 +100,7 @@ You can customize the highlight color of the cookie solution change the `--cs--c
 }
 ```
 
-Register used services in your 'AppServiceProvider':
+Register used services in your 'AppServiceProvider' (You can register your own services with `Service` class):
 
 ```php
 <?php
@@ -112,7 +128,50 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-You can register your own services with `Service` class.
+Update the config `config/cookie-consent.php` file with your data owner's contact email and name and address.
+
+```php
+return [
+    // ...
+    /**
+     * The entity responsible for the processing of the data.
+     */
+    'data_owner' => [
+        /**
+         * Email address of the data owner.
+         */
+        'contact_email' => 'your_email@example.com',
+
+        /**
+         * Name/Company name and address of the data owner.
+         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
+         */
+        'name_and_address' => <<<MARKDOWN
+            __Your Company Name__
+            Your Street 1
+            City, Country
+            MARKDOWN,
+    ],
+];
+```
+
+Create a route for the cookie policy page and include the cookie policy partial:
+
+```blade
+<body>
+    @include('cookie-solution::cookie-policy')
+</body>
+```
+
+Create a route for the privacy policy page and include the privacy policy partial:
+
+```blade
+<body>
+    @include('cookie-solution::privacy-policy')
+</body>
+```
+
+You can customize the partials by publishing the package views.
 
 ## Testing
 
