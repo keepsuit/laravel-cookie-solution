@@ -169,7 +169,11 @@ Create a route for the privacy policy page and include the privacy policy partia
 </body>
 ```
 
-You can customize the partials by publishing the package views.
+The default cookie & privacy policy template uses Tailwind CSS for style.
+
+If you are using Tailwind CSS, make sure to add `./vendor/keepsuit/laravel-cookie-solution/resources/views/**/*.blade.php` to your `tailwind.config.js`.
+
+If you don't use Tailwind or if you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
 
 ## Testing
 
