@@ -55,6 +55,7 @@ it('generate config with configured services', function () {
                     'name' => 'Google Analytics 4',
                     'provider' => 'Google Ireland Limited',
                     'privacy_policy_url' => 'https://policies.google.com/privacy',
+                    'data_processing_location' => 'Ireland',
                     'description' => 'Google Analytics is a statistics service and uses cookies to collect data on website visitors. The data collected by Google Analytics is anonymous and does not include personal information. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.',
                     'cookies' => [
                         ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730, 'purpose' => 'statistics'],
@@ -67,6 +68,7 @@ it('generate config with configured services', function () {
                     'provider' => 'Meta Platforms Ireland Limited',
                     'name' => 'Facebook Pixel',
                     'privacy_policy_url' => 'https://www.facebook.com/privacy/explanation',
+                    'data_processing_location' => 'Ireland',
                     'description' => 'Facebook Pixel uses cookies to collect data about website visitors. The data collected by Facebook Pixel is anonymous and does not include personal information. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.',
                     'cookies' => [
                         ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90, 'purpose' => 'marketing'],

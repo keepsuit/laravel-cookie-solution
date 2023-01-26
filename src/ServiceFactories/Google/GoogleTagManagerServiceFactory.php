@@ -22,7 +22,8 @@ class GoogleTagManagerServiceFactory extends ServiceFactory
             name: 'Google Tag Manager',
             provider: $this->location->provider(),
             description: __('cookie-solution::services.google_tag_manager.description') ?? '',
-            privacyPolicyUrl: 'https://policies.google.com/privacy'
+            privacyPolicyUrl: 'https://policies.google.com/privacy',
+            dataProcessingLocation: $this->location->country(),
         );
     }
 }

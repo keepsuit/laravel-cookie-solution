@@ -25,6 +25,7 @@ class FacebookPixelServiceFactory extends ServiceFactory
             provider: $this->location->provider(),
             description: __('cookie-solution::services.facebook_pixel.description') ?? '',
             privacyPolicyUrl: 'https://www.facebook.com/privacy/explanation',
+            dataProcessingLocation: $this->location->country(),
             cookies: [
                 new Cookie(
                     name: '_fbp',

@@ -8,7 +8,7 @@
         <div class="space-y-8 mt-8">
             @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::services() as $service)
                 <div class="border-l-4 border-gray-300 px-4">
-                    <div class="flex justify-between">
+                    <div class="md:flex justify-between">
                         <div>
                             <span class="block font-medium md:inline">{{ $service->name }}</span>
                             <span class="block text-sm md:inline md:text-sm">({{ $service->provider }})</span>
@@ -19,9 +19,15 @@
                             </a>
                         @endif
                     </div>
-                    <div class="mt-2 text-sm">
+                    <div class="mt-4 text-sm">
                         {{ $service->description }}
                     </div>
+                    @if($service->dataProcessingLocation)
+                        <div class="mt-4 text-sm">
+                            {{ __('cookie-solution::texts.privacy_policy.data_processing_location') }}
+                            <span class="underline">{{ $service->dataProcessingLocation }}</span>
+                        </div>
+                    @endif
                 </div>
             @endforeach
         </div>

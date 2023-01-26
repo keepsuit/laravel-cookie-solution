@@ -30,5 +30,6 @@ return [
 
     'privacy_policy' => [
         'services_list' => 'Servizi utilizzati',
+        'data_processing_location' => 'Luogo del trattamento dei dati:',
     ],
 ];

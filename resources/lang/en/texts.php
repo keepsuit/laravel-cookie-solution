@@ -30,5 +30,6 @@ return [
 
     'privacy_policy' => [
         'services_list' => 'Used services',
+        'data_processing_location' => 'Data processing location:',
     ],
 ];

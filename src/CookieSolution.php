@@ -104,13 +104,7 @@ class CookieSolution
                     ->values()
                     ->all();
 
-                return new Service(
-                    name: $service->name,
-                    provider: $service->provider,
-                    description: $service->description,
-                    privacyPolicyUrl: $service->privacyPolicyUrl,
-                    cookies: $cookies,
-                );
+                return $service->cloneWithCookies($cookies);
             })
             ->filter(fn (Service $service) => count($service->cookies) > 0)
             ->values();
