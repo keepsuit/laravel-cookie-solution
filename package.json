@@ -24,6 +24,7 @@
         "vite-plugin-dts": "^1.7.1"
     },
     "dependencies": {
+        "clsx": "^1.2.1",
         "lit": "^2.6.1"
     }
 }

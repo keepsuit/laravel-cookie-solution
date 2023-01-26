@@ -8,6 +8,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { readCookie, setCookie } from '../utils/cookie';
 import { CookieConfig, CookiePurpose, CookieSolutionConfig } from '../types';
+import clsx from 'clsx';
 
 interface AcceptStatus {
     timestamp: string;
@@ -196,9 +197,11 @@ export class CookieSolutionBanner extends LitElement {
             <div class="fixed inset-0 z-max bg-gray-900/30">
                 <div
                     role="dialog"
-                    class="${this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
-                        ? 'opacity-0 scale-75'
-                        : ''} fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
+                    class="${clsx({
+                        'opacity-0 scale-75': this._showModalStatus === 'showing' || this._showModalStatus === 'hiding',
+                        'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300':
+                            true,
+                    })}"
                 >
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
                         ${this.header()}

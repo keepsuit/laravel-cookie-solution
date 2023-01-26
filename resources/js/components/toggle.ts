@@ -1,6 +1,7 @@
 import { html, LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { styleSheet } from '../style';
+import clsx from 'clsx';
 
 @customElement('cookie-solution-toggle')
 export class CookieSolutionToggle extends LitElement {
@@ -37,14 +38,19 @@ export class CookieSolutionToggle extends LitElement {
                 role="switch"
                 aria-checked="${this.checked}"
                 @click="${this._onClick}"
-                class="${this.checked
-                    ? 'bg-highlight'
-                    : 'bg-gray-200'} flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow"
+                class="${clsx({
+                    'flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow': true,
+                    'opacity-50': this.readonly,
+                    'bg-highlight': this.checked,
+                    'bg-gray-200': !this.checked,
+                })}"
             >
                 <span
-                    class="${this.checked
-                        ? 'translate-x-5 bg-white'
-                        : 'bg-gray-400'} block h-5 w-5 transform rounded-full duration-300"
+                    class="${clsx({
+                        'block h-5 w-5 transform rounded-full duration-300': true,
+                        'translate-x-5 bg-white': this.checked,
+                        'bg-gray-400': !this.checked,
+                    })}"
                 ></span>
             </button>
         `;
