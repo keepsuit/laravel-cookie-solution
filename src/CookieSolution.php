@@ -6,6 +6,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use Illuminate\Support\Stringable;
 
 class CookieSolution
 {
@@ -13,6 +14,11 @@ class CookieSolution
      * @var Service[]
      */
     protected array $services = [];
+
+    private array $markdownConfig = [
+        'html_input' => false,
+        'allow_unsafe_links' => false,
+    ];
 
     public function __construct(
         protected CookieSolutionAssets $assets,
@@ -41,6 +47,11 @@ class CookieSolution
     public function hasServices(): bool
     {
         return $this->services()->isNotEmpty();
+    }
+
+    public function hasDataOwner(): bool
+    {
+        return config('cookie-solution.data_owner.name_and_address') !== null;
     }
 
     /**
@@ -127,11 +138,11 @@ class CookieSolution
     protected function cookiePolicyText(string $locale): ?string
     {
         if (File::exists(resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)))) {
-            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale))));
+            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale))), $this->markdownConfig);
         }
 
         if (File::exists(__DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale))) {
-            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale)));
+            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale)), $this->markdownConfig);
         }
 
         return null;
@@ -140,11 +151,11 @@ class CookieSolution
     protected function privacyPolicyText(string $locale): ?string
     {
         if (File::exists(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)))) {
-            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale))));
+            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale))), $this->markdownConfig);
         }
 
         if (File::exists(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale))) {
-            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale)));
+            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale)), $this->markdownConfig);
         }
 
         return null;
@@ -164,5 +175,23 @@ class CookieSolution
             ?? $this->privacyPolicyText('en');
 
         return new HtmlString($privacyPolicyText);
+    }
+
+    public function dataOwnerHtml(): HtmlString
+    {
+        return Str::of(config('cookie-solution.data_owner.name_and_address', ''))
+            ->markdown(array_merge($this->markdownConfig, [
+                'renderer' => [
+                    'soft_break' => '<br>',
+                ],
+            ]))
+            ->when(config('cookie-solution.data_owner.contact_email'), function (Stringable $string, string $email) {
+                $contactEmail = Str::of(sprintf('__%s__ %s', __('cookie-solution::texts.privacy_policy.data_processing_owner_email'), $email))
+                    ->markdown($this->markdownConfig);
+
+                return $string->newLine()
+                    ->append($contactEmail);
+            })
+            ->toHtmlString();
     }
 }

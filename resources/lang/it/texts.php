@@ -30,6 +30,8 @@ return [
 
     'privacy_policy' => [
         'services_list' => 'Servizi utilizzati',
-        'data_processing_location' => 'Luogo del trattamento dei dati:',
+        'service_data_processing_location' => 'Luogo del trattamento dei dati:',
+        'data_processing_owner' => 'Titolare del trattamento dei dati',
+        'data_processing_owner_email' => 'Indirizzo email del titolare:',
     ],
 ];

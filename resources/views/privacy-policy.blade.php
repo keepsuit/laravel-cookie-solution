@@ -1,11 +1,20 @@
 <div class="prose">
     {{ \Keepsuit\CookieSolution\Facades\CookieSolution::privacyPolicyHtml() }}
 
+    @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasDataOwner())
+        <h3>
+            {{ __('cookie-solution::texts.privacy_policy.data_processing_owner') }}
+        </h3>
+        <div class="text-sm">
+            {{ \Keepsuit\CookieSolution\Facades\CookieSolution::dataOwnerHtml() }}
+        </div>
+    @endif
+
     @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasServices())
         <h3>
             {{ __('cookie-solution::texts.privacy_policy.services_list') }}
         </h3>
-        <div class="space-y-8 mt-8">
+        <div class="space-y-8">
             @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::services() as $service)
                 <div class="border-l-4 border-gray-300 px-4">
                     <div class="md:flex justify-between">
@@ -24,7 +33,7 @@
                     </div>
                     @if($service->dataProcessingLocation)
                         <div class="mt-4 text-sm">
-                            {{ __('cookie-solution::texts.privacy_policy.data_processing_location') }}
+                            {{ __('cookie-solution::texts.privacy_policy.service_data_processing_location') }}
                             <span class="underline">{{ $service->dataProcessingLocation }}</span>
                         </div>
                     @endif

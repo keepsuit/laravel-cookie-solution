@@ -14,9 +14,11 @@ use Keepsuit\CookieSolution\Service;
  * @method static Collection<string, Collection<string,Collection<array-key,Service>>> servicesGroupedByCookiePurpose()
  * @method static bool hasCookies()
  * @method static bool hasServices()
+ * @method static bool hasDataOwner()
  * @method static HtmlString script()
  * @method static HtmlString cookiePolicyHtml()
  * @method static HtmlString privacyPolicyHtml()
+ * @method static HtmlString dataOwnerHtml()
  * @method static \Keepsuit\CookieSolution\CookieSolution register(\Keepsuit\CookieSolution\Service $service)
  *
  * @see \Keepsuit\CookieSolution\CookieSolution

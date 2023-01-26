@@ -30,6 +30,8 @@ return [
 
     'privacy_policy' => [
         'services_list' => 'Used services',
-        'data_processing_location' => 'Data processing location:',
+        'service_data_processing_location' => 'Data processing location:',
+        'data_processing_owner' => 'Data processing owner',
+        'data_processing_owner_email' => 'Data owner email:',
     ],
 ];

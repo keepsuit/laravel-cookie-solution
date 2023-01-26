@@ -37,3 +37,18 @@ it('can render privacy policy view with services', function () {
 
     assertMatchesHtmlSnapshot($output);
 });
+
+it('can render privacy policy view with data owner', function () {
+    config()->set('cookie-solution.data_owner', [
+        'name_and_address' => <<<'MARKDOWN'
+            __Company Name__
+            Street 1
+            12345 City
+            MARKDOWN,
+        'contact_email' => 'test@example.com',
+    ]);
+
+    $output = view('cookie-solution::privacy-policy')->render();
+
+    assertMatchesHtmlSnapshot($output);
+});

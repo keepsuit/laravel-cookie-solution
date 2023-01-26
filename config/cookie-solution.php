@@ -15,4 +15,20 @@ return [
      * The cookie's lifetime in days.
      */
     'cookie_lifetime' => 365,
+
+    /**
+     * The entity responsible for the processing of the data.
+     */
+    'data_owner' => [
+        /**
+         * Email address of the data owner.
+         */
+        'contact_email' => null,
+
+        /**
+         * Name/Company name and address of the data owner.
+         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
+         */
+        'name_and_address' => null,
+    ],
 ];
