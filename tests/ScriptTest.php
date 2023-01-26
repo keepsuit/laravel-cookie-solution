@@ -14,21 +14,21 @@ it('outputs script', function () {
     expect($script->toHtml())
         ->toContain(
             'window._cookieSolution = {',
-            '<script type="module" src="/cookie-solution/laravel-cookie-solution.mjs?id='
+            '<script type="module" src="/cookie-solution/laravel-cookie-solution.js?id='
         );
 });
 
 it('provide script from route', function () {
     TestTime::parse('2023-01-01 00:00:00');
 
-    $response = $this->get('/cookie-solution/laravel-cookie-solution.mjs');
+    $response = $this->get('/cookie-solution/laravel-cookie-solution.js');
 
     $response->assertOk()
         ->assertHeader('Content-Type', 'application/javascript; charset=utf-8')
         ->assertHeader('Expires', 'Mon, 01 Jan 2024 00:00:00 GMT')
         ->assertHeader('Cache-Control', 'max-age=31536000, public')
-        ->assertHeader('Last-Modified', sprintf('%s GMT', gmdate('D, d M Y H:i:s', filemtime(__DIR__.'/../resources/dist/laravel-cookie-solution.mjs'))));
+        ->assertHeader('Last-Modified', sprintf('%s GMT', gmdate('D, d M Y H:i:s', filemtime(__DIR__.'/../resources/dist/laravel-cookie-solution.js'))));
 
     expect($response->getFile()->getContent())
-        ->toBe(File::get(__DIR__.'/../resources/dist/laravel-cookie-solution.mjs'));
+        ->toBe(File::get(__DIR__.'/../resources/dist/laravel-cookie-solution.js'));
 });

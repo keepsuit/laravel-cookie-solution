@@ -4,7 +4,7 @@ namespace Keepsuit\CookieSolution;
 
 class CookieSolutionAssets
 {
-    const SCRIPT_FILENAME = 'laravel-cookie-solution.mjs';
+    const SCRIPT_FILENAME = 'laravel-cookie-solution.js';
 
     protected ?array $manifest = null;
 

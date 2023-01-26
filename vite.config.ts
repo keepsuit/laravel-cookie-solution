@@ -37,6 +37,7 @@ export default defineConfig({
         lib: {
             entry: 'resources/js/laravel-cookie-solution.ts',
             formats: ['es'],
+            fileName: (format) => `laravel-cookie-solution.js`,
         },
     },
     css: {
