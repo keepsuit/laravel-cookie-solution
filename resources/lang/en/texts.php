@@ -27,4 +27,8 @@ return [
         'purpose_marketing' => 'Marketing',
         'purpose_marketing_description' => 'These cookies are used to deliver advertisements more relevant to you and your interests. They are also used to limit the number of times you see an advertisement as well as help measure the effectiveness of the advertising campaign. They allow publishers and third party advertisers to target ads to you and your interests.',
     ],
+
+    'privacy_policy' => [
+        'services_list' => 'Used services',
+    ],
 ];

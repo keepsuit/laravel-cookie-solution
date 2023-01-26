@@ -5,7 +5,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Amazon;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
-class AmazonWebServices extends ServiceFactory
+class AmazonWebServicesServiceFactory extends ServiceFactory
 {
     protected AmazonWebServicesLocation $location = AmazonWebServicesLocation::UNITED_STATES;
 
@@ -21,6 +21,7 @@ class AmazonWebServices extends ServiceFactory
         return new Service(
             name: 'Amazon Web Services',
             provider: 'Amazon Web Services, Inc.',
+            description: __('cookie-solution::services.amazon_web_services.description') ?? '',
             privacyPolicyUrl: 'https://aws.amazon.com/compliance/data-privacy-faq/'
         );
     }

@@ -27,4 +27,8 @@ return [
         'purpose_marketing' => 'Marketing',
         'purpose_marketing_description' => 'Questi cookie vengono utilizzati per fornire annunci pubblicitari più pertinenti per te e per i tuoi interessi. Sono anche utilizzati per limitare il numero di volte in cui si vede un annuncio pubblicitario e per aiutare a misurare l\'efficacia della campagna pubblicitaria. Consentono agli editori e agli inserzionisti di terze parti di indirizzare gli annunci a te e ai tuoi interessi.',
     ],
+
+    'privacy_policy' => [
+        'services_list' => 'Servizi utilizzati',
+    ],
 ];

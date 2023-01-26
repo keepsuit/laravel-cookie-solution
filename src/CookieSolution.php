@@ -38,6 +38,11 @@ class CookieSolution
             ->reduce(fn (bool $hasCookies, Service $service) => $hasCookies || count($service->cookies) > 0, false);
     }
 
+    public function hasServices(): bool
+    {
+        return $this->services()->isNotEmpty();
+    }
+
     /**
      * @return Collection<string,Collection<array-key,Service>>
      */
@@ -102,6 +107,7 @@ class CookieSolution
                 return new Service(
                     name: $service->name,
                     provider: $service->provider,
+                    description: $service->description,
                     privacyPolicyUrl: $service->privacyPolicyUrl,
                     cookies: $cookies,
                 );
@@ -137,11 +143,32 @@ class CookieSolution
         return null;
     }
 
+    protected function privacyPolicyText(string $locale): ?string
+    {
+        if (File::exists(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)))) {
+            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale))));
+        }
+
+        if (File::exists(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale))) {
+            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale)));
+        }
+
+        return null;
+    }
+
     public function cookiePolicyHtml(): HtmlString
     {
         $cookiePolicyText = $this->cookiePolicyText(app()->getLocale())
             ?? $this->cookiePolicyText('en');
 
         return new HtmlString($cookiePolicyText);
+    }
+
+    public function privacyPolicyHtml(): HtmlString
+    {
+        $privacyPolicyText = $this->privacyPolicyText(app()->getLocale())
+            ?? $this->privacyPolicyText('en');
+
+        return new HtmlString($privacyPolicyText);
     }
 }

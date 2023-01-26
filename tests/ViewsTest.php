@@ -21,3 +21,19 @@ it('can render cookie policy view with cookies', function () {
 
     assertMatchesHtmlSnapshot($output);
 });
+
+it('can render privacy policy view without services', function () {
+    $output = view('cookie-solution::privacy-policy')->render();
+
+    assertMatchesHtmlSnapshot($output);
+});
+
+it('can render privacy policy view with services', function () {
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->build())
+        ->register(GoogleTagManagerServiceFactory::new()->build())
+        ->register(FacebookPixelServiceFactory::new()->build());
+
+    $output = view('cookie-solution::privacy-policy')->render();
+
+    assertMatchesHtmlSnapshot($output);
+});
