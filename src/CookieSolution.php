@@ -123,20 +123,7 @@ class CookieSolution
 
     public function script(): HtmlString
     {
-        $scriptUrl = $this->assets->getScriptUrl();
-        $config = json_encode($this->getConfig());
-        $highlightColor = config('cookie-solution.highlight_color');
-
-        return Str::of(<<<HTML
-            <script>
-            window._cookieSolution = $config;
-            </script>
-            <script type="module" src="$scriptUrl"></script>
-            HTML
-        )->when($highlightColor, fn (Stringable $stringable) => $stringable->prepend(<<<HTML
-                <style>:root { --cs--color-highlight: $highlightColor; }</style>
-                HTML
-        ))->toHtmlString();
+        return new HtmlString(view('cookie-solution::script')->render());
     }
 
     protected function cookiePolicyText(string $locale): ?string

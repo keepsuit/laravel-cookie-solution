@@ -14,6 +14,7 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasTranslations()
             ->hasViews()
+            ->hasViewComposer('cookie-solution::script', Views\ScriptViewComposer::class)
             ->hasAssets()
             ->hasRoute('routes');
     }
