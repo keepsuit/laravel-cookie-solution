@@ -934,7 +934,7 @@ function ce(s) {
 function de(s) {
   s = s.trim().replace("#", ""), s.length === 3 && (s = s.split("").map((i) => i + i).join(""));
   let t = parseInt(s.substring(0, 2), 16), e = parseInt(s.substring(2, 4), 16), o = parseInt(s.substring(4, 6), 16);
-  return console.log(s, t, e, o), (t * 299 + e * 587 + o * 114) / 1e3 >= 128 ? "black" : "white";
+  return (t * 299 + e * 587 + o * 114) / 1e3 >= 128 ? "black" : "white";
 }
 var pe = Object.defineProperty, me = Object.getOwnPropertyDescriptor, f = (s, t, e, o) => {
   for (var r = o > 1 ? void 0 : o ? me(t, e) : t, i = s.length - 1, n; i >= 0; i--)
