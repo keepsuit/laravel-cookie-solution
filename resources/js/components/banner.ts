@@ -344,8 +344,6 @@ export class CookieSolutionBanner extends LitElement {
             return null;
         }
 
-        console.log(this._config.texts.information_text);
-
         return html` <div class="prose prose-sm">${unsafeHTML(this._config.texts.information_text)}</div> `;
     }
 
@@ -371,6 +369,8 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
+        const hasCookies = this._config.cookies[purpose].length > 0;
+
         const dispatchOpenEvent = (event: Event) =>
             event.target?.dispatchEvent(
                 new CustomEvent('toggle-open', {
@@ -383,7 +383,7 @@ export class CookieSolutionBanner extends LitElement {
             <cookie-solution-collapsable>
                 <div class="flex gap-8">
                     <div class="flex h-12 flex-1 items-center">
-                        ${this._config.cookies[purpose].length > 0
+                        ${hasCookies
                             ? html`
                                   <button @click="${dispatchOpenEvent}">
                                       <svg
@@ -397,7 +397,13 @@ export class CookieSolutionBanner extends LitElement {
                               `
                             : html` <div class="md:mr-4 md:w-6"></div>`}
 
-                        <button class="block flex h-12 items-center text-sm font-bold" @click="${dispatchOpenEvent}">
+                        <button
+                            class="${clsx({
+                                'block flex h-12 items-center text-sm font-bold': true,
+                                'cursor-default': !hasCookies,
+                            })}"
+                            @click="${hasCookies ? dispatchOpenEvent : undefined}"
+                        >
                             ${this._config.texts[`customize_purpose_${purpose}`]}
                         </button>
                     </div>

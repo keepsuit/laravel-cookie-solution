@@ -17,9 +17,10 @@ export class CookieSolutionCollapsable extends LitElement {
             return;
         }
 
+        this.contentRef.value.style.height = 'auto';
+        const height = this.contentRef.value.getBoundingClientRect().height;
+
         if (this.open) {
-            this.contentRef.value.style.height = 'auto';
-            const height = this.contentRef.value.getBoundingClientRect().height;
             this.contentRef.value.style.height = `0px`;
 
             requestAnimationFrame(() => {
@@ -33,7 +34,10 @@ export class CookieSolutionCollapsable extends LitElement {
                 );
             });
         } else {
-            this.contentRef.value.style.height = '0px';
+            this.contentRef.value!.style.height = `${height}px`;
+            requestAnimationFrame(() => {
+                this.contentRef.value!.style.height = '0px';
+            });
         }
     }
 
@@ -46,7 +50,7 @@ export class CookieSolutionCollapsable extends LitElement {
     }
 
     protected firstUpdated() {
-        this._updateContentStyle();
+        this.contentRef.value!.style.height = this.open ? 'auto' : '0px';
     }
 
     protected render(): unknown {
