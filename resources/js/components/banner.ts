@@ -12,6 +12,7 @@ import clsx from 'clsx';
 
 interface AcceptStatus {
     timestamp: string;
+    digest?: string;
     purposes: Record<CookiePurpose, boolean>;
 }
 
@@ -40,6 +41,9 @@ export class CookieSolutionBanner extends LitElement {
     private _config?: CookieSolutionConfig;
 
     @state()
+    private _configHash?: string;
+
+    @state()
     private _showModal = false;
 
     @state()
@@ -51,10 +55,10 @@ export class CookieSolutionBanner extends LitElement {
     @state()
     private _status: AcceptStatus | undefined = undefined;
 
-    connectedCallback() {
+    async connectedCallback() {
         super.connectedCallback();
 
-        this._loadConfig();
+        await this._loadConfig();
         this._loadStatus();
 
         if (!this._config) {
@@ -67,18 +71,51 @@ export class CookieSolutionBanner extends LitElement {
         }
     }
 
-    private _loadConfig(): void {
+    private async _loadConfig(): Promise<void> {
         this._config = window._cookieSolution;
+        this._configHash = await this._generateConfigHash();
+    }
+
+    private async _generateConfigHash(): Promise<string | undefined> {
+        if (!this._config) {
+            return undefined;
+        }
+
+        if (crypto.subtle == undefined) {
+            return undefined;
+        }
+
+        try {
+            const data = new TextEncoder().encode(JSON.stringify(this._config.cookies));
+
+            const hash = await crypto.subtle.digest('SHA-256', data);
+
+            return Array.from(new Uint8Array(hash))
+                .map((b) => b.toString(16).padStart(2, '0'))
+                .join('');
+        } catch (e) {
+            return undefined;
+        }
     }
 
     private _loadStatus(): void {
         const status = readCookie(this.cookieName);
         this._status = status ? JSON.parse(status) : undefined;
 
+        if (this._configHash != undefined && this._configHash !== this._status?.digest) {
+            this._status = undefined;
+        }
+
         this._emitStatusChange();
     }
 
     private _saveStatus(): void {
+        if (!this._status) {
+            return;
+        }
+
+        this._status.digest = this._configHash;
+
         setCookie(this.cookieName, JSON.stringify(this._status), 365);
 
         this._emitStatusChange();
