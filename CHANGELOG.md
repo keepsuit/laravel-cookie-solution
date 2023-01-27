@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.1.2 - 2023-01-27
+
+- Improved support for light highlight color
+
 ## v0.1.1 - 2023-01-27
 
 - Fixed animation on customize tab rows
