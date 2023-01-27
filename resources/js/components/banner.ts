@@ -148,9 +148,9 @@ export class CookieSolutionBanner extends LitElement {
             timestamp: new Date().toISOString(),
             purposes: {
                 necessary: true,
-                preferences: true,
-                statistics: true,
-                marketing: true,
+                preferences: this._config != undefined && this._config.cookies.preferences.length > 0,
+                statistics: this._config != undefined && this._config.cookies.statistics.length > 0,
+                marketing: this._config != undefined && this._config.cookies.marketing.length > 0,
             },
         };
 
