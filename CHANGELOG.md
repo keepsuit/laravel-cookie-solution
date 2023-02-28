@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.1.4 - 2023-02-28
+
+- Added option to set toggle position (left or right)
+
 ## v0.1.3 - 2023-01-27
 
 - Fix: removed `console.log`
