@@ -72,6 +72,7 @@ class CookieSolution
         return [
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
+            'toggle_position' => config('cookie-solution.toggle_position', 'right'),
             'texts' => [
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),
                 'tab_customize' => __('cookie-solution::texts.banner.tab_customize'),

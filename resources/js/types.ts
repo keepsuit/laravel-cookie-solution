@@ -15,6 +15,7 @@ export interface ServiceConfig {
 export interface CookieSolutionConfig {
     cookie_name: string;
     cookie_lifetime: number;
+    toggle_position: 'left' | 'right';
     cookies: Record<CookiePurpose, ServiceConfig[]>;
     texts: {
         tab_consent: string;

@@ -402,12 +402,14 @@ export class CookieSolutionBanner extends LitElement {
             return null;
         }
 
-        return html` <div class="prose prose-sm">${unsafeHTML(this._config.texts.information_text)}</div> `;
+        return html`<div class="prose prose-sm">${unsafeHTML(this._config.texts.information_text)}</div> `;
     }
 
     protected modalToggle(): unknown {
         return html`
-            <div class="fixed bottom-4 right-4 z-max">
+            <div
+                class="${clsx('fixed bottom-4 z-max', this._config?.toggle_position === 'left' ? 'left-4' : 'right-4')}"
+            >
                 <button
                     class="flex h-12 w-12 items-center justify-center rounded-full bg-white p-2 shadow hover:shadow-xl"
                     @click="${() => this.show()}"

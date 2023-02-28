@@ -23,6 +23,11 @@ return [
     'highlight_color' => null,
 
     /**
+     * Cookie toggle position (left or right).
+     */
+    'toggle_position' => 'right',
+
+    /**
      * The entity responsible for the processing of the data.
      */
     'data_owner' => [
