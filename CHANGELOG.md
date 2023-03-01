@@ -2,6 +2,10 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.1.5 - 2023-03-01
+
+- Allow to customize toggle position with css variables `--cs--toggle-position-bottom` and `--cs--toggle-position-x`
+
 ## v0.1.4 - 2023-02-28
 
 - Added option to set toggle position (left or right)
