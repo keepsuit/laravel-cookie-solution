@@ -9,6 +9,10 @@ module.exports = {
             colors: {
                 highlight: 'var(--cs--color-highlight, #ea580c)',
             },
+            inset: {
+                'toggle-bottom': 'var(--cs--toggle-position-bottom, 1rem)',
+                'toggle-x': 'var(--cs--toggle-position-x, 1rem)',
+            },
             zIndex: {
                 max: '999999',
             },

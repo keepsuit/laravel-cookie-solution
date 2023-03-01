@@ -3,7 +3,7 @@ import { customElement, property } from 'lit/decorators.js';
 import { ref, createRef, Ref } from 'lit/directives/ref.js';
 import { styleSheet } from '../style';
 
-@customElement('cookie-solution-collapsable')
+@customElement('cookie-solution--collapsable')
 export class CookieSolutionCollapsable extends LitElement {
     static styles = [styleSheet];
 

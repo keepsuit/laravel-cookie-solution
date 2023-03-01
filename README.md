@@ -51,6 +51,11 @@ return [
     'highlight_color' => null,
     
     /**
+     * Cookie toggle position (left or right).
+     */
+    'toggle_position' => 'right',
+    
+    /**
      * The entity responsible for the processing of the data.
      */
     'data_owner' => [
@@ -169,9 +174,39 @@ Create a route for the privacy policy page and include the privacy policy partia
 </body>
 ```
 
+See [views customization](#views) section for more information about the partials and how to customize them.
+
+## Customization
+
+#### Highlight color
+
+Yon can customize the highlight color of the banner and toggle changing the `highlight_color` config value.
+
+#### Toggle position
+
+You can change the toggle position to `left` or `right` by changing the `toggle_position` config value (default to `right`).
+If you need a more advanced customization, you can edit the toggle position with some CSS:
+
+```css
+:root {
+    --cs--toggle-position-bottom: 4rem; /* position from the bottom */
+    --cs--toggle-position-x: 2rem; /* position from the left or right (depending on `toggle_position` value) */
+}
+
+/* change the position for desktop */
+@media (min-width: 1024px) {
+    :root {
+        --cs--toggle-position-bottom: 2rem;
+        --cs--toggle-position-x: 1rem;
+    }
+}
+```
+
+#### Views
+
 The default cookie & privacy policy template uses Tailwind CSS for style.
 
-If you are using Tailwind CSS, make sure to add `./vendor/keepsuit/laravel-cookie-solution/resources/views/**/*.blade.php` to your `tailwind.config.js`.
+If you are using Tailwind CSS, make sure to add `./vendor/keepsuit/laravel-cookie-solution/resources/views/**/*.blade.php` to the `content` field of your `tailwind.config.js`.
 
 If you don't use Tailwind or if you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
 
