@@ -16,6 +16,7 @@ return [
     ],
 
     'cookie_policy' => [
+        'title' => 'Cookies policy',
         'cookies_list' => 'Used cookies list',
 
         'purpose_necessary' => 'Necessary',
@@ -29,6 +30,7 @@ return [
     ],
 
     'privacy_policy' => [
+        'title' => 'Privacy policy',
         'services_list' => 'Used services',
         'service_data_processing_location' => 'Data processing location:',
         'data_processing_owner' => 'Data processing owner',
