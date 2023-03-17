@@ -2,6 +2,11 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.2.0 - 2023-03-17
+
+- Added titles to `cookie-policy` and `privacy-policy` views
+- Added `<cookie-solution-policy-formatter/>` custom components to policy views to apply default formatting (and not require the user to update his `tailwindcss` config or customize the view)
+
 ## v0.1.5 - 2023-03-01
 
 - Allow to customize toggle position with css variables `--cs--toggle-position-bottom` and `--cs--toggle-position-x`
