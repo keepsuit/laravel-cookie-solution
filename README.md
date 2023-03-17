@@ -204,11 +204,8 @@ If you need a more advanced customization, you can edit the toggle position with
 
 #### Views
 
-The default cookie & privacy policy template uses Tailwind CSS for style.
-
-If you are using Tailwind CSS, make sure to add `./vendor/keepsuit/laravel-cookie-solution/resources/views/**/*.blade.php` to the `content` field of your `tailwind.config.js`.
-
-If you don't use Tailwind or if you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
+If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
+The `<cookie-solution-policy-formatter/>` custom component is used to apply the default styles, you can safely remove it to customize the views.
 
 ## Testing
 
