@@ -8,7 +8,6 @@ use Keepsuit\CookieSolution\Cookie;
 use Keepsuit\CookieSolution\CookiePurpose;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
-use const _PHPStan_e0e4f009c\__;
 
 class GoogleAdsRemarketingServiceFactory extends ServiceFactory
 {
