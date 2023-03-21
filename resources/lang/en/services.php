@@ -35,4 +35,7 @@ return [
             '_gac_*' => 'Used to store and track audience reach',
         ],
     ],
+    'mailchimp' => [
+        'description' => 'Mailchimp is an email marketing service that allows us to send emails to our customers. Mailchimp may collect personal information such as names, email addresses, and browsing data.',
+    ],
 ];

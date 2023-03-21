@@ -35,4 +35,7 @@ return [
             '_gac_*' => 'Utilizzato per memorizzare e monitorare la portata del pubblico',
         ],
     ],
+    'mailchimp' => [
+        'description' => 'Mailchimp è un servizio di email marketing che ci permette di inviare email ai nostri clienti. Mailchimp potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e dati di navigazione.',
+    ],
 ];
