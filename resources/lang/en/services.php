@@ -41,4 +41,7 @@ return [
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns is a marketing automation service that allows us to send emails to our customers. Zoho Campaigns may collect personal information such as names, email addresses, and browsing data.',
     ],
+    'digital_ocean' => [
+        'description' => 'DigitalOcean is a hosting service that allows us to store and process data in a secure and reliable manner. Data stored on DigitalOcean may include personal information such as names, email addresses, and browsing data. DigitalOcean may use the data in accordance with its own privacy policy, which can be found on the DigitalOcean website.',
+    ],
 ];

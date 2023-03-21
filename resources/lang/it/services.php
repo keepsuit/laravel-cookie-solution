@@ -41,4 +41,7 @@ return [
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns è un servizio di marketing che ci consente di inviare e-mail ai nostri clienti. Zoho Campaigns potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e dati di navigazione.',
     ],
+    'digital_ocean' => [
+        'description' => 'DigitalOcean è un servizio di hosting che ci consente di archiviare ed elaborare i dati in modo sicuro e affidabile. I dati archiviati su DigitalOcean possono includere informazioni personali come nomi, indirizzi e-mail e dati di navigazione. DigitalOcean può utilizzare i dati in conformità con la propria politica sulla privacy, che può essere trovata sul sito web di DigitalOcean.',
+    ],
 ];
