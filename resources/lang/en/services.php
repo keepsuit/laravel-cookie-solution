@@ -24,4 +24,15 @@ return [
     'paypal' => [
         'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
     ],
+    'google_ads_remarketing' => [
+        'description' => 'Google Ads Remarketing is a service that allows us to show ads to users who have previously visited our website. Google Ads Remarketing uses cookies to collect data about website visitors. The data collected by Google Ads Remarketing is anonymous and does not include personal information. Google may use the collected data to target ads to website visitors and to understand the effectiveness of Google advertising campaigns. You can learn more about Google Ads Remarketing and how to opt out of data collection by visiting the Google Ads website.',
+        'cookies' => [
+            '_generic' => 'Used to provide ad delivery or retargeting',
+            'NID' => 'Used to provide ad delivery or retargeting and store user preferences',
+            'CONSENT' => 'Used to store consent preferences',
+            'HSID' => 'Used to provide fraud prevention',
+            'SID' => 'Used to provide ad delivery or retargeting and provide fraud prevention',
+            '_gac_*' => 'Used to store and track audience reach',
+        ],
+    ],
 ];
