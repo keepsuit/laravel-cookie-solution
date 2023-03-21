@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.2.1 - 2023-03-21
+
+### What's Changed
+
+- Added `GoogleAdsRemarketing` service
+- Added `Mailchimp` service
+- Added `ZohoCampaigns` service
+- Added `DigitalOcean` service
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.2.0...v0.2.1
+
 ## v0.2.0 - 2023-03-17
 
 - Added titles to `cookie-policy` and `privacy-policy` views
