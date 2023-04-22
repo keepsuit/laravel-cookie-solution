@@ -51,7 +51,7 @@ class GoogleAdsRemarketingServiceFactory extends ServiceFactory
         return new Service(
             name: 'Google Ads Remarketing',
             provider: $this->location->provider(),
-            description: __('cookie-solution::services.google_ads_remarketing.description') ?? '',
+            description: __('cookie-solution::services.google_ads_remarketing.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
             dataProcessingLocation: $this->location->country(),
             cookies: $cookies

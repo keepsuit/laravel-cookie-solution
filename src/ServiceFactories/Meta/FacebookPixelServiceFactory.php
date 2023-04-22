@@ -23,7 +23,7 @@ class FacebookPixelServiceFactory extends ServiceFactory
         return new Service(
             name: 'Facebook Pixel',
             provider: $this->location->provider(),
-            description: __('cookie-solution::services.facebook_pixel.description') ?? '',
+            description: __('cookie-solution::services.facebook_pixel.description'),
             privacyPolicyUrl: 'https://www.facebook.com/privacy/explanation',
             dataProcessingLocation: $this->location->country(),
             cookies: [

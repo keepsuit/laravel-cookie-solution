@@ -21,7 +21,7 @@ class GoogleTagManagerServiceFactory extends ServiceFactory
         return new Service(
             name: 'Google Tag Manager',
             provider: $this->location->provider(),
-            description: __('cookie-solution::services.google_tag_manager.description') ?? '',
+            description: __('cookie-solution::services.google_tag_manager.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
             dataProcessingLocation: $this->location->country(),
         );

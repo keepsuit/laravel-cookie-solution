@@ -21,7 +21,7 @@ class ZohoCampaignsServiceFactory extends ServiceFactory
         return new Service(
             name: 'Zoho Campaigns',
             provider: 'Zoho Corporation Pvt. Ltd.',
-            description: __('cookie-solution::services.zoho_campaigns.description') ?? '',
+            description: __('cookie-solution::services.zoho_campaigns.description'),
             privacyPolicyUrl: 'https://www.intuit.com/privacy/statement/',
             dataProcessingLocation: $this->location->country(),
         );

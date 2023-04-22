@@ -13,7 +13,7 @@ class MailchimpServiceFactory extends ServiceFactory
         return new Service(
             name: 'Mailchimp',
             provider: 'Intuit Inc.',
-            description: __('cookie-solution::services.mailchimp.description') ?? '',
+            description: __('cookie-solution::services.mailchimp.description'),
             privacyPolicyUrl: 'https://www.intuit.com/privacy/statement/',
             dataProcessingLocation: Countries::getName('US', app()->getLocale()),
         );

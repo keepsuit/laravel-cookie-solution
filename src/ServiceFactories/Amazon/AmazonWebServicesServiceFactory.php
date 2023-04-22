@@ -21,7 +21,7 @@ class AmazonWebServicesServiceFactory extends ServiceFactory
         return new Service(
             name: 'Amazon Web Services',
             provider: 'Amazon Web Services, Inc.',
-            description: __('cookie-solution::services.amazon_web_services.description') ?? '',
+            description: __('cookie-solution::services.amazon_web_services.description'),
             privacyPolicyUrl: 'https://aws.amazon.com/compliance/data-privacy-faq/',
             dataProcessingLocation: $this->location->country(),
         );
