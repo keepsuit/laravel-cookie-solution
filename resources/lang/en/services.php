@@ -41,6 +41,9 @@ return [
     'paypal' => [
         'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
     ],
+    'stripe' => [
+        'description' => 'Stripe is a payment service that allows us to accept payments from our customers. Stripe may collect personal information such as names, email addresses, and billing information.',
+    ],
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns is a marketing automation service that allows us to send emails to our customers. Zoho Campaigns may collect personal information such as names, email addresses, and browsing data.',
     ],
