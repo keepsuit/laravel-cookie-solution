@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.2.2 - 2023-04-22
+
+### What's Changed
+
+- Added `Stripe` service
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/v0.2.1...0.2.2
+
 ## v0.2.1 - 2023-03-21
 
 ### What's Changed
