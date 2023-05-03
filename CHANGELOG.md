@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.2.3 - 2023-05-03
+
+### What's Changed
+
+- Bump dependabot/fetch-metadata from 1.3.6 to 1.4.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/4
+- Fix cookie policy markdown
+- updated dependencies
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.2.2...0.2.3
+
 ## v0.2.2 - 2023-04-22
 
 ### What's Changed
