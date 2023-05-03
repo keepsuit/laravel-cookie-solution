@@ -8,8 +8,8 @@ They are widely used in order to make websites work, or work more efficiently, a
 
 ### Types of Cookies used
 
-__Session Cookies__: These cookies are temporary and are deleted from your device when you close your web browser.
-__Persistent Cookies__: These cookies remain on your device until they expire or are deleted.
+- __Session Cookies__: These cookies are temporary and are deleted from your device when you close your web browser.
+- __Persistent Cookies__: These cookies remain on your device until they expire or are deleted.
 
 Our website uses both session and persistent cookies.
 We use cookies to remember your preferences, such as language and font size, to enhance your browsing experience.
