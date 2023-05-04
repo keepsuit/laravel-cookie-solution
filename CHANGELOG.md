@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.2.4 - 2023-05-04
+
+### What's changed
+
+- Generate config digest ignoring translations strings
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.2.3...0.2.4
+
 ## v0.2.3 - 2023-05-03
 
 ### What's Changed
