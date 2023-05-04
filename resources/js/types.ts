@@ -13,6 +13,7 @@ export interface ServiceConfig {
 }
 
 export interface CookieSolutionConfig {
+    digest: string;
     cookie_name: string;
     cookie_lifetime: number;
     toggle_position: 'left' | 'right';

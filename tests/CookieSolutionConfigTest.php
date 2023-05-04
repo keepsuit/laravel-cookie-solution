@@ -78,3 +78,17 @@ it('generate config with configured services', function () {
             ],
         ]);
 });
+
+it('generate config digest to invalidate consent on change', function () {
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+
+    $config = CookieSolution::getConfig();
+
+    expect($config)
+        ->toHaveKey('digest');
+
+    expect($config['digest'])
+        ->toBe(CookieSolution::getConfig()['digest']);
+});

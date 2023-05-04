@@ -2,6 +2,7 @@
 
 namespace Keepsuit\CookieSolution;
 
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\HtmlString;
@@ -70,6 +71,7 @@ class CookieSolution
     public function getConfig(): array
     {
         return [
+            'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
@@ -185,5 +187,14 @@ class CookieSolution
                     ->append($contactEmail);
             })
             ->toHtmlString();
+    }
+
+    protected function configDigest(): string
+    {
+        $cookies = $this->services()
+            ->flatMap(fn (Service $service) => collect($service->cookies)->map(fn (Cookie $cookie) => Arr::only($cookie->toArray(), ['name', 'purpose', 'duration'])))
+            ->toJson();
+
+        return hash('sha256', $cookies);
     }
 }

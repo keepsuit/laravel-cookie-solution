@@ -43,9 +43,6 @@ export class CookieSolutionBanner extends LitElement {
     private _config?: CookieSolutionConfig;
 
     @state()
-    private _configHash?: string;
-
-    @state()
     private _showModal = false;
 
     @state()
@@ -79,29 +76,6 @@ export class CookieSolutionBanner extends LitElement {
 
     private async _loadConfig(): Promise<void> {
         this._config = window._cookieSolution;
-        this._configHash = await this._generateConfigHash();
-    }
-
-    private async _generateConfigHash(): Promise<string | undefined> {
-        if (!this._config) {
-            return undefined;
-        }
-
-        if (crypto.subtle == undefined) {
-            return undefined;
-        }
-
-        try {
-            const data = new TextEncoder().encode(JSON.stringify(this._config.cookies));
-
-            const hash = await crypto.subtle.digest('SHA-256', data);
-
-            return Array.from(new Uint8Array(hash))
-                .map((b) => b.toString(16).padStart(2, '0'))
-                .join('');
-        } catch (e) {
-            return undefined;
-        }
     }
 
     private _loadContrastColor(): void {
@@ -114,7 +88,7 @@ export class CookieSolutionBanner extends LitElement {
         const status = readCookie(this.cookieName);
         this._status = status ? JSON.parse(status) : undefined;
 
-        if (this._configHash != undefined && this._configHash !== this._status?.digest) {
+        if (this._config?.digest != undefined && this._config.digest !== this._status?.digest) {
             this._status = undefined;
         }
 
@@ -126,7 +100,7 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
-        this._status.digest = this._configHash;
+        this._status.digest = this._config?.digest;
 
         setCookie(this.cookieName, JSON.stringify(this._status), 365);
 
