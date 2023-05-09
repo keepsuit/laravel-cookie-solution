@@ -44,7 +44,8 @@ export default defineConfig({
         outDir: 'resources/dist',
         lib: {
             entry: 'resources/js/laravel-cookie-solution.ts',
-            formats: ['es'],
+            formats: ['iife'],
+            name: 'laravelCookieSolution',
             fileName: (format) => `laravel-cookie-solution.js`,
         },
     },
