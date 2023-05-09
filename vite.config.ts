@@ -1,5 +1,6 @@
 import { defineConfig, Plugin } from 'vite';
 import { createHash } from 'crypto';
+import minifyHTML from 'rollup-plugin-minify-html-literals';
 
 function libManifest(): Plugin {
     const manifest: Record<string, string> = {};
@@ -31,7 +32,14 @@ function libManifest(): Plugin {
 }
 
 export default defineConfig({
-    plugins: [libManifest()],
+    plugins: [
+        {
+            enforce: 'post',
+            apply: 'build',
+            ...minifyHTML(),
+        },
+        libManifest(),
+    ],
     build: {
         outDir: 'resources/dist',
         lib: {
