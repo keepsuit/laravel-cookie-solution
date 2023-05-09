@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.0 - 2023-05-09
+
+### What's changed
+
+- Build js as `iife` instead of `es` module to reduce the size.
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.2.4...0.3.0
+
 ## v0.2.4 - 2023-05-04
 
 ### What's changed
