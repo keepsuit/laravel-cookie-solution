@@ -35,6 +35,9 @@ return [
     'google_tag_manager' => [
         'description' => 'Google Tag Manager is a service that allows to add and manage various marketing and analytics tags through a single interface. Google Tag Manager does not collect any personal information, but it may pass data to other services such as Google Analytics, Adwords, and others. You can learn more about Google Tag Manager and its data practices by visiting the Google Tag Manager website.',
     ],
+    'klarna' => [
+        'description' => 'Klarna is a payment service that allows us to accept installment payments from our customers. Klarna may collect personal information such as names, email addresses, and billing information in order to evaluate the user\'s suitability for its payment methods and personalize those payment methods.',
+    ],
     'mailchimp' => [
         'description' => 'Mailchimp is an email marketing service that allows us to send emails to our customers. Mailchimp may collect personal information such as names, email addresses, and browsing data.',
     ],
