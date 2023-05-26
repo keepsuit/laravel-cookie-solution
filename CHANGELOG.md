@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.1 - 2023-05-26
+
+### What's changed
+
+- Added `Klarna` service
+- Added `Scalapay` service
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.0...0.3.1
+
 ## v0.3.0 - 2023-05-09
 
 ### What's changed
