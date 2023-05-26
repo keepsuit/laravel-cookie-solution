@@ -44,6 +44,9 @@ return [
     'paypal' => [
         'description' => 'PayPal è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. PayPal potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
     ],
+    'scalapay' => [
+        'description' => 'Scalapay è un servizio di pagamento che ci consente di accettare pagamenti a rate dai nostri clienti. Scalapay potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione per valutare l\'idoneità dell\'utente ai suoi metodi di pagamento e personalizzare tali metodi di pagamento.',
+    ],
     'stripe' => [
         'description' => 'Stripe è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. Stripe potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
     ],

@@ -44,6 +44,9 @@ return [
     'paypal' => [
         'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
     ],
+    'scalapay' => [
+        'description' => 'Scalapay is a payment service that allows us to accept installment payments from our customers. Scalapay may collect personal information such as names, email addresses, and billing information in order to evaluate the user\'s suitability for its payment methods and personalize those payment methods.',
+    ],
     'stripe' => [
         'description' => 'Stripe is a payment service that allows us to accept payments from our customers. Stripe may collect personal information such as names, email addresses, and billing information.',
     ],
