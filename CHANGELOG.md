@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.2 - 2023-05-31
+
+### What's Changed
+
+- Improved integration with Google Tag Manager and Facebook Pixel
+- Bump dependabot/fetch-metadata from 1.4.0 to 1.5.1 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/5
+- Bump aglipanci/laravel-pint-action from 2.2.0 to 2.3.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/6
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.1...0.3.2
+
 ## v0.3.1 - 2023-05-26
 
 ### What's changed
