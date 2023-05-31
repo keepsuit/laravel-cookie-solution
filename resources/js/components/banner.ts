@@ -57,6 +57,12 @@ export class CookieSolutionBanner extends LitElement {
     @state()
     private _status: AcceptStatus | undefined = undefined;
 
+    @state()
+    private _gtagRetries = 0;
+
+    @state()
+    private _fbqRetries = 0;
+
     async connectedCallback() {
         super.connectedCallback();
 
@@ -110,26 +116,60 @@ export class CookieSolutionBanner extends LitElement {
     private _emitStatusChange(): void {
         this.dispatchEvent(
             new CustomEvent('cookie-solution-status-change', {
+                bubbles: true,
                 detail: this._status,
             })
         );
 
-        try {
-            if (typeof gtag === 'function') {
+        const emitGtagEvent = () => {
+            if (this._gtagRetries > 10) {
+                return;
+            }
+
+            if (typeof gtag !== 'function') {
+                this._gtagRetries++;
+                setTimeout(emitGtagEvent, 100 * this._gtagRetries);
+                return;
+            }
+
+            try {
                 gtag('consent', 'update', {
                     ad_storage: this._status?.purposes.marketing ? 'granted' : 'denied',
                     analytics_storage: this._status?.purposes.statistics ? 'granted' : 'denied',
                     functionality_storage: this._status?.purposes.necessary ? 'granted' : 'denied',
                     personalization_storage: this._status?.purposes.preferences ? 'granted' : 'denied',
                 });
+                window.dataLayer?.push({
+                    event: 'cookie-solution-status-change',
+                    status: this._status?.purposes,
+                });
+            } catch (e) {
+                this._gtagRetries++;
+                setTimeout(emitGtagEvent, 100 * this._gtagRetries);
             }
-        } catch (e) {}
+        };
 
-        try {
-            if (typeof fbq === 'function') {
-                fbq('consent', this._status?.purposes.marketing ? 'grant' : 'revoke');
+        const emitFbqEvent = () => {
+            if (this._fbqRetries > 10) {
+                return;
             }
-        } catch (e) {}
+
+            if (typeof fbq !== 'function') {
+                this._fbqRetries++;
+                setTimeout(emitFbqEvent, 100 * this._fbqRetries);
+                return;
+            }
+
+            try {
+                fbq('consent', this._status?.purposes.marketing ? 'grant' : 'revoke');
+            } catch (e) {
+                this._fbqRetries++;
+                setTimeout(emitFbqEvent, 100 * this._fbqRetries);
+            }
+        };
+
+        emitGtagEvent();
+        emitFbqEvent();
     }
 
     private show(): void {
