@@ -122,6 +122,10 @@ export class CookieSolutionBanner extends LitElement {
         );
 
         const emitGtagEvent = () => {
+            if (!this._config?.integrations?.google_tag_manager) {
+                return;
+            }
+
             if (this._gtagRetries > 10) {
                 return;
             }
@@ -150,6 +154,10 @@ export class CookieSolutionBanner extends LitElement {
         };
 
         const emitFbqEvent = () => {
+            if (!this._config?.integrations?.facebook_pixel) {
+                return;
+            }
+
             if (this._fbqRetries > 10) {
                 return;
             }

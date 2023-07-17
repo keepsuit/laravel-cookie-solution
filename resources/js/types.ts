@@ -18,6 +18,10 @@ export interface CookieSolutionConfig {
     cookie_lifetime: number;
     toggle_position: 'left' | 'right';
     cookies: Record<CookiePurpose, ServiceConfig[]>;
+    integrations?: {
+        google_tag_manager?: boolean;
+        facebook_pixel?: boolean;
+    };
     texts: {
         tab_consent: string;
         tab_customize: string;

@@ -42,4 +42,25 @@ return [
          */
         'name_and_address' => null,
     ],
+
+    /**
+     * Integrations with other services.
+     */
+    'integrations' => [
+        /**
+         * Integration with Google Tag Manager consent mode.
+         *
+         * If enabled, the cookie solution script will automatically call
+         * `gtag('consent', { ... })` when the user accepts or rejects cookies.
+         */
+        'google_tag_manager' => true,
+
+        /**
+         * Integration with Facebook pixel.
+         *
+         * If enabled, the cookie solution script will automatically call
+         * `fbq('consent', ...)` when the user accepts or rejects cookies.
+         */
+        'facebook_pixel' => true,
+    ]
 ];

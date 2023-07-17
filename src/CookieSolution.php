@@ -96,6 +96,7 @@ class CookieSolution
                 'information_text' => $this->cookiePolicyHtml()->toHtml(),
             ],
             'cookies' => $this->servicesGroupedByCookiePurpose()->toArray(),
+            'integrations' => config('cookie-solution.integrations', []),
         ];
     }
 
