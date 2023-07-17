@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.3 - 2023-07-17
+
+### What's Changed
+
+- Allow to disable integrations with third party services (google tag manager/facebook pixel)
+- Bump dependabot/fetch-metadata from 1.5.1 to 1.6.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/7
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.2...0.3.3
+
 ## v0.3.2 - 2023-05-31
 
 ### What's Changed
