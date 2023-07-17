@@ -62,5 +62,5 @@ return [
          * `fbq('consent', ...)` when the user accepts or rejects cookies.
          */
         'facebook_pixel' => true,
-    ]
+    ],
 ];
