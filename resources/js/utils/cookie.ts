@@ -3,7 +3,7 @@ export function setCookie(name: string, value: string, expireInDays: number): vo
     const secure = document.location.protocol === 'https:';
 
     document.cookie = `${name}=${encodeURIComponent(
-        value
+        value,
     )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax; ${secure ? ';secure' : ''}`;
 }
 

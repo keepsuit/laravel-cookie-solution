@@ -15,7 +15,7 @@ export class CookieSolutionToggle extends LitElement {
             new CustomEvent('open', {
                 bubbles: true,
                 composed: true,
-            })
+            }),
         );
     }
 
@@ -24,7 +24,7 @@ export class CookieSolutionToggle extends LitElement {
             <div
                 class="${clsx(
                     'fixed bottom-toggle-bottom z-max',
-                    this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x'
+                    this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x',
                 )}"
             >
                 <button

@@ -30,7 +30,7 @@ export class CookieSolutionCollapsable extends LitElement {
                     () => {
                         this.contentRef.value!.style.height = 'auto';
                     },
-                    { once: true }
+                    { once: true },
                 );
             });
         } else {

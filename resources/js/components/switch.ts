@@ -27,7 +27,7 @@ export class CookieSolutionSwitch extends LitElement {
                 detail: this.checked,
                 bubbles: true,
                 composed: true,
-            })
+            }),
         );
     }
 

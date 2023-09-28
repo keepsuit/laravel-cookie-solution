@@ -118,7 +118,7 @@ export class CookieSolutionBanner extends LitElement {
             new CustomEvent('cookie-solution-status-change', {
                 bubbles: true,
                 detail: this._status,
-            })
+            }),
         );
 
         const emitGtagEvent = () => {
@@ -197,7 +197,7 @@ export class CookieSolutionBanner extends LitElement {
                     this._showModalStatus = 'hidden';
                     this._showModal = false;
                 },
-                { once: true }
+                { once: true },
             );
         }
 
@@ -331,7 +331,7 @@ export class CookieSolutionBanner extends LitElement {
                 <div class="relative">
                     <hr
                         class="absolute -bottom-[1px] w-full transform border-t-4 border-highlight duration-300"
-                        style="--tw-translate-x: ${this._tab * 100}%"
+                        style="${`--tw-translate-x: ${this._tab * 100}%`}"
                     />
                 </div>
             </div>
@@ -449,7 +449,7 @@ export class CookieSolutionBanner extends LitElement {
                 new CustomEvent('toggle-open', {
                     bubbles: true,
                     composed: true,
-                })
+                }),
             );
 
         return html`
@@ -512,7 +512,7 @@ export class CookieSolutionBanner extends LitElement {
                                         ${service.cookies.map((cookie) => this.cookieRow(cookie))}
                                     </div>
                                 </div>
-                            `
+                            `,
                         )}
                     </div>
                 </div>
