@@ -4,6 +4,7 @@ use Keepsuit\CookieSolution\Facades\CookieSolution;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
+
 use function Spatie\Snapshots\assertMatchesHtmlSnapshot;
 
 it('can render cookie policy view without cookies', function () {
