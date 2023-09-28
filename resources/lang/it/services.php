@@ -53,5 +53,4 @@ return [
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns è un servizio di marketing che ci consente di inviare e-mail ai nostri clienti. Zoho Campaigns potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e dati di navigazione.',
     ],
-
 ];
