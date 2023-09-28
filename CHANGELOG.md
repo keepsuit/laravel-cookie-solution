@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.4 - 2023-09-28
+
+### What's Changed
+
+- Fixed header selection bar
+- Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/8
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.3...0.3.4
+
 ## v0.3.3 - 2023-07-17
 
 ### What's Changed
