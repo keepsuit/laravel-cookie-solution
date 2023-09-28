@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.5 - 2023-09-28
+
+### What's changed
+
+- Added French translations
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.4...0.3.5
+
 ## v0.3.4 - 2023-09-28
 
 ### What's Changed
