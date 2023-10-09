@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.6 - 2023-10-09
+
+### What's Changed
+
+- Improved accessibility
+- Bump stefanzweifel/git-auto-commit-action from 4 to 5 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/9
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.5...0.3.6
+
 ## v0.3.5 - 2023-09-28
 
 ### What's changed
