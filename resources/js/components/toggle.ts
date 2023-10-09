@@ -10,6 +10,9 @@ export class CookieSolutionToggle extends LitElement {
     @property({ type: String })
     position = 'right';
 
+    @property({ type: String })
+    label: string | undefined = undefined;
+
     private _open(): void {
         this.dispatchEvent(
             new CustomEvent('open', {
@@ -29,6 +32,7 @@ export class CookieSolutionToggle extends LitElement {
             >
                 <button
                     class="flex h-12 w-12 items-center justify-center rounded-full bg-white p-2 shadow hover:shadow-xl"
+                    aria-label="${this.label}"
                     @click="${this._open}"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-full w-full fill-highlight" viewBox="0 0 48 48">

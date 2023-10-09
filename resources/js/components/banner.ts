@@ -294,46 +294,46 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div class="grid shrink-0 grid-cols-3 border-b border-gray-200">
-                <button
-                    class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                        'aria-selected:text-highlight': this._contrastColor === 'white',
-                    })}"
-                    role="tab"
-                    data-tab="0"
-                    aria-selected="${this._tab === 0}"
-                    @click="${this._onTabSelected}"
-                >
-                    ${this._config.texts.tab_consent}
-                </button>
-                <button
-                    class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                        'aria-selected:text-highlight': this._contrastColor === 'white',
-                    })}"
-                    role="tab"
-                    data-tab="1"
-                    aria-selected="${this._tab === 1}"
-                    @click="${this._onTabSelected}"
-                >
-                    ${this._config.texts.tab_customize}
-                </button>
-                <button
-                    class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                        'aria-selected:text-highlight': this._contrastColor === 'white',
-                    })}"
-                    role="tab"
-                    data-tab="2"
-                    aria-selected="${this._tab === 2}"
-                    @click="${this._onTabSelected}"
-                >
-                    ${this._config.texts.tab_information}
-                </button>
-                <div class="relative">
-                    <hr
-                        class="absolute -bottom-[1px] w-full transform border-t-4 border-highlight duration-300"
-                        style="${`--tw-translate-x: ${this._tab * 100}%`}"
-                    />
+            <div class="relative">
+                <div class="grid shrink-0 grid-cols-3 border-b border-gray-200" role="tablist">
+                    <button
+                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
+                            'aria-selected:text-highlight': this._contrastColor === 'white',
+                        })}"
+                        role="tab"
+                        data-tab="0"
+                        aria-selected="${this._tab === 0}"
+                        @click="${this._onTabSelected}"
+                    >
+                        ${this._config.texts.tab_consent}
+                    </button>
+                    <button
+                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
+                            'aria-selected:text-highlight': this._contrastColor === 'white',
+                        })}"
+                        role="tab"
+                        data-tab="1"
+                        aria-selected="${this._tab === 1}"
+                        @click="${this._onTabSelected}"
+                    >
+                        ${this._config.texts.tab_customize}
+                    </button>
+                    <button
+                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
+                            'aria-selected:text-highlight': this._contrastColor === 'white',
+                        })}"
+                        role="tab"
+                        data-tab="2"
+                        aria-selected="${this._tab === 2}"
+                        @click="${this._onTabSelected}"
+                    >
+                        ${this._config.texts.tab_information}
+                    </button>
                 </div>
+                <hr
+                    class="absolute -bottom-[1px] w-1/3 transform border-t-4 border-highlight duration-300"
+                    style="${`--tw-translate-x: ${this._tab * 100}%`}"
+                />
             </div>
         `;
     }
@@ -432,6 +432,7 @@ export class CookieSolutionBanner extends LitElement {
         return html`
             <cookie-solution-toggle
                 position="${this._config?.toggle_position}"
+                label="${this._config?.texts.button_show_banner}"
                 @open="${this.show}"
             ></cookie-solution-toggle>
         `;

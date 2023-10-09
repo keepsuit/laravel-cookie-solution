@@ -79,6 +79,7 @@ class CookieSolution
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),
                 'tab_customize' => __('cookie-solution::texts.banner.tab_customize'),
                 'tab_information' => __('cookie-solution::texts.banner.tab_information'),
+                'button_show_banner' => __('cookie-solution::texts.banner.button_show_banner'),
                 'button_accept_all' => __('cookie-solution::texts.banner.button_accept_all'),
                 'button_accept_selected' => __('cookie-solution::texts.banner.button_accept_selected'),
                 'button_refuse' => __('cookie-solution::texts.banner.button_refuse'),

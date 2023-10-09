@@ -7,18 +7,18 @@
         {{ \Keepsuit\CookieSolution\Facades\CookieSolution::privacyPolicyHtml() }}
 
         @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasDataOwner())
-            <h3>
+            <h2>
                 {{ __('cookie-solution::texts.privacy_policy.data_processing_owner') }}
-            </h3>
+            </h2>
             <div class="text-sm">
                 {{ \Keepsuit\CookieSolution\Facades\CookieSolution::dataOwnerHtml() }}
             </div>
         @endif
 
         @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasServices())
-            <h3>
+            <h2>
                 {{ __('cookie-solution::texts.privacy_policy.services_list') }}
-            </h3>
+            </h2>
             <div class="space-y-8">
                 @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::services() as $service)
                     <div class="border-l-4 border-gray-300 px-4">

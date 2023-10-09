@@ -20,13 +20,13 @@ module.exports = {
                 DEFAULT: {
                     css: {
                         maxWidth: '100%',
-                    },
-                },
-                sm: {
-                    css: {
+
+                        h2: {
+                            fontSize: '1.25em',
+                        },
                         h3: {
                             fontSize: '1.1em',
-                        },
+                        }
                     },
                 },
             }),

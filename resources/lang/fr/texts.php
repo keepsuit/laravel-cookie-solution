@@ -10,6 +10,7 @@ return [
         'button_accept_selected' => 'Accepter sélectionné',
         'button_refuse' => 'Refuser',
         'button_customize' => 'Personnaliser',
+        'button_show_banner' => 'Ouvrir les paramètres des cookies',
 
         'consent_title' => 'Ce site utilise des cookies',
         'consent_message' => 'Nous utilisons des cookies pour personnaliser le contenu et les publicités, pour fournir des fonctionnalités de médias sociaux et pour analyser notre trafic. Nous partageons également des informations sur votre utilisation de notre site avec nos partenaires de médias sociaux, de publicité et d\'analyse, qui peuvent les combiner avec d\'autres informations que vous leur avez fournies ou qu\'ils ont collectées lors de votre utilisation de leurs services.',

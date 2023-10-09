@@ -26,6 +26,7 @@ export interface CookieSolutionConfig {
         tab_consent: string;
         tab_customize: string;
         tab_information: string;
+        button_show_banner: string;
         button_accept_all: string;
         button_accept_selected: string;
         button_refuse: string;

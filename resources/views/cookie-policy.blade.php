@@ -5,9 +5,9 @@
         {{ \Keepsuit\CookieSolution\Facades\CookieSolution::cookiePolicyHtml() }}
 
         @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasCookies())
-            <h3>
+            <h2>
                 {{ __('cookie-solution::texts.cookie_policy.cookies_list') }}
-            </h3>
+            </h2>
             <div class="space-y-8 mt-8">
                 @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::servicesGroupedByCookiePurpose() as $purpose => $services)
                     @if($services->isNotEmpty())
