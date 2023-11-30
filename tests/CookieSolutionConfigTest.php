@@ -23,6 +23,7 @@ it('generate base config for cookie solution', function () {
                 'button_accept_selected' => 'Accetta selected',
                 'button_refuse' => 'Refuse',
                 'button_customize' => 'Customize',
+                'button_show_banner' => 'Open cookie settings',
                 'consent_title' => 'This site uses cookies',
                 'consent_message' => 'We use cookies to customize content and ads, to provide social media features and to analyze our traffic. We also share information about your use of our site with our social media, advertising and analytics partners who may combine it with other information that you\'ve provided to them or that they\'ve collected from your use of their services.',
                 'customize_purpose_necessary' => 'Necessary',
