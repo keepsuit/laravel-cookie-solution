@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.3.7 - 2023-11-30
+
+### What's Changed
+
+* Added `part` api to allow style override of some dom parts
+* Hidden by default cookie toggle and banner when printing
+* Fixed dialog missing title (accessibility)
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.6...0.3.7
+
 ## v0.3.6 - 2023-10-09
 
 ### What's Changed
