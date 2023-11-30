@@ -265,9 +265,11 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div class="fixed inset-0 z-max bg-gray-900/30">
+            <div class="fixed inset-0 z-max bg-gray-900/30 print:hidden" part="banner-root">
                 <div
+                    part="banner-dialog"
                     role="dialog"
+                    aria-labelledby="cookie-solution-consent-title"
                     class="${clsx({
                         'opacity-0 scale-75': this._showModalStatus === 'showing' || this._showModalStatus === 'hiding',
                         'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300':
@@ -398,8 +400,10 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div>
-                <div class="text-sm font-bold">${this._config.texts.consent_title}</div>
+            <div part="banner-tab-consent">
+                <div id="cookie-solution-consent-title" class="text-sm font-bold">
+                    ${this._config.texts.consent_title}
+                </div>
                 <div class="mt-2 text-sm">${this._config.texts.consent_message}</div>
             </div>
         `;
@@ -411,7 +415,7 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div class="divide-y divide-gray-100">
+            <div class="divide-y divide-gray-100" part="banner-tab-customize">
                 ${this.cookiePurposeRow('necessary')}
                 ${this._config.cookies.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
                 ${this._config.cookies.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
@@ -425,12 +429,17 @@ export class CookieSolutionBanner extends LitElement {
             return null;
         }
 
-        return html` <div class="prose prose-sm">${unsafeHTML(this._config.texts.information_text)}</div> `;
+        return html`
+            <div class="prose prose-sm" part="banner-tab-information">
+                ${unsafeHTML(this._config.texts.information_text)}
+            </div>
+        `;
     }
 
     protected modalToggle(): unknown {
         return html`
             <cookie-solution-toggle
+                exportparts="toggle-root, toggle-button"
                 position="${this._config?.toggle_position}"
                 label="${this._config?.texts.button_show_banner}"
                 @open="${this.show}"

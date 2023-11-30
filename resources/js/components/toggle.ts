@@ -25,12 +25,14 @@ export class CookieSolutionToggle extends LitElement {
     protected render(): unknown {
         return html`
             <div
+                part="toggle-root"
                 class="${clsx(
-                    'fixed bottom-toggle-bottom z-max',
+                    'fixed bottom-toggle-bottom z-max print:hidden',
                     this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x',
                 )}"
             >
                 <button
+                    part="toggle-button"
                     class="flex h-12 w-12 items-center justify-center rounded-full bg-white p-2 shadow hover:shadow-xl"
                     aria-label="${this.label}"
                     @click="${this._open}"
