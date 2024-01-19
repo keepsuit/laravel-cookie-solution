@@ -1,6 +1,7 @@
 {
     "name": "laravel-cookie-solution",
     "version": "1.0.0",
+    "type": "module",
     "main": "dist/laravel-cookie-solution.iife.js",
     "module": "dist/laravel-cookie-solution.esm.js",
     "types": "dist/laravel-cookie-solution.d.ts",
@@ -13,19 +14,19 @@
         "format": "prettier --write resources/js"
     },
     "devDependencies": {
-        "@tailwindcss/typography": "^0.5.9",
-        "@types/node": "^20.7.1",
-        "postcss": "^8.4.21",
-        "prettier": "^3.0.3",
-        "prettier-plugin-tailwindcss": "^0.5.4",
+        "@tailwindcss/typography": "^0.5.10",
+        "@types/node": "^20.11.5",
+        "postcss": "^8.4.33",
+        "prettier": "^3.2.4",
+        "prettier-plugin-tailwindcss": "^0.5.11",
         "rollup-plugin-minify-html-literals": "^1.2.6",
-        "tailwindcss": "^3.2.4",
-        "typescript": "^5.0.4",
-        "vite": "^4.0.4",
-        "vite-plugin-dts": "^3.3.1"
+        "tailwindcss": "^3.4.1",
+        "typescript": "^5.3.3",
+        "vite": "^5.0.12",
+        "vite-plugin-dts": "^3.7.1"
     },
     "dependencies": {
-        "clsx": "^2.0.0",
-        "lit": "^2.6.1"
+        "clsx": "^2.1.0",
+        "lit": "^2.8.0"
     }
 }

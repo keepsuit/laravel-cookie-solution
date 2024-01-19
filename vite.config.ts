@@ -1,6 +1,8 @@
 import { defineConfig, Plugin } from 'vite';
 import { createHash } from 'crypto';
 import minifyHTML from 'rollup-plugin-minify-html-literals';
+import tailwindcssNesting from 'tailwindcss/nesting';
+import tailwindcss from 'tailwindcss';
 
 function libManifest(): Plugin {
     const manifest: Record<string, string> = {};
@@ -36,7 +38,7 @@ export default defineConfig({
         {
             enforce: 'post',
             apply: 'build',
-            ...minifyHTML(),
+            ...minifyHTML.default(),
         },
         libManifest(),
     ],
@@ -52,8 +54,8 @@ export default defineConfig({
     css: {
         postcss: {
             plugins: [
-                require('tailwindcss/nesting'),
-                require('tailwindcss'),
+                tailwindcssNesting,
+                tailwindcss,
             ],
         },
     },
