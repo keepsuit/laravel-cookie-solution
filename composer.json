@@ -24,7 +24,7 @@
     "require-dev": {
         "laravel/pint": "^1.0",
         "nunomaduro/collision": "^6.0",
-        "nunomaduro/larastan": "^2.0.1",
+        "larastan/larastan": "^2.8",
         "orchestra/testbench": "^7.28 || ^8.8",
         "pestphp/pest": "^1.21",
         "pestphp/pest-plugin-laravel": "^1.1",
@@ -86,6 +86,9 @@
                 "CookieSolution": "Keepsuit\\CookieSolution\\Facades\\CookieSolution"
             }
         }
+    },
+    "conflict": {
+        "orchestra/testbench-core": "> 8.15.0"
     },
     "minimum-stability": "dev",
     "prefer-stable": true
