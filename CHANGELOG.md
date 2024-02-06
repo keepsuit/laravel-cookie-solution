@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.4.0 - 2024-02-06
+
+### What's Changed
+
+* Upgraded `lit` to v3
+* Added Spanish and German translations
+* Bump aglipanci/laravel-pint-action from 2.3.0 to 2.3.1 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/10
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.3.7...0.4.0
+
 ## v0.3.7 - 2023-11-30
 
 ### What's Changed
