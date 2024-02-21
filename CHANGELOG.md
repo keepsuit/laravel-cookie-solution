@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.4.1 - 2024-02-21
+
+### What's changed
+
+- Added support for `gtag` new consent types: `ad_user_data` and `ad_personalization`, enabled with `marketing` purpose.
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.4.0...0.4.1
+
 ## v0.4.0 - 2024-02-06
 
 ### What's Changed
