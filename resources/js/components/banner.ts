@@ -138,10 +138,13 @@ export class CookieSolutionBanner extends LitElement {
 
             try {
                 gtag('consent', 'update', {
-                    ad_storage: this._status?.purposes.marketing ? 'granted' : 'denied',
                     analytics_storage: this._status?.purposes.statistics ? 'granted' : 'denied',
-                    functionality_storage: this._status?.purposes.necessary ? 'granted' : 'denied',
+                    ad_storage: this._status?.purposes.marketing ? 'granted' : 'denied',
+                    ad_user_data: this._status?.purposes.marketing ? 'granted' : 'denied',
+                    ad_personalization: this._status?.purposes.marketing ? 'granted' : 'denied',
                     personalization_storage: this._status?.purposes.preferences ? 'granted' : 'denied',
+                    functionality_storage: this._status?.purposes.necessary ? 'granted' : 'denied',
+                    security_storage: this._status?.purposes.necessary ? 'granted' : 'denied',
                 });
                 window.dataLayer?.push({
                     event: 'cookie-solution-status-change',
