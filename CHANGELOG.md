@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.5.0 - 2024-02-22
+
+### What's Changed
+
+* Load status server side by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/11
+* Support laravel 11 & php 8.3 by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/12
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.4.1...0.5.0
+
 ## v0.4.1 - 2024-02-21
 
 ### What's changed
