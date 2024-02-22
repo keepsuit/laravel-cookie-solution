@@ -17,6 +17,7 @@
     failOnEmptyTestSuite="true"
     beStrictAboutOutputDuringTests="true"
     verbose="true"
+    cacheDirectory="build/phpunit"
 >
     <testsuites>
         <testsuite name="Keepsuit Test Suite">
