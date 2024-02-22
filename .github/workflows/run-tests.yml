@@ -16,16 +16,16 @@ jobs:
         php: [8.1, 8.2, 8.3]
         laravel: [9.*, 10.*, 11.*]
         stability: [prefer-stable]
-        phpunitConfig: [phpunit.xml, phpunit_9.xml]
         exclude:
           - laravel: 11.*
             php: 8.1
+        include:
           - laravel: 9.*
-            phpunitConfig: phpunit.xml
+            phpunitConfig: phpunit_9.xml
           - laravel: 10.*
-            phpunitConfig: phpunit_9.xml
+            phpunitConfig: phpunit.xml
           - laravel: 11.*
-            phpunitConfig: phpunit_9.xml
+            phpunitConfig: phpunit.xml
 
     name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.stability }}
 
