@@ -207,6 +207,11 @@ If you need a more advanced customization, you can edit the toggle position with
 If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
 The `<cookie-solution-policy-formatter/>` custom component is used to apply the default styles, you can safely remove it to customize the views.
 
+## Checking status
+
+You can check the user's consent status from laravel using the `CookieSolution::status()` method, 
+which returns a `CookieSolutionStatus` object with helpers to check if a purpose has been accepted.
+
 ## Testing
 
 ```bash

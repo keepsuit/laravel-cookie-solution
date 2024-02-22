@@ -18,3 +18,7 @@ export function readCookie(name: string): string | undefined {
 
     return decodeURIComponent(value);
 }
+
+export function deleteCookie(name: string): void {
+    setCookie(name, '', -1);
+}
