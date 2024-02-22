@@ -45,6 +45,7 @@ it('load status from cookie when set', function () {
     assert($request instanceof \Illuminate\Http\Request);
     $request->cookies->set('laravel_cookie_solution', json_encode([
         'timestamp' => now()->toIso8601String(),
+        'digest' => CookieSolution::getConfig()['digest'],
         'purposes' => [
             'statistics' => true,
             'marketing' => false,
@@ -57,6 +58,28 @@ it('load status from cookie when set', function () {
         ->toBeInstanceOf(CookieSolutionStatus::class)
         ->accepted(CookiePurpose::STATISTICS)->toBeTrue()
         ->accepted(CookiePurpose::MARKETING)->toBeFalse()
+        ->purposeStatus(CookiePurpose::NECESSARY)->toBeNull()
+        ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
+});
+
+it('load default status when config digest is changed', function () {
+    $request = app('request');
+    assert($request instanceof \Illuminate\Http\Request);
+    $request->cookies->set('laravel_cookie_solution', json_encode([
+        'timestamp' => now()->toIso8601String(),
+        'digest' => 'old-digest',
+        'purposes' => [
+            'statistics' => true,
+            'marketing' => false,
+        ],
+    ]));
+
+    $status = CookieSolution::status();
+
+    expect($status)
+        ->toBeInstanceOf(CookieSolutionStatus::class)
+        ->purposeStatus(CookiePurpose::STATISTICS)->toBeNull()
+        ->purposeStatus(CookiePurpose::MARKETING)->toBeNull()
         ->purposeStatus(CookiePurpose::NECESSARY)->toBeNull()
         ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
 });

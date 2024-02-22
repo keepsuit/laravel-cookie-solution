@@ -49,6 +49,10 @@ class CookieSolution
         try {
             $value = json_decode($json, true, JSON_THROW_ON_ERROR);
 
+            if ($this->configDigest() !== ($value['digest'] ?? null)) {
+                return $this->status = CookieSolutionStatus::default();
+            }
+
             return $this->status = new CookieSolutionStatus(
                 timestamp: Carbon::parse($value['timestamp']),
                 purposes: $value['purposes'],
