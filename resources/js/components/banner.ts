@@ -7,7 +7,7 @@ import { LitElement, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
-import { readCookie, setCookie } from '../utils/cookie';
+import { deleteCookie, readCookie, setCookie } from '../utils/cookie';
 import { CookieConfig, CookiePurpose, CookieSolutionConfig } from '../types';
 import clsx from 'clsx';
 import { getContrastColor } from '../utils/colorContrast';
@@ -96,6 +96,7 @@ export class CookieSolutionBanner extends LitElement {
 
         if (this._config?.digest != undefined && this._config.digest !== this._status?.digest) {
             this._status = undefined;
+            deleteCookie(this.cookieName);
         }
 
         this._emitStatusChange();
