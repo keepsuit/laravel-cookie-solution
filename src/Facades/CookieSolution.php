@@ -5,10 +5,12 @@ namespace Keepsuit\CookieSolution\Facades;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\HtmlString;
+use Keepsuit\CookieSolution\CookieSolutionStatus;
 use Keepsuit\CookieSolution\Service;
 
 /**
  * @method static bool enabled()
+ * @method static CookieSolutionStatus status()
  * @method static array getConfig()
  * @method static Collection<int, Service> services()
  * @method static Collection<string, Collection<string,Collection<array-key,Service>>> servicesGroupedByCookiePurpose()

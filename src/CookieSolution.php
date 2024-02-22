@@ -2,6 +2,7 @@
 
 namespace Keepsuit\CookieSolution;
 
+use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -16,10 +17,12 @@ class CookieSolution
      */
     protected array $services = [];
 
-    private array $markdownConfig = [
+    protected array $markdownConfig = [
         'html_input' => false,
         'allow_unsafe_links' => false,
     ];
+
+    protected ?CookieSolutionStatus $status = null;
 
     public function __construct(
         protected CookieSolutionAssets $assets,
@@ -29,6 +32,30 @@ class CookieSolution
     public function enabled(): bool
     {
         return config('cookie-solution.enabled', true);
+    }
+
+    public function status(): CookieSolutionStatus
+    {
+        if ($this->status !== null) {
+            return $this->status;
+        }
+
+        $json = \Illuminate\Support\Facades\Cookie::get(config('cookie-solution.cookie_name'));
+
+        if ($json === null) {
+            return $this->status = CookieSolutionStatus::default();
+        }
+
+        try {
+            $value = json_decode($json, true, JSON_THROW_ON_ERROR);
+
+            return $this->status = new CookieSolutionStatus(
+                timestamp: Carbon::parse($value['timestamp']),
+                purposes: $value['purposes'],
+            );
+        } catch (\JsonException $e) {
+            return $this->status = CookieSolutionStatus::default();
+        }
     }
 
     /**
