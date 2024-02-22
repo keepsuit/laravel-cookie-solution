@@ -2,6 +2,7 @@
 
 namespace Keepsuit\CookieSolution;
 
+use Illuminate\Cookie\Middleware\EncryptCookies;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -23,5 +24,9 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
     {
         $this->app->singleton(CookieSolution::class);
         $this->app->singleton(CookieSolutionAssets::class);
+
+        $this->app->resolving(EncryptCookies::class, function (EncryptCookies $encryptCookies) {
+            $encryptCookies->disableFor(config('cookie-solution.cookie_name'));
+        });
     }
 }
