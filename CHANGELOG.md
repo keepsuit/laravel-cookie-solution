@@ -2,6 +2,19 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v0.5.1 - 2024-07-24
+
+### What's Changed
+
+* Bump ramsey/composer-install from 2 to 3 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/13
+* Bump dependabot/fetch-metadata from 1.6.0 to 2.0.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/14
+* Bump aglipanci/laravel-pint-action from 2.3.1 to 2.4 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/15
+* Bump dependabot/fetch-metadata from 2.0.0 to 2.1.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/16
+* Bump dependabot/fetch-metadata from 2.1.0 to 2.2.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/17
+* Fix initial style by @cappuc
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.5.0...0.5.1
+
 ## v0.5.0 - 2024-02-22
 
 ### What's Changed
