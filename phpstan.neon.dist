@@ -4,9 +4,6 @@ includes:
 parameters:
     tmpDir: build/phpstan
     checkOctaneCompatibility: true
-    checkModelProperties: true
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
 
     level: 6
 
@@ -15,5 +12,6 @@ parameters:
         - config
 
     ignoreErrors:
+        - identifier: missingType.generics
+        - identifier: missingType.iterableValue
         - '#Unsafe usage of new static#'
-

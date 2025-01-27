@@ -11,8 +11,7 @@ class ScriptViewComposer
     public function __construct(
         protected CookieSolution $cookieSolution,
         protected CookieSolutionAssets $assets
-    ) {
-    }
+    ) {}
 
     public function compose(View $view): void
     {

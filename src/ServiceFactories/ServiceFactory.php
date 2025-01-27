@@ -8,7 +8,7 @@ abstract class ServiceFactory
 {
     public static function new(): static
     {
-        return new static();
+        return new static;
     }
 
     abstract public function build(): Service;

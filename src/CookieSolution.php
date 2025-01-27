@@ -26,8 +26,7 @@ class CookieSolution
 
     public function __construct(
         protected CookieSolutionAssets $assets,
-    ) {
-    }
+    ) {}
 
     public function enabled(): bool
     {

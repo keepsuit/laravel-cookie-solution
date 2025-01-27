@@ -15,8 +15,7 @@ class Cookie implements Arrayable
          */
         public readonly int $duration,
         public readonly string $description,
-    ) {
-    }
+    ) {}
 
     public function toArray(): array
     {

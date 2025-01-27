@@ -16,8 +16,7 @@ class Service implements Arrayable
          * @var Cookie[]
          */
         public readonly array $cookies = []
-    ) {
-    }
+    ) {}
 
     public function toArray(): array
     {

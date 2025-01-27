@@ -12,8 +12,7 @@ final class CookieSolutionStatus
          * @var array<string, bool>
          */
         protected readonly array $purposes = [],
-    ) {
-    }
+    ) {}
 
     public static function default(): CookieSolutionStatus
     {
