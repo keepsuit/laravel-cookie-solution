@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.0.0 - 2025-02-23
+
+### What's Changed
+
+* drop laravel 9
+* support laravel 12
+* Bump dependabot/fetch-metadata from 2.2.0 to 2.3.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/18
+* Bump aglipanci/laravel-pint-action from 2.4 to 2.5 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/19
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/0.5.1...1.0.0
+
 ## v0.5.1 - 2024-07-24
 
 ### What's Changed
