@@ -83,3 +83,53 @@ it('load default status when config digest is changed', function () {
         ->purposeStatus(CookiePurpose::NECESSARY)->toBeNull()
         ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
 });
+
+it('load default status when config date is malformed', function () {
+    \Spatie\TestTime\TestTime::freeze();
+
+    $request = app('request');
+    assert($request instanceof \Illuminate\Http\Request);
+    $request->cookies->set('laravel_cookie_solution', json_encode([
+        'timestamp' => sprintf('%s<script>alert(1)</script>', now()->subHour()->toIso8601String()),
+        'digest' => CookieSolution::getConfig()['digest'],
+        'purposes' => [
+            'statistics' => true,
+            'marketing' => false,
+        ],
+    ]));
+
+    $status = CookieSolution::status();
+
+    expect($status)
+        ->toBeInstanceOf(CookieSolutionStatus::class)
+        ->timestamp->toIso8601String()->toBe(now()->toIso8601String())
+        ->purposeStatus(CookiePurpose::STATISTICS)->toBeNull()
+        ->purposeStatus(CookiePurpose::MARKETING)->toBeNull()
+        ->purposeStatus(CookiePurpose::NECESSARY)->toBeNull()
+        ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
+});
+
+it('load default status when config purposes are malformed', function () {
+    \Spatie\TestTime\TestTime::freeze();
+
+    $request = app('request');
+    assert($request instanceof \Illuminate\Http\Request);
+    $request->cookies->set('laravel_cookie_solution', json_encode([
+        'timestamp' => now()->subHour()->toIso8601String(),
+        'digest' => CookieSolution::getConfig()['digest'],
+        'purposes' => [
+            'statistics' => true,
+            'marketing' => 'invalid',
+        ],
+    ]));
+
+    $status = CookieSolution::status();
+
+    expect($status)
+        ->toBeInstanceOf(CookieSolutionStatus::class)
+        ->timestamp->toIso8601String()->toBe(now()->toIso8601String())
+        ->purposeStatus(CookiePurpose::STATISTICS)->toBeNull()
+        ->purposeStatus(CookiePurpose::MARKETING)->toBeNull()
+        ->purposeStatus(CookiePurpose::NECESSARY)->toBeNull()
+        ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
+});

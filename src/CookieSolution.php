@@ -3,12 +3,15 @@
 namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
+use Illuminate\Validation\ValidationException;
 
 class CookieSolution
 {
@@ -41,22 +44,44 @@ class CookieSolution
 
         $json = \Illuminate\Support\Facades\Cookie::get(config('cookie-solution.cookie_name'));
 
-        if ($json === null) {
+        if (! is_string($json)) {
             return $this->status = CookieSolutionStatus::default();
         }
 
         try {
             $value = json_decode($json, true, JSON_THROW_ON_ERROR);
+        } catch (\JsonException) {
+            return $this->status = CookieSolutionStatus::default();
+        }
 
-            if ($this->configDigest() !== ($value['digest'] ?? null)) {
+        try {
+            $validator = Validator::make($value, [
+                'digest' => ['required', 'string'],
+                'timestamp' => ['required', sprintf('date_format:%s', DateTimeInterface::ATOM)],
+                'purposes' => ['required', 'array'],
+                'purposes.*' => ['required', 'boolean'],
+            ]);
+
+            /**
+             * @var array{
+             *    digest: string,
+             *    timestamp: string,
+             *    purposes: array<string, bool>
+             * } $validated
+             */
+            $validated = $validator->validated();
+
+            if ($this->configDigest() !== $validated['digest']) {
                 return $this->status = CookieSolutionStatus::default();
             }
 
             return $this->status = new CookieSolutionStatus(
-                timestamp: Carbon::parse($value['timestamp']),
-                purposes: $value['purposes'],
+                timestamp: Carbon::createFromFormat(DateTimeInterface::ATOM, $validated['timestamp']),
+                purposes: collect($validated['purposes'])
+                    ->filter(fn (bool $active, string $key) => CookiePurpose::tryFrom($key) !== null)
+                    ->all(),
             );
-        } catch (\JsonException $e) {
+        } catch (ValidationException) {
             return $this->status = CookieSolutionStatus::default();
         }
     }
