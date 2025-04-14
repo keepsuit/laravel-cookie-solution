@@ -1,0 +1,13 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Dead catch \- JsonException is never thrown in the try block\.$#'
+			identifier: catch.neverThrown
+			count: 1
+			path: src/CookieSolution.php
+
+		-
+			message: '#^Parameter \#1 \$view of function view expects view\-string\|null, string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/CookieSolution.php
