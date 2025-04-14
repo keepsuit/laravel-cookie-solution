@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.0.1 - 2025-04-14
+
+### What's Changed
+
+* Improved cookie validation by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/20
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.0.0...1.0.1
+
 ## v1.0.0 - 2025-02-23
 
 ### What's Changed
