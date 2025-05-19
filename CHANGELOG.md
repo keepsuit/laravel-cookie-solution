@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.1.0 - 2025-05-19
+
+### What's Changed
+
+* Use same style for all buttons
+* Added posthog analytics service
+* Bump dependabot/fetch-metadata from 2.3.0 to 2.4.0 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/21
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.0.1...1.1.0
+
 ## v1.0.1 - 2025-04-14
 
 ### What's Changed
