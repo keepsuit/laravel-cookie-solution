@@ -384,11 +384,7 @@ export class CookieSolutionBanner extends LitElement {
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
                 <div>
                     <button
-                        class="${clsx({
-                            'block h-10 w-full bg-highlight text-sm font-bold duration-300 hover:opacity-90 md:h-12':
-                                true,
-                            'text-white': this._contrastColor === 'white',
-                        })}"
+                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onAcceptAll}"
                     >
                         ${this._config.texts.button_accept_all}
