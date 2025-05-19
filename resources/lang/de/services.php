@@ -44,6 +44,12 @@ return [
     'paypal' => [
         'description' => 'PayPal ist ein Zahlungsdienst, der es uns ermöglicht, Zahlungen von unseren Kunden anzunehmen. PayPal kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln.',
     ],
+    'posthog_analytics' => [
+        'description' => 'PostHog Analytics ist ein Statistikdienst, der es uns ermöglicht, Daten über die Nutzung unserer Website zu sammeln, um deren Funktionalität zu verbessern. PostHog kann personenbezogene Daten wie Namen, E-Mail-Adressen und Navigationsdaten erfassen.',
+        'cookies' => [
+            'ph_phc_*' => 'Wird verwendet, um Informationen über das Nutzerverhalten zu erhalten',
+        ],
+    ],
     'scalapay' => [
         'description' => 'Scalapay ist ein Zahlungsdienst, der es uns ermöglicht, Ratenzahlungen von unseren Kunden anzunehmen. Scalapay kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln, um die Eignung des Benutzers für seine Zahlungsmethoden zu bewerten und diese Zahlungsmethoden zu personalisieren.',
     ],

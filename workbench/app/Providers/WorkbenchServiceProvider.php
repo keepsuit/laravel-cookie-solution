@@ -18,6 +18,8 @@ use Keepsuit\CookieSolution\ServiceFactories\Mailchimp\MailchimpServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogAnalyticsServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\Scalapay\ScalapayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoCampaignsServiceFactory;
@@ -39,6 +41,7 @@ class WorkbenchServiceProvider extends ServiceProvider
                 ->register(MailchimpServiceFactory::new()->build())
                 ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build())
                 ->register(PayPalServiceFactory::new()->build())
+                ->register(PostHogAnalyticsServiceFactory::new()->location(PostHogDataProcessingLocation::EUROPE)->build())
                 ->register(ScalapayServiceFactory::new()->build())
                 ->register(StripeServiceFactory::new()->build())
                 ->register(ZohoCampaignsServiceFactory::new()->location(ZohoDataProcessingLocation::NEDERLAND)->build());

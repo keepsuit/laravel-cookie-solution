@@ -44,6 +44,12 @@ return [
     'paypal' => [
         'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
     ],
+    'posthog_analytics' => [
+        'description' => 'PostHog analytics is a statistics service that allows us to collect data about the usage of our website to improve its functionality. PostHog may collect personal information such as names, email addresses, and browsing data.',
+        'cookies' => [
+            'ph_phc_*' => 'Used to obtain information about user behavior',
+        ],
+    ],
     'scalapay' => [
         'description' => 'Scalapay is a payment service that allows us to accept installment payments from our customers. Scalapay may collect personal information such as names, email addresses, and billing information in order to evaluate the user\'s suitability for its payment methods and personalize those payment methods.',
     ],
