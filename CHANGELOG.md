@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.1.1 - 2025-05-21
+
+### What's changed
+
+* Allow to customize toggle `z-index`
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.1.0...1.1.1
+
 ## v1.1.0 - 2025-05-19
 
 ### What's Changed
