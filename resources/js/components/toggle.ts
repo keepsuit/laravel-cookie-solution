@@ -27,7 +27,7 @@ export class CookieSolutionToggle extends LitElement {
             <div
                 part="toggle-root"
                 class="${clsx(
-                    'fixed bottom-toggle-bottom z-max print:hidden',
+                    'fixed bottom-toggle-bottom z-toggle print:hidden',
                     this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x',
                 )}"
             >

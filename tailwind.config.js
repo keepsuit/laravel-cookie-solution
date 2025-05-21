@@ -14,6 +14,7 @@ module.exports = {
                 'toggle-x': 'var(--cs--toggle-position-x, 1rem)',
             },
             zIndex: {
+                toggle: 'var(--cs--toggle-z-index, 9999)',
                 max: '999999',
             },
             typography: ({ theme }) => ({

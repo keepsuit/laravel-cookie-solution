@@ -202,6 +202,10 @@ If you need a more advanced customization, you can edit the toggle position with
 }
 ```
 
+#### Toggle z-index
+
+You can change the toggle z-index by changing the `--cs--toggle-z-index` CSS variable. The default value is `9999`.
+
 #### Views
 
 If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
