@@ -15,8 +15,8 @@
     },
     "devDependencies": {
         "@tailwindcss/typography": "^0.5.16",
-        "@types/node": "^22.15.19",
-        "postcss": "^8.5.3",
+        "@types/node": "^22.15.24",
+        "postcss": "^8.5.4",
         "prettier": "^3.5.3",
         "prettier-plugin-tailwindcss": "^0.6.11",
         "rollup-plugin-minify-html-literals": "^1.2.6",
