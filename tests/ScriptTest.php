@@ -14,7 +14,7 @@ it('outputs script', function () {
     expect($script->toHtml())
         ->toContain(
             'window._cookieSolution = {',
-            '<script defer src="/cookie-solution/laravel-cookie-solution.js?id='
+            '<script type="module" src="/cookie-solution/laravel-cookie-solution.js?id='
         );
 });
 
