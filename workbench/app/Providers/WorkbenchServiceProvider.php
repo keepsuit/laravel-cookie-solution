@@ -62,5 +62,7 @@ class WorkbenchServiceProvider extends ServiceProvider
                     'locales' => $locales,
                 ]);
             });
+
+        Route::view('manual-add', 'manual-add');
     }
 }

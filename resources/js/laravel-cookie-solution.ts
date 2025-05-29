@@ -27,5 +27,9 @@ declare global {
     }
 }
 
-const cookieSolutionBanner = document.createElement('cookie-solution-banner');
-document.body.append(cookieSolutionBanner);
+(function() {
+    if (!document.querySelector('cookie-solution-banner')) {
+        const cookieSolutionBanner = document.createElement('cookie-solution-banner');
+        document.body.append(cookieSolutionBanner);
+    }
+})();
