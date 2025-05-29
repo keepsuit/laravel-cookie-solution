@@ -6,8 +6,8 @@
             }
         </style>
     @endif
-    <script>
+    <script type="module">
     window._cookieSolution = @json($config);
     </script>
-    <script defer src="{{ $scriptUrl }}"></script>
+    <script type="module" src="{{ $scriptUrl }}"></script>
 @endif
