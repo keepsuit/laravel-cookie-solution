@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.2.0 - 2025-05-29
+
+### What's Changed
+
+* load script as module by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/22
+* don't add cookie solution banner if already present in the dom by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/23
+* Custom toggle by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/24
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.1.1...1.2.0
+
 ## v1.1.1 - 2025-05-21
 
 ### What's changed
