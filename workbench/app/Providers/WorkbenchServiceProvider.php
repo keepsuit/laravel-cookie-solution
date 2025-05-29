@@ -64,5 +64,10 @@ class WorkbenchServiceProvider extends ServiceProvider
             });
 
         Route::view('manual-add', 'manual-add');
+        Route::get('custom-toggle', function () {
+            config()->set('cookie-solution.toggle_enabled', false);
+
+            return view('custom-toggle');
+        });
     }
 }

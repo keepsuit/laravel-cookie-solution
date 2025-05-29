@@ -36,6 +36,8 @@ function newEmptyStatus(): AcceptStatus {
 export class CookieSolutionBanner extends LitElement {
     static styles = [styleSheet];
 
+    protected disconnectedController?: AbortController;
+
     @property({ type: String, attribute: 'cookie-name' })
     cookieName: string = 'laravel_cookie_solution';
 
@@ -66,6 +68,9 @@ export class CookieSolutionBanner extends LitElement {
     async connectedCallback() {
         super.connectedCallback();
 
+        this.disconnectedController = new AbortController();
+
+        this._initListeners();
         await this._loadConfig();
         this._loadStatus();
         this._loadContrastColor();
@@ -78,6 +83,34 @@ export class CookieSolutionBanner extends LitElement {
         if (!this._status) {
             this.show();
         }
+    }
+
+    disconnectedCallback() {
+        this.disconnectedController?.abort();
+
+        super.disconnectedCallback();
+    }
+
+    private _initListeners(): void {
+        document.addEventListener(
+            'click',
+            (event) => {
+                let target = event.target;
+
+                if (!(target instanceof HTMLElement)) {
+                    return;
+                }
+
+                if (target.getAttribute('data-cookie-solution-toggle') === null) {
+                    return;
+                }
+
+                event.preventDefault();
+
+                this.show();
+            },
+            { signal: this.disconnectedController?.signal },
+        );
     }
 
     private async _loadConfig(): Promise<void> {
@@ -265,7 +298,7 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         if (!this._showModal) {
-            return this.modalToggle();
+            return !this._config.toggle_enabled ? null : this.modalToggle();
         }
 
         return html`
