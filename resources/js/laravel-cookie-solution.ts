@@ -27,7 +27,7 @@ declare global {
     }
 }
 
-(function() {
+(function () {
     if (!document.querySelector('cookie-solution-banner')) {
         const cookieSolutionBanner = document.createElement('cookie-solution-banner');
         document.body.append(cookieSolutionBanner);

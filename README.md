@@ -51,6 +51,13 @@ return [
     'highlight_color' => null,
     
     /**
+     * Floating banner toggle
+     * if false, the banner toggle will not be displayed.
+     * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
+     */
+    'toggle_enabled' => true,
+    
+    /**
      * Cookie toggle position (left or right).
      */
     'toggle_position' => 'right',
@@ -206,6 +213,18 @@ If you need a more advanced customization, you can edit the toggle position with
 
 You can change the toggle z-index by changing the `--cs--toggle-z-index` CSS variable. The default value is `9999`.
 
+#### Disabling toggle
+
+Sometimes you may want to disable the default floating toggle and use your own toggle button.
+You can do this by setting the `toggle_enabled` config value to `false`.
+Then you need to add the `data-cookie-solution-toggle` attribute to an element in your layout, like this:
+
+```html
+<button data-cookie-solution-toggle>
+    Toggle Cookie Banner
+</button>
+```
+
 #### Views
 
 If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
@@ -213,7 +232,7 @@ The `<cookie-solution-policy-formatter/>` custom component is used to apply the 
 
 ## Checking status
 
-You can check the user's consent status from laravel using the `CookieSolution::status()` method, 
+You can check the user's consent status from laravel using the `CookieSolution::status()` method,
 which returns a `CookieSolutionStatus` object with helpers to check if a purpose has been accepted.
 
 ## Testing

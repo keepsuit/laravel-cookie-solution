@@ -23,6 +23,13 @@ return [
     'highlight_color' => null,
 
     /**
+     * Floating banner toggle
+     * if false, the banner toggle will not be displayed.
+     * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
+     */
+    'toggle_enabled' => true,
+
+    /**
      * Cookie toggle position (left or right).
      */
     'toggle_position' => 'right',

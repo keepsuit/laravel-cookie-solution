@@ -129,6 +129,7 @@ class CookieSolution
             'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
+            'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
             'texts' => [
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),

@@ -16,6 +16,7 @@ export interface CookieSolutionConfig {
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
+    toggle_enabled: boolean;
     toggle_position: 'left' | 'right';
     cookies: Record<CookiePurpose, ServiceConfig[]>;
     integrations?: {
