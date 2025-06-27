@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 1.2.1 - 2025-06-27
+
+### What's Changed
+
+* Don't emit status changed event when status is undefined
+* Bump stefanzweifel/git-auto-commit-action from 5 to 6 by @dependabot in https://github.com/keepsuit/laravel-cookie-solution/pull/25
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.2.0...1.2.1
+
 ## v1.2.0 - 2025-05-29
 
 ### What's Changed
