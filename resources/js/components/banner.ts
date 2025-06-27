@@ -148,6 +148,10 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     private _emitStatusChange(): void {
+        if (this._status == null) {
+            return;
+        }
+
         this.dispatchEvent(
             new CustomEvent('cookie-solution-status-change', {
                 bubbles: true,
@@ -309,8 +313,7 @@ export class CookieSolutionBanner extends LitElement {
                     aria-labelledby="cookie-solution-consent-title"
                     class="${clsx({
                         'opacity-0 scale-75': this._showModalStatus === 'showing' || this._showModalStatus === 'hiding',
-                        'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300':
-                            true,
+                        'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300': true,
                     })}"
                 >
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow">
