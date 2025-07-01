@@ -12,7 +12,7 @@ import { CookieConfig, CookiePurpose, CookieSolutionConfig } from '../types';
 import clsx from 'clsx';
 import { getContrastColor } from '../utils/colorContrast';
 
-interface AcceptStatus {
+export interface AcceptStatus {
     timestamp: string;
     digest?: string;
     purposes: Record<CookiePurpose, boolean>;
@@ -168,6 +168,7 @@ export class CookieSolutionBanner extends LitElement {
                 return;
             }
 
+            //@ts-expect-error
             if (typeof gtag !== 'function') {
                 this._gtagRetries++;
                 setTimeout(emitGtagEvent, 100 * this._gtagRetries);
@@ -175,6 +176,7 @@ export class CookieSolutionBanner extends LitElement {
             }
 
             try {
+                //@ts-expect-error
                 gtag('consent', 'update', {
                     analytics_storage: this._status?.purposes.statistics ? 'granted' : 'denied',
                     ad_storage: this._status?.purposes.marketing ? 'granted' : 'denied',
@@ -203,6 +205,7 @@ export class CookieSolutionBanner extends LitElement {
                 return;
             }
 
+            //@ts-expect-error
             if (typeof fbq !== 'function') {
                 this._fbqRetries++;
                 setTimeout(emitFbqEvent, 100 * this._fbqRetries);
@@ -210,6 +213,7 @@ export class CookieSolutionBanner extends LitElement {
             }
 
             try {
+                //@ts-expect-error
                 fbq('consent', this._status?.purposes.marketing ? 'grant' : 'revoke');
             } catch (e) {
                 this._fbqRetries++;

@@ -3,7 +3,7 @@ import './components/banner';
 import './components/toggle';
 import './components/policyFormatter';
 import { CookieSolutionConfig } from './types';
-import { CookieSolutionBanner } from './components/banner';
+import { type AcceptStatus, CookieSolutionBanner } from './components/banner';
 import { CookieSolutionDuration } from './components/duration';
 import { CookieSolutionToggle } from './components/toggle';
 import { CookieSolutionPolicyFormatter } from './components/policyFormatter';
@@ -11,9 +11,6 @@ import { CookieSolutionPolicyFormatter } from './components/policyFormatter';
 export type { CookieSolutionConfig, ServiceConfig, CookieConfig, CookiePurpose } from './types';
 
 declare global {
-    const gtag: Function | undefined;
-    const fbq: Function | undefined;
-
     interface Window {
         _cookieSolution?: CookieSolutionConfig;
         dataLayer?: Record<string, any>[];
@@ -24,6 +21,10 @@ declare global {
         'cookie-solution-banner': CookieSolutionBanner;
         'cookie-solution-duration': CookieSolutionDuration;
         'cookie-solution-policy-formatter': CookieSolutionPolicyFormatter;
+    }
+
+    interface GlobalEventHandlersEventMap {
+        'cookie-solution-status-change': CustomEvent<AcceptStatus>;
     }
 }
 
