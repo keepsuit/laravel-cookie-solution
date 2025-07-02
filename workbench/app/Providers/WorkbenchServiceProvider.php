@@ -17,6 +17,7 @@ use Keepsuit\CookieSolution\ServiceFactories\Klarna\KlarnaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Mailchimp\MailchimpServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftClarityServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogAnalyticsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogDataProcessingLocation;
@@ -39,6 +40,7 @@ class WorkbenchServiceProvider extends ServiceProvider
                 ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
                 ->register(KlarnaServiceFactory::new()->build())
                 ->register(MailchimpServiceFactory::new()->build())
+                ->register(MicrosoftClarityServiceFactory::new()->build())
                 ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build())
                 ->register(PayPalServiceFactory::new()->build())
                 ->register(PostHogAnalyticsServiceFactory::new()->location(PostHogDataProcessingLocation::EUROPE)->build())
