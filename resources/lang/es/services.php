@@ -41,6 +41,14 @@ return [
     'mailchimp' => [
         'description' => 'Mailchimp es un servicio de marketing por correo electrónico que nos permite enviar correos electrónicos a nuestros clientes. Mailchimp puede recopilar información personal como nombres, direcciones de correo electrónico y datos de navegación.',
     ],
+    'microsoft_clarity' => [
+        'description' => 'Microsoft Clarity es un servicio de análisis que nos permite recopilar datos sobre el uso de nuestro sitio web para mejorar su funcionamiento. Microsoft puede recopilar información como clics, movimientos del ratón, páginas visitadas y otros datos de comportamiento.',
+        'cookies' => [
+            '_clck' => 'Conserva el ID de usuario de Clarity y las preferencias, único para este sitio y atribuido al mismo ID de usuario.',
+            '_clsk' => 'Conecta varias páginas vistas por un usuario en una sola grabación de sesión de Clarity.',
+            'CLID' => 'Identifica la primera vez que Clarity vio a este usuario en cualquier sitio que utilice Clarity.',
+        ],
+    ],
     'paypal' => [
         'description' => 'PayPal es un servicio de pago que nos permite aceptar pagos de nuestros clientes. PayPal puede recopilar información personal como nombres, direcciones de correo electrónico e información de facturación.',
     ],
