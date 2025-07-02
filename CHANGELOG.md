@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.3.0 - 2025-07-02
+
+### What's Changed
+
+* microsoft clarity service by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/26
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.2.1...1.3.0
+
 ## 1.2.1 - 2025-06-27
 
 ### What's Changed
