@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 1.4.0 - 2025-08-06
+
+### What's Changed
+
+* Bump aglipanci/laravel-pint-action from 2.5 to 2.6 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/27
+* cache compiled markdown by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/28
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.3.0...1.4.0
+
 ## v1.3.0 - 2025-07-02
 
 ### What's Changed
