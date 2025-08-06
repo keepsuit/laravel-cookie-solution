@@ -4,6 +4,7 @@ namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
 use DateTimeInterface;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -189,12 +190,21 @@ class CookieSolution
 
     protected function cookiePolicyText(string $locale): ?string
     {
-        if (File::exists(resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)))) {
-            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale))), $this->markdownConfig);
-        }
+        $paths = [
+            resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)),
+            __DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale),
+        ];
 
-        if (File::exists(__DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale))) {
-            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale)), $this->markdownConfig);
+        foreach ($paths as $path) {
+            if (! File::exists($path)) {
+                continue;
+            }
+
+            try {
+                return $this->renderMarkdownFile($path);
+            } catch (FileNotFoundException) {
+                continue;
+            }
         }
 
         return null;
@@ -202,12 +212,21 @@ class CookieSolution
 
     protected function privacyPolicyText(string $locale): ?string
     {
-        if (File::exists(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)))) {
-            return Str::markdown(File::get(resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale))), $this->markdownConfig);
-        }
+        $paths = [
+            resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)),
+            __DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale),
+        ];
 
-        if (File::exists(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale))) {
-            return Str::markdown(File::get(__DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale)), $this->markdownConfig);
+        foreach ($paths as $path) {
+            if (! File::exists($path)) {
+                continue;
+            }
+
+            try {
+                return $this->renderMarkdownFile($path);
+            } catch (FileNotFoundException) {
+                continue;
+            }
         }
 
         return null;
@@ -254,5 +273,24 @@ class CookieSolution
             ->toJson();
 
         return hash('sha256', $cookies);
+    }
+
+    /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function renderMarkdownFile(string $sourcePath): string
+    {
+        $cachePath = storage_path(sprintf('framework/views/%s.html', hash('xxh128', $sourcePath)));
+
+        if (File::exists($cachePath) && File::lastModified($cachePath) >= File::lastModified($sourcePath)) {
+            return File::get($cachePath);
+        }
+
+        $content = Str::markdown(File::get($sourcePath));
+
+        File::ensureDirectoryExists(dirname($cachePath));
+        File::put($cachePath, $content);
+
+        return $content;
     }
 }
