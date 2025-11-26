@@ -13,6 +13,11 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use Illuminate\Validation\ValidationException;
+use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
+use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
+use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
+use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
+use League\CommonMark\Node\Block\Paragraph;
 
 class CookieSolution
 {
@@ -286,7 +291,28 @@ class CookieSolution
             return File::get($cachePath);
         }
 
-        $content = Str::markdown(File::get($sourcePath));
+        $content = Str::markdown(
+            File::get($sourcePath),
+            options: [
+                'default_attributes' => [
+                    Heading::class => [
+                        'part' => fn (Heading $node) => sprintf('headings h%d', $node->getLevel()),
+                    ],
+                    Paragraph::class => [
+                        'part' => 'p',
+                    ],
+                    ListBlock::class => [
+                        'part' => fn (ListBlock $node) => $node->getListData()->type === ListBlock::TYPE_ORDERED ? 'ol' : 'ul',
+                    ],
+                    ListItem::class => [
+                        'part' => 'li',
+                    ],
+                ],
+            ],
+            extensions: [
+                new DefaultAttributesExtension,
+            ]
+        );
 
         File::ensureDirectoryExists(dirname($cachePath));
         File::put($cachePath, $content);
