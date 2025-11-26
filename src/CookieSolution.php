@@ -13,11 +13,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use Illuminate\Validation\ValidationException;
-use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
-use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
-use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
-use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
-use League\CommonMark\Node\Block\Paragraph;
+use Keepsuit\CookieSolution\Contracts\MarkdownParser;
 
 class CookieSolution
 {
@@ -35,6 +31,7 @@ class CookieSolution
 
     public function __construct(
         protected CookieSolutionAssets $assets,
+        protected MarkdownParser $markdown
     ) {}
 
     public function enabled(): bool
@@ -193,7 +190,7 @@ class CookieSolution
         return new HtmlString(view('cookie-solution::script')->render());
     }
 
-    protected function cookiePolicyText(string $locale): ?string
+    protected function cookiePolicyText(string $locale): ?HtmlString
     {
         $paths = [
             resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)),
@@ -215,7 +212,7 @@ class CookieSolution
         return null;
     }
 
-    protected function privacyPolicyText(string $locale): ?string
+    protected function privacyPolicyText(string $locale): ?HtmlString
     {
         $paths = [
             resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)),
@@ -247,10 +244,8 @@ class CookieSolution
 
     public function privacyPolicyHtml(): HtmlString
     {
-        $privacyPolicyText = $this->privacyPolicyText(app()->getLocale())
+        return $this->privacyPolicyText(app()->getLocale())
             ?? $this->privacyPolicyText('en');
-
-        return new HtmlString($privacyPolicyText);
     }
 
     public function dataOwnerHtml(): HtmlString
@@ -283,36 +278,15 @@ class CookieSolution
     /**
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function renderMarkdownFile(string $sourcePath): string
+    protected function renderMarkdownFile(string $sourcePath): HtmlString
     {
         $cachePath = storage_path(sprintf('framework/views/%s.html', hash('xxh128', $sourcePath)));
 
         if (File::exists($cachePath) && File::lastModified($cachePath) >= File::lastModified($sourcePath)) {
-            return File::get($cachePath);
+            return new HtmlString(File::get($cachePath));
         }
 
-        $content = Str::markdown(
-            File::get($sourcePath),
-            options: [
-                'default_attributes' => [
-                    Heading::class => [
-                        'part' => fn (Heading $node) => sprintf('headings h%d', $node->getLevel()),
-                    ],
-                    Paragraph::class => [
-                        'part' => 'p',
-                    ],
-                    ListBlock::class => [
-                        'part' => fn (ListBlock $node) => $node->getListData()->type === ListBlock::TYPE_ORDERED ? 'ol' : 'ul',
-                    ],
-                    ListItem::class => [
-                        'part' => 'li',
-                    ],
-                ],
-            ],
-            extensions: [
-                new DefaultAttributesExtension,
-            ]
-        );
+        $content = $this->markdown->parse(File::get($sourcePath));
 
         File::ensureDirectoryExists(dirname($cachePath));
         File::put($cachePath, $content);
