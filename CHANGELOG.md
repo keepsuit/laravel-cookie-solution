@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.5.0 - 2025-11-26
+
+### What's Changed
+
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/29
+* Bump stefanzweifel/git-auto-commit-action from 6 to 7 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/30
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/31
+* Policy formatter customization by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/32
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.4.0...1.5.0
+
 ## 1.4.0 - 2025-08-06
 
 ### What's Changed
