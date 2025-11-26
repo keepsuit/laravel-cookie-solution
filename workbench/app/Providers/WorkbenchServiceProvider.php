@@ -31,6 +31,17 @@ class WorkbenchServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
+        config()->set('cookie-solution.data_owner', [
+            'contact_email' => 'owner@example.com',
+            'name_and_address' => <<<'MARKDOWN'
+                __Example Company Ltd.__
+
+                123 Example Street
+                Example City, EX4 3PL
+                United Kingdom
+                MARKDOWN,
+        ]);
+
         $this->app->afterResolving(CookieSolution::class, function (CookieSolution $cookieSolution) {
             $cookieSolution
                 ->register(AmazonWebServicesServiceFactory::new()->location(AmazonWebServicesLocation::GERMANY)->build())

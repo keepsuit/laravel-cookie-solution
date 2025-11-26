@@ -1,5 +1,5 @@
 <cookie-solution-policy-formatter>
-    <div class="prose">
+    <div part="root" class="prose">
         <h1 part="headings h1">{{ __('cookie-solution::texts.cookie_policy.title') }}</h1>
 
         {{ \Keepsuit\CookieSolution\Facades\CookieSolution::cookiePolicyHtml() }}

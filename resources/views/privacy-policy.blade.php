@@ -1,5 +1,5 @@
 <cookie-solution-policy-formatter>
-    <div class="prose">
+    <div part="root" class="prose">
         <h1 part="headings h1">
             {{ __('cookie-solution::texts.privacy_policy.title') }}
         </h1>
@@ -10,7 +10,7 @@
             <h2 part="headings h2">
                 {{ __('cookie-solution::texts.privacy_policy.data_processing_owner') }}
             </h2>
-            <div class="text-sm">
+            <div part="data-owner" class="text-sm">
                 {{ \Keepsuit\CookieSolution\Facades\CookieSolution::dataOwnerHtml() }}
             </div>
         @endif
