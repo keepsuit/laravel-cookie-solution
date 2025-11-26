@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.5.1 - 2025-11-26
+
+### What's changed
+
+* Added `part` tag to root element
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.5.0...1.5.1
+
 ## v1.5.0 - 2025-11-26
 
 ### What's Changed
