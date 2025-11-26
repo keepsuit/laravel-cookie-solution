@@ -236,16 +236,16 @@ class CookieSolution
 
     public function cookiePolicyHtml(): HtmlString
     {
-        $cookiePolicyText = $this->cookiePolicyText(app()->getLocale())
-            ?? $this->cookiePolicyText('en');
-
-        return new HtmlString($cookiePolicyText);
+        return $this->cookiePolicyText(app()->getLocale())
+            ?? $this->cookiePolicyText('en')
+            ?? new HtmlString('');
     }
 
     public function privacyPolicyHtml(): HtmlString
     {
         return $this->privacyPolicyText(app()->getLocale())
-            ?? $this->privacyPolicyText('en');
+            ?? $this->privacyPolicyText('en')
+            ?? new HtmlString('');
     }
 
     public function dataOwnerHtml(): HtmlString
