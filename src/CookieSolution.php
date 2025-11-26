@@ -13,6 +13,7 @@ use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Stringable;
 use Illuminate\Validation\ValidationException;
+use Keepsuit\CookieSolution\Contracts\MarkdownParser;
 
 class CookieSolution
 {
@@ -30,6 +31,7 @@ class CookieSolution
 
     public function __construct(
         protected CookieSolutionAssets $assets,
+        protected MarkdownParser $markdown
     ) {}
 
     public function enabled(): bool
@@ -188,7 +190,7 @@ class CookieSolution
         return new HtmlString(view('cookie-solution::script')->render());
     }
 
-    protected function cookiePolicyText(string $locale): ?string
+    protected function cookiePolicyText(string $locale): ?HtmlString
     {
         $paths = [
             resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)),
@@ -210,7 +212,7 @@ class CookieSolution
         return null;
     }
 
-    protected function privacyPolicyText(string $locale): ?string
+    protected function privacyPolicyText(string $locale): ?HtmlString
     {
         $paths = [
             resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)),
@@ -234,18 +236,16 @@ class CookieSolution
 
     public function cookiePolicyHtml(): HtmlString
     {
-        $cookiePolicyText = $this->cookiePolicyText(app()->getLocale())
-            ?? $this->cookiePolicyText('en');
-
-        return new HtmlString($cookiePolicyText);
+        return $this->cookiePolicyText(app()->getLocale())
+            ?? $this->cookiePolicyText('en')
+            ?? new HtmlString('');
     }
 
     public function privacyPolicyHtml(): HtmlString
     {
-        $privacyPolicyText = $this->privacyPolicyText(app()->getLocale())
-            ?? $this->privacyPolicyText('en');
-
-        return new HtmlString($privacyPolicyText);
+        return $this->privacyPolicyText(app()->getLocale())
+            ?? $this->privacyPolicyText('en')
+            ?? new HtmlString('');
     }
 
     public function dataOwnerHtml(): HtmlString
@@ -278,15 +278,15 @@ class CookieSolution
     /**
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function renderMarkdownFile(string $sourcePath): string
+    protected function renderMarkdownFile(string $sourcePath): HtmlString
     {
         $cachePath = storage_path(sprintf('framework/views/%s.html', hash('xxh128', $sourcePath)));
 
         if (File::exists($cachePath) && File::lastModified($cachePath) >= File::lastModified($sourcePath)) {
-            return File::get($cachePath);
+            return new HtmlString(File::get($cachePath));
         }
 
-        $content = Str::markdown(File::get($sourcePath));
+        $content = $this->markdown->parse(File::get($sourcePath));
 
         File::ensureDirectoryExists(dirname($cachePath));
         File::put($cachePath, $content);

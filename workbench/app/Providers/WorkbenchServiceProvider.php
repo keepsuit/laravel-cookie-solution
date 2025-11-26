@@ -63,6 +63,9 @@ class WorkbenchServiceProvider extends ServiceProvider
                 Route::view('/', 'index', [
                     'locales' => $locales,
                 ]);
+                Route::view('/formatted', 'formatted', [
+                    'locales' => $locales,
+                ]);
             });
 
         Route::view('manual-add', 'manual-add');
