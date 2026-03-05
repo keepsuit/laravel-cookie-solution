@@ -187,6 +187,7 @@ class CookieSolution
 
     public function script(): HtmlString
     {
+        // @phpstan-ignore-next-line
         return new HtmlString(view('cookie-solution::script')->render());
     }
 
