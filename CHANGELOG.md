@@ -2,6 +2,16 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.6.0 - 2026-03-05
+
+### What's Changed
+
+* Bump dependabot/fetch-metadata from 2.4.0 to 2.5.0 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/33
+* drop php 8.1 & laravel 10, support php 8.5 & laravel 13 by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/34
+* update frontend dependencies
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.5.1...1.6.0
+
 ## v1.5.1 - 2025-11-26
 
 ### What's changed
