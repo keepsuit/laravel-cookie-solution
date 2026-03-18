@@ -277,7 +277,7 @@ class CookieSolution
     }
 
     /**
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws FileNotFoundException
      */
     protected function renderMarkdownFile(string $sourcePath): HtmlString
     {

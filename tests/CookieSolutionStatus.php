@@ -1,8 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
 use Keepsuit\CookieSolution\CookiePurpose;
 use Keepsuit\CookieSolution\CookieSolutionStatus;
 use Keepsuit\CookieSolution\Facades\CookieSolution;
+use Spatie\TestTime\TestTime;
 
 test('status helper methods', function () {
     $status = new CookieSolutionStatus(
@@ -42,7 +44,7 @@ it('set default status when cookie not set', function () {
 
 it('load status from cookie when set', function () {
     $request = app('request');
-    assert($request instanceof \Illuminate\Http\Request);
+    assert($request instanceof Request);
     $request->cookies->set('laravel_cookie_solution', json_encode([
         'timestamp' => now()->toIso8601String(),
         'digest' => CookieSolution::getConfig()['digest'],
@@ -64,7 +66,7 @@ it('load status from cookie when set', function () {
 
 it('load default status when config digest is changed', function () {
     $request = app('request');
-    assert($request instanceof \Illuminate\Http\Request);
+    assert($request instanceof Request);
     $request->cookies->set('laravel_cookie_solution', json_encode([
         'timestamp' => now()->toIso8601String(),
         'digest' => 'old-digest',
@@ -85,10 +87,10 @@ it('load default status when config digest is changed', function () {
 });
 
 it('load default status when config date is malformed', function () {
-    \Spatie\TestTime\TestTime::freeze();
+    TestTime::freeze();
 
     $request = app('request');
-    assert($request instanceof \Illuminate\Http\Request);
+    assert($request instanceof Request);
     $request->cookies->set('laravel_cookie_solution', json_encode([
         'timestamp' => sprintf('%s<script>alert(1)</script>', now()->subHour()->toIso8601String()),
         'digest' => CookieSolution::getConfig()['digest'],
@@ -110,10 +112,10 @@ it('load default status when config date is malformed', function () {
 });
 
 it('load default status when config purposes are malformed', function () {
-    \Spatie\TestTime\TestTime::freeze();
+    TestTime::freeze();
 
     $request = app('request');
-    assert($request instanceof \Illuminate\Http\Request);
+    assert($request instanceof Request);
     $request->cookies->set('laravel_cookie_solution', json_encode([
         'timestamp' => now()->subHour()->toIso8601String(),
         'digest' => CookieSolution::getConfig()['digest'],

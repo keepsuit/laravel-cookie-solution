@@ -1,3 +1,6 @@
 <?php
 
-\Illuminate\Support\Facades\Route::get('/cookie-solution/laravel-cookie-solution.js', \Keepsuit\CookieSolution\Controllers\ScriptController::class);
+use Illuminate\Support\Facades\Route;
+use Keepsuit\CookieSolution\Controllers\ScriptController;
+
+Route::get('/cookie-solution/laravel-cookie-solution.js', ScriptController::class);
