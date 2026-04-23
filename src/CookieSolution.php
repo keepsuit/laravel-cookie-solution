@@ -53,7 +53,11 @@ class CookieSolution
 
         try {
             $value = json_decode($json, true, JSON_THROW_ON_ERROR);
-        } catch (\JsonException) {
+        } catch (\Throwable) {
+            return $this->status = CookieSolutionStatus::default();
+        }
+
+        if (! is_array($value)) {
             return $this->status = CookieSolutionStatus::default();
         }
 
