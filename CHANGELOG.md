@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## v1.6.1 - 2026-04-23
+
+### What's Changed
+
+* Bump ramsey/composer-install from 3 to 4 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/35
+* Bump dependabot/fetch-metadata from 2.5.0 to 3.0.0 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/36
+* Bump dependabot/fetch-metadata from 3.0.0 to 3.1.0 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/37
+* Ensure decoded data is an array before validation
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.6.0...1.6.1
+
 ## v1.6.0 - 2026-03-05
 
 ### What's Changed
