@@ -3,7 +3,6 @@
 namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
-use DateTimeInterface;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -64,7 +63,7 @@ class CookieSolution
         try {
             $validator = Validator::make($value, [
                 'digest' => ['required', 'string'],
-                'timestamp' => ['required', sprintf('date_format:%s', DateTimeInterface::ATOM)],
+                'timestamp' => ['required', 'date'],
                 'purposes' => ['required', 'array'],
                 'purposes.*' => ['required', 'boolean'],
             ]);
@@ -83,7 +82,7 @@ class CookieSolution
             }
 
             return $this->status = new CookieSolutionStatus(
-                timestamp: Carbon::createFromFormat(DateTimeInterface::ATOM, $validated['timestamp']),
+                timestamp: Carbon::parse($validated['timestamp']),
                 purposes: collect($validated['purposes'])
                     ->filter(fn (bool $active, string $key) => CookiePurpose::tryFrom($key) !== null)
                     ->all(),
@@ -191,7 +190,6 @@ class CookieSolution
 
     public function script(): HtmlString
     {
-        // @phpstan-ignore-next-line
         return new HtmlString(view('cookie-solution::script')->render());
     }
 

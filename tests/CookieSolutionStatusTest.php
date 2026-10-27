@@ -64,6 +64,28 @@ it('load status from cookie when set', function () {
         ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
 });
 
+it('load status from cookie written by the banner script', function () {
+    $request = app('request');
+    assert($request instanceof Request);
+    // Format of `new Date().toISOString()`.
+    $request->cookies->set('laravel_cookie_solution', json_encode([
+        'timestamp' => '2026-01-01T10:00:00.000Z',
+        'digest' => CookieSolution::getConfig()['digest'],
+        'purposes' => [
+            'statistics' => true,
+            'marketing' => false,
+        ],
+    ]));
+
+    $status = CookieSolution::status();
+
+    expect($status)
+        ->accepted(CookiePurpose::STATISTICS)->toBeTrue()
+        ->accepted(CookiePurpose::MARKETING)->toBeFalse();
+
+    expect($status->timestamp->toIso8601String())->toBe('2026-01-01T10:00:00+00:00');
+});
+
 it('load default status when config digest is changed', function () {
     $request = app('request');
     assert($request instanceof Request);
