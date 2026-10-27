@@ -18,7 +18,7 @@ class CookieSolutionAssets
     protected function getManifest(): array
     {
         if ($this->manifest === null) {
-            $this->manifest = json_decode(file_get_contents($this->getAssetPath('manifest.json')), true, JSON_THROW_ON_ERROR);
+            $this->manifest = json_decode(file_get_contents($this->getAssetPath('manifest.json')), true, 512, JSON_THROW_ON_ERROR);
         }
 
         return $this->manifest;
