@@ -17,3 +17,6 @@ parameters:
         - identifier: larastan.noEnvCallsOutsideOfConfig
           path: config/*
         - '#Unsafe usage of new static#'
+        # Package views (cookie-solution::*) aren't resolvable when analysing the package alone; depends on the larastan version.
+        - message: '#expects view-string\|null, string given#'
+          reportUnmatched: false
