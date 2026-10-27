@@ -28,6 +28,8 @@ php artisan vendor:publish --tag="cookie-solution-config"
 This is the contents of the published config file:
 
 ```php
+<?php
+
 return [
     /**
      * Enable or disable the cookie solution.
@@ -43,25 +45,25 @@ return [
      * The cookie's lifetime in days.
      */
     'cookie_lifetime' => 365,
-    
+
     /**
      * Banner highlight color (ex. #3522dd).
      * If null, the default color will be used.
      */
     'highlight_color' => null,
-    
+
     /**
      * Floating banner toggle
      * if false, the banner toggle will not be displayed.
      * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
      */
     'toggle_enabled' => true,
-    
+
     /**
      * Cookie toggle position (left or right).
      */
     'toggle_position' => 'right',
-    
+
     /**
      * The entity responsible for the processing of the data.
      */
@@ -77,32 +79,35 @@ return [
          */
         'name_and_address' => null,
     ],
+
+    /**
+     * Path prefix of the JSON endpoints used by headless frontends (ex. cookie-solution).
+     * If null, the endpoints are disabled.
+     */
+    'api_route' => null,
+
+    /**
+     * Middleware applied to the JSON endpoints.
+     */
+    'api_middleware' => ['api'],
 ];
 ```
 
-Optionally, you can publish the assets, views and translations using.
+Optionally, you can publish the views and translations using:
 
 ```bash
-php artisan vendor:publish --tag="cookie-solution-assets"
 php artisan vendor:publish --tag="cookie-solution-views"
 php artisan vendor:publish --tag="cookie-solution-translations"
 ```
 
-If you publish the assets, remember to publish new versions when you update the package.
-You can automate this using composer `post-update-cmd` script:
-
-```json
-{
-    "scripts": {
-        "post-update-cmd": [
-            // ...
-            "@php artisan vendor:publish --tag=cookie-solution-assets --force"
-        ]
-    }
-}
-```
-
 ## Usage
+
+The package can be used in two ways:
+
+- **Blade**: the banner script and its configuration are included in your layout (see below).
+- **Headless** (React, Vue, any SPA/SSR frontend): Laravel exposes the configuration as JSON and the frontend mounts the banner with the [`@keepsuit/cookie-solution`](#headless-frontends) npm package.
+
+In both cases services, texts, translations and policies are configured in Laravel.
 
 Include the cookie solution script in your layout (it's recommended to include it in the `<head>` tag):
 
@@ -138,7 +143,7 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
-Update the config `config/cookie-consent.php` file with your data owner's contact email and name and address.
+Update the config `config/cookie-solution.php` file with your data owner's contact email and name and address.
 
 ```php
 return [
@@ -187,7 +192,7 @@ See [views customization](#views) section for more information about the partial
 
 #### Highlight color
 
-Yon can customize the highlight color of the banner and toggle changing the `highlight_color` config value.
+You can customize the highlight color of the banner and toggle changing the `highlight_color` config value.
 
 #### Toggle position
 
@@ -230,15 +235,188 @@ Then you need to add the `data-cookie-solution-toggle` attribute to an element i
 If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
 The `<cookie-solution-policy-formatter/>` custom component is used to apply the default styles, you can safely remove it to customize the views.
 
+## Headless frontends
+
+Enable the JSON endpoints by setting `api_route` (and optionally `api_middleware`) in `config/cookie-solution.php`:
+
+```php
+'api_route' => 'api/cookie-solution',
+'api_middleware' => ['api'],
+```
+
+| Endpoint | Response |
+|---|---|
+| `GET /{api_route}` | banner configuration (`CookieSolutionConfig`) |
+| `GET /{api_route}/policies` | `{ "cookie_policy": "<html>", "privacy_policy": "<html>" }` |
+
+Texts and policies use the current application locale, so set it with your own middleware (for example from the `Accept-Language` header).
+The response is the same for every user: you can cache it per locale.
+
+Install the frontend package:
+
+```bash
+npm install @keepsuit/cookie-solution
+```
+
+The package has no side effects on import, so it can be imported during SSR. Call its functions only in the browser:
+
+```ts
+import { mount, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
+import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cookie-solution';
+
+const config: CookieSolutionConfig = await fetch('/api/cookie-solution').then((r) => r.json());
+
+// Creates the banner (or updates it, e.g. after a locale change).
+mount(config);
+
+// Current consent, or undefined if the user has not chosen yet.
+getStatus();
+
+// Called immediately with the current consent (if any) and on every change.
+// It can be called more than once with the same status: keep handlers idempotent.
+const unsubscribe = onStatusChange((status) => {
+    console.log(status.purposes); // { necessary, preferences, statistics, marketing }
+});
+```
+
+The policies HTML uses the package custom elements: call `defineElements()` before rendering it.
+
+Example with React:
+
+```tsx
+import { useEffect, useState } from 'react';
+import type { CookieSolutionStatus } from '@keepsuit/cookie-solution';
+
+export function useCookieConsent(): CookieSolutionStatus | undefined {
+    const [status, setStatus] = useState<CookieSolutionStatus>();
+
+    useEffect(() => {
+        let unsubscribe = () => {};
+        import('@keepsuit/cookie-solution').then(({ onStatusChange }) => {
+            unsubscribe = onStatusChange(setStatus);
+        });
+        return () => unsubscribe();
+    }, []);
+
+    return status;
+}
+```
+
+In Blade pages the same functions are available on `window.CookieSolution`, and every change dispatches a `cookie-solution-status-change` event on `document` (with the status in `event.detail`).
+
+## Connecting tracking services
+
+The banner only stores the user's choice: each tracking service must be configured to wait for consent.
+The status has one boolean for each purpose: `necessary`, `preferences`, `statistics`, `marketing`.
+
+#### Google Tag Manager / Google Analytics (consent mode)
+
+Consent mode requires a default state **before** the GTM/gtag script is loaded.
+Add this script in `<head>`, after `@include('cookie-solution::script')` and before GTM.
+It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
+
+```html
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    function cookieSolutionConsent(purposes) {
+        const state = (granted) => (granted ? 'granted' : 'denied');
+        return {
+            analytics_storage: state(purposes.statistics),
+            ad_storage: state(purposes.marketing),
+            ad_user_data: state(purposes.marketing),
+            ad_personalization: state(purposes.marketing),
+            personalization_storage: state(purposes.preferences),
+            functionality_storage: 'granted',
+            security_storage: 'granted',
+        };
+    }
+
+    (function () {
+        const config = window._cookieSolution;
+        let purposes = {};
+        try {
+            const value = document.cookie
+                .split('; ')
+                .find((cookie) => cookie.startsWith(config.cookie_name + '='));
+            const status = value && JSON.parse(decodeURIComponent(value.split('=')[1]));
+            if (status && status.digest === config.digest) {
+                purposes = status.purposes;
+            }
+        } catch (e) {}
+        gtag('consent', 'default', { ...cookieSolutionConsent(purposes), wait_for_update: 500 });
+    })();
+
+    document.addEventListener('cookie-solution-status-change', function (event) {
+        gtag('consent', 'update', cookieSolutionConsent(event.detail.purposes));
+        // Optional: use it as a GTM trigger for other tags.
+        dataLayer.push({ event: 'cookie-solution-status-change', status: event.detail.purposes });
+    });
+</script>
+```
+
+In a headless frontend render the same script in the server-side `<head>`, replacing `window._cookieSolution` with `{ cookie_name, digest }` taken from the config endpoint, and update the consent with `onStatusChange` instead of the DOM event.
+
+#### Facebook Pixel
+
+Revoke consent before `fbq('init', ...)`, then follow the user's choice:
+
+```js
+fbq('consent', 'revoke');
+fbq('init', 'YOUR_PIXEL_ID');
+
+onStatusChange((status) => fbq('consent', status.purposes.marketing ? 'grant' : 'revoke'));
+```
+
+#### PostHog
+
+Start without persistent storage and enable it after consent:
+
+```js
+posthog.init('YOUR_TOKEN', { persistence: 'memory' });
+
+onStatusChange((status) => {
+    posthog.set_config({ persistence: status.purposes.statistics ? 'localStorage+cookie' : 'memory' });
+});
+```
+
+#### Microsoft Clarity
+
+```js
+import Clarity from '@microsoft/clarity';
+
+Clarity.init('YOUR_PROJECT_ID');
+Clarity.consent(false);
+
+onStatusChange((status) => Clarity.consent(status.purposes.statistics));
+```
+
+In Blade pages use `window.CookieSolution.onStatusChange` (after the banner script has loaded) or listen to the `cookie-solution-status-change` event.
+
 ## Checking status
 
 You can check the user's consent status from laravel using the `CookieSolution::status()` method,
 which returns a `CookieSolutionStatus` object with helpers to check if a purpose has been accepted.
 
+## Upgrading
+
+See [UPGRADING](UPGRADING.md).
+
+## AI agents
+
+The package ships an agent skill (`cookie-solution`) with setup instructions for Blade and headless frontends.
+
+- Laravel projects with [Laravel Boost](https://laravel.com/docs/boost): it is installed by `php artisan boost:install`.
+- Any other project: `npx skills add keepsuit/laravel-cookie-solution`.
+
 ## Testing
 
 ```bash
 composer test
+pnpm test
 ```
 
 ## Changelog
