@@ -8,5 +8,6 @@
     "printWidth": 120,
     "singleQuote": true,
     "jsxSingleQuote": false,
-    "singleAttributePerLine": false
+    "singleAttributePerLine": false,
+    "tailwindStylesheet": "./resources/js/style.css"
 }

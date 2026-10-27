@@ -1,8 +1,73 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss' source(none);
+@plugin '@tailwindcss/typography';
 
-:host {
-    all: initial;
-    @apply font-sans antialiased;
+@source '.';
+@source '../views/**/*.blade.php';
+
+@theme inline {
+    --color-highlight: var(--cs--color-highlight, #ea580c);
+    --inset-toggle-bottom: var(--cs--toggle-position-bottom, 1rem);
+    --inset-toggle-x: var(--cs--toggle-position-x, 1rem);
+    --z-index-toggle: var(--cs--toggle-z-index, 9999);
+    --z-index-max: 999999;
+}
+
+/* Tailwind 3 font stack and grays, to render as in v1. */
+@theme {
+    --font-sans:
+        ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+    --color-gray-50: #f9fafb;
+    --color-gray-100: #f3f4f6;
+    --color-gray-200: #e5e7eb;
+    --color-gray-300: #d1d5db;
+    --color-gray-400: #9ca3af;
+    --color-gray-500: #6b7280;
+    --color-gray-600: #4b5563;
+    --color-gray-700: #374151;
+    --color-gray-800: #1f2937;
+    --color-gray-900: #111827;
+    --color-gray-950: #030712;
+}
+
+@layer base {
+    :host {
+        all: initial;
+        @apply font-sans antialiased;
+    }
+
+    button:not(:disabled) {
+        cursor: pointer;
+    }
+}
+
+/* The typography plugin bundles v4's oklch grays. */
+.prose {
+    max-width: 100%;
+    --tw-prose-body: var(--color-gray-700);
+    --tw-prose-headings: var(--color-gray-900);
+    --tw-prose-lead: var(--color-gray-600);
+    --tw-prose-links: var(--color-gray-900);
+    --tw-prose-bold: var(--color-gray-900);
+    --tw-prose-counters: var(--color-gray-500);
+    --tw-prose-bullets: var(--color-gray-300);
+    --tw-prose-hr: var(--color-gray-200);
+    --tw-prose-quotes: var(--color-gray-900);
+    --tw-prose-quote-borders: var(--color-gray-200);
+    --tw-prose-captions: var(--color-gray-500);
+    --tw-prose-kbd: var(--color-gray-900);
+    --tw-prose-code: var(--color-gray-900);
+    --tw-prose-pre-code: var(--color-gray-200);
+    --tw-prose-pre-bg: var(--color-gray-800);
+    --tw-prose-th-borders: var(--color-gray-300);
+    --tw-prose-td-borders: var(--color-gray-200);
+    --tw-prose-kbd-shadows: rgb(17 24 39 / 10%);
+}
+
+.prose:not(.prose-sm) :where(h2) {
+    font-size: 1.25em;
+}
+
+.prose:not(.prose-sm) :where(h3) {
+    font-size: 1.1em;
 }

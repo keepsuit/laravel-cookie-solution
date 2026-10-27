@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 
-@customElement('cookie-solution-duration')
 export class CookieSolutionDuration extends LitElement {
     @property({ type: Number })
     duration = 0;

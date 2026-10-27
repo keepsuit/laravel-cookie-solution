@@ -19,10 +19,7 @@ export interface CookieSolutionConfig {
     toggle_enabled: boolean;
     toggle_position: 'left' | 'right';
     cookies: Record<CookiePurpose, ServiceConfig[]>;
-    integrations?: {
-        google_tag_manager?: boolean;
-        facebook_pixel?: boolean;
-    };
+    highlight_color: string | null;
     texts: {
         tab_consent: string;
         tab_customize: string;
@@ -44,4 +41,16 @@ export interface CookieSolutionConfig {
         customize_purpose_marketing_description: string;
         information_text: string;
     };
+}
+
+export interface CookieSolutionStatus {
+    timestamp: string;
+    digest?: string;
+    purposes: Record<CookiePurpose, boolean>;
+}
+
+/** Response of the `{api_route}/policies` endpoint. */
+export interface CookieSolutionPolicies {
+    cookie_policy: string;
+    privacy_policy: string;
 }

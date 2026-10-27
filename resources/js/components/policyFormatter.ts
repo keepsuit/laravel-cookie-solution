@@ -1,9 +1,7 @@
 import { html, LitElement } from 'lit';
-import { customElement } from 'lit/decorators.js';
 import { styleSheet } from '../style';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 
-@customElement('cookie-solution-policy-formatter')
 export class CookieSolutionPolicyFormatter extends LitElement {
     static styles = [styleSheet];
 

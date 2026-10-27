@@ -1,9 +1,8 @@
 import { html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import clsx from 'clsx';
 import { styleSheet } from '../style';
 
-@customElement('cookie-solution-toggle')
 export class CookieSolutionToggle extends LitElement {
     static styles = [styleSheet];
 
@@ -33,7 +32,7 @@ export class CookieSolutionToggle extends LitElement {
             >
                 <button
                     part="toggle-button"
-                    class="flex h-12 w-12 items-center justify-center rounded-full bg-white p-2 shadow hover:shadow-xl"
+                    class="flex h-12 w-12 items-center justify-center rounded-full bg-white p-2 shadow-sm hover:shadow-xl"
                     aria-label="${this.label}"
                     @click="${this._open}"
                 >

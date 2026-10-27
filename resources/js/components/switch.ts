@@ -1,9 +1,8 @@
 import { html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { property } from 'lit/decorators.js';
 import { styleSheet } from '../style';
 import clsx from 'clsx';
 
-@customElement('cookie-solution--switch')
 export class CookieSolutionSwitch extends LitElement {
     static styles = [styleSheet];
 
@@ -39,7 +38,7 @@ export class CookieSolutionSwitch extends LitElement {
                 aria-checked="${this.checked}"
                 @click="${this._onClick}"
                 class="${clsx({
-                    'flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow': true,
+                    'flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow-sm': true,
                     'opacity-50': this.readonly,
                     'bg-highlight': this.checked,
                     'bg-gray-200': !this.checked,

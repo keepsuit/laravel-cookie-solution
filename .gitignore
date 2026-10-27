@@ -7,3 +7,4 @@ docs
 testbench.yaml
 vendor
 node_modules
+/dist

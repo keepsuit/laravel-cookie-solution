@@ -1,23 +1,15 @@
 {
     "compilerOptions": {
-        "lib": [
-            "dom",
-            "es2020"
-        ],
-        "sourceMap": true,
+        "lib": ["dom", "es2022"],
         "strict": true,
         "module": "esnext",
-        "target": "es2015",
-        "moduleResolution": "node",
+        "target": "es2022",
+        "moduleResolution": "bundler",
         "experimentalDecorators": true,
-        "allowSyntheticDefaultImports": true,
+        "useDefineForClassFields": false,
         "resolveJsonModule": true,
-        "baseUrl": "./resources/js",
-        "types": [
-            "vite/client"
-        ]
+        "skipLibCheck": true,
+        "types": ["vite/client", "node"]
     },
-    "include": [
-        "resources/js"
-    ]
+    "include": ["resources/js"]
 }
