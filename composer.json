@@ -17,26 +17,24 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/contracts": "^11.0 || ^12.0 || ^13.0",
+        "illuminate/contracts": "^12.0 || ^13.0",
         "spatie/laravel-package-tools": "^1.13.0",
         "symfony/intl": "^6.3 || ^7.0 || ^8.0"
     },
     "require-dev": {
         "laravel/pint": "^1.18",
         "larastan/larastan": "^3.0",
-        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
         "pestphp/pest": "^3.0 || ^4.0",
         "pestphp/pest-plugin-laravel": "^3.0 || ^4.0",
         "phpstan/extension-installer": "^1.1",
         "phpstan/phpstan-deprecation-rules": "^2.0",
-        "spatie/laravel-ray": "^1.26",
         "spatie/pest-plugin-snapshots": "^2.0",
         "spatie/test-time": "^1.3"
     },
     "autoload": {
         "psr-4": {
-            "Keepsuit\\CookieSolution\\": "src",
-            "Keepsuit\\CookieSolution\\Database\\Factories\\": "database/factories"
+            "Keepsuit\\CookieSolution\\": "src"
         }
     },
     "autoload-dev": {

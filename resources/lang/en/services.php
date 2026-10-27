@@ -8,14 +8,14 @@ return [
         'description' => 'DigitalOcean is a hosting service that allows us to store and process data in a secure and reliable manner. Data stored on DigitalOcean may include personal information such as names, email addresses, and browsing data. DigitalOcean may use the data in accordance with its own privacy policy, which can be found on the DigitalOcean website.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel uses cookies to collect data about website visitors. The data collected by Facebook Pixel is anonymous and does not include personal information. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.',
+        'description' => 'Facebook Pixel uses cookies to collect data about website visitors. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.',
         'cookies' => [
             '_fbp' => 'Used to store and track visits across websites.',
             'fr' => 'Used to provide ad delivery or retargeting.',
         ],
     ],
     'google_ads_remarketing' => [
-        'description' => 'Google Ads Remarketing is a service that allows us to show ads to users who have previously visited our website. Google Ads Remarketing uses cookies to collect data about website visitors. The data collected by Google Ads Remarketing is anonymous and does not include personal information. Google may use the collected data to target ads to website visitors and to understand the effectiveness of Google advertising campaigns. You can learn more about Google Ads Remarketing and how to opt out of data collection by visiting the Google Ads website.',
+        'description' => 'Google Ads Remarketing is a service that allows us to show ads to users who have previously visited our website. Google Ads Remarketing uses cookies to collect data about website visitors. Google may use the collected data to target ads to website visitors and to understand the effectiveness of Google advertising campaigns. You can learn more about Google Ads Remarketing and how to opt out of data collection by visiting the Google Ads website.',
         'cookies' => [
             '_generic' => 'Used to provide ad delivery or retargeting',
             'NID' => 'Used to provide ad delivery or retargeting and store user preferences',
@@ -26,7 +26,7 @@ return [
         ],
     ],
     'google_analytics_4' => [
-        'description' => 'Google Analytics is a statistics service and uses cookies to collect data on website visitors. The data collected by Google Analytics is anonymous and does not include personal information. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.',
+        'description' => 'Google Analytics is a statistics service and uses cookies to collect data on website visitors. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.',
         'cookies' => [
             '_ga' => 'Used to distinguish users.',
             '_ga_*' => 'Used to maintain session status.',

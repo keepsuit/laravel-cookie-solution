@@ -13,7 +13,7 @@ Nous pouvons également utiliser vos informations pour vous contacter concernant
 
 ## Partage des Informations
 
-Nous ne partageons pas vos informations personnelles avec des tiers, sauf dans les cas où la loi l'exige.
+Nous ne partageons vos informations personnelles qu'avec les services énumérés dans cette politique et dans les cas où la loi l'exige.
 Nous prenons des mesures raisonnables pour nous assurer que les prestataires de services tiers avec lesquels nous travaillons ont mis en place des mesures appropriées pour protéger vos informations personnelles.
 
 ## Protection des Données
@@ -26,5 +26,3 @@ Vous avez le droit d'accéder à, de corriger, de supprimer ou de transférer vo
 Vous avez également le droit de vous opposer au traitement de vos informations personnelles ou de demander que nous limitions le traitement de vos informations personnelles.
 
 Si vous avez des questions ou des préoccupations concernant notre Politique de Confidentialité ou la manière dont nous traitons vos informations personnelles, veuillez nous contacter.
-
-En utilisant notre site web, vous consentez à la collecte, à l'utilisation et au partage de vos informations personnelles conformément à cette Politique de Confidentialité.

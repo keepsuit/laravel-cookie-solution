@@ -29,7 +29,6 @@ class CookieSolution
     protected ?CookieSolutionStatus $status = null;
 
     public function __construct(
-        protected CookieSolutionAssets $assets,
         protected MarkdownParser $markdown
     ) {}
 
@@ -132,12 +131,13 @@ class CookieSolution
     public function getConfig(): array
     {
         return [
+            'enabled' => $this->enabled(),
+            'locale' => app()->getLocale(),
             'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
-            'highlight_color' => config('cookie-solution.highlight_color'),
             'texts' => [
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),
                 'tab_customize' => __('cookie-solution::texts.banner.tab_customize'),
@@ -159,7 +159,7 @@ class CookieSolution
                 'customize_purpose_marketing_description' => __('cookie-solution::texts.cookie_policy.purpose_marketing_description'),
                 'information_text' => $this->cookiePolicyHtml()->toHtml(),
             ],
-            'cookies' => $this->servicesGroupedByCookiePurpose()->toArray(),
+            'services' => $this->servicesGroupedByCookiePurpose()->toArray(),
         ];
     }
 

@@ -3,23 +3,29 @@ export type CookiePurpose = 'necessary' | 'preferences' | 'statistics' | 'market
 export interface CookieConfig {
     name: string;
     description: string;
+    purpose: CookiePurpose;
+    /** Duration in days, `0` for session cookies. */
     duration: number;
 }
 
 export interface ServiceConfig {
-    provider: string;
     name: string;
+    provider: string;
+    description: string;
+    privacy_policy_url: string | null;
+    data_processing_location: string | null;
     cookies: CookieConfig[];
 }
 
 export interface CookieSolutionConfig {
+    enabled: boolean;
+    locale: string;
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
     toggle_enabled: boolean;
     toggle_position: 'left' | 'right';
-    cookies: Record<CookiePurpose, ServiceConfig[]>;
-    highlight_color: string | null;
+    services: Record<CookiePurpose, ServiceConfig[]>;
     texts: {
         tab_consent: string;
         tab_customize: string;

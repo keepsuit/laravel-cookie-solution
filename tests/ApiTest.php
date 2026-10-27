@@ -24,10 +24,23 @@ it('serves the rendered policies', function () {
 
     $this->getJson('/internal/cookie-solution/policies')
         ->assertOk()
-        ->assertExactJson([
-            'cookie_policy' => view('cookie-solution::cookie-policy')->render(),
-            'privacy_policy' => view('cookie-solution::privacy-policy')->render(),
-        ]);
+        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1>Cookie policy</h1>')
+            && str_contains($html, '<cookie-solution-duration duration="730"></cookie-solution-duration>')
+            && str_contains($html, '<dt>_ga</dt>'))
+        ->assertJsonPath('privacy_policy', fn (string $html) => str_contains($html, '<h1>Privacy policy</h1>')
+            && str_contains($html, '<h3>Google Analytics 4 (Google LLC)</h3>'));
+});
+
+it('serves the policies without styling hooks', function () {
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->build());
+    config()->set('cookie-solution.data_owner.name_and_address', 'Company');
+
+    $policies = $this->getJson('/internal/cookie-solution/policies')->assertOk()->json();
+
+    expect($policies['cookie_policy'].$policies['privacy_policy'])
+        ->not->toContain('part=')
+        ->not->toContain('class=')
+        ->not->toContain('cookie-solution-policy-formatter');
 });
 
 it('applies the configured middleware and locale', function () {

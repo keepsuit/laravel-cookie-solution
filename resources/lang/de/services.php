@@ -8,14 +8,14 @@ return [
         'description' => 'DigitalOcean ist ein Hosting-Dienst, der es uns ermöglicht, Daten auf sichere und zuverlässige Weise zu speichern und zu verarbeiten. Auf DigitalOcean gespeicherte Daten können persönliche Informationen wie Namen, E-Mail-Adressen und Browsing-Daten enthalten. DigitalOcean kann die Daten gemäß seiner eigenen Datenschutzrichtlinie verwenden, die auf der Website von DigitalOcean zu finden ist.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel verwendet Cookies, um Daten über Website-Besucher zu sammeln. Die von Facebook Pixel gesammelten Daten sind anonym und enthalten keine persönlichen Informationen. Facebook kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Facebook-Werbekampagnen zu verstehen. Weitere Informationen zu Facebook Pixel und wie Sie der Datensammlung widersprechen können, finden Sie auf der Facebook-Website.',
+        'description' => 'Facebook Pixel verwendet Cookies, um Daten über Website-Besucher zu sammeln. Facebook kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Facebook-Werbekampagnen zu verstehen. Weitere Informationen zu Facebook Pixel und wie Sie der Datensammlung widersprechen können, finden Sie auf der Facebook-Website.',
         'cookies' => [
             '_fbp' => 'Wird verwendet, um Besuche auf Websites zu speichern und zu verfolgen.',
             'fr' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen.',
         ],
     ],
     'google_ads_remarketing' => [
-        'description' => 'Google Ads Remarketing ist ein Dienst, der es uns ermöglicht, Anzeigen für Benutzer anzuzeigen, die unsere Website zuvor besucht haben. Google Ads Remarketing verwendet Cookies, um Daten über Website-Besucher zu sammeln. Die von Google Ads Remarketing gesammelten Daten sind anonym und enthalten keine persönlichen Informationen. Google kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Google-Werbekampagnen zu verstehen. Weitere Informationen zu Google Ads Remarketing und wie Sie der Datensammlung widersprechen können, finden Sie auf der Google Ads-Website.',
+        'description' => 'Google Ads Remarketing ist ein Dienst, der es uns ermöglicht, Anzeigen für Benutzer anzuzeigen, die unsere Website zuvor besucht haben. Google Ads Remarketing verwendet Cookies, um Daten über Website-Besucher zu sammeln. Google kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Google-Werbekampagnen zu verstehen. Weitere Informationen zu Google Ads Remarketing und wie Sie der Datensammlung widersprechen können, finden Sie auf der Google Ads-Website.',
         'cookies' => [
             '_generic' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen.',
             'NID' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen und die Benutzereinstellungen zu speichern.',
@@ -26,7 +26,7 @@ return [
         ],
     ],
     'google_analytics_4' => [
-        'description' => 'Google Analytics ist ein Statistikdienst und verwendet Cookies, um Daten über Website-Besucher zu sammeln. Die von Google Analytics gesammelten Daten sind anonym und enthalten keine persönlichen Informationen. Google kann die gesammelten Daten verwenden, um Anzeigen seines Werbenetzwerks zu kontextualisieren und zu personalisieren. Weitere Informationen zu Google Analytics und wie Sie der Datensammlung widersprechen können, finden Sie auf der Google Analytics-Website.',
+        'description' => 'Google Analytics ist ein Statistikdienst und verwendet Cookies, um Daten über Website-Besucher zu sammeln. Google kann die gesammelten Daten verwenden, um Anzeigen seines Werbenetzwerks zu kontextualisieren und zu personalisieren. Weitere Informationen zu Google Analytics und wie Sie der Datensammlung widersprechen können, finden Sie auf der Google Analytics-Website.',
         'cookies' => [
             '_ga' => 'Wird verwendet, um Benutzer zu unterscheiden.',
             '_ga_*' => 'Wird verwendet, um den Sitzungsstatus aufrechtzuerhalten.',

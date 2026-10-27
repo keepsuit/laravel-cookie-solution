@@ -15,7 +15,7 @@ class KlarnaServiceFactory extends ServiceFactory
             provider: 'Klarna Bank AB',
             description: __('cookie-solution::services.klarna.description'),
             privacyPolicyUrl: 'https://www.klarna.com/international/privacy-policy/',
-            dataProcessingLocation: Countries::getName('SE'),
+            dataProcessingLocation: Countries::getName('SE', app()->getLocale()),
         );
     }
 }

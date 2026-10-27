@@ -34,6 +34,7 @@ return [
         'title' => 'Política de privacidad',
         'services_list' => 'Servicios utilizados',
         'service_data_processing_location' => 'Ubicación del procesamiento de datos:',
+        'service_privacy_policy' => 'política de privacidad',
         'data_processing_owner' => 'Responsable del procesamiento de datos',
         'data_processing_owner_email' => 'Correo electrónico del responsable de los datos:',
     ],

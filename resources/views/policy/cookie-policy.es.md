@@ -1,5 +1,5 @@
 Este sitio web utiliza cookies para mejorar la experiencia del usuario. 
-Al utilizar nuestro sitio web, aceptas el uso de cookies de acuerdo con nuestra política de cookies.
+Las cookies que no son necesarias se utilizan solo después de que des tu consentimiento a través del banner de cookies.
 
 ## ¿Qué son las cookies?
 
@@ -17,12 +17,12 @@ También utilizamos cookies para recopilar análisis anónimos sobre cómo se ut
 
 ## Opción de no aceptar cookies
 
-Tienes la capacidad de aceptar o rechazar cookies modificando la configuración de tu navegador.
-Sin embargo, ten en cuenta que desactivar las cookies puede evitar que puedas utilizar ciertas funciones de nuestro sitio web.
+Puedes aceptar, rechazar o modificar tus preferencias de cookies en cualquier momento desde la configuración de cookies del banner.
+Como opción adicional, también puedes bloquear o eliminar las cookies desde la configuración de tu navegador. Sin embargo, ten en cuenta que desactivar las cookies puede evitar que puedas utilizar ciertas funciones de nuestro sitio web.
 
 ## Protección de datos
 
-No compartiremos ninguna información recopilada a través de cookies con terceros. 
+Compartiremos la información recopilada a través de cookies solo con los servicios enumerados en esta política. 
 Los datos recopilados se utilizarán únicamente para los fines descritos en esta política de cookies.
 
 De acuerdo con el Reglamento General de Protección de Datos (GDPR) de la UE, obtendremos tu consentimiento antes de colocar cookies no esenciales en tu dispositivo.
@@ -30,5 +30,3 @@ De acuerdo con el Reglamento General de Protección de Datos (GDPR) de la UE, ob
 ## Contáctanos
 
 Si tienes alguna pregunta o inquietud sobre nuestra política de cookies, contáctanos.
-
-Al utilizar nuestro sitio web, aceptas nuestro uso de cookies de acuerdo con esta política de cookies.

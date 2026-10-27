@@ -1,17 +1,18 @@
 {
+    "enabled": true,
+    "locale": "en",
     "digest": "19c81897d35cf17d85d10c3f5699b381177b6e5bac0298773e12890135051531",
     "cookie_name": "laravel_cookie_solution",
     "cookie_lifetime": 365,
     "toggle_enabled": true,
     "toggle_position": "right",
-    "highlight_color": "#3522dd",
     "texts": {
         "tab_consent": "Consent",
         "tab_customize": "Customize",
         "tab_information": "Information",
         "button_show_banner": "Open cookie settings",
         "button_accept_all": "Accept all",
-        "button_accept_selected": "Accetta selected",
+        "button_accept_selected": "Accept selected",
         "button_refuse": "Refuse",
         "button_customize": "Customize",
         "consent_title": "This site uses cookies",
@@ -24,16 +25,16 @@
         "customize_purpose_statistics_description": "These cookies collect information about how visitors use the website (such as which pages visitors go to most often). The collected information are aggregated and anonymous.",
         "customize_purpose_marketing": "Marketing",
         "customize_purpose_marketing_description": "These cookies are used to deliver advertisements more relevant to you and your interests. They are also used to limit the number of times you see an advertisement as well as help measure the effectiveness of the advertising campaign. They allow publishers and third party advertisers to target ads to you and your interests.",
-        "information_text": "<p part=\"p\">This website uses cookies to improve user experience.\nBy using our website, you consent to the use of cookies in accordance with our cookie policy.</p>\n<h2 part=\"headings h2\">What are cookies?</h2>\n<p part=\"p\">Cookies are small text files that are placed on your device by websites that you visit.\nThey are widely used in order to make websites work, or work more efficiently, as well as to provide information to the owners of the site.</p>\n<h2 part=\"headings h2\">Types of Cookies used</h2>\n<ul part=\"ul\">\n<li part=\"li\"><strong>Session Cookies</strong>: These cookies are temporary and are deleted from your device when you close your web browser.</li>\n<li part=\"li\"><strong>Persistent Cookies</strong>: These cookies remain on your device until they expire or are deleted.</li>\n</ul>\n<p part=\"p\">Our website uses both session and persistent cookies.\nWe use cookies to remember your preferences, such as language and font size, to enhance your browsing experience.\nWe also use cookies to gather anonymous analytics about how our website is used, so we can improve it for you.</p>\n<h2 part=\"headings h2\">Opting Out of Cookies</h2>\n<p part=\"p\">You have the ability to accept or decline cookies by modifying the settings in your browser.\nHowever, please be aware that disabling cookies may prevent you from being able to use certain features of our website.</p>\n<h2 part=\"headings h2\">Data Protection</h2>\n<p part=\"p\">We will not share any information collected through cookies with any third parties.\nThe data collected will be used solely for the purposes outlined in this cookie policy.</p>\n<p part=\"p\">In compliance with EU General Data Protection Regulation (GDPR), we will obtain your consent before placing any non-essential cookies on your device.</p>\n<h2 part=\"headings h2\">Contact Us</h2>\n<p part=\"p\">If you have any questions or concerns regarding our cookie policy, please contact us.</p>\n<p part=\"p\">By using our website, you consent to our use of cookies in accordance with this cookie policy.</p>\n"
+        "information_text": "<p part=\"p\">This website uses cookies to improve user experience.\nCookies other than necessary ones are used only after you give your consent through the cookie banner.</p>\n<h2 part=\"headings h2\">What are cookies?</h2>\n<p part=\"p\">Cookies are small text files that are placed on your device by websites that you visit.\nThey are widely used in order to make websites work, or work more efficiently, as well as to provide information to the owners of the site.</p>\n<h2 part=\"headings h2\">Types of Cookies used</h2>\n<ul part=\"ul\">\n<li part=\"li\"><strong>Session Cookies</strong>: These cookies are temporary and are deleted from your device when you close your web browser.</li>\n<li part=\"li\"><strong>Persistent Cookies</strong>: These cookies remain on your device until they expire or are deleted.</li>\n</ul>\n<p part=\"p\">Our website uses both session and persistent cookies.\nWe use cookies to remember your preferences, such as language and font size, to enhance your browsing experience.\nWe also use cookies to gather anonymous analytics about how our website is used, so we can improve it for you.</p>\n<h2 part=\"headings h2\">Opting Out of Cookies</h2>\n<p part=\"p\">You can accept, refuse or change your cookie preferences at any time from the cookie settings banner.\nAs an additional option, you can also block or delete cookies from your browser settings. However, please be aware that disabling cookies may prevent you from being able to use certain features of our website.</p>\n<h2 part=\"headings h2\">Data Protection</h2>\n<p part=\"p\">We will share information collected through cookies only with the services listed in this policy.\nThe data collected will be used solely for the purposes outlined in this cookie policy.</p>\n<p part=\"p\">In compliance with EU General Data Protection Regulation (GDPR), we will obtain your consent before placing any non-essential cookies on your device.</p>\n<h2 part=\"headings h2\">Contact Us</h2>\n<p part=\"p\">If you have any questions or concerns regarding our cookie policy, please contact us.</p>\n"
     },
-    "cookies": {
+    "services": {
         "necessary": [],
         "preferences": [],
         "statistics": [
             {
                 "name": "Google Analytics 4",
                 "provider": "Google Ireland Limited",
-                "description": "Google Analytics is a statistics service and uses cookies to collect data on website visitors. The data collected by Google Analytics is anonymous and does not include personal information. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.",
+                "description": "Google Analytics is a statistics service and uses cookies to collect data on website visitors. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.",
                 "privacy_policy_url": "https://policies.google.com/privacy",
                 "data_processing_location": "Ireland",
                 "cookies": [
@@ -56,7 +57,7 @@
             {
                 "name": "Facebook Pixel",
                 "provider": "Meta Platforms Ireland Limited",
-                "description": "Facebook Pixel uses cookies to collect data about website visitors. The data collected by Facebook Pixel is anonymous and does not include personal information. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.",
+                "description": "Facebook Pixel uses cookies to collect data about website visitors. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.",
                 "privacy_policy_url": "https://www.facebook.com/privacy/explanation",
                 "data_processing_location": "Ireland",
                 "cookies": [

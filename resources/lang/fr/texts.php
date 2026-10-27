@@ -7,7 +7,7 @@ return [
         'tab_information' => 'Information',
 
         'button_accept_all' => 'Accepter tout',
-        'button_accept_selected' => 'Accepter sélectionné',
+        'button_accept_selected' => 'Accepter la sélection',
         'button_refuse' => 'Refuser',
         'button_customize' => 'Personnaliser',
         'button_show_banner' => 'Ouvrir les paramètres des cookies',
@@ -34,6 +34,7 @@ return [
         'title' => 'Politique de confidentialité',
         'services_list' => 'Services utilisés',
         'service_data_processing_location' => 'Emplacement du traitement des données:',
+        'service_privacy_policy' => 'politique de confidentialité',
         'data_processing_owner' => 'Propriétaire du traitement des données',
         'data_processing_owner_email' => 'Adresse email du propriétaire des données:',
     ],

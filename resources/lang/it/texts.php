@@ -34,6 +34,7 @@ return [
         'title' => 'Privacy policy',
         'services_list' => 'Servizi utilizzati',
         'service_data_processing_location' => 'Luogo del trattamento dei dati:',
+        'service_privacy_policy' => 'informativa sulla privacy',
         'data_processing_owner' => 'Titolare del trattamento dei dati',
         'data_processing_owner_email' => 'Indirizzo email del titolare:',
     ],

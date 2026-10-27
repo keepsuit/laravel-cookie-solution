@@ -13,7 +13,7 @@ use Keepsuit\CookieSolution\Service;
  * @method static CookieSolutionStatus status()
  * @method static array getConfig()
  * @method static Collection<int, Service> services()
- * @method static Collection<string, Collection<string,Collection<array-key,Service>>> servicesGroupedByCookiePurpose()
+ * @method static Collection<string, Collection<array-key,Service>> servicesGroupedByCookiePurpose()
  * @method static bool hasCookies()
  * @method static bool hasServices()
  * @method static bool hasDataOwner()
