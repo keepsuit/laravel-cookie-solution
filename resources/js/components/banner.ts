@@ -5,7 +5,6 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { deleteCookie, readStatus, writeStatus } from '../utils/cookie';
 import { CookieConfig, CookiePurpose, CookieSolutionConfig, CookieSolutionStatus } from '../types';
-import clsx from 'clsx';
 import { getContrastColor } from '../utils/colorContrast';
 
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
@@ -320,10 +319,11 @@ export class CookieSolutionBanner extends LitElement {
             >
                 <div
                     part="banner-dialog"
-                    class="${clsx({
-                        'opacity-0 scale-75': this._showModalStatus === 'showing' || this._showModalStatus === 'hiding',
-                        'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300': true,
-                    })}"
+                    class="${
+                        this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
+                            ? 'scale-75 opacity-0'
+                            : ''
+                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
                 >
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow-sm">
                         ${this.header()}
@@ -352,9 +352,9 @@ export class CookieSolutionBanner extends LitElement {
 
         const tab = (index: number, label: string) => html`
             <button
-                class="${clsx('h-14 w-full px-1 text-sm font-medium break-words hyphens-auto duration-300', {
-                    'aria-selected:text-highlight-text': this._contrastColor === 'white',
-                })}"
+                class="${
+                    this._contrastColor === 'white' ? 'aria-selected:text-highlight-text' : ''
+                } h-14 w-full px-1 text-sm font-medium break-words hyphens-auto duration-300"
                 role="tab"
                 id="cookie-solution-tab-${index}"
                 aria-controls="cookie-solution-tabpanel"

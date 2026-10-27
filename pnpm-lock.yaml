@@ -197,9 +197,6 @@ importers:
 
   .:
     dependencies:
-      clsx:
-        specifier: ^2.1.1
-        version: 2.1.1
       lit:
         specifier: ^3.3.3
         version: 3.3.3
@@ -764,10 +761,6 @@ packages:
   clean-css@4.2.4:
     resolution: {integrity: sha512-EJUDT7nDVFDvaQgAo2G/PJvxmp1o/c6iXLbswsBbUFXi1Nr+AjA2cKmfbKDMjMvzEe75g3P6JkaDDAKk96A85A==}
     engines: {node: '>= 4.0'}
-
-  clsx@2.1.1:
-    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
-    engines: {node: '>=6'}
 
   commander@2.20.3:
     resolution: {integrity: sha512-GpVkmM8vF2vQUkj2LvZmD35JxeJOLCwJ9cUkugyk2nuhbv3+mJvpLYYt+0+USMxE+oj+ey/lJEnhZw75x/OMcQ==}
@@ -1804,8 +1797,6 @@ snapshots:
   clean-css@4.2.4:
     dependencies:
       source-map: 0.6.1
-
-  clsx@2.1.1: {}
 
   commander@2.20.3: {}
 

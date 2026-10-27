@@ -80,7 +80,7 @@ export default defineConfig(({ mode }) => ({
                       fileName: () => 'index.js',
                   },
                   rolldownOptions: {
-                      external: [/^lit($|\/)/, 'clsx'],
+                      external: [/^lit($|\/)/],
                   },
               },
     css: {

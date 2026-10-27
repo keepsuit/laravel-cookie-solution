@@ -1,7 +1,6 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
 import { styleSheet } from '../style';
-import clsx from 'clsx';
 
 export class CookieSolutionSwitch extends LitElement {
     static styles = [styleSheet];
@@ -42,19 +41,14 @@ export class CookieSolutionSwitch extends LitElement {
                 aria-disabled="${this.disabled || this.readonly}"
                 aria-label="${this.label}"
                 @click="${this._onClick}"
-                class="${clsx({
-                    'flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow-sm': true,
-                    'opacity-50': this.readonly,
-                    'bg-highlight': this.checked,
-                    'bg-gray-200': !this.checked,
-                })}"
+                class="${
+                    this.readonly ? 'opacity-50' : ''
+                } ${this.checked ? 'bg-highlight' : 'bg-gray-200'} flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow-sm"
             >
                 <span
-                    class="${clsx({
-                        'block h-5 w-5 transform rounded-full duration-300': true,
-                        'translate-x-5 bg-white': this.checked,
-                        'bg-gray-400': !this.checked,
-                    })}"
+                    class="${
+                        this.checked ? 'translate-x-5 bg-white' : 'bg-gray-400'
+                    } block h-5 w-5 transform rounded-full duration-300"
                 ></span>
             </button>
         `;

@@ -1,6 +1,5 @@
 import { html, LitElement } from 'lit';
 import { property } from 'lit/decorators.js';
-import clsx from 'clsx';
 import { styleSheet } from '../style';
 
 export class CookieSolutionToggle extends LitElement {
@@ -28,10 +27,9 @@ export class CookieSolutionToggle extends LitElement {
         return html`
             <div
                 part="toggle-root"
-                class="${clsx(
-                    'fixed bottom-toggle-bottom z-toggle print:hidden',
-                    this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x',
-                )}"
+                class="${
+                    this.position === 'left' ? 'left-toggle-x' : 'right-toggle-x'
+                } fixed bottom-toggle-bottom z-toggle print:hidden"
             >
                 <button
                     part="toggle-button"
