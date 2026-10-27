@@ -100,6 +100,25 @@ php artisan vendor:publish --tag="cookie-solution-views"
 php artisan vendor:publish --tag="cookie-solution-translations"
 ```
 
+By default the banner script is served by a package route (`/cookie-solution/laravel-cookie-solution.js`).
+If you publish the assets, the script is served from `public/vendor/cookie-solution` through `asset()`, so it uses your `ASSET_URL` (e.g. a CDN):
+
+```bash
+php artisan vendor:publish --tag="cookie-solution-assets"
+```
+
+The package detects the published assets automatically. Remember to publish them again on every update, for example with a composer `post-update-cmd` script:
+
+```json
+{
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=cookie-solution-assets --force"
+        ]
+    }
+}
+```
+
 ## Usage
 
 The package can be used in two ways:
@@ -192,7 +211,13 @@ See [views customization](#views) section for more information about the partial
 
 #### Highlight color
 
-You can customize the highlight color of the banner and toggle changing the `highlight_color` config value.
+With Blade, set the `highlight_color` config value. Headless frontends set the CSS variable themselves:
+
+```css
+:root {
+    --cs--color-highlight: #3522dd;
+}
+```
 
 #### Toggle position
 
@@ -232,8 +257,26 @@ Then you need to add the `data-cookie-solution-toggle` attribute to an element i
 
 #### Views
 
-If you want to customize the views, you can publish them with `php artisan vendor:publish --tag="cookie-solution-views"` and style them however you like.
-The `<cookie-solution-policy-formatter/>` custom component is used to apply the default styles, you can safely remove it to customize the views.
+The policy views are wrapped in the `<cookie-solution-policy-formatter>` component, which applies the default styles.
+You can adjust them from your CSS with `::part()`:
+
+```css
+cookie-solution-policy-formatter::part(h1) {
+    font-size: 2rem;
+}
+
+cookie-solution-policy-formatter::part(link) {
+    color: var(--brand-color);
+}
+```
+
+Available parts:
+
+- Text: `root`, `headings`, `h1`, `h2`, `h3`, `p`, `ul`, `ol`, `li`, `link`, `data-owner`.
+- Cookie policy: `cookie-list`, `purpose`, `service`, `service-name`, `service-provider`, `cookie`, `cookie-name`, `cookie-duration`, `cookie-description`.
+- Privacy policy: `privacy-list`, `service`, `service-name`, `service-provider`, `service-link`, `service-description`, `service-location`, `service-location-value`.
+
+For full control, publish the views with `php artisan vendor:publish --tag="cookie-solution-views"` and remove the formatter.
 
 ## Headless frontends
 
@@ -250,7 +293,7 @@ Enable the JSON endpoints by setting `api_route` (and optionally `api_middleware
 | `GET /{api_route}/policies` | `{ "cookie_policy": "<html>", "privacy_policy": "<html>" }` |
 
 Texts and policies use the current application locale, so set it with your own middleware (for example from the `Accept-Language` header).
-The response is the same for every user: you can cache it per locale.
+The response is the same for every user: you can cache it per locale (remember `Vary: Accept-Language` if the locale comes from that header).
 
 Install the frontend package:
 
@@ -261,15 +304,18 @@ npm install @keepsuit/cookie-solution
 The package has no side effects on import, so it can be imported during SSR. Call its functions only in the browser:
 
 ```ts
-import { mount, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
+import { mount, open, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
 import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cookie-solution';
 
 const config: CookieSolutionConfig = await fetch('/api/cookie-solution').then((r) => r.json());
 
-// Creates the banner (or updates it, e.g. after a locale change).
+// Creates the banner (or updates it, e.g. after a locale change). Does nothing when `config.enabled` is false.
 mount(config);
 
-// Current consent, or undefined if the user has not chosen yet.
+// Opens the banner, e.g. from a "Cookie settings" link.
+open();
+
+// Current consent, or undefined before mount() or if the user has not chosen yet.
 getStatus();
 
 // Called immediately with the current consent (if any) and on every change.
@@ -279,24 +325,21 @@ const unsubscribe = onStatusChange((status) => {
 });
 ```
 
-The policies HTML uses the package custom elements: call `defineElements()` before rendering it.
+Elements with the `data-cookie-solution-toggle` attribute open the banner too.
+
+The policies HTML has no styles. Render it as it is with your own styles, or wrap it in `<cookie-solution-policy-formatter>` for the default ones (see [views](#views) for the available parts).
+It uses the package custom elements: call `defineElements()` before rendering it.
 
 Example with React:
 
 ```tsx
 import { useEffect, useState } from 'react';
-import type { CookieSolutionStatus } from '@keepsuit/cookie-solution';
+import { onStatusChange, type CookieSolutionStatus } from '@keepsuit/cookie-solution';
 
 export function useCookieConsent(): CookieSolutionStatus | undefined {
     const [status, setStatus] = useState<CookieSolutionStatus>();
 
-    useEffect(() => {
-        let unsubscribe = () => {};
-        import('@keepsuit/cookie-solution').then(({ onStatusChange }) => {
-            unsubscribe = onStatusChange(setStatus);
-        });
-        return () => unsubscribe();
-    }, []);
+    useEffect(() => onStatusChange(setStatus), []);
 
     return status;
 }
@@ -312,7 +355,16 @@ The status has one boolean for each purpose: `necessary`, `preferences`, `statis
 #### Google Tag Manager / Google Analytics (consent mode)
 
 Consent mode requires a default state **before** the GTM/gtag script is loaded.
-Add this script in `<head>`, after `@include('cookie-solution::script')` and before GTM.
+
+With Blade, include this view in `<head>` before GTM:
+
+```blade
+@include('cookie-solution::google-consent-mode')
+```
+
+It sets the default from the stored consent (`CookieSolution::status()`), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
+
+In a headless frontend render this script in the server-side `<head>`, with `cookie_name` and `digest` from the config endpoint.
 It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
 
 ```html
@@ -336,7 +388,7 @@ It restores the stored consent only if it was given for the current configuratio
     }
 
     (function () {
-        const config = window._cookieSolution;
+        const config = { cookie_name: 'COOKIE_NAME', digest: 'DIGEST' };
         let purposes = {};
         try {
             const value = document.cookie
@@ -349,16 +401,17 @@ It restores the stored consent only if it was given for the current configuratio
         } catch (e) {}
         gtag('consent', 'default', { ...cookieSolutionConsent(purposes), wait_for_update: 500 });
     })();
-
-    document.addEventListener('cookie-solution-status-change', function (event) {
-        gtag('consent', 'update', cookieSolutionConsent(event.detail.purposes));
-        // Optional: use it as a GTM trigger for other tags.
-        dataLayer.push({ event: 'cookie-solution-status-change', status: event.detail.purposes });
-    });
 </script>
 ```
 
-In a headless frontend render the same script in the server-side `<head>`, replacing `window._cookieSolution` with `{ cookie_name, digest }` taken from the config endpoint, and update the consent with `onStatusChange` instead of the DOM event.
+Then update it from the app:
+
+```js
+onStatusChange((status) => {
+    gtag('consent', 'update', cookieSolutionConsent(status.purposes));
+    dataLayer.push({ event: 'cookie-solution-status-change', status: status.purposes });
+});
+```
 
 #### Facebook Pixel
 
