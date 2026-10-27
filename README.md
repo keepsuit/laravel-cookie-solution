@@ -31,65 +31,99 @@ This is the contents of the published config file:
 <?php
 
 return [
-    /**
-     * Enable or disable the cookie solution.
-     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabled
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable the cookie solution (banner, script and API).
+    |
+    */
+
     'enabled' => env('COOKIE_SOLUTION_ENABLED', true),
 
-    /**
-     * Name of the cookie where we store the user's consent.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Consent Cookie
+    |--------------------------------------------------------------------------
+    |
+    | Name of the cookie where the user's consent is stored and its lifetime
+    | in days. Changing the name asks every user for consent again.
+    |
+    */
+
     'cookie_name' => 'laravel_cookie_solution',
 
-    /**
-     * The cookie's lifetime in days.
-     */
     'cookie_lifetime' => 365,
 
-    /**
-     * Banner highlight color (ex. #3522dd).
-     * If null, the default color will be used.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Highlight Color
+    |--------------------------------------------------------------------------
+    |
+    | Banner highlight color (ex. #3522dd) written by the Blade script view.
+    | If null, the default color is used. Headless frontends set the
+    | `--cs--color-highlight` CSS variable themselves.
+    |
+    */
+
     'highlight_color' => null,
 
-    /**
-     * Floating banner toggle
-     * if false, the banner toggle will not be displayed.
-     * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Floating Toggle
+    |--------------------------------------------------------------------------
+    |
+    | Show the floating button that reopens the banner, and its position
+    | (left or right). When disabled, add the "data-cookie-solution-toggle"
+    | attribute to an element of your layout to open the banner.
+    |
+    */
+
     'toggle_enabled' => true,
 
-    /**
-     * Cookie toggle position (left or right).
-     */
     'toggle_position' => 'right',
 
-    /**
-     * The entity responsible for the processing of the data.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Data Owner
+    |--------------------------------------------------------------------------
+    |
+    | The entity responsible for the processing of the data, shown in the
+    | privacy policy. The name and address are parsed as Markdown (you can
+    | use __text__ for bold and _text_ for italic).
+    |
+    */
+
     'data_owner' => [
-        /**
-         * Email address of the data owner.
-         */
         'contact_email' => null,
 
-        /**
-         * Name/Company name and address of the data owner.
-         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
-         */
         'name_and_address' => null,
     ],
 
-    /**
-     * Path prefix of the JSON endpoints used by headless frontends (ex. cookie-solution).
-     * If null, the endpoints are disabled.
-     */
-    'api_route' => null,
+    /*
+    |--------------------------------------------------------------------------
+    | Headless API
+    |--------------------------------------------------------------------------
+    |
+    | JSON endpoints for frontends that don't use the Blade views: banner
+    | configuration (GET {path}) and policies (GET {path}/policies).
+    | Not needed with Blade. Responses use the current app locale, so set
+    | it in one of the middleware.
+    |
+    */
 
-    /**
-     * Middleware applied to the JSON endpoints.
-     */
-    'api_middleware' => ['api'],
+    'api' => [
+        'enabled' => env('COOKIE_SOLUTION_API_ENABLED', false),
+
+        'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
+
+        'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
+
+        'middleware' => ['api'],
+    ],
+
 ];
 ```
 
@@ -124,7 +158,7 @@ The package detects the published assets automatically. Remember to publish them
 The package can be used in two ways:
 
 - **Blade**: the banner script and its configuration are included in your layout (see below).
-- **Headless** (React, Vue, any SPA/SSR frontend): Laravel exposes the configuration as JSON and the frontend mounts the banner with the [`@keepsuit/cookie-solution`](#headless-frontends) npm package.
+- **Headless** (React, Vue, any SPA/SSR frontend): Laravel exposes the configuration as JSON and the frontend mounts the banner with the [`@keepsuit/cookie-solution`](docs/headless.md) npm package.
 
 In both cases services, texts, translations and policies are configured in Laravel.
 
@@ -205,249 +239,13 @@ Create a route for the privacy policy page and include the privacy policy partia
 </body>
 ```
 
-See [views customization](#views) section for more information about the partials and how to customize them.
+See [customization](docs/customization.md#policy-views) for the available parts and how to customize the views.
 
-## Customization
+## Documentation
 
-#### Highlight color
-
-With Blade, set the `highlight_color` config value. Headless frontends set the CSS variable themselves:
-
-```css
-:root {
-    --cs--color-highlight: #3522dd;
-}
-```
-
-#### Toggle position
-
-You can change the toggle position to `left` or `right` by changing the `toggle_position` config value (default to `right`).
-If you need a more advanced customization, you can edit the toggle position with some CSS:
-
-```css
-:root {
-    --cs--toggle-position-bottom: 4rem; /* position from the bottom */
-    --cs--toggle-position-x: 2rem; /* position from the left or right (depending on `toggle_position` value) */
-}
-
-/* change the position for desktop */
-@media (min-width: 1024px) {
-    :root {
-        --cs--toggle-position-bottom: 2rem;
-        --cs--toggle-position-x: 1rem;
-    }
-}
-```
-
-#### Toggle z-index
-
-You can change the toggle z-index by changing the `--cs--toggle-z-index` CSS variable. The default value is `9999`.
-
-#### Disabling toggle
-
-Sometimes you may want to disable the default floating toggle and use your own toggle button.
-You can do this by setting the `toggle_enabled` config value to `false`.
-Then you need to add the `data-cookie-solution-toggle` attribute to an element in your layout, like this:
-
-```html
-<button data-cookie-solution-toggle>
-    Toggle Cookie Banner
-</button>
-```
-
-#### Views
-
-The policy views are wrapped in the `<cookie-solution-policy-formatter>` component, which applies the default styles.
-You can adjust them from your CSS with `::part()`:
-
-```css
-cookie-solution-policy-formatter::part(h1) {
-    font-size: 2rem;
-}
-
-cookie-solution-policy-formatter::part(link) {
-    color: var(--brand-color);
-}
-```
-
-Available parts:
-
-- Text: `root`, `headings`, `h1`, `h2`, `h3`, `p`, `ul`, `ol`, `li`, `link`, `data-owner`.
-- Cookie policy: `cookie-list`, `purpose`, `service`, `service-name`, `service-provider`, `cookie`, `cookie-name`, `cookie-duration`, `cookie-description`.
-- Privacy policy: `privacy-list`, `service`, `service-name`, `service-provider`, `service-link`, `service-description`, `service-location`, `service-location-value`.
-
-For full control, publish the views with `php artisan vendor:publish --tag="cookie-solution-views"` and remove the formatter.
-
-## Headless frontends
-
-Enable the JSON endpoints by setting `api_route` (and optionally `api_middleware`) in `config/cookie-solution.php`:
-
-```php
-'api_route' => 'api/cookie-solution',
-'api_middleware' => ['api'],
-```
-
-| Endpoint | Response |
-|---|---|
-| `GET /{api_route}` | banner configuration (`CookieSolutionConfig`) |
-| `GET /{api_route}/policies` | `{ "cookie_policy": "<html>", "privacy_policy": "<html>" }` |
-
-Texts and policies use the current application locale, so set it with your own middleware (for example from the `Accept-Language` header).
-The response is the same for every user: you can cache it per locale (remember `Vary: Accept-Language` if the locale comes from that header).
-
-Install the frontend package:
-
-```bash
-npm install @keepsuit/cookie-solution
-```
-
-The package has no side effects on import, so it can be imported during SSR. Call its functions only in the browser:
-
-```ts
-import { mount, open, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
-import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cookie-solution';
-
-const config: CookieSolutionConfig = await fetch('/api/cookie-solution').then((r) => r.json());
-
-// Creates the banner (or updates it, e.g. after a locale change). Does nothing when `config.enabled` is false.
-mount(config);
-
-// Opens the banner, e.g. from a "Cookie settings" link.
-open();
-
-// Current consent, or undefined before mount() or if the user has not chosen yet.
-getStatus();
-
-// Called immediately with the current consent (if any) and on every change.
-// It can be called more than once with the same status: keep handlers idempotent.
-const unsubscribe = onStatusChange((status) => {
-    console.log(status.purposes); // { necessary, preferences, statistics, marketing }
-});
-```
-
-Elements with the `data-cookie-solution-toggle` attribute open the banner too.
-
-The policies HTML has no styles. Render it as it is with your own styles, or wrap it in `<cookie-solution-policy-formatter>` for the default ones (see [views](#views) for the available parts).
-It uses the package custom elements: call `defineElements()` before rendering it.
-
-Example with React:
-
-```tsx
-import { useEffect, useState } from 'react';
-import { onStatusChange, type CookieSolutionStatus } from '@keepsuit/cookie-solution';
-
-export function useCookieConsent(): CookieSolutionStatus | undefined {
-    const [status, setStatus] = useState<CookieSolutionStatus>();
-
-    useEffect(() => onStatusChange(setStatus), []);
-
-    return status;
-}
-```
-
-In Blade pages the same functions are available on `window.CookieSolution`, and every change dispatches a `cookie-solution-status-change` event on `document` (with the status in `event.detail`).
-
-## Connecting tracking services
-
-The banner only stores the user's choice: each tracking service must be configured to wait for consent.
-The status has one boolean for each purpose: `necessary`, `preferences`, `statistics`, `marketing`.
-
-#### Google Tag Manager / Google Analytics (consent mode)
-
-Consent mode requires a default state **before** the GTM/gtag script is loaded.
-
-With Blade, include this view in `<head>` before GTM:
-
-```blade
-@include('cookie-solution::google-consent-mode')
-```
-
-It sets the default from the stored consent (`CookieSolution::status()`), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
-
-In a headless frontend render this script in the server-side `<head>`, with `cookie_name` and `digest` from the config endpoint.
-It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
-
-```html
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    function cookieSolutionConsent(purposes) {
-        const state = (granted) => (granted ? 'granted' : 'denied');
-        return {
-            analytics_storage: state(purposes.statistics),
-            ad_storage: state(purposes.marketing),
-            ad_user_data: state(purposes.marketing),
-            ad_personalization: state(purposes.marketing),
-            personalization_storage: state(purposes.preferences),
-            functionality_storage: 'granted',
-            security_storage: 'granted',
-        };
-    }
-
-    (function () {
-        const config = { cookie_name: 'COOKIE_NAME', digest: 'DIGEST' };
-        let purposes = {};
-        try {
-            const value = document.cookie
-                .split('; ')
-                .find((cookie) => cookie.startsWith(config.cookie_name + '='));
-            const status = value && JSON.parse(decodeURIComponent(value.split('=')[1]));
-            if (status && status.digest === config.digest) {
-                purposes = status.purposes;
-            }
-        } catch (e) {}
-        gtag('consent', 'default', { ...cookieSolutionConsent(purposes), wait_for_update: 500 });
-    })();
-</script>
-```
-
-Then update it from the app:
-
-```js
-onStatusChange((status) => {
-    gtag('consent', 'update', cookieSolutionConsent(status.purposes));
-    dataLayer.push({ event: 'cookie-solution-status-change', status: status.purposes });
-});
-```
-
-#### Facebook Pixel
-
-Revoke consent before `fbq('init', ...)`, then follow the user's choice:
-
-```js
-fbq('consent', 'revoke');
-fbq('init', 'YOUR_PIXEL_ID');
-
-onStatusChange((status) => fbq('consent', status.purposes.marketing ? 'grant' : 'revoke'));
-```
-
-#### PostHog
-
-Start without persistent storage and enable it after consent:
-
-```js
-posthog.init('YOUR_TOKEN', { persistence: 'memory' });
-
-onStatusChange((status) => {
-    posthog.set_config({ persistence: status.purposes.statistics ? 'localStorage+cookie' : 'memory' });
-});
-```
-
-#### Microsoft Clarity
-
-```js
-import Clarity from '@microsoft/clarity';
-
-Clarity.init('YOUR_PROJECT_ID');
-Clarity.consent(false);
-
-onStatusChange((status) => Clarity.consent(status.purposes.statistics));
-```
-
-In Blade pages use `window.CookieSolution.onStatusChange` (after the banner script has loaded) or listen to the `cookie-solution-status-change` event.
+- [Customization](docs/customization.md): highlight color, floating toggle, policy views and `::part()` styling.
+- [Headless frontends](docs/headless.md): JSON API and the `@keepsuit/cookie-solution` npm package (React, SSR, SPA).
+- [Connecting tracking services](docs/tracking.md): Google Tag Manager consent mode, Facebook Pixel, PostHog, Microsoft Clarity.
 
 ## Checking status
 

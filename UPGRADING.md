@@ -12,7 +12,7 @@ The `integrations` config (`google_tag_manager`, `facebook_pixel`) has been remo
 Remove the `integrations` key from your published `config/cookie-solution.php`.
 
 - Google Tag Manager: add `@include('cookie-solution::google-consent-mode')` in `<head>` before GTM. It sets the consent-mode default from the stored consent and sends the updates, replacing both the 1.x integration and any custom view that computed the default with `CookieSolution::status()`.
-- Facebook Pixel and other services: see [Connecting tracking services](README.md#connecting-tracking-services).
+- Facebook Pixel and other services: see [Connecting tracking services](docs/tracking.md).
 
 ### Published views and translations
 
@@ -39,4 +39,4 @@ Only relevant if your own JavaScript reads it: `cookies` has been renamed to `se
 
 ### New config keys
 
-Add `api_route` and `api_middleware` to your published config if you want to use the JSON endpoints for headless frontends (see [Headless frontends](README.md#headless-frontends)).
+Add the `api` group (`enabled`, `domain`, `path`, `middleware`) to your published config if you want to use the JSON endpoints for headless frontends (see [Headless frontends](docs/headless.md)). The config comments now follow the Laravel style: republishing the config is the simplest way to get them.

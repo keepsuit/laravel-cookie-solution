@@ -57,7 +57,7 @@ export interface CookieSolutionStatus {
     purposes: Record<CookiePurpose, boolean>;
 }
 
-/** Response of the `{api_route}/policies` endpoint. */
+/** Response of the `{api.path}/policies` endpoint. */
 export interface CookieSolutionPolicies {
     cookie_policy: string;
     privacy_policy: string;
