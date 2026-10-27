@@ -1,63 +1,97 @@
 <?php
 
 return [
-    /**
-     * Enable or disable the cookie solution.
-     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabled
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable the cookie solution (banner, script and API).
+    |
+    */
+
     'enabled' => env('COOKIE_SOLUTION_ENABLED', true),
 
-    /**
-     * Name of the cookie where we store the user's consent.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Consent Cookie
+    |--------------------------------------------------------------------------
+    |
+    | Name of the cookie where the user's consent is stored and its lifetime
+    | in days. Changing the name asks every user for consent again.
+    |
+    */
+
     'cookie_name' => 'laravel_cookie_solution',
 
-    /**
-     * The cookie's lifetime in days.
-     */
     'cookie_lifetime' => 365,
 
-    /**
-     * Banner highlight color (ex. #3522dd).
-     * If null, the default color will be used.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Highlight Color
+    |--------------------------------------------------------------------------
+    |
+    | Banner highlight color (ex. #3522dd) written by the Blade script view.
+    | If null, the default color is used. Headless frontends set the
+    | `--cs--color-highlight` CSS variable themselves.
+    |
+    */
+
     'highlight_color' => null,
 
-    /**
-     * Floating banner toggle
-     * if false, the banner toggle will not be displayed.
-     * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Floating Toggle
+    |--------------------------------------------------------------------------
+    |
+    | Show the floating button that reopens the banner, and its position
+    | (left or right). When disabled, add the "data-cookie-solution-toggle"
+    | attribute to an element of your layout to open the banner.
+    |
+    */
+
     'toggle_enabled' => true,
 
-    /**
-     * Cookie toggle position (left or right).
-     */
     'toggle_position' => 'right',
 
-    /**
-     * The entity responsible for the processing of the data.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Data Owner
+    |--------------------------------------------------------------------------
+    |
+    | The entity responsible for the processing of the data, shown in the
+    | privacy policy. The name and address are parsed as Markdown (you can
+    | use __text__ for bold and _text_ for italic).
+    |
+    */
+
     'data_owner' => [
-        /**
-         * Email address of the data owner.
-         */
         'contact_email' => null,
 
-        /**
-         * Name/Company name and address of the data owner.
-         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
-         */
         'name_and_address' => null,
     ],
 
-    /**
-     * Path prefix of the JSON endpoints used by headless frontends (ex. cookie-solution).
-     * If null, the endpoints are disabled.
-     */
-    'api_route' => null,
+    /*
+    |--------------------------------------------------------------------------
+    | Headless API
+    |--------------------------------------------------------------------------
+    |
+    | JSON endpoints for frontends that don't use the Blade views: banner
+    | configuration (GET {path}) and policies (GET {path}/policies).
+    | Not needed with Blade. Responses use the current app locale, so set
+    | it in one of the middleware.
+    |
+    */
 
-    /**
-     * Middleware applied to the JSON endpoints.
-     */
-    'api_middleware' => ['api'],
+    'api' => [
+        'enabled' => env('COOKIE_SOLUTION_API_ENABLED', false),
+
+        'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
+
+        'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
+
+        'middleware' => ['api'],
+    ],
+
 ];
