@@ -47,7 +47,12 @@ export class CookieSolutionBanner extends LitElement {
     @state()
     private _expanded: Partial<Record<CookiePurpose, boolean>> = {};
 
+    @state()
+    private _hasPageToggle = false;
+
     private _dialogRef = createRef<HTMLDialogElement>();
+
+    private _pageToggleObserver?: MutationObserver;
 
     private _hideTimer?: ReturnType<typeof setTimeout>;
 
@@ -70,6 +75,8 @@ export class CookieSolutionBanner extends LitElement {
 
     disconnectedCallback() {
         this.disconnectedController?.abort();
+        this._pageToggleObserver?.disconnect();
+        this._pageToggleObserver = undefined;
 
         super.disconnectedCallback();
     }
@@ -80,6 +87,7 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         this._loadContrastColor();
+        this._syncPageToggleObserver();
 
         const previous = changed.get('config');
 
@@ -93,6 +101,39 @@ export class CookieSolutionBanner extends LitElement {
         if (!this._status) {
             this.show();
         }
+    }
+
+    // With `toggle_enabled: 'auto'` the floating toggle hides while the page has its own trigger (SPA navigations included).
+    private _syncPageToggleObserver(): void {
+        if (this.config?.toggle_enabled !== 'auto') {
+            this._pageToggleObserver?.disconnect();
+            this._pageToggleObserver = undefined;
+            return;
+        }
+
+        if (this._pageToggleObserver) {
+            return;
+        }
+
+        let scheduled = false;
+        const check = () => {
+            scheduled = false;
+            this._hasPageToggle = document.querySelector('[data-cookie-solution-toggle]') !== null;
+        };
+
+        this._pageToggleObserver = new MutationObserver(() => {
+            if (!scheduled) {
+                scheduled = true;
+                requestAnimationFrame(check);
+            }
+        });
+        this._pageToggleObserver.observe(document.body, {
+            childList: true,
+            subtree: true,
+            attributes: true,
+            attributeFilter: ['data-cookie-solution-toggle'],
+        });
+        check();
     }
 
     private _initListeners(): void {
@@ -305,7 +346,10 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         if (!this._showModal) {
-            return !this.config.toggle_enabled ? null : this.modalToggle();
+            const showToggle =
+                this.config.toggle_enabled === true || (this.config.toggle_enabled === 'auto' && !this._hasPageToggle);
+
+            return showToggle ? this.modalToggle() : null;
         }
 
         return html`

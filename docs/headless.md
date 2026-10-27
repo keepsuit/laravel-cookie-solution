@@ -52,6 +52,12 @@ const unsubscribe = onStatusChange((status) => {
 
 Elements with the `data-cookie-solution-toggle` attribute open the banner too.
 
+The config comes from Laravel, but the frontend can override banner options before mounting, for example to hide the floating toggle when the layout has its own link:
+
+```ts
+mount({ ...config, toggle_enabled: 'auto' });
+```
+
 The policies HTML has no styles. Render it as it is with your own styles, or wrap it in `<cookie-solution-policy-formatter>` for the default ones (see [policy views](customization.md#policy-views) for the available parts).
 It uses the package custom elements: call `defineElements()` before rendering it.
 

@@ -36,15 +36,21 @@ You can change the toggle z-index by changing the `--cs--toggle-z-index` CSS var
 
 ## Disabling toggle
 
-Sometimes you may want to disable the default floating toggle and use your own toggle button.
-You can do this by setting the `toggle_enabled` config value to `false`.
-Then you need to add the `data-cookie-solution-toggle` attribute to an element in your layout, like this:
+Sometimes you may want to use your own button instead of the floating toggle.
+Add the `data-cookie-solution-toggle` attribute to an element in your layout:
 
 ```html
 <button data-cookie-solution-toggle>
-    Toggle Cookie Banner
+    Cookie settings
 </button>
 ```
+
+Then set the `toggle_enabled` config value:
+
+- `false`: the floating toggle is never shown.
+- `'auto'`: the floating toggle is hidden while the page contains an element with `data-cookie-solution-toggle`, and shown again when it doesn't (also after client-side navigations).
+
+Users must always be able to change their consent: with `'auto'`, make sure the element is reachable on every viewport (not only inside a closed mobile menu, for example).
 
 ## Policy views
 

@@ -45,9 +45,10 @@ return [
     | Floating Toggle
     |--------------------------------------------------------------------------
     |
-    | Show the floating button that reopens the banner, and its position
-    | (left or right). When disabled, add the "data-cookie-solution-toggle"
-    | attribute to an element of your layout to open the banner.
+    | Show the floating button that reopens the banner (true, false or
+    | 'auto'), and its position (left or right). Elements with the
+    | "data-cookie-solution-toggle" attribute open the banner too: with
+    | 'auto' the floating button is hidden while the page contains one.
     |
     */
 

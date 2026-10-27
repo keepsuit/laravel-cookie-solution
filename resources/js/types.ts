@@ -23,7 +23,7 @@ export interface CookieSolutionConfig {
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
-    toggle_enabled: boolean;
+    toggle_enabled: boolean | 'auto';
     toggle_position: 'left' | 'right';
     services: Record<CookiePurpose, ServiceConfig[]>;
     texts: {

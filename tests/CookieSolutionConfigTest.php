@@ -125,3 +125,9 @@ it('translates the data processing location with the app locale', function () {
 
     expect(KlarnaServiceFactory::new()->build()->dataProcessingLocation)->toBe('Svezia');
 });
+
+it('passes the auto toggle mode to the script', function () {
+    config()->set('cookie-solution.toggle_enabled', 'auto');
+
+    expect(CookieSolution::getConfig())->toHaveKey('toggle_enabled', 'auto');
+});
