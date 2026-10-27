@@ -42,6 +42,7 @@ it('generate base config for cookie solution', function () {
                 'customize_purpose_marketing' => 'Marketing',
                 'customize_purpose_marketing_description' => 'These cookies are used to deliver advertisements more relevant to you and your interests. They are also used to limit the number of times you see an advertisement as well as help measure the effectiveness of the advertising campaign. They allow publishers and third party advertisers to target ads to you and your interests.',
                 'information_text' => app(MarkdownParser::class)->parse(file_get_contents(__DIR__.'/../resources/views/policy/cookie-policy.en.md')),
+                'duration_session' => 'Session',
             ],
         ]);
 });

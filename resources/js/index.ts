@@ -15,6 +15,14 @@ export type {
     ServiceConfig,
     CookieConfig,
 } from './types';
+export {
+    CookieSolutionBanner,
+    CookieSolutionCollapsable,
+    CookieSolutionDuration,
+    CookieSolutionPolicyFormatter,
+    CookieSolutionSwitch,
+    CookieSolutionToggle,
+};
 
 declare global {
     interface Window {
@@ -55,15 +63,15 @@ export function defineElements(): void {
 }
 
 export function mount(config: CookieSolutionConfig): void {
+    if (config.enabled === false) {
+        mountedConfig = undefined;
+        document.querySelector('cookie-solution-banner')?.remove();
+        return;
+    }
+
     defineElements();
 
     mountedConfig = config;
-
-    if (config.highlight_color !== null) {
-        document.documentElement.style.setProperty('--cs--color-highlight', config.highlight_color);
-    } else {
-        document.documentElement.style.removeProperty('--cs--color-highlight');
-    }
 
     let banner = document.querySelector('cookie-solution-banner');
 
@@ -75,6 +83,14 @@ export function mount(config: CookieSolutionConfig): void {
         banner.config = config;
         document.body.append(banner);
     }
+}
+
+export function open(): void {
+    if (!mountedConfig) {
+        return;
+    }
+
+    document.querySelector('cookie-solution-banner')?.show();
 }
 
 export function getStatus(): CookieSolutionStatus | undefined {

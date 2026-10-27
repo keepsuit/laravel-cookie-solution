@@ -22,12 +22,33 @@ jobs:
         with:
           version: 11
 
+      # No dependency cache: a poisoned cache would end up in the published package.
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      # Trusted publishing (OIDC) requires npm >= 11.5.1.
+      - name: Update npm
+        run: npm install -g npm@^11.5.1
+
+      - name: Check version matches release tag
+        run: |
+          VERSION="${TAG#v}"
+          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
+          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
+            echo "::error::package.json version ($PACKAGE_VERSION) does not match release tag ($TAG)"
+            exit 1
+          fi
+          if [[ "$VERSION" == *-* ]]; then
+            echo "NPM_DIST_TAG=next" >> "$GITHUB_ENV"
+          else
+            echo "NPM_DIST_TAG=latest" >> "$GITHUB_ENV"
+          fi
+        env:
+          TAG: ${{ github.event.release.tag_name }}
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
@@ -36,17 +57,16 @@ jobs:
         run: pnpm build
 
       - name: Publish to npm
-        run: pnpm publish --access public --provenance --no-git-checks
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public --tag "$NPM_DIST_TAG" --ignore-scripts
 
       - name: Setup GitHub Packages registry
         uses: actions/setup-node@v7
         with:
           node-version: 24
           registry-url: https://npm.pkg.github.com
+          package-manager-cache: false
 
       - name: Publish to GitHub Packages
-        run: pnpm publish --no-git-checks
+        run: npm publish --tag "$NPM_DIST_TAG" --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

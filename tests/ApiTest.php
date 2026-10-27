@@ -25,7 +25,7 @@ it('serves the rendered policies', function () {
     $this->getJson('/internal/cookie-solution/policies')
         ->assertOk()
         ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1>Cookie policy</h1>')
-            && str_contains($html, '<cookie-solution-duration duration="730"></cookie-solution-duration>')
+            && str_contains($html, '<cookie-solution-duration duration="730" session-label="Sessione"></cookie-solution-duration>')
             && str_contains($html, '<dt>_ga</dt>'))
         ->assertJsonPath('privacy_policy', fn (string $html) => str_contains($html, '<h1>Privacy policy</h1>')
             && str_contains($html, '<h3>Google Analytics 4 (Google LLC)</h3>'));

@@ -33,7 +33,7 @@
                                                     </div>
                                                     <div class="flex justify-end sm:justify-start">
                                                         <span class="rounded-lg bg-gray-100 px-2 py-1 text-sm font-bold text-gray-700" part="cookie-duration">
-                                                            <cookie-solution-duration duration="{{ $cookie->duration }}"></cookie-solution-duration>
+                                                            <cookie-solution-duration duration="{{ $cookie->duration }}" session-label="{{ __('cookie-solution::texts.cookie_policy.duration_session') }}"></cookie-solution-duration>
                                                         </span>
                                                     </div>
                                                     <div class="col-span-2 text-sm" part="cookie-description">

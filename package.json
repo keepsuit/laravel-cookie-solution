@@ -1,7 +1,19 @@
 {
     "name": "@keepsuit/cookie-solution",
     "version": "2.0.0",
+    "description": "Cookie consent banner and policy web components for Laravel Cookie Solution, usable headless from any frontend.",
+    "keywords": [
+        "cookie",
+        "cookie-consent",
+        "cookie-banner",
+        "gdpr",
+        "consent",
+        "laravel",
+        "web-components",
+        "lit"
+    ],
     "type": "module",
+    "sideEffects": false,
     "exports": {
         ".": {
             "types": "./dist/index.d.ts",
@@ -13,7 +25,7 @@
     ],
     "repository": {
         "type": "git",
-        "url": "https://github.com/keepsuit/laravel-cookie-solution"
+        "url": "git+https://github.com/keepsuit/laravel-cookie-solution.git"
     },
     "author": "Fabio Capucci <fabio.cappuc@gmail.com>",
     "license": "MIT",
@@ -25,6 +37,7 @@
         "prepublishOnly": "pnpm build"
     },
     "devDependencies": {
+        "@microsoft/api-extractor": "^7.59.4",
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/typography": "^0.5.20",
         "@types/node": "^26.6.5",

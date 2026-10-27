@@ -1,4 +1,4 @@
-import { defineElements, getStatus, mount, onStatusChange } from './index';
+import { defineElements, getStatus, mount, onStatusChange, open } from './index';
 
 declare global {
     interface Window {
@@ -6,7 +6,7 @@ declare global {
     }
 }
 
-const CookieSolution = { defineElements, mount, getStatus, onStatusChange };
+const CookieSolution = { defineElements, mount, open, getStatus, onStatusChange };
 
 // Assigned explicitly: the Blade view loads this bundle as a module script, where the IIFE's top-level `var` stays local.
 window.CookieSolution = CookieSolution;

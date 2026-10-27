@@ -158,6 +158,7 @@ class CookieSolution
                 'customize_purpose_marketing' => __('cookie-solution::texts.cookie_policy.purpose_marketing'),
                 'customize_purpose_marketing_description' => __('cookie-solution::texts.cookie_policy.purpose_marketing_description'),
                 'information_text' => $this->cookiePolicyHtml()->toHtml(),
+                'duration_session' => __('cookie-solution::texts.cookie_policy.duration_session'),
             ],
             'services' => $this->servicesGroupedByCookiePurpose()->toArray(),
         ];

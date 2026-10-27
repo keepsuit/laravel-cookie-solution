@@ -89,13 +89,7 @@ export class CookieSolutionBanner extends LitElement {
         document.addEventListener(
             'click',
             (event) => {
-                let target = event.target;
-
-                if (!(target instanceof HTMLElement)) {
-                    return;
-                }
-
-                if (target.getAttribute('data-cookie-solution-toggle') === null) {
+                if (!(event.target instanceof Element) || !event.target.closest('[data-cookie-solution-toggle]')) {
                     return;
                 }
 
@@ -145,12 +139,13 @@ export class CookieSolutionBanner extends LitElement {
         this.dispatchEvent(
             new CustomEvent('cookie-solution-status-change', {
                 bubbles: true,
-                detail: this._status,
+                // Listeners must not share the banner's state object.
+                detail: structuredClone(this._status),
             }),
         );
     }
 
-    private show(): void {
+    show(): void {
         this._showModal = true;
         this._showModalStatus = 'showing';
         setTimeout(() => (this._showModalStatus = 'visible'), 1);
@@ -189,9 +184,9 @@ export class CookieSolutionBanner extends LitElement {
             timestamp: new Date().toISOString(),
             purposes: {
                 necessary: true,
-                preferences: this.config != undefined && this.config.cookies.preferences.length > 0,
-                statistics: this.config != undefined && this.config.cookies.statistics.length > 0,
-                marketing: this.config != undefined && this.config.cookies.marketing.length > 0,
+                preferences: this.config != undefined && this.config.services.preferences.length > 0,
+                statistics: this.config != undefined && this.config.services.statistics.length > 0,
+                marketing: this.config != undefined && this.config.services.marketing.length > 0,
             },
         };
 
@@ -200,11 +195,7 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     private _onAcceptSelected(): void {
-        if (!this._status) {
-            this._status = newEmptyStatus();
-        }
-
-        this._status.timestamp = new Date().toISOString();
+        this._status = { ...(this._status ?? newEmptyStatus()), timestamp: new Date().toISOString() };
 
         this._saveStatus();
         this.hide();
@@ -218,11 +209,9 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     private _onPurposeChange(purpose: CookiePurpose, value: boolean): void {
-        if (!this._status) {
-            this._status = newEmptyStatus();
-        }
+        const status = this._status ?? newEmptyStatus();
 
-        this._status.purposes[purpose] = value;
+        this._status = { ...status, purposes: { ...status.purposes, [purpose]: value } };
     }
 
     protected render(): unknown {
@@ -382,9 +371,9 @@ export class CookieSolutionBanner extends LitElement {
         return html`
             <div class="divide-y divide-gray-100" part="banner-tab-customize">
                 ${this.cookiePurposeRow('necessary')}
-                ${this.config.cookies.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
-                ${this.config.cookies.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
-                ${this.config.cookies.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
+                ${this.config.services.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
+                ${this.config.services.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
+                ${this.config.services.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
             </div>
         `;
     }
@@ -417,7 +406,7 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
-        const hasCookies = this.config.cookies[purpose].length > 0;
+        const hasCookies = this.config.services[purpose].length > 0;
 
         const dispatchOpenEvent = (event: Event) =>
             event.target?.dispatchEvent(
@@ -480,7 +469,7 @@ export class CookieSolutionBanner extends LitElement {
 
                 <div slot="content">
                     <div class="mb-8 md:mr-16 md:ml-10">
-                        ${this.config.cookies[purpose].map(
+                        ${this.config.services[purpose].map(
                             (service) => html`
                                 <div class="mt-4 border-l-4 border-gray-300 px-4">
                                     <div>
@@ -507,7 +496,11 @@ export class CookieSolutionBanner extends LitElement {
                 </div>
                 <div class="flex justify-end sm:justify-start">
                     <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700">
-                        <cookie-solution-duration duration="${cookie.duration}"></cookie-solution-duration>
+                        <cookie-solution-duration
+                            duration="${cookie.duration}"
+                            locale="${this.config?.locale}"
+                            session-label="${this.config?.texts.duration_session}"
+                        ></cookie-solution-duration>
                     </span>
                 </div>
                 <div class="col-span-2 text-xs">${cookie.description}</div>

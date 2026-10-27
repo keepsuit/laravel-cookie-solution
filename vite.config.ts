@@ -59,7 +59,7 @@ export default defineConfig(({ mode }) => ({
             apply: 'build',
             ...minifyHTML.default(),
         },
-        mode === 'iife' ? libManifest() : dts({ exclude: ['resources/js/laravel-cookie-solution.ts'] }),
+        mode === 'iife' ? libManifest() : dts({ exclude: ['resources/js/laravel-cookie-solution.ts'], bundleTypes: true }),
     ],
     build:
         mode === 'iife'

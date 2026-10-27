@@ -19,7 +19,7 @@
                                 <li>
                                     <dl>
                                         <dt>{{ $cookie->name }}</dt>
-                                        <dd><cookie-solution-duration duration="{{ $cookie->duration }}"></cookie-solution-duration></dd>
+                                        <dd><cookie-solution-duration duration="{{ $cookie->duration }}" session-label="{{ __('cookie-solution::texts.cookie_policy.duration_session') }}"></cookie-solution-duration></dd>
                                         <dd>{{ $cookie->description }}</dd>
                                     </dl>
                                 </li>

@@ -32,3 +32,16 @@ test('writeStatus uses digest and cookie_lifetime', () => {
     assert.ok(Math.abs(expires - (Date.now() + 10 * 86400000)) < 2000);
     assert.deepEqual(readStatus(config), { ...status, digest: 'abc' });
 });
+
+test('writeStatus does not mutate its argument', () => {
+    const input = { ...status };
+    writeStatus(config, input);
+    assert.equal(input.digest, undefined);
+});
+
+test('readStatus rejects tampered purposes', () => {
+    for (const purposes of [null, 'yes', { ...status.purposes, marketing: 'true' }]) {
+        document.cookie = cookie({ ...status, digest: 'abc', purposes });
+        assert.equal(readStatus(config), undefined);
+    }
+});

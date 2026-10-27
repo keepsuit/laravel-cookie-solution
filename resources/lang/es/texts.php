@@ -19,6 +19,7 @@ return [
     'cookie_policy' => [
         'title' => 'Política de cookies',
         'cookies_list' => 'Lista de cookies utilizadas',
+        'duration_session' => 'Sesión',
 
         'purpose_necessary' => 'Necesarias',
         'purpose_necessary_description' => 'Estas cookies son necesarias para que el sitio web permita la funcionalidad (como el acceso al área personal o almacenar tu carrito de compras). El sitio web no puede funcionar correctamente sin estas cookies.',

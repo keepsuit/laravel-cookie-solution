@@ -34,15 +34,23 @@ export function readStatus(config: CookieSolutionConfig): CookieSolutionStatus |
 
     try {
         const status = JSON.parse(value);
+        const purposes = status?.purposes;
 
-        return status?.digest === config.digest && typeof status.purposes === 'object' ? status : undefined;
+        if (
+            status?.digest !== config.digest ||
+            typeof purposes !== 'object' ||
+            purposes === null ||
+            !Object.values(purposes).every((value) => typeof value === 'boolean')
+        ) {
+            return undefined;
+        }
+
+        return status;
     } catch {
         return undefined;
     }
 }
 
 export function writeStatus(config: CookieSolutionConfig, status: CookieSolutionStatus): void {
-    status.digest = config.digest;
-
-    setCookie(config.cookie_name, JSON.stringify(status), config.cookie_lifetime);
+    setCookie(config.cookie_name, JSON.stringify({ ...status, digest: config.digest }), config.cookie_lifetime);
 }
