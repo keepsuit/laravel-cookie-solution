@@ -1,5 +1,6 @@
 import { LitElement, html, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
+import { createRef, ref } from 'lit/directives/ref.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { deleteCookie, readStatus, writeStatus } from '../utils/cookie';
@@ -43,6 +44,16 @@ export class CookieSolutionBanner extends LitElement {
 
     @state()
     private _status: CookieSolutionStatus | undefined = undefined;
+
+    @state()
+    private _expanded: Partial<Record<CookiePurpose, boolean>> = {};
+
+    private _dialogRef = createRef<HTMLDialogElement>();
+
+    private _hideTimer?: ReturnType<typeof setTimeout>;
+
+    // The floating toggle is re-created when the banner closes, so it can't be stored as an element.
+    private _opener?: HTMLElement | 'toggle';
 
     connectedCallback() {
         super.connectedCallback();
@@ -95,6 +106,7 @@ export class CookieSolutionBanner extends LitElement {
 
                 event.preventDefault();
 
+                this._opener = event.target.closest<HTMLElement>('[data-cookie-solution-toggle]') ?? undefined;
                 this.show();
             },
             { signal: this.disconnectedController?.signal },
@@ -146,6 +158,7 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     show(): void {
+        clearTimeout(this._hideTimer);
         this._showModal = true;
         this._showModalStatus = 'showing';
         setTimeout(() => (this._showModalStatus = 'visible'), 1);
@@ -154,28 +167,101 @@ export class CookieSolutionBanner extends LitElement {
     private hide(): void {
         this._showModalStatus = 'hiding';
 
-        const dialog = this.renderRoot.querySelector('[role="dialog"]');
-        if (dialog instanceof HTMLElement) {
-            dialog.addEventListener(
-                'transitionend',
-                () => {
-                    this._showModalStatus = 'hidden';
-                    this._showModal = false;
-                },
-                { once: true },
-            );
+        const finish = () => {
+            // The banner may have been reopened while hiding.
+            if (this._showModalStatus !== 'hiding') {
+                return;
+            }
+
+            this._showModalStatus = 'hidden';
+            this._dialogRef.value?.close();
+            this._showModal = false;
+            this._restoreFocus();
+        };
+
+        // Nothing to animate when transitions are off or the browser already closed the dialog.
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches || !this._dialogRef.value?.open) {
+            finish();
+            return;
         }
 
-        setTimeout(() => {
-            this._showModalStatus = 'hidden';
-            this._showModal = false;
-        }, 500);
+        this.renderRoot.querySelector('[part="banner-dialog"]')?.addEventListener('transitionend', finish, {
+            once: true,
+        });
+
+        this._hideTimer = setTimeout(finish, 500);
+    }
+
+    private async _restoreFocus(): Promise<void> {
+        const opener = this._opener;
+        this._opener = undefined;
+
+        await this.updateComplete;
+
+        if (opener === 'toggle') {
+            this.renderRoot.querySelector('cookie-solution-toggle')?.focus();
+        } else {
+            opener?.focus();
+        }
+    }
+
+    protected updated(): void {
+        const dialog = this._dialogRef.value;
+
+        if (dialog && !dialog.open && this._showModalStatus === 'showing') {
+            dialog.showModal();
+            this._focusSelectedTab();
+        }
+    }
+
+    private async _onCustomize(): Promise<void> {
+        this._tab = 1;
+        // The clicked button is replaced by "accept selected": keep keyboard focus inside the dialog.
+        await this.updateComplete;
+        this._focusSelectedTab();
+    }
+
+    private _focusSelectedTab(): void {
+        this.renderRoot.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]')?.focus();
     }
 
     private _onTabSelected(event: Event): void {
-        if (event.target instanceof HTMLButtonElement) {
-            const tab = event.target.dataset['tab'];
-            this._tab = Number.isNaN(tab) ? this._tab : Number(tab);
+        if (event.currentTarget instanceof HTMLButtonElement) {
+            this._tab = Number(event.currentTarget.dataset['tab']);
+        }
+    }
+
+    private async _onTabKeydown(event: KeyboardEvent): Promise<void> {
+        const last = 2;
+        const tab = {
+            ArrowLeft: this._tab === 0 ? last : this._tab - 1,
+            ArrowRight: this._tab === last ? 0 : this._tab + 1,
+            Home: 0,
+            End: last,
+        }[event.key];
+
+        if (tab === undefined) {
+            return;
+        }
+
+        event.preventDefault();
+        this._tab = tab;
+        await this.updateComplete;
+        this._focusSelectedTab();
+    }
+
+    private _onCancel(event: Event): void {
+        event.preventDefault();
+
+        if (this._showModalStatus !== 'hiding') {
+            this._onRefuse();
+        }
+    }
+
+    // Chromium doesn't let `cancel` be prevented without user activation (e.g. Esc right after load).
+    private _onClose(): void {
+        if (this._showModalStatus !== 'hiding' && this._showModalStatus !== 'hidden') {
+            this._onRefuse();
         }
     }
 
@@ -224,11 +310,16 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         return html`
-            <div class="fixed inset-0 z-max bg-gray-900/30 print:hidden" part="banner-root">
+            <dialog
+                class="fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/30 p-0 backdrop:bg-transparent print:hidden"
+                part="banner-root"
+                aria-label="${this.config.texts.consent_title}"
+                @cancel="${this._onCancel}"
+                @close="${this._onClose}"
+                ${ref(this._dialogRef)}
+            >
                 <div
                     part="banner-dialog"
-                    role="dialog"
-                    aria-labelledby="cookie-solution-consent-title"
                     class="${clsx({
                         'opacity-0 scale-75': this._showModalStatus === 'showing' || this._showModalStatus === 'hiding',
                         'fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300': true,
@@ -236,7 +327,13 @@ export class CookieSolutionBanner extends LitElement {
                 >
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow-sm">
                         ${this.header()}
-                        <div class="flex-1 overflow-auto p-4">
+                        <div
+                            class="flex-1 overflow-auto p-4"
+                            role="tabpanel"
+                            id="cookie-solution-tabpanel"
+                            aria-labelledby="cookie-solution-tab-${this._tab}"
+                            tabindex="0"
+                        >
                             ${this._tab === 0 ? this.consentTab() : null}
                             ${this._tab === 1 ? this.customizeTab() : null}
                             ${this._tab === 2 ? this.informationTab() : null}
@@ -244,7 +341,7 @@ export class CookieSolutionBanner extends LitElement {
                         ${this.footer()}
                     </div>
                 </div>
-            </div>
+            </dialog>
         `;
     }
 
@@ -253,47 +350,56 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
+        const tab = (index: number, label: string) => html`
+            <button
+                class="${clsx('h-14 w-full px-1 text-sm font-medium break-words hyphens-auto duration-300', {
+                    'aria-selected:text-highlight-text': this._contrastColor === 'white',
+                })}"
+                role="tab"
+                id="cookie-solution-tab-${index}"
+                aria-controls="cookie-solution-tabpanel"
+                aria-selected="${this._tab === index}"
+                tabindex="${this._tab === index ? 0 : -1}"
+                data-tab="${index}"
+                @click="${this._onTabSelected}"
+            >
+                ${label}
+            </button>
+        `;
+
         return html`
-            <div class="relative">
-                <div class="grid shrink-0 grid-cols-3 border-b border-gray-200" role="tablist">
-                    <button
-                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                            'aria-selected:text-highlight': this._contrastColor === 'white',
-                        })}"
-                        role="tab"
-                        data-tab="0"
-                        aria-selected="${this._tab === 0}"
-                        @click="${this._onTabSelected}"
+            <div class="flex shrink-0">
+                <div class="relative flex-1">
+                    <div
+                        class="grid grid-cols-3 border-b border-gray-200"
+                        role="tablist"
+                        @keydown="${this._onTabKeydown}"
                     >
-                        ${this.config.texts.tab_consent}
-                    </button>
-                    <button
-                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                            'aria-selected:text-highlight': this._contrastColor === 'white',
-                        })}"
-                        role="tab"
-                        data-tab="1"
-                        aria-selected="${this._tab === 1}"
-                        @click="${this._onTabSelected}"
-                    >
-                        ${this.config.texts.tab_customize}
-                    </button>
-                    <button
-                        class="${clsx('h-14 w-full text-sm font-medium duration-300', {
-                            'aria-selected:text-highlight': this._contrastColor === 'white',
-                        })}"
-                        role="tab"
-                        data-tab="2"
-                        aria-selected="${this._tab === 2}"
-                        @click="${this._onTabSelected}"
-                    >
-                        ${this.config.texts.tab_information}
-                    </button>
+                        ${tab(0, this.config.texts.tab_consent)} ${tab(1, this.config.texts.tab_customize)}
+                        ${tab(2, this.config.texts.tab_information)}
+                    </div>
+                    <hr
+                        class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
+                        style="${`translate: ${this._tab * 100}% 0`}"
+                        aria-hidden="true"
+                    />
                 </div>
-                <hr
-                    class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
-                    style="${`translate: ${this._tab * 100}% 0`}"
-                />
+                <button
+                    class="flex h-14 w-12 shrink-0 items-center justify-center rounded-tr-lg border-b border-gray-200 text-gray-700 duration-300 hover:bg-gray-100 hover:text-highlight"
+                    aria-label="${this.config.texts.button_close}"
+                    @click="${this._onRefuse}"
+                >
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 48 48"
+                        class="h-6 w-6 fill-current"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+                        />
+                    </svg>
+                </button>
             </div>
         `;
     }
@@ -307,7 +413,7 @@ export class CookieSolutionBanner extends LitElement {
             <div>
                 <button
                     class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
-                    @click="${() => (this._tab = 1)}"
+                    @click="${this._onCustomize}"
                 >
                     ${this.config.texts.button_customize}
                 </button>
@@ -355,9 +461,7 @@ export class CookieSolutionBanner extends LitElement {
 
         return html`
             <div part="banner-tab-consent">
-                <div id="cookie-solution-consent-title" class="text-sm font-bold">
-                    ${this.config.texts.consent_title}
-                </div>
+                <div class="text-sm font-bold">${this.config.texts.consent_title}</div>
                 <div class="mt-2 text-sm">${this.config.texts.consent_message}</div>
             </div>
         `;
@@ -396,7 +500,10 @@ export class CookieSolutionBanner extends LitElement {
                 exportparts="toggle-root, toggle-button"
                 position="${this.config?.toggle_position}"
                 label="${this.config?.texts.button_show_banner}"
-                @open="${this.show}"
+                @open="${() => {
+                    this._opener = 'toggle';
+                    this.show();
+                }}"
             ></cookie-solution-toggle>
         `;
     }
@@ -407,51 +514,52 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         const hasCookies = this.config.services[purpose].length > 0;
-
-        const dispatchOpenEvent = (event: Event) =>
-            event.target?.dispatchEvent(
-                new CustomEvent('toggle-open', {
-                    bubbles: true,
-                    composed: true,
-                }),
-            );
+        const expanded = this._expanded[purpose] ?? false;
+        const label = this.config.texts[`customize_purpose_${purpose}`];
 
         return html`
-            <cookie-solution--collapsable>
+            <cookie-solution--collapsable ?open="${expanded}">
                 <div class="flex gap-8">
                     <div class="flex h-12 flex-1 items-center">
                         ${
                             hasCookies
                                 ? html`
-                                      <button @click="${dispatchOpenEvent}">
+                                      <button
+                                          class="flex h-12 items-center text-sm font-bold"
+                                          aria-expanded="${expanded}"
+                                          aria-controls="cookie-solution-purpose-${purpose}"
+                                          @click="${() => (this._expanded = { ...this._expanded, [purpose]: !expanded })}"
+                                      >
                                           <svg
                                               xmlns="http://www.w3.org/2000/svg"
                                               viewBox="0 0 48 48"
                                               class="mr-4 h-6 w-6 fill-current"
+                                              aria-hidden="true"
                                           >
                                               <path d="m24 30.75-12-12 2.15-2.15L24 26.5l9.85-9.85L36 18.8Z" />
                                           </svg>
+                                          ${label}
                                       </button>
                                   `
-                                : html` <div class="md:mr-4 md:w-6"></div>`
+                                : html`
+                                      <div class="md:mr-4 md:w-6"></div>
+                                      <div class="text-sm font-bold">${label}</div>
+                                  `
                         }
-
-                        <button
-                            class="${clsx({
-                                'block flex h-12 items-center text-sm font-bold': true,
-                                'cursor-default': !hasCookies,
-                            })}"
-                            @click="${hasCookies ? dispatchOpenEvent : undefined}"
-                        >
-                            ${this.config.texts[`customize_purpose_${purpose}`]}
-                        </button>
                     </div>
                     <div class="flex h-12 w-12 items-center">
                         ${
                             purpose === 'necessary'
-                                ? html` <cookie-solution--switch checked readonly></cookie-solution--switch> `
+                                ? html`
+                                      <cookie-solution--switch
+                                          checked
+                                          readonly
+                                          label="${label}"
+                                      ></cookie-solution--switch>
+                                  `
                                 : html`
                                       <cookie-solution--switch
+                                          label="${label}"
                                           ?checked="${this._status?.purposes?.[purpose]}"
                                           @change="${($event: CustomEvent) =>
                                               this._onPurposeChange(purpose, $event.detail)}"
@@ -467,7 +575,7 @@ export class CookieSolutionBanner extends LitElement {
                     </p>
                 </div>
 
-                <div slot="content">
+                <div slot="content" id="cookie-solution-purpose-${purpose}" aria-hidden="${!expanded}">
                     <div class="mb-8 md:mr-16 md:ml-10">
                         ${this.config.services[purpose].map(
                             (service) => html`

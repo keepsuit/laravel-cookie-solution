@@ -6,6 +6,8 @@
 
 @theme inline {
     --color-highlight: var(--cs--color-highlight, #ea580c);
+    /* The default highlight is below 4.5:1 on white, too low for small text. */
+    --color-highlight-text: var(--cs--color-highlight, #c2410c);
     --inset-toggle-bottom: var(--cs--toggle-position-bottom, 1rem);
     --inset-toggle-x: var(--cs--toggle-position-x, 1rem);
     --z-index-toggle: var(--cs--toggle-z-index, 9999);
@@ -38,6 +40,15 @@
 
     button:not(:disabled) {
         cursor: pointer;
+    }
+}
+
+/* Unlayered and important to beat the `duration-*` utilities. */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        transition-duration: 0s !important;
     }
 }
 

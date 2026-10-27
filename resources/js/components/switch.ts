@@ -15,6 +15,9 @@ export class CookieSolutionSwitch extends LitElement {
     @property({ type: Boolean })
     readonly: boolean = false;
 
+    @property({ type: String })
+    label: string | undefined = undefined;
+
     private _onClick(): void {
         if (this.disabled || this.readonly) {
             return;
@@ -36,6 +39,8 @@ export class CookieSolutionSwitch extends LitElement {
                 type="button"
                 role="switch"
                 aria-checked="${this.checked}"
+                aria-disabled="${this.disabled || this.readonly}"
+                aria-label="${this.label}"
                 @click="${this._onClick}"
                 class="${clsx({
                     'flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow-sm': true,
