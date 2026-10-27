@@ -8,6 +8,8 @@ use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFacto
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
 
+use function Spatie\Snapshots\assertMatchesJsonSnapshot;
+
 it('generate base config for cookie solution', function () {
     $config = CookieSolution::getConfig();
     assert(is_array($config));
@@ -93,4 +95,22 @@ it('generate config digest to invalidate consent on change', function () {
 
     expect($config['digest'])
         ->toBe(CookieSolution::getConfig()['digest']);
+});
+
+it('keeps the config contract stable', function () {
+    config()->set('cookie-solution.highlight_color', '#3522dd');
+
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+
+    assertMatchesJsonSnapshot(json_encode(CookieSolution::getConfig()));
+});
+
+it('exposes highlight color in config', function () {
+    expect(CookieSolution::getConfig())->toHaveKey('highlight_color', null)->not->toHaveKey('integrations');
+
+    config()->set('cookie-solution.highlight_color', '#3522dd');
+
+    expect(CookieSolution::getConfig())->toHaveKey('highlight_color', '#3522dd');
 });

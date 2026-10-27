@@ -51,23 +51,13 @@ return [
     ],
 
     /**
-     * Integrations with other services.
+     * Path prefix of the JSON endpoints used by headless frontends (ex. cookie-solution).
+     * If null, the endpoints are disabled.
      */
-    'integrations' => [
-        /**
-         * Integration with Google Tag Manager consent mode.
-         *
-         * If enabled, the cookie solution script will automatically call
-         * `gtag('consent', { ... })` when the user accepts or rejects cookies.
-         */
-        'google_tag_manager' => true,
+    'api_route' => null,
 
-        /**
-         * Integration with Facebook pixel.
-         *
-         * If enabled, the cookie solution script will automatically call
-         * `fbq('consent', ...)` when the user accepts or rejects cookies.
-         */
-        'facebook_pixel' => true,
-    ],
+    /**
+     * Middleware applied to the JSON endpoints.
+     */
+    'api_middleware' => ['api'],
 ];

@@ -52,7 +52,7 @@ class CookieSolution
         }
 
         try {
-            $value = json_decode($json, true, JSON_THROW_ON_ERROR);
+            $value = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
         } catch (\Throwable) {
             return $this->status = CookieSolutionStatus::default();
         }
@@ -138,6 +138,7 @@ class CookieSolution
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
+            'highlight_color' => config('cookie-solution.highlight_color'),
             'texts' => [
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),
                 'tab_customize' => __('cookie-solution::texts.banner.tab_customize'),
@@ -160,7 +161,6 @@ class CookieSolution
                 'information_text' => $this->cookiePolicyHtml()->toHtml(),
             ],
             'cookies' => $this->servicesGroupedByCookiePurpose()->toArray(),
-            'integrations' => config('cookie-solution.integrations', []),
         ];
     }
 
