@@ -72,6 +72,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    |
+    | Banner layout: 'modal' (a dialog centered on the page) or 'card' (a
+    | compact card in the bottom corner on the toggle_position side, a
+    | bottom sheet on mobile).
+    |
+    */
+
+    'layout' => 'modal',
+
+    /*
+    |--------------------------------------------------------------------------
     | Floating Toggle
     |--------------------------------------------------------------------------
     |
@@ -244,7 +257,7 @@ See [customization](docs/customization.md#policy-views) for the available parts 
 
 ## Documentation
 
-- [Customization](docs/customization.md): highlight color, floating toggle, policy views and `::part()` styling.
+- [Customization](docs/customization.md): highlight color, layout, floating toggle, policy views and `::part()` styling.
 - [Headless frontends](docs/headless.md): JSON API and the `@keepsuit/cookie-solution` npm package (React, SSR, SPA).
 - [Connecting tracking services](docs/tracking.md): Google Tag Manager consent mode, Facebook Pixel, PostHog, Microsoft Clarity.
 

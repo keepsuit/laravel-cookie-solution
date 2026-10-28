@@ -4,6 +4,7 @@
     "digest": "19c81897d35cf17d85d10c3f5699b381177b6e5bac0298773e12890135051531",
     "cookie_name": "laravel_cookie_solution",
     "cookie_lifetime": 365,
+    "layout": "modal",
     "toggle_enabled": true,
     "toggle_position": "right",
     "toggle_label": "Open cookie settings",

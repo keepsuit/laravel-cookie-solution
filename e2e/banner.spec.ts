@@ -11,6 +11,7 @@ const snapshot = (n: number) =>
     );
 const boot = { ...snapshot(1), content_url: 'http://site.test/content?locale=en' };
 const content = snapshot(2);
+const layout = () => test.info().project.metadata.layout;
 const bundle = readFileSync('resources/dist/laravel-cookie-solution.js', 'utf8');
 
 const acceptedAll = {
@@ -55,7 +56,7 @@ async function visit(page: Page, { cookie, config = boot, body = '', contentDela
 
         return route.fulfill({
             contentType: 'text/html',
-            body: `<!doctype html><html lang="en"><body>${body}<script>window._cookieSolution = ${JSON.stringify(config)};</script><script defer src="http://cdn.test/bundle.js"></script></body></html>`,
+            body: `<!doctype html><html lang="en"><body>${body}<script>window._cookieSolution = ${JSON.stringify({ ...config, layout: layout() })};</script><script defer src="http://cdn.test/bundle.js"></script></body></html>`,
         });
     });
 
@@ -76,6 +77,7 @@ test('first visit loads the content once and opens the banner', async ({ page })
     const { requests } = await visit(page);
 
     await expect(dialog(page)).toBeVisible();
+    await expect(banner(page)).toHaveAttribute('layout', layout());
     await banner(page).getByRole('tab', { name: content.texts.tab_information }).click();
     await expect(banner(page).locator('[part="banner-tab-information"] h2').first()).toBeVisible();
     expect(requests).toEqual(['en']);
@@ -145,6 +147,7 @@ test('a config change while the content loads opens the banner with the new cont
 
     await page.evaluate((config) => (window as any).CookieSolution.mount(config), {
         ...boot,
+        layout: layout(),
         locale: 'it',
         content_url: 'http://site.test/content?locale=it',
     });

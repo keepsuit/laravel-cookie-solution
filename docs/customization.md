@@ -12,6 +12,16 @@ With Blade, set the `highlight_color` config value. Headless frontends set the C
 
 Use a hex color: the selected tab text uses the highlight color only when it is dark enough, and only hex values are checked (with other formats the tab keeps the default text color).
 
+## Layout
+
+Set the `layout` config value to choose how the banner looks:
+
+- `'modal'` (default): a dialog centered on the page.
+- `'card'`: a compact card in the bottom corner on the `toggle_position` side, a bottom sheet on mobile.
+
+Both block the page until the user chooses and behave the same way. Unknown values fall back to `'modal'`.
+Headless frontends can override it before mounting: `mount({ ...config, layout: 'card' })`.
+
 ## Toggle position
 
 You can change the toggle position to `left` or `right` by changing the `toggle_position` config value (default to `right`).

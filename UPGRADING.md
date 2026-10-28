@@ -37,7 +37,7 @@ If you published the markdown policies in `resources/views/vendor/cookie-solutio
 
 ### `window._cookieSolution` and `CookieSolution::getConfig()`
 
-The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `toggle_*` and `content_url`).
+The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `layout`, `toggle_*` and `content_url`).
 Texts, services and the cookie policy are loaded from `content_url` (`GET /api/cookie-solution/content`) when the banner opens.
 If your own JavaScript read `cookies` or `texts` from `window._cookieSolution`, fetch `content_url` instead.
 In PHP, `CookieSolution::getConfig()` returns the same reduced configuration: texts and services (`cookies` in 1.x) are returned by `CookieSolution::getContent()`.
@@ -47,4 +47,5 @@ The consent `digest` is unchanged: stored consents remain valid after the upgrad
 
 The package now registers JSON endpoints under `api/cookie-solution` (the Blade banner loads its content from there, see [Headless frontends](docs/headless.md)).
 Add the `api` group (`domain`, `path`, `middleware`) to your published config to change the path or the middleware; the middleware must not require authentication or start a session.
+Add `layout` to choose the banner layout: `'modal'` (default) or `'card'` (see [Layout](docs/customization.md#layout)).
 The config comments now follow the Laravel style: republishing the config is the simplest way to get them.

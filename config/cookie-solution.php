@@ -42,6 +42,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    |
+    | Banner layout: 'modal' (a dialog centered on the page) or 'card' (a
+    | compact card in the bottom corner on the toggle_position side, a
+    | bottom sheet on mobile).
+    |
+    */
+
+    'layout' => 'modal',
+
+    /*
+    |--------------------------------------------------------------------------
     | Floating Toggle
     |--------------------------------------------------------------------------
     |
