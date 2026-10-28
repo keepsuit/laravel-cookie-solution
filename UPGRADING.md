@@ -35,7 +35,10 @@ If you published the markdown policies in `resources/views/vendor/cookie-solutio
 
 ### `window._cookieSolution`
 
-Only relevant if your own JavaScript reads it: `cookies` has been renamed to `services`, `integrations` has been removed, `enabled` and `locale` have been added.
+The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `toggle_*` and `content_url`).
+Texts, services and the cookie policy are loaded from `content_url` (`GET /cookie-solution/content/{locale}`, always registered) when the banner opens.
+If your own JavaScript read `cookies` or `texts` from `window._cookieSolution`, fetch `content_url` instead.
+The consent `digest` is unchanged: stored consents remain valid after the upgrade.
 
 ### New config keys
 

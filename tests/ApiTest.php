@@ -49,7 +49,7 @@ it('applies the configured middleware and locale', function () {
     $this->getJson('/internal/cookie-solution')
         ->assertOk()
         ->assertHeader('X-Api-Test', '1')
-        ->assertJsonPath('texts.tab_consent', __('cookie-solution::texts.banner.tab_consent', locale: 'it'));
+        ->assertJsonPath('toggle_label', __('cookie-solution::texts.banner.button_show_banner', locale: 'it'));
 });
 
 it('restricts the endpoints to the configured domain', function () {

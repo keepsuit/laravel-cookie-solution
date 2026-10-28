@@ -1,4 +1,4 @@
-import type { CookieSolutionConfig, CookieSolutionStatus } from './types';
+import type { CookieSolutionConfig, CookieSolutionContent, CookieSolutionStatus } from './types';
 import { CookieSolutionBanner } from './components/banner';
 import { CookieSolutionCollapsable } from './components/collapsable';
 import { CookieSolutionDuration } from './components/duration';
@@ -6,9 +6,11 @@ import { CookieSolutionPolicyFormatter } from './components/policyFormatter';
 import { CookieSolutionSwitch } from './components/switch';
 import { CookieSolutionToggle } from './components/toggle';
 import { readStatus } from './utils/cookie';
+import { fetchContent } from './utils/content';
 
 export type {
     CookieSolutionConfig,
+    CookieSolutionContent,
     CookieSolutionStatus,
     CookieSolutionPolicies,
     CookiePurpose,
@@ -62,7 +64,12 @@ export function defineElements(): void {
     }
 }
 
-export function mount(config: CookieSolutionConfig): void {
+export interface MountOptions {
+    /** Loads the banner content when it first opens; defaults to fetching `config.content_url`. */
+    load?: (config: CookieSolutionConfig) => Promise<CookieSolutionContent>;
+}
+
+export function mount(config: CookieSolutionConfig, options: MountOptions = {}): void {
     if (config.enabled === false) {
         mountedConfig = undefined;
         document.querySelector('cookie-solution-banner')?.remove();
@@ -74,13 +81,14 @@ export function mount(config: CookieSolutionConfig): void {
     mountedConfig = config;
 
     let banner = document.querySelector('cookie-solution-banner');
+    const isNew = !banner;
 
-    if (banner) {
-        banner.config = config;
-    } else {
-        banner = document.createElement('cookie-solution-banner');
-        // Set before connecting, so the banner doesn't fall back to `window._cookieSolution`.
-        banner.config = config;
+    banner ??= document.createElement('cookie-solution-banner');
+    banner.loadContent = options.load ?? fetchContent;
+    // Set before connecting, so the banner doesn't fall back to `window._cookieSolution`.
+    banner.config = config;
+
+    if (isNew) {
         document.body.append(banner);
     }
 }
@@ -90,7 +98,7 @@ export function open(): void {
         return;
     }
 
-    document.querySelector('cookie-solution-banner')?.show();
+    void document.querySelector('cookie-solution-banner')?.show();
 }
 
 export function getStatus(): CookieSolutionStatus | undefined {

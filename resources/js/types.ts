@@ -25,12 +25,20 @@ export interface CookieSolutionConfig {
     cookie_lifetime: number;
     toggle_enabled: boolean | 'auto';
     toggle_position: 'left' | 'right';
+    toggle_label: string;
+    /** Where the banner loads its content from, the first time it opens. */
+    content_url: string;
+    /** Inline content (e.g. rendered with SSR): skips the request to `content_url`. */
+    content?: CookieSolutionContent;
+}
+
+/** Response of the `content_url` endpoint. */
+export interface CookieSolutionContent {
     services: Record<CookiePurpose, ServiceConfig[]>;
     texts: {
         tab_consent: string;
         tab_customize: string;
         tab_information: string;
-        button_show_banner: string;
         button_accept_all: string;
         button_accept_selected: string;
         button_refuse: string;

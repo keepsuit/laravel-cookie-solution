@@ -12,16 +12,21 @@ use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
 use function Spatie\Snapshots\assertMatchesJsonSnapshot;
 
 it('generate base config for cookie solution', function () {
-    $config = CookieSolution::getConfig();
-    assert(is_array($config));
-
-    expect($config)
-        ->not->toHaveKeys(['highlight_color', 'cookies'])
+    expect(CookieSolution::getConfig())
+        ->not->toHaveKeys(['highlight_color', 'cookies', 'services', 'texts'])
         ->toMatchArray([
             'enabled' => true,
             'locale' => 'en',
             'cookie_name' => 'laravel_cookie_solution',
             'cookie_lifetime' => 365,
+            'toggle_label' => 'Open cookie settings',
+            'content_url' => 'http://localhost/cookie-solution/content/en?v='.CookieSolution::contentVersion(),
+        ]);
+});
+
+it('generate the banner content', function () {
+    expect(CookieSolution::getContent())
+        ->toMatchArray([
             'texts' => [
                 'tab_consent' => 'Consent',
                 'tab_customize' => 'Customize',
@@ -30,7 +35,6 @@ it('generate base config for cookie solution', function () {
                 'button_accept_selected' => 'Accept selected',
                 'button_refuse' => 'Refuse',
                 'button_customize' => 'Customize',
-                'button_show_banner' => 'Open cookie settings',
                 'button_close' => 'Close',
                 'consent_title' => 'This site uses cookies',
                 'consent_message' => 'We use cookies to customize content and ads, to provide social media features and to analyze our traffic. We also share information about your use of our site with our social media, advertising and analytics partners who may combine it with other information that you\'ve provided to them or that they\'ve collected from your use of their services.',
@@ -53,12 +57,7 @@ it('generate config with configured services', function () {
         ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
         ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
 
-    $config = CookieSolution::getConfig();
-
-    expect($config)
-        ->toHaveKey('services');
-
-    expect($config['services'])
+    expect(CookieSolution::getContent()['services'])
         ->toMatchArray([
             'statistics' => [
                 [
@@ -109,6 +108,17 @@ it('keeps the config contract stable', function () {
         ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
 
     assertMatchesJsonSnapshot(json_encode(CookieSolution::getConfig()));
+    assertMatchesJsonSnapshot(json_encode(CookieSolution::getContent()));
+});
+
+it('changes the content version with the content, not the consent digest', function () {
+    $config = CookieSolution::getConfig();
+
+    app('translator')->addLines(['texts.banner.consent_title' => 'Changed'], 'en', 'cookie-solution');
+    $changed = (new Keepsuit\CookieSolution\CookieSolution(app(MarkdownParser::class)))->getConfig();
+
+    expect($changed['digest'])->toBe($config['digest'])
+        ->and($changed['content_url'])->not->toBe($config['content_url']);
 });
 
 it('exposes enabled flag and locale in config', function () {

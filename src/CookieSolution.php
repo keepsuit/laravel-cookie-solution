@@ -28,6 +28,11 @@ class CookieSolution
 
     protected ?CookieSolutionStatus $status = null;
 
+    /**
+     * @var array<string, array>
+     */
+    protected array $content = [];
+
     public function __construct(
         protected MarkdownParser $markdown
     ) {}
@@ -128,21 +133,36 @@ class CookieSolution
         ]);
     }
 
+    /**
+     * Config needed on every page: the banner content is loaded from `content_url` only when the banner opens.
+     */
     public function getConfig(): array
     {
+        $locale = app()->getLocale();
+
         return [
             'enabled' => $this->enabled(),
-            'locale' => app()->getLocale(),
+            'locale' => $locale,
             'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
+            'toggle_label' => __('cookie-solution::texts.banner.button_show_banner'),
+            'content_url' => route('cookie-solution.content', ['locale' => $locale, 'v' => $this->contentVersion()]),
+        ];
+    }
+
+    /**
+     * Texts and services shown by the banner, in the current locale.
+     */
+    public function getContent(): array
+    {
+        return $this->content[app()->getLocale()] ??= [
             'texts' => [
                 'tab_consent' => __('cookie-solution::texts.banner.tab_consent'),
                 'tab_customize' => __('cookie-solution::texts.banner.tab_customize'),
                 'tab_information' => __('cookie-solution::texts.banner.tab_information'),
-                'button_show_banner' => __('cookie-solution::texts.banner.button_show_banner'),
                 'button_accept_all' => __('cookie-solution::texts.banner.button_accept_all'),
                 'button_accept_selected' => __('cookie-solution::texts.banner.button_accept_selected'),
                 'button_refuse' => __('cookie-solution::texts.banner.button_refuse'),
@@ -165,9 +185,15 @@ class CookieSolution
         ];
     }
 
+    public function contentVersion(): string
+    {
+        return hash('xxh128', json_encode($this->getContent(), JSON_THROW_ON_ERROR));
+    }
+
     public function register(Service $service): self
     {
         $this->services[] = $service;
+        $this->content = [];
 
         return $this;
     }

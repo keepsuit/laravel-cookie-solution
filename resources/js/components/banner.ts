@@ -4,7 +4,14 @@ import { createRef, ref } from 'lit/directives/ref.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { deleteCookie, readStatus, writeStatus } from '../utils/cookie';
-import { CookieConfig, CookiePurpose, CookieSolutionConfig, CookieSolutionStatus } from '../types';
+import { fetchContent } from '../utils/content';
+import {
+    CookieConfig,
+    CookiePurpose,
+    CookieSolutionConfig,
+    CookieSolutionContent,
+    CookieSolutionStatus,
+} from '../types';
 import { getContrastColor } from '../utils/colorContrast';
 
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
@@ -28,6 +35,11 @@ export class CookieSolutionBanner extends LitElement {
 
     @property({ attribute: false })
     config?: CookieSolutionConfig;
+
+    loadContent: (config: CookieSolutionConfig) => Promise<CookieSolutionContent> = fetchContent;
+
+    @state()
+    private _content?: CookieSolutionContent;
 
     @state()
     private _showModal = false;
@@ -91,6 +103,17 @@ export class CookieSolutionBanner extends LitElement {
 
         const previous = changed.get('config');
 
+        if (this.config.content) {
+            this._content = this.config.content;
+        } else if (previous?.content_url !== this.config.content_url) {
+            // An open banner keeps the old content until the new one arrives.
+            if (this._showModal) {
+                void this._loadContent();
+            } else {
+                this._content = undefined;
+            }
+        }
+
         // A new config with the same cookie (e.g. locale change) only updates texts.
         if (previous?.digest === this.config.digest && previous?.cookie_name === this.config.cookie_name) {
             return;
@@ -99,7 +122,7 @@ export class CookieSolutionBanner extends LitElement {
         this._loadStatus();
 
         if (!this._status) {
-            this.show();
+            void this.show();
         }
     }
 
@@ -147,7 +170,7 @@ export class CookieSolutionBanner extends LitElement {
                 event.preventDefault();
 
                 this._opener = event.target.closest<HTMLElement>('[data-cookie-solution-toggle]') ?? undefined;
-                this.show();
+                void this.show();
             },
             { signal: this.disconnectedController?.signal },
         );
@@ -197,7 +220,33 @@ export class CookieSolutionBanner extends LitElement {
         );
     }
 
-    show(): void {
+    private async _loadContent(): Promise<boolean> {
+        const config = this.config;
+
+        if (!config) {
+            return false;
+        }
+
+        try {
+            const content = config.content ?? (await this.loadContent(config));
+
+            if (config === this.config) {
+                this._content = content;
+            }
+
+            return true;
+        } catch (error) {
+            console.error('CookieSolution: Unable to load the banner content.', error);
+
+            return false;
+        }
+    }
+
+    async show(): Promise<void> {
+        if (!this._content && !(await this._loadContent())) {
+            return;
+        }
+
         clearTimeout(this._hideTimer);
         this._showModal = true;
         this._showModalStatus = 'showing';
@@ -310,9 +359,9 @@ export class CookieSolutionBanner extends LitElement {
             timestamp: new Date().toISOString(),
             purposes: {
                 necessary: true,
-                preferences: this.config != undefined && this.config.services.preferences.length > 0,
-                statistics: this.config != undefined && this.config.services.statistics.length > 0,
-                marketing: this.config != undefined && this.config.services.marketing.length > 0,
+                preferences: this._content != undefined && this._content.services.preferences.length > 0,
+                statistics: this._content != undefined && this._content.services.statistics.length > 0,
+                marketing: this._content != undefined && this._content.services.marketing.length > 0,
             },
         };
 
@@ -345,7 +394,7 @@ export class CookieSolutionBanner extends LitElement {
             return null;
         }
 
-        if (!this._showModal) {
+        if (!this._showModal || !this._content) {
             const showToggle =
                 this.config.toggle_enabled === true || (this.config.toggle_enabled === 'auto' && !this._hasPageToggle);
 
@@ -356,7 +405,7 @@ export class CookieSolutionBanner extends LitElement {
             <dialog
                 class="fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/30 p-0 backdrop:bg-transparent print:hidden"
                 part="banner-root"
-                aria-label="${this.config.texts.consent_title}"
+                aria-label="${this._content.texts.consent_title}"
                 @cancel="${this._onCancel}"
                 @close="${this._onClose}"
                 ${ref(this._dialogRef)}
@@ -390,7 +439,7 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected header(): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return;
         }
 
@@ -419,8 +468,8 @@ export class CookieSolutionBanner extends LitElement {
                         role="tablist"
                         @keydown="${this._onTabKeydown}"
                     >
-                        ${tab(0, this.config.texts.tab_consent)} ${tab(1, this.config.texts.tab_customize)}
-                        ${tab(2, this.config.texts.tab_information)}
+                        ${tab(0, this._content.texts.tab_consent)} ${tab(1, this._content.texts.tab_customize)}
+                        ${tab(2, this._content.texts.tab_information)}
                     </div>
                     <hr
                         class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
@@ -430,7 +479,7 @@ export class CookieSolutionBanner extends LitElement {
                 </div>
                 <button
                     class="flex h-14 w-12 shrink-0 items-center justify-center rounded-tr-lg border-b border-gray-200 text-gray-700 duration-300 hover:bg-gray-100 hover:text-highlight"
-                    aria-label="${this.config.texts.button_close}"
+                    aria-label="${this._content.texts.button_close}"
                     @click="${this._onRefuse}"
                 >
                     <svg
@@ -449,7 +498,7 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected footer(): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return;
         }
 
@@ -459,7 +508,7 @@ export class CookieSolutionBanner extends LitElement {
                     class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${this._onCustomize}"
                 >
-                    ${this.config.texts.button_customize}
+                    ${this._content.texts.button_customize}
                 </button>
             </div>
         `;
@@ -470,7 +519,7 @@ export class CookieSolutionBanner extends LitElement {
                     class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${this._onAcceptSelected}"
                 >
-                    ${this.config.texts.button_accept_selected}
+                    ${this._content.texts.button_accept_selected}
                 </button>
             </div>
         `;
@@ -482,7 +531,7 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onRefuse}"
                     >
-                        ${this.config.texts.button_refuse}
+                        ${this._content.texts.button_refuse}
                     </button>
                 </div>
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
@@ -491,7 +540,7 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onAcceptAll}"
                     >
-                        ${this.config.texts.button_accept_all}
+                        ${this._content.texts.button_accept_all}
                     </button>
                 </div>
             </div>
@@ -499,41 +548,41 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected consentTab(): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return;
         }
 
         return html`
             <div part="banner-tab-consent">
-                <div class="text-sm font-bold">${this.config.texts.consent_title}</div>
-                <div class="mt-2 text-sm">${this.config.texts.consent_message}</div>
+                <div class="text-sm font-bold">${this._content.texts.consent_title}</div>
+                <div class="mt-2 text-sm">${this._content.texts.consent_message}</div>
             </div>
         `;
     }
 
     protected customizeTab(): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return null;
         }
 
         return html`
             <div class="divide-y divide-gray-100" part="banner-tab-customize">
                 ${this.cookiePurposeRow('necessary')}
-                ${this.config.services.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
-                ${this.config.services.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
-                ${this.config.services.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
+                ${this._content.services.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
+                ${this._content.services.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
+                ${this._content.services.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
             </div>
         `;
     }
 
     protected informationTab(): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return null;
         }
 
         return html`
             <div class="prose prose-sm" part="banner-tab-information">
-                ${unsafeHTML(this.config.texts.information_text)}
+                ${unsafeHTML(this._content.texts.information_text)}
             </div>
         `;
     }
@@ -543,23 +592,23 @@ export class CookieSolutionBanner extends LitElement {
             <cookie-solution-toggle
                 exportparts="toggle-root, toggle-button"
                 position="${this.config?.toggle_position}"
-                label="${this.config?.texts.button_show_banner}"
+                label="${this.config?.toggle_label}"
                 @open="${() => {
                     this._opener = 'toggle';
-                    this.show();
+                    void this.show();
                 }}"
             ></cookie-solution-toggle>
         `;
     }
 
     protected cookiePurposeRow(purpose: CookiePurpose): unknown {
-        if (!this.config) {
+        if (!this._content) {
             return;
         }
 
-        const hasCookies = this.config.services[purpose].length > 0;
+        const hasCookies = this._content.services[purpose].length > 0;
         const expanded = this._expanded[purpose] ?? false;
-        const label = this.config.texts[`customize_purpose_${purpose}`];
+        const label = this._content.texts[`customize_purpose_${purpose}`];
 
         return html`
             <cookie-solution--collapsable ?open="${expanded}">
@@ -615,13 +664,13 @@ export class CookieSolutionBanner extends LitElement {
 
                 <div class="mb-4 md:pr-20 md:pl-10">
                     <p class="text-sm text-gray-800">
-                        ${this.config.texts[`customize_purpose_${purpose}_description`]}
+                        ${this._content.texts[`customize_purpose_${purpose}_description`]}
                     </p>
                 </div>
 
                 <div slot="content" id="cookie-solution-purpose-${purpose}" aria-hidden="${!expanded}">
                     <div class="mb-8 md:mr-16 md:ml-10">
-                        ${this.config.services[purpose].map(
+                        ${this._content.services[purpose].map(
                             (service) => html`
                                 <div class="mt-4 border-l-4 border-gray-300 px-4">
                                     <div>
@@ -651,7 +700,7 @@ export class CookieSolutionBanner extends LitElement {
                         <cookie-solution-duration
                             duration="${cookie.duration}"
                             locale="${this.config?.locale}"
-                            session-label="${this.config?.texts.duration_session}"
+                            session-label="${this._content?.texts.duration_session}"
                         ></cookie-solution-duration>
                     </span>
                 </div>
