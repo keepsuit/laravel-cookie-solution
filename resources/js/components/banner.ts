@@ -519,31 +519,29 @@ export class CookieSolutionBanner extends LitElement {
     protected footer(content: CookieSolutionContent): unknown {
         // Refuse and accept all share a style: consent rules require equal prominence.
         const primary =
-            'block h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25';
+            'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5';
         const secondary =
-            'block h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm font-semibold duration-300 hover:bg-gray-50';
+            'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5';
 
         return html`
-            <div class="grid shrink-0 gap-2 border-t border-gray-200 px-4 py-4 md:grid-cols-3 md:gap-3 md:px-8 md:py-5">
-                <div>
+            <div
+                class="flex shrink-0 flex-col gap-2 border-t border-gray-200 px-4 py-4 md:flex-row md:items-center md:justify-between md:gap-3 md:px-8 md:py-5"
+            >
+                ${
+                    this._tab === 1
+                        ? html`
+                              <button class="${secondary}" @click="${this._onAcceptSelected}">
+                                  ${content.texts.button_accept_selected}
+                              </button>
+                          `
+                        : html`
+                              <button class="${secondary}" @click="${this._onCustomize}">
+                                  ${content.texts.button_customize}
+                              </button>
+                          `
+                }
+                <div class="grid grid-cols-2 gap-2 md:gap-3">
                     <button class="${primary}" @click="${this._onRefuse}">${content.texts.button_refuse}</button>
-                </div>
-                <div>
-                    ${
-                        this._tab === 1
-                            ? html`
-                                  <button class="${secondary}" @click="${this._onAcceptSelected}">
-                                      ${content.texts.button_accept_selected}
-                                  </button>
-                              `
-                            : html`
-                                  <button class="${secondary}" @click="${this._onCustomize}">
-                                      ${content.texts.button_customize}
-                                  </button>
-                              `
-                    }
-                </div>
-                <div>
                     <button class="${primary}" @click="${this._onAcceptAll}">${content.texts.button_accept_all}</button>
                 </div>
             </div>
