@@ -517,11 +517,11 @@ export class CookieSolutionBanner extends LitElement {
         const primary =
             'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5 card:rounded-full card:bg-highlight/10 card:px-4 card:leading-tight card:font-medium card:text-gray-900 card:ring-1 card:ring-highlight/25 card:ring-inset card:hover:bg-highlight/20 card:focus-visible:bg-highlight/20 sm:card:min-h-10';
         const secondary =
-            'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5 card:w-auto card:self-center card:rounded-full card:border-transparent card:bg-transparent card:px-4 card:font-medium card:text-gray-700 card:hover:bg-gray-100 card:hover:text-gray-900 card:focus-visible:bg-gray-100 sm:card:min-h-10';
+            'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5 card:w-full card:rounded-full card:border-gray-200 card:px-4 card:font-medium card:text-gray-700 card:hover:bg-gray-50 card:hover:text-gray-900 card:focus-visible:bg-gray-50 sm:card:min-h-10';
 
         return html`
             <div
-                class="flex shrink-0 flex-col gap-2 border-t border-gray-200 px-4 py-4 md:flex-row md:items-center md:justify-between md:gap-3 md:px-8 md:py-5 card:flex-col card:items-stretch card:gap-2 card:border-gray-100 card:px-5 card:pt-2 card:pb-[max(1.25rem,env(safe-area-inset-bottom))]"
+                class="flex shrink-0 flex-col gap-2 border-t border-gray-200 px-4 py-4 md:flex-row md:items-center md:justify-between md:gap-3 md:px-8 md:py-5 card:flex-col card:items-stretch card:gap-2 card:border-gray-100 card:px-5 card:pt-4 card:pb-[max(1.25rem,env(safe-area-inset-bottom))]"
             >
                 ${
                     this._tab === 1
