@@ -1,15 +1,10 @@
 # Headless frontends
 
-The configuration needed on every page is small: cookie name, consent `digest`, toggle options and a `content_url`.
-The banner texts, services and cookie policy are loaded from `content_url` only when the banner opens, so visitors who already chose download nothing more.
-The content endpoint (`GET /cookie-solution/content/{locale}`) is always registered: it carries a version in the URL, is cached as immutable and allows any origin.
-
-The Blade integration doesn't need the API: the configuration is rendered in the page and the policies are Blade views.
-For other frontends, enable the JSON endpoints in `config/cookie-solution.php` (or with `COOKIE_SOLUTION_API_ENABLED=true`):
+Laravel exposes the banner as JSON endpoints, always registered (the Blade banner uses the content endpoint too).
+Configure them in `config/cookie-solution.php`:
 
 ```php
 'api' => [
-    'enabled' => env('COOKIE_SOLUTION_API_ENABLED', false),
     'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
     'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
     'middleware' => ['api'],
@@ -18,12 +13,15 @@ For other frontends, enable the JSON endpoints in `config/cookie-solution.php` (
 
 | Endpoint | Response |
 |---|---|
-| `GET /{path}` | banner configuration (`CookieSolutionConfig`) |
-| `GET /cookie-solution/content/{locale}` | banner content (`CookieSolutionContent`), via `config.content_url` |
-| `GET /{path}/policies` | `{ "cookie_policy": "<html>", "privacy_policy": "<html>" }` |
+| `GET /{path}?locale=it` | banner configuration (`CookieSolutionConfig`), needed on every page |
+| `GET /{path}/content?locale=it&v=…` | banner content (`CookieSolutionContent`): texts, services and cookie policy, loaded from `config.content_url` when the banner opens |
+| `GET /{path}/policies?locale=it` | `{ "cookie_policy": "<html>", "privacy_policy": "<html>" }` |
 
-Texts and policies use the current application locale, so set it with your own middleware (for example from the `Accept-Language` header).
-The response is the same for every user: you can cache it per locale (remember `Vary: Accept-Language` if the locale comes from that header).
+Every endpoint reads the locale from the `locale` query parameter (the app locale when missing; an invalid value returns 422).
+The responses are the same for every visitor, so the URL is enough as a cache key.
+The content is cached as immutable (`v` is a hash of the content) and allows any origin.
+
+The middleware must not require authentication or start a session (no `web` group), otherwise the banner breaks for guests or the responses can't be cached.
 
 Install the frontend package:
 
@@ -37,7 +35,7 @@ The package has no side effects on import, so it can be imported during SSR. Cal
 import { mount, open, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
 import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cookie-solution';
 
-const config: CookieSolutionConfig = await fetch('/api/cookie-solution').then((r) => r.json());
+const config: CookieSolutionConfig = await fetch(`/api/cookie-solution?locale=${locale}`).then((r) => r.json());
 
 // Creates the banner (or updates it, e.g. after a locale change). Does nothing when `config.enabled` is false.
 // The banner content is fetched from `config.content_url` when the banner first opens.

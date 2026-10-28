@@ -20,7 +20,7 @@ it('generate base config for cookie solution', function () {
             'cookie_name' => 'laravel_cookie_solution',
             'cookie_lifetime' => 365,
             'toggle_label' => 'Open cookie settings',
-            'content_url' => 'http://localhost/cookie-solution/content/en?v='.CookieSolution::contentVersion(),
+            'content_url' => 'http://localhost/api/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
         ]);
 });
 

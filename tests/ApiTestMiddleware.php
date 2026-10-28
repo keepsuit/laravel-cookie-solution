@@ -9,8 +9,6 @@ class ApiTestMiddleware
 {
     public function handle(Request $request, Closure $next): mixed
     {
-        app()->setLocale('it');
-
         return $next($request)->header('X-Api-Test', '1');
     }
 }

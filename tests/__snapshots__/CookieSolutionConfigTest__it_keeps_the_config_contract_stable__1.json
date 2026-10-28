@@ -7,5 +7,5 @@
     "toggle_enabled": true,
     "toggle_position": "right",
     "toggle_label": "Open cookie settings",
-    "content_url": "http://localhost/cookie-solution/content/en?v=e127f09d29486c4ba71e1b932e6cf7e9"
+    "content_url": "http://localhost/api/cookie-solution/content?locale=en&v=e127f09d29486c4ba71e1b932e6cf7e9"
 }

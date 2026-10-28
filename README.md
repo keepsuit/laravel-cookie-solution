@@ -105,19 +105,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Headless API
+    | API
     |--------------------------------------------------------------------------
     |
-    | JSON endpoints for frontends that don't use the Blade views: banner
-    | configuration (GET {path}) and policies (GET {path}/policies).
-    | Not needed with Blade. Responses use the current app locale, so set
-    | it in one of the middleware.
+    | JSON endpoints: banner configuration (GET {path}), banner content
+    | (GET {path}/content, loaded by every banner when it opens, Blade
+    | included) and policies (GET {path}/policies). The locale is read from
+    | the `locale` query parameter. The middleware must not require
+    | authentication or start a session, so responses can be cached.
     |
     */
 
     'api' => [
-        'enabled' => env('COOKIE_SOLUTION_API_ENABLED', false),
-
         'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
 
         'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
