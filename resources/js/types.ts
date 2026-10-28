@@ -23,7 +23,7 @@ export interface CookieSolutionConfig {
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
-    layout: 'modal' | 'card';
+    layout: 'modal' | 'floating';
     toggle_enabled: boolean | 'auto';
     toggle_position: 'left' | 'right';
     toggle_label: string;

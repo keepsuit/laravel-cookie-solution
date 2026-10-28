@@ -174,8 +174,8 @@ test("toggle 'auto' hides while the page has its own trigger", async ({ page }) 
     await expect(dialog(page)).toBeVisible();
 });
 
-test.describe('card layout', () => {
-    test.beforeEach(() => test.skip(layout() !== 'card', 'Only the card leaves the page usable'));
+test.describe('floating layout', () => {
+    test.beforeEach(() => test.skip(layout() !== 'floating', 'Only the floating layout leaves the page usable'));
 
     test('the page stays interactive while the banner is open', async ({ page }) => {
         await visit(page, {

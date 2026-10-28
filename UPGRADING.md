@@ -47,5 +47,5 @@ The consent `digest` is unchanged: stored consents remain valid after the upgrad
 
 The package now registers JSON endpoints under `api/cookie-solution` (the Blade banner loads its content from there, see [Headless frontends](docs/headless.md)).
 Add the `api` group (`domain`, `path`, `middleware`) to your published config to change the path or the middleware; the middleware must not require authentication or start a session.
-Add `layout` to choose the banner layout: `'modal'` (default, blocks the page) or `'card'` (leaves the page usable), see [Layout](docs/customization.md#layout).
+Add `layout` to choose the banner layout: `'modal'` (default, blocks the page) or `'floating'` (leaves the page usable), see [Layout](docs/customization.md#layout).
 The config comments now follow the Laravel style: republishing the config is the simplest way to get them.

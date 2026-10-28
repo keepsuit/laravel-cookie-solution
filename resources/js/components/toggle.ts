@@ -33,13 +33,13 @@ export class CookieSolutionToggle extends LitElement {
             >
                 <button
                     part="toggle-button"
-                    class="flex size-12 items-center justify-center rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm duration-300 hover:shadow-md card:rounded-full card:border-transparent card:shadow-card card:ease-sheet card:hover:-translate-y-0.5"
+                    class="flex size-12 items-center justify-center rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm duration-300 hover:shadow-md floating:rounded-full floating:border-transparent floating:shadow-floating floating:ease-sheet floating:hover:-translate-y-0.5"
                     aria-label="${this.label}"
                     @click="${this._open}"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-full w-full fill-highlight-text card:fill-highlight"
+                        class="h-full w-full fill-highlight-text floating:fill-highlight"
                         viewBox="0 0 48 48"
                         aria-hidden="true"
                     >

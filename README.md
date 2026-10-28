@@ -76,7 +76,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Banner layout: 'modal' (a dialog centered on the page, which blocks
-    | the page until the user chooses) or 'card' (a compact card in the
+    | the page until the user chooses) or 'floating' (a compact card in the
     | bottom corner on the toggle_position side, a bottom sheet on mobile,
     | which leaves the page usable).
     |
