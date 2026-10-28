@@ -40,7 +40,7 @@ export class CookieSolutionSwitch extends LitElement {
                 @click="${this._onClick}"
                 class="${
                     this.readonly ? 'opacity-50' : ''
-                } ${this.checked ? 'bg-highlight' : 'bg-gray-200'} flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300 focus:shadow-sm"
+                } ${this.checked ? 'bg-highlight' : 'bg-gray-200'} flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300"
             >
                 <span
                     class="${

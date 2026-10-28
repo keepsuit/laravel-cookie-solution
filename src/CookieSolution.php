@@ -167,7 +167,6 @@ class CookieSolution
                 'button_accept_selected' => __('cookie-solution::texts.banner.button_accept_selected'),
                 'button_refuse' => __('cookie-solution::texts.banner.button_refuse'),
                 'button_customize' => __('cookie-solution::texts.banner.button_customize'),
-                'button_close' => __('cookie-solution::texts.banner.button_close'),
                 'consent_title' => __('cookie-solution::texts.banner.consent_title'),
                 'consent_message' => __('cookie-solution::texts.banner.consent_message'),
                 'customize_purpose_necessary' => __('cookie-solution::texts.cookie_policy.purpose_necessary'),

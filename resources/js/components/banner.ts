@@ -1,4 +1,4 @@
-import { LitElement, html, PropertyValues } from 'lit';
+import { LitElement, html, nothing, PropertyValues } from 'lit';
 import { property, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
@@ -434,11 +434,14 @@ export class CookieSolutionBanner extends LitElement {
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow-sm">
                         ${this.header(this._content)}
                         <div
-                            class="flex-1 overflow-auto p-4"
+                            class="flex-1 overflow-auto rounded-lg p-4 focus-visible:-outline-offset-4"
                             role="tabpanel"
                             id="cookie-solution-tabpanel"
                             aria-labelledby="cookie-solution-tab-${this._tab}"
-                            tabindex="0"
+                            tabindex="${
+                                // Keyboard users reach the customize panel through its controls.
+                                this._tab === 1 ? nothing : 0
+                            }"
                         >
                             ${this._tab === 0 ? this.consentTab(this._content) : null}
                             ${this._tab === 1 ? this.customizeTab(this._content) : null}
@@ -456,7 +459,7 @@ export class CookieSolutionBanner extends LitElement {
             <button
                 class="${
                     this._contrastColor === 'white' ? 'aria-selected:text-highlight-text' : ''
-                } h-14 w-full px-1 text-sm font-medium break-words hyphens-auto duration-300"
+                } h-14 w-full rounded-lg px-1 text-sm font-medium break-words hyphens-auto duration-300 hover:bg-gray-50 focus-visible:bg-gray-50 focus-visible:-outline-offset-6"
                 role="tab"
                 id="cookie-solution-tab-${index}"
                 aria-controls="cookie-solution-tabpanel"
@@ -470,38 +473,16 @@ export class CookieSolutionBanner extends LitElement {
         `;
 
         return html`
-            <div class="flex shrink-0">
-                <div class="relative flex-1">
-                    <div
-                        class="grid grid-cols-3 border-b border-gray-200"
-                        role="tablist"
-                        @keydown="${this._onTabKeydown}"
-                    >
-                        ${tab(0, content.texts.tab_consent)} ${tab(1, content.texts.tab_customize)}
-                        ${tab(2, content.texts.tab_information)}
-                    </div>
-                    <hr
-                        class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
-                        style="${`translate: ${this._tab * 100}% 0`}"
-                        aria-hidden="true"
-                    />
+            <div class="relative shrink-0">
+                <div class="grid grid-cols-3 border-b border-gray-200" role="tablist" @keydown="${this._onTabKeydown}">
+                    ${tab(0, content.texts.tab_consent)} ${tab(1, content.texts.tab_customize)}
+                    ${tab(2, content.texts.tab_information)}
                 </div>
-                <button
-                    class="flex h-14 w-12 shrink-0 items-center justify-center rounded-tr-lg border-b border-gray-200 text-gray-700 duration-300 hover:bg-gray-100 hover:text-highlight"
-                    aria-label="${content.texts.button_close}"
-                    @click="${this._onDismiss}"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 48 48"
-                        class="h-6 w-6 fill-current"
-                        aria-hidden="true"
-                    >
-                        <path
-                            d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
-                        />
-                    </svg>
-                </button>
+                <hr
+                    class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
+                    style="${`translate: ${this._tab * 100}% 0`}"
+                    aria-hidden="true"
+                />
             </div>
         `;
     }
@@ -510,7 +491,7 @@ export class CookieSolutionBanner extends LitElement {
         const customizeButton = html`
             <div>
                 <button
-                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
+                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
                     @click="${this._onCustomize}"
                 >
                     ${content.texts.button_customize}
@@ -521,7 +502,7 @@ export class CookieSolutionBanner extends LitElement {
         const acceptSelectedButton = html`
             <div>
                 <button
-                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
+                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
                     @click="${this._onAcceptSelected}"
                 >
                     ${content.texts.button_accept_selected}
@@ -533,7 +514,7 @@ export class CookieSolutionBanner extends LitElement {
             <div class="grid shrink-0 gap-2 border-t border-gray-200 p-4 md:grid-cols-3">
                 <div>
                     <button
-                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
+                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
                         @click="${this._onRefuse}"
                     >
                         ${content.texts.button_refuse}
@@ -542,7 +523,7 @@ export class CookieSolutionBanner extends LitElement {
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
                 <div>
                     <button
-                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
+                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
                         @click="${this._onAcceptAll}"
                     >
                         ${content.texts.button_accept_all}
@@ -607,7 +588,7 @@ export class CookieSolutionBanner extends LitElement {
                             hasCookies
                                 ? html`
                                       <button
-                                          class="flex h-12 items-center text-sm font-bold"
+                                          class="flex h-12 items-center rounded-sm text-sm font-bold"
                                           aria-expanded="${expanded}"
                                           aria-controls="cookie-solution-purpose-${purpose}"
                                           @click="${() => (this._expanded = { ...this._expanded, [purpose]: !expanded })}"
