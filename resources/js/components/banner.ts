@@ -462,7 +462,7 @@ export class CookieSolutionBanner extends LitElement {
                     } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300 floating:static floating:max-h-[85dvh] floating:max-w-none floating:translate-x-0 floating:overflow-visible floating:p-0 floating:ease-sheet sm:floating:max-h-[calc(100dvh-3rem)]"
                 >
                     <div
-                        class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 floating:overflow-hidden floating:rounded-t-3xl floating:rounded-b-none floating:border-transparent floating:shadow-sheet sm:floating:rounded-3xl sm:floating:shadow-floating modal:shadow-xl modal:shadow-gray-900/5"
+                        class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 floating:overflow-hidden floating:rounded-t-3xl floating:rounded-b-none floating:border-b-0 floating:shadow-sheet sm:floating:rounded-3xl sm:floating:border-b sm:floating:shadow-floating modal:shadow-xl modal:shadow-gray-900/5"
                     >
                         ${this.header(this._content)}
                         <div
@@ -531,9 +531,9 @@ export class CookieSolutionBanner extends LitElement {
     protected footer(content: CookieSolutionContent): unknown {
         // Refuse and accept all share a style: consent rules require equal prominence.
         const primary =
-            'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5 floating:rounded-full floating:px-4 floating:leading-tight sm:floating:min-h-10';
+            'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5 floating:rounded-full floating:px-4 floating:leading-tight floating:hover:ring-2 sm:floating:min-h-10';
         const secondary =
-            'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5 floating:w-full floating:rounded-full floating:border-gray-200 floating:px-4 floating:font-medium floating:text-gray-700 floating:hover:bg-gray-50 floating:hover:text-gray-900 floating:focus-visible:bg-gray-50 sm:floating:min-h-10';
+            'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5 floating:w-full floating:rounded-full floating:border-gray-200 floating:px-4 floating:text-gray-700 floating:hover:bg-gray-50 floating:hover:text-gray-900 floating:focus-visible:bg-gray-50 sm:floating:min-h-10';
 
         return html`
             <div
