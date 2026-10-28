@@ -531,7 +531,7 @@ export class CookieSolutionBanner extends LitElement {
     protected footer(content: CookieSolutionContent): unknown {
         // Refuse and accept all share a style: consent rules require equal prominence.
         const primary =
-            'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5 floating:rounded-full floating:bg-highlight/10 floating:px-4 floating:leading-tight floating:font-medium floating:text-gray-900 floating:ring-1 floating:ring-highlight/25 floating:ring-inset floating:hover:bg-highlight/20 floating:focus-visible:bg-highlight/20 sm:floating:min-h-10';
+            'block min-h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 py-2 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25 md:min-w-32 md:px-5 floating:rounded-full floating:px-4 floating:leading-tight sm:floating:min-h-10';
         const secondary =
             'block min-h-11 w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold duration-300 hover:bg-gray-50 md:w-auto md:px-5 floating:w-full floating:rounded-full floating:border-gray-200 floating:px-4 floating:font-medium floating:text-gray-700 floating:hover:bg-gray-50 floating:hover:text-gray-900 floating:focus-visible:bg-gray-50 sm:floating:min-h-10';
 
