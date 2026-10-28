@@ -2,6 +2,15 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 1.6.2 - 2026-10-28
+
+### What's Changed
+
+* Bump actions/checkout from 6 to 7 by @dependabot[bot] in https://github.com/keepsuit/laravel-cookie-solution/pull/38
+* Fix status() rejecting timestamps written by the banner by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/40
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.6.1...1.6.2
+
 ## v1.6.1 - 2026-04-23
 
 ### What's Changed
