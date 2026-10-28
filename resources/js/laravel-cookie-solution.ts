@@ -1,15 +1,14 @@
-import { defineElements, getStatus, mount, onStatusChange, open } from './index';
+import { mount } from './index';
+import type { CookieSolutionConfig } from './types';
+
+// Exposed as `window.CookieSolution` by the IIFE build (`lib.name`).
+export { defineElements, getStatus, mount, onStatusChange, open } from './index';
 
 declare global {
     interface Window {
-        CookieSolution: typeof CookieSolution;
+        _cookieSolution?: CookieSolutionConfig;
     }
 }
-
-const CookieSolution = { defineElements, mount, open, getStatus, onStatusChange };
-
-// Assigned explicitly: the Blade view loads this bundle as a module script, where the IIFE's top-level `var` stays local.
-window.CookieSolution = CookieSolution;
 
 if (window._cookieSolution) {
     mount(window._cookieSolution);

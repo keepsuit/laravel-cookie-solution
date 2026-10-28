@@ -1,5 +1,15 @@
-export function getContrastColor(hexcolor: string): 'black' | 'white' {
-    hexcolor = hexcolor.trim().replace('#', '');
+export function getContrastColor(color: string): 'black' | 'white' {
+    let hexcolor = color.trim().replace('#', '');
+
+    // Unset: the default highlight is dark.
+    if (hexcolor === '') {
+        return 'white';
+    }
+
+    // Only hex colors are parsed: with other formats the selected tab keeps the default text color.
+    if (!/^([0-9a-f]{3}){1,2}$/i.test(hexcolor)) {
+        return 'black';
+    }
 
     // If a three-character hexcode, make six-character
     if (hexcolor.length === 3) {

@@ -27,10 +27,6 @@ export {
 };
 
 declare global {
-    interface Window {
-        _cookieSolution?: CookieSolutionConfig;
-    }
-
     interface HTMLElementTagNameMap {
         'cookie-solution-toggle': CookieSolutionToggle;
         'cookie-solution-banner': CookieSolutionBanner;
@@ -85,7 +81,6 @@ export function mount(config: CookieSolutionConfig, options: MountOptions = {}):
 
     banner ??= document.createElement('cookie-solution-banner');
     banner.loadContent = options.load ?? fetchContent;
-    // Set before connecting, so the banner doesn't fall back to `window._cookieSolution`.
     banner.config = config;
 
     if (isNew) {

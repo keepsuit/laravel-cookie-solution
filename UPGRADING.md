@@ -29,15 +29,17 @@ If you published the markdown policies in `resources/views/vendor/cookie-solutio
 ### Banner
 
 - The banner is a native `<dialog>`: the `banner-root` part is now the `<dialog>` element.
-- A close button (and the Esc key) refuses non-necessary cookies and saves the choice.
+- A close button (and the Esc key) refuses non-necessary cookies and saves the choice on the first visit; when the banner is reopened, they close it and keep the stored choice.
 - The banner uses `cookie_name` and `cookie_lifetime` from the config (1.x always used `laravel_cookie_solution` and 365 days). If you changed `cookie_name`, users will be asked for consent again once.
 - The Blade bundle exposes its API on `window.CookieSolution` (`mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`).
+- The Blade view loads the bundle with `<script defer>` instead of `type="module"`: it no longer needs CORS headers when served from a CDN. If you published `script.blade.php`, publish it again.
 
-### `window._cookieSolution`
+### `window._cookieSolution` and `CookieSolution::getConfig()`
 
 The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `toggle_*` and `content_url`).
 Texts, services and the cookie policy are loaded from `content_url` (`GET /api/cookie-solution/content`) when the banner opens.
 If your own JavaScript read `cookies` or `texts` from `window._cookieSolution`, fetch `content_url` instead.
+In PHP, `CookieSolution::getConfig()` returns the same reduced configuration: texts and services (`cookies` in 1.x) are returned by `CookieSolution::getContent()`.
 The consent `digest` is unchanged: stored consents remain valid after the upgrade.
 
 ### New config keys

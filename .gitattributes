@@ -19,6 +19,8 @@
 /phpstan-baseline.neon  export-ignore
 /resources/js       export-ignore
 /vite.config.ts     export-ignore
+/e2e               export-ignore
+/playwright.config.ts export-ignore
 /tsconfig.json      export-ignore
 /package.json       export-ignore
 /pnpm-lock.yaml     export-ignore

@@ -81,8 +81,9 @@ return [
     | JSON endpoints: banner configuration (GET {path}), banner content
     | (GET {path}/content, loaded by every banner when it opens, Blade
     | included) and policies (GET {path}/policies). The locale is read from
-    | the `locale` query parameter. The middleware must not require
-    | authentication or start a session, so responses can be cached.
+    | the `locale` query parameter. Added middleware must not require
+    | authentication, start a session or rate limit by IP (server-side
+    | rendering sends every visitor from one IP).
     |
     */
 
@@ -91,7 +92,7 @@ return [
 
         'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
 
-        'middleware' => ['api'],
+        'middleware' => [],
     ],
 
 ];

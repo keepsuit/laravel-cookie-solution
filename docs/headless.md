@@ -7,7 +7,7 @@ Configure them in `config/cookie-solution.php`:
 'api' => [
     'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
     'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
-    'middleware' => ['api'],
+    'middleware' => [],
 ],
 ```
 
@@ -21,7 +21,7 @@ Every endpoint reads the locale from the `locale` query parameter (the app local
 The responses are the same for every visitor, so the URL is enough as a cache key.
 The content is cached as immutable (`v` is a hash of the content) and allows any origin.
 
-The middleware must not require authentication or start a session (no `web` group), otherwise the banner breaks for guests or the responses can't be cached.
+The endpoints need no middleware. If you add some, they must not require authentication, start a session (`web`, or `api` with `statefulApi()`) or rate limit by IP (`api` with `throttleApi()`: a server-side rendered frontend fetches the config for every visitor from the same IP).
 
 Install the frontend package:
 
@@ -37,7 +37,7 @@ import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cooki
 
 const config: CookieSolutionConfig = await fetch(`/api/cookie-solution?locale=${locale}`).then((r) => r.json());
 
-// Creates the banner (or updates it, e.g. after a locale change). Does nothing when `config.enabled` is false.
+// Creates the banner (or updates it, e.g. after a locale change). With `config.enabled` false it removes the banner.
 // The banner content is fetched from `config.content_url` when the banner first opens.
 mount(config);
 

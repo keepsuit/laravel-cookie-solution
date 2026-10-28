@@ -34,10 +34,12 @@
         "build": "vite build && vite build --mode iife",
         "test": "node --test 'resources/js/**/*.test.mjs'",
         "format": "prettier --write resources/js",
-        "prepublishOnly": "pnpm build"
+        "prepublishOnly": "pnpm build",
+        "test:e2e": "playwright test"
     },
     "devDependencies": {
         "@microsoft/api-extractor": "^7.59.4",
+        "@playwright/test": "^1.64.1",
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/typography": "^0.5.20",
         "@types/node": "^26.6.5",

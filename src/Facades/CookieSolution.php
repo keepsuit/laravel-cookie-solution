@@ -12,6 +12,8 @@ use Keepsuit\CookieSolution\Service;
  * @method static bool enabled()
  * @method static CookieSolutionStatus status()
  * @method static array getConfig()
+ * @method static array getContent()
+ * @method static string contentVersion()
  * @method static Collection<int, Service> services()
  * @method static Collection<string, Collection<array-key,Service>> servicesGroupedByCookiePurpose()
  * @method static bool hasCookies()

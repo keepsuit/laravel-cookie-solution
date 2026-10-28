@@ -8,34 +8,43 @@ use Keepsuit\CookieSolution\CookieSolution;
 
 class ApiController
 {
-    public function config(Request $request, CookieSolution $cookieSolution): JsonResponse
+    public function config(Request $request): JsonResponse
     {
-        $this->applyLocale($request);
-
-        return response()->json($cookieSolution->getConfig());
+        return $this->json($this->cookieSolution($request)->getConfig());
     }
 
-    public function content(Request $request, CookieSolution $cookieSolution): JsonResponse
+    public function content(Request $request): JsonResponse
     {
-        $this->applyLocale($request);
+        $cookieSolution = $this->cookieSolution($request);
 
         $immutable = $request->query('v') === $cookieSolution->contentVersion();
 
-        return response()
-            ->json($cookieSolution->getContent())
-            ->header('Cache-Control', $immutable ? 'public, max-age=31536000, immutable' : 'no-cache')
-            // Also fetched by Blade banners when `api.domain` differs from the site domain.
-            ->header('Access-Control-Allow-Origin', '*');
+        return $this->json($cookieSolution->getContent())
+            ->header('Cache-Control', $immutable ? 'public, max-age=31536000, immutable' : 'no-cache');
     }
 
     public function policies(Request $request): JsonResponse
     {
         $this->applyLocale($request);
 
-        return response()->json([
+        return $this->json([
             'cookie_policy' => $this->render('cookie-solution::api.cookie-policy'),
             'privacy_policy' => $this->render('cookie-solution::api.privacy-policy'),
         ]);
+    }
+
+    // Public, cookieless data: any origin may read it, whatever the app's `cors.php` covers.
+    protected function json(array $data): JsonResponse
+    {
+        return response()->json($data)->header('Access-Control-Allow-Origin', '*');
+    }
+
+    // Resolved after the locale is set: services registered in `afterResolving` translate their texts when built.
+    protected function cookieSolution(Request $request): CookieSolution
+    {
+        $this->applyLocale($request);
+
+        return app(CookieSolution::class);
     }
 
     // The locale comes from the URL, so the URL alone identifies a response and caches need no `Vary`.

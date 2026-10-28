@@ -7,7 +7,7 @@ use Keepsuit\CookieSolution\Controllers\ScriptController;
 Route::get('/cookie-solution/laravel-cookie-solution.js', ScriptController::class);
 
 Route::domain(config('cookie-solution.api.domain'))
-    ->middleware(config('cookie-solution.api.middleware', ['api']))
+    ->middleware(config('cookie-solution.api.middleware', []))
     ->prefix(config('cookie-solution.api.path', 'api/cookie-solution'))
     ->group(function () {
         Route::get('/', [ApiController::class, 'config'])->name('cookie-solution.config');

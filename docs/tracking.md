@@ -13,9 +13,9 @@ With Blade, include this view in `<head>` before GTM:
 @include('cookie-solution::google-consent-mode')
 ```
 
-It sets the default from the stored consent (`CookieSolution::status()`), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
+It sets the default from the consent stored in the browser (the page HTML is the same for every visitor, so full-page caches are safe), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
 
-In a headless frontend render this script in the server-side `<head>`, with `cookie_name` and `digest` from the config endpoint.
+In a headless frontend render the same script in the server-side `<head>`, with `cookie_name` and `digest` from the config endpoint.
 It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
 
 ```html

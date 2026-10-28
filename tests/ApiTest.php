@@ -46,6 +46,12 @@ it('serves the policies without styling hooks', function () {
         ->not->toContain('cookie-solution-policy-formatter');
 });
 
+it('allows any origin on every endpoint', function () {
+    $this->getJson('/internal/cookie-solution')->assertHeader('Access-Control-Allow-Origin', '*');
+    $this->getJson('/internal/cookie-solution/content')->assertHeader('Access-Control-Allow-Origin', '*');
+    $this->getJson('/internal/cookie-solution/policies')->assertHeader('Access-Control-Allow-Origin', '*');
+});
+
 it('applies the configured middleware', function () {
     $this->getJson('/internal/cookie-solution')
         ->assertOk()
@@ -94,4 +100,12 @@ it('restricts the endpoints to the configured domain', function () {
 
     $this->getJson('http://api.example.com/internal/cookie-solution')->assertOk();
     $this->getJson('http://www.example.com/internal/cookie-solution/policies')->assertNotFound();
+});
+
+it('translates services registered on resolving in the requested locale', function () {
+    app()->forgetInstance(Keepsuit\CookieSolution\CookieSolution::class);
+    app()->afterResolving(Keepsuit\CookieSolution\CookieSolution::class, fn ($cookieSolution) => $cookieSolution->register(GoogleAnalytics4ServiceFactory::new()->build()));
+
+    $this->getJson('/internal/cookie-solution/content?locale=it')
+        ->assertJsonPath('services.statistics.0.cookies.0.description', __('cookie-solution::services.google_analytics_4.cookies._ga', locale: 'it'));
 });

@@ -39,3 +39,9 @@ jobs:
 
       - name: Check committed bundle is up to date
         run: git diff --exit-code resources/dist
+
+      - name: Install Chromium
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Execute browser tests
+        run: pnpm test:e2e

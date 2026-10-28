@@ -77,12 +77,6 @@ export class CookieSolutionBanner extends LitElement {
         this.disconnectedController = new AbortController();
 
         this._initListeners();
-
-        this.config ??= window._cookieSolution;
-
-        if (!this.config) {
-            console.error('CookieSolution: No configuration found.');
-        }
     }
 
     disconnectedCallback() {
@@ -230,9 +224,11 @@ export class CookieSolutionBanner extends LitElement {
         try {
             const content = config.content ?? (await this.loadContent(config));
 
-            if (config === this.config) {
-                this._content = content;
+            if (config !== this.config) {
+                return this._loadContent();
             }
+
+            this._content = content;
 
             return true;
         } catch (error) {
@@ -244,6 +240,10 @@ export class CookieSolutionBanner extends LitElement {
 
     async show(): Promise<void> {
         if (!this._content && !(await this._loadContent())) {
+            return;
+        }
+
+        if (this._showModal && this._showModalStatus !== 'hiding') {
             return;
         }
 
@@ -343,15 +343,28 @@ export class CookieSolutionBanner extends LitElement {
         event.preventDefault();
 
         if (this._showModalStatus !== 'hiding') {
-            this._onRefuse();
+            this._onDismiss();
         }
     }
 
     // Chromium doesn't let `cancel` be prevented without user activation (e.g. Esc right after load).
     private _onClose(): void {
         if (this._showModalStatus !== 'hiding' && this._showModalStatus !== 'hidden') {
-            this._onRefuse();
+            this._onDismiss();
         }
+    }
+
+    // Closing refuses on the first visit, but must not revoke a choice the user is only reviewing.
+    private _onDismiss(): void {
+        const stored = this.config ? readStatus(this.config) : undefined;
+
+        if (!stored) {
+            this._onRefuse();
+            return;
+        }
+
+        this._status = stored;
+        this.hide();
     }
 
     private _onAcceptAll(): void {
@@ -419,7 +432,7 @@ export class CookieSolutionBanner extends LitElement {
                     } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
                 >
                     <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow-sm">
-                        ${this.header()}
+                        ${this.header(this._content)}
                         <div
                             class="flex-1 overflow-auto p-4"
                             role="tabpanel"
@@ -427,22 +440,18 @@ export class CookieSolutionBanner extends LitElement {
                             aria-labelledby="cookie-solution-tab-${this._tab}"
                             tabindex="0"
                         >
-                            ${this._tab === 0 ? this.consentTab() : null}
-                            ${this._tab === 1 ? this.customizeTab() : null}
-                            ${this._tab === 2 ? this.informationTab() : null}
+                            ${this._tab === 0 ? this.consentTab(this._content) : null}
+                            ${this._tab === 1 ? this.customizeTab(this._content) : null}
+                            ${this._tab === 2 ? this.informationTab(this._content) : null}
                         </div>
-                        ${this.footer()}
+                        ${this.footer(this._content)}
                     </div>
                 </div>
             </dialog>
         `;
     }
 
-    protected header(): unknown {
-        if (!this._content) {
-            return;
-        }
-
+    protected header(content: CookieSolutionContent): unknown {
         const tab = (index: number, label: string) => html`
             <button
                 class="${
@@ -468,8 +477,8 @@ export class CookieSolutionBanner extends LitElement {
                         role="tablist"
                         @keydown="${this._onTabKeydown}"
                     >
-                        ${tab(0, this._content.texts.tab_consent)} ${tab(1, this._content.texts.tab_customize)}
-                        ${tab(2, this._content.texts.tab_information)}
+                        ${tab(0, content.texts.tab_consent)} ${tab(1, content.texts.tab_customize)}
+                        ${tab(2, content.texts.tab_information)}
                     </div>
                     <hr
                         class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
@@ -479,8 +488,8 @@ export class CookieSolutionBanner extends LitElement {
                 </div>
                 <button
                     class="flex h-14 w-12 shrink-0 items-center justify-center rounded-tr-lg border-b border-gray-200 text-gray-700 duration-300 hover:bg-gray-100 hover:text-highlight"
-                    aria-label="${this._content.texts.button_close}"
-                    @click="${this._onRefuse}"
+                    aria-label="${content.texts.button_close}"
+                    @click="${this._onDismiss}"
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -497,18 +506,14 @@ export class CookieSolutionBanner extends LitElement {
         `;
     }
 
-    protected footer(): unknown {
-        if (!this._content) {
-            return;
-        }
-
+    protected footer(content: CookieSolutionContent): unknown {
         const customizeButton = html`
             <div>
                 <button
                     class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${this._onCustomize}"
                 >
-                    ${this._content.texts.button_customize}
+                    ${content.texts.button_customize}
                 </button>
             </div>
         `;
@@ -519,7 +524,7 @@ export class CookieSolutionBanner extends LitElement {
                     class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                     @click="${this._onAcceptSelected}"
                 >
-                    ${this._content.texts.button_accept_selected}
+                    ${content.texts.button_accept_selected}
                 </button>
             </div>
         `;
@@ -531,7 +536,7 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onRefuse}"
                     >
-                        ${this._content.texts.button_refuse}
+                        ${content.texts.button_refuse}
                     </button>
                 </div>
                 ${this._tab === 1 ? acceptSelectedButton : customizeButton}
@@ -540,49 +545,37 @@ export class CookieSolutionBanner extends LitElement {
                         class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 md:h-12"
                         @click="${this._onAcceptAll}"
                     >
-                        ${this._content.texts.button_accept_all}
+                        ${content.texts.button_accept_all}
                     </button>
                 </div>
             </div>
         `;
     }
 
-    protected consentTab(): unknown {
-        if (!this._content) {
-            return;
-        }
-
+    protected consentTab(content: CookieSolutionContent): unknown {
         return html`
             <div part="banner-tab-consent">
-                <div class="text-sm font-bold">${this._content.texts.consent_title}</div>
-                <div class="mt-2 text-sm">${this._content.texts.consent_message}</div>
+                <div class="text-sm font-bold">${content.texts.consent_title}</div>
+                <div class="mt-2 text-sm">${content.texts.consent_message}</div>
             </div>
         `;
     }
 
-    protected customizeTab(): unknown {
-        if (!this._content) {
-            return null;
-        }
-
+    protected customizeTab(content: CookieSolutionContent): unknown {
         return html`
             <div class="divide-y divide-gray-100" part="banner-tab-customize">
-                ${this.cookiePurposeRow('necessary')}
-                ${this._content.services.preferences.length > 0 ? this.cookiePurposeRow('preferences') : null}
-                ${this._content.services.statistics.length > 0 ? this.cookiePurposeRow('statistics') : null}
-                ${this._content.services.marketing.length > 0 ? this.cookiePurposeRow('marketing') : null}
+                ${this.cookiePurposeRow(content, 'necessary')}
+                ${content.services.preferences.length > 0 ? this.cookiePurposeRow(content, 'preferences') : null}
+                ${content.services.statistics.length > 0 ? this.cookiePurposeRow(content, 'statistics') : null}
+                ${content.services.marketing.length > 0 ? this.cookiePurposeRow(content, 'marketing') : null}
             </div>
         `;
     }
 
-    protected informationTab(): unknown {
-        if (!this._content) {
-            return null;
-        }
-
+    protected informationTab(content: CookieSolutionContent): unknown {
         return html`
             <div class="prose prose-sm" part="banner-tab-information">
-                ${unsafeHTML(this._content.texts.information_text)}
+                ${unsafeHTML(content.texts.information_text)}
             </div>
         `;
     }
@@ -601,14 +594,10 @@ export class CookieSolutionBanner extends LitElement {
         `;
     }
 
-    protected cookiePurposeRow(purpose: CookiePurpose): unknown {
-        if (!this._content) {
-            return;
-        }
-
-        const hasCookies = this._content.services[purpose].length > 0;
+    protected cookiePurposeRow(content: CookieSolutionContent, purpose: CookiePurpose): unknown {
+        const hasCookies = content.services[purpose].length > 0;
         const expanded = this._expanded[purpose] ?? false;
-        const label = this._content.texts[`customize_purpose_${purpose}`];
+        const label = content.texts[`customize_purpose_${purpose}`];
 
         return html`
             <cookie-solution--collapsable ?open="${expanded}">
@@ -663,14 +652,12 @@ export class CookieSolutionBanner extends LitElement {
                 </div>
 
                 <div class="mb-4 md:pr-20 md:pl-10">
-                    <p class="text-sm text-gray-800">
-                        ${this._content.texts[`customize_purpose_${purpose}_description`]}
-                    </p>
+                    <p class="text-sm text-gray-800">${content.texts[`customize_purpose_${purpose}_description`]}</p>
                 </div>
 
                 <div slot="content" id="cookie-solution-purpose-${purpose}" aria-hidden="${!expanded}">
                     <div class="mb-8 md:mr-16 md:ml-10">
-                        ${this._content.services[purpose].map(
+                        ${content.services[purpose].map(
                             (service) => html`
                                 <div class="mt-4 border-l-4 border-gray-300 px-4">
                                     <div>
@@ -678,7 +665,7 @@ export class CookieSolutionBanner extends LitElement {
                                         <span class="block text-xs md:inline md:text-sm">(${service.provider})</span>
                                     </div>
                                     <div class="mt-2 divide-y divide-gray-100">
-                                        ${service.cookies.map((cookie) => this.cookieRow(cookie))}
+                                        ${service.cookies.map((cookie) => this.cookieRow(content, cookie))}
                                     </div>
                                 </div>
                             `,
@@ -689,7 +676,7 @@ export class CookieSolutionBanner extends LitElement {
         `;
     }
 
-    protected cookieRow(cookie: CookieConfig): unknown {
+    protected cookieRow(content: CookieSolutionContent, cookie: CookieConfig): unknown {
         return html`
             <div class="grid grid-cols-2 items-center gap-2 py-1 sm:grid-cols-4">
                 <div>
@@ -700,7 +687,7 @@ export class CookieSolutionBanner extends LitElement {
                         <cookie-solution-duration
                             duration="${cookie.duration}"
                             locale="${this.config?.locale}"
-                            session-label="${this._content?.texts.duration_session}"
+                            session-label="${content.texts.duration_session}"
                         ></cookie-solution-duration>
                     </span>
                 </div>

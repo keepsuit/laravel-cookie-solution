@@ -10,6 +10,8 @@ With Blade, set the `highlight_color` config value. Headless frontends set the C
 }
 ```
 
+Use a hex color: the selected tab text uses the highlight color only when it is dark enough, and only hex values are checked (with other formats the tab keeps the default text color).
+
 ## Toggle position
 
 You can change the toggle position to `left` or `right` by changing the `toggle_position` config value (default to `right`).
