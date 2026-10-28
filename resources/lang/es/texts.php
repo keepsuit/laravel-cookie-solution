@@ -11,6 +11,7 @@ return [
         'button_refuse' => 'Rechazar',
         'button_customize' => 'Personalizar',
         'button_show_banner' => 'Abrir configuración de cookies',
+        'button_close' => 'Cerrar',
 
         'consent_title' => 'Este sitio utiliza cookies',
         'consent_message' => 'Utilizamos cookies para personalizar contenido y anuncios, proporcionar funciones de redes sociales y analizar nuestro tráfico. También compartimos información sobre tu uso de nuestro sitio con nuestros socios de redes sociales, publicidad y análisis que pueden combinarla con otra información que les hayas proporcionado o que hayan recopilado a partir del uso de sus servicios.',

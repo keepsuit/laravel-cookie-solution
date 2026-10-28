@@ -38,14 +38,16 @@ export class CookieSolutionSwitch extends LitElement {
                 aria-disabled="${this.readonly}"
                 aria-label="${this.label}"
                 @click="${this._onClick}"
-                class="${
-                    this.readonly ? 'opacity-50' : ''
-                } ${this.checked ? 'bg-highlight' : 'bg-gray-200'} flex h-6 w-11 cursor-pointer items-center rounded-full px-0.5 duration-300"
+                class="${this.readonly ? 'opacity-50' : ''} ${
+                    this.checked ? 'border-highlight-text bg-highlight-text' : 'border-gray-500 bg-white'
+                } flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 p-0.5 duration-300"
             >
                 <span
                     class="${
-                        this.checked ? 'translate-x-5 bg-white' : 'bg-gray-400'
-                    } block h-5 w-5 transform rounded-full duration-300"
+                        this.checked
+                            ? 'translate-x-5 bg-on-highlight forced-colors:bg-[Highlight]'
+                            : 'bg-gray-500 forced-colors:bg-[ButtonText]'
+                    } block size-5 rounded-full duration-300"
                 ></span>
             </button>
         `;

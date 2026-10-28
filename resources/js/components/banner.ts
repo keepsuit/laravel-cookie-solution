@@ -416,7 +416,7 @@ export class CookieSolutionBanner extends LitElement {
 
         return html`
             <dialog
-                class="fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/30 p-0 backdrop:bg-transparent print:hidden"
+                class="fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/40 p-0 backdrop-blur-xs backdrop:bg-transparent print:hidden"
                 part="banner-root"
                 aria-label="${this._content.texts.consent_title}"
                 @cancel="${this._onCancel}"
@@ -427,14 +427,16 @@ export class CookieSolutionBanner extends LitElement {
                     part="banner-dialog"
                     class="${
                         this._showModalStatus === 'showing' || this._showModalStatus === 'hiding'
-                            ? 'scale-75 opacity-0'
+                            ? 'scale-95 opacity-0'
                             : ''
-                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-[900px] -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
+                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
                 >
-                    <div class="flex w-full flex-col rounded-lg bg-white font-sans text-gray-900 shadow-sm">
+                    <div
+                        class="flex w-full flex-col rounded-2xl border border-line bg-surface font-sans text-gray-900 shadow-xl shadow-gray-900/5"
+                    >
                         ${this.header(this._content)}
                         <div
-                            class="flex-1 overflow-auto rounded-lg p-4 focus-visible:-outline-offset-4"
+                            class="flex-1 overflow-auto rounded-lg px-4 py-5 focus-visible:-outline-offset-4 md:px-8"
                             role="tabpanel"
                             id="cookie-solution-tabpanel"
                             aria-labelledby="cookie-solution-tab-${this._tab}"
@@ -458,8 +460,10 @@ export class CookieSolutionBanner extends LitElement {
         const tab = (index: number, label: string) => html`
             <button
                 class="${
-                    this._contrastColor === 'white' ? 'aria-selected:text-highlight-text' : ''
-                } h-14 w-full rounded-lg px-1 text-sm font-medium break-words hyphens-auto duration-300 hover:bg-gray-50 focus-visible:bg-gray-50 focus-visible:-outline-offset-6"
+                    this._contrastColor === 'white'
+                        ? 'aria-selected:text-highlight-text'
+                        : 'aria-selected:text-gray-900'
+                } min-h-10 w-full rounded-lg py-1 text-[13px] font-medium break-words hyphens-auto text-gray-700 duration-300 hover:text-gray-900 focus-visible:outline-offset-0 sm:text-sm"
                 role="tab"
                 id="cookie-solution-tab-${index}"
                 aria-controls="cookie-solution-tabpanel"
@@ -473,61 +477,74 @@ export class CookieSolutionBanner extends LitElement {
         `;
 
         return html`
-            <div class="relative shrink-0">
-                <div class="grid grid-cols-3 border-b border-gray-200" role="tablist" @keydown="${this._onTabKeydown}">
-                    ${tab(0, content.texts.tab_consent)} ${tab(1, content.texts.tab_customize)}
-                    ${tab(2, content.texts.tab_information)}
+            <div class="shrink-0 border-b border-line px-4 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5">
+                <div class="flex items-start gap-4">
+                    <h2 class="flex-1 text-2xl/tight font-semibold tracking-tight text-balance md:text-3xl/tight">
+                        ${content.texts.consent_title}
+                    </h2>
+                    <button
+                        class="-mt-1 -mr-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-600 duration-300 hover:bg-highlight/10 hover:text-gray-900"
+                        aria-label="${content.texts.button_close}"
+                        @click="${this._onDismiss}"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 48 48"
+                            class="size-6 fill-current"
+                            aria-hidden="true"
+                        >
+                            <path
+                                d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
+                            />
+                        </svg>
+                    </button>
                 </div>
-                <hr
-                    class="absolute -bottom-[1px] w-1/3 border-t-4 border-highlight duration-300"
-                    style="${`translate: ${this._tab * 100}% 0`}"
-                    aria-hidden="true"
-                />
+                <div class="mt-5 rounded-xl border border-line bg-highlight/8 p-1">
+                    <div class="relative">
+                        <div
+                            class="absolute inset-y-0 w-1/3 rounded-lg border border-line bg-white duration-300"
+                            style="${`translate: ${this._tab * 100}% 0`}"
+                            aria-hidden="true"
+                        ></div>
+                        <div class="relative grid grid-cols-3" role="tablist" @keydown="${this._onTabKeydown}">
+                            ${tab(0, content.texts.tab_consent)} ${tab(1, content.texts.tab_customize)}
+                            ${tab(2, content.texts.tab_information)}
+                        </div>
+                    </div>
+                </div>
             </div>
         `;
     }
 
     protected footer(content: CookieSolutionContent): unknown {
-        const customizeButton = html`
-            <div>
-                <button
-                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
-                    @click="${this._onCustomize}"
-                >
-                    ${content.texts.button_customize}
-                </button>
-            </div>
-        `;
-
-        const acceptSelectedButton = html`
-            <div>
-                <button
-                    class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
-                    @click="${this._onAcceptSelected}"
-                >
-                    ${content.texts.button_accept_selected}
-                </button>
-            </div>
-        `;
+        // Refuse and accept all share a style: consent rules require equal prominence.
+        const primary =
+            'block h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25';
+        const secondary =
+            'block h-11 w-full rounded-lg border border-line bg-white px-3 text-sm font-semibold duration-300 hover:border-highlight';
 
         return html`
-            <div class="grid shrink-0 gap-2 border-t border-gray-200 p-4 md:grid-cols-3">
+            <div class="grid shrink-0 gap-2 border-t border-line px-4 py-4 md:grid-cols-3 md:gap-3 md:px-8 md:py-5">
                 <div>
-                    <button
-                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
-                        @click="${this._onRefuse}"
-                    >
-                        ${content.texts.button_refuse}
-                    </button>
+                    <button class="${primary}" @click="${this._onRefuse}">${content.texts.button_refuse}</button>
                 </div>
-                ${this._tab === 1 ? acceptSelectedButton : customizeButton}
                 <div>
-                    <button
-                        class="block h-10 w-full border-2 border-highlight text-sm font-medium duration-300 hover:bg-gray-100 focus-visible:bg-gray-100 md:h-12"
-                        @click="${this._onAcceptAll}"
-                    >
-                        ${content.texts.button_accept_all}
-                    </button>
+                    ${
+                        this._tab === 1
+                            ? html`
+                                  <button class="${secondary}" @click="${this._onAcceptSelected}">
+                                      ${content.texts.button_accept_selected}
+                                  </button>
+                              `
+                            : html`
+                                  <button class="${secondary}" @click="${this._onCustomize}">
+                                      ${content.texts.button_customize}
+                                  </button>
+                              `
+                    }
+                </div>
+                <div>
+                    <button class="${primary}" @click="${this._onAcceptAll}">${content.texts.button_accept_all}</button>
                 </div>
             </div>
         `;
@@ -536,15 +553,14 @@ export class CookieSolutionBanner extends LitElement {
     protected consentTab(content: CookieSolutionContent): unknown {
         return html`
             <div part="banner-tab-consent">
-                <div class="text-sm font-bold">${content.texts.consent_title}</div>
-                <div class="mt-2 text-sm">${content.texts.consent_message}</div>
+                <p class="text-sm/6 text-gray-700 md:text-base/7">${content.texts.consent_message}</p>
             </div>
         `;
     }
 
     protected customizeTab(content: CookieSolutionContent): unknown {
         return html`
-            <div class="divide-y divide-gray-100" part="banner-tab-customize">
+            <div class="grid gap-3" part="banner-tab-customize">
                 ${this.cookiePurposeRow(content, 'necessary')}
                 ${content.services.preferences.length > 0 ? this.cookiePurposeRow(content, 'preferences') : null}
                 ${content.services.statistics.length > 0 ? this.cookiePurposeRow(content, 'statistics') : null}
@@ -581,71 +597,63 @@ export class CookieSolutionBanner extends LitElement {
         const label = content.texts[`customize_purpose_${purpose}`];
 
         return html`
-            <cookie-solution--collapsable ?open="${expanded}">
-                <div class="flex gap-8">
-                    <div class="flex h-12 flex-1 items-center">
+            <cookie-solution--collapsable class="block rounded-xl border border-line bg-white px-4" ?open="${expanded}">
+                <div class="flex items-center gap-4 pt-2">
+                    <div class="flex min-h-11 flex-1 items-center">
                         ${
                             hasCookies
                                 ? html`
                                       <button
-                                          class="flex h-12 items-center rounded-sm text-sm font-bold"
+                                          class="-ml-1 flex min-h-11 items-center gap-1.5 rounded-md px-1 text-base font-semibold"
                                           aria-expanded="${expanded}"
                                           aria-controls="cookie-solution-purpose-${purpose}"
                                           @click="${() => (this._expanded = { ...this._expanded, [purpose]: !expanded })}"
                                       >
+                                          ${label}
                                           <svg
                                               xmlns="http://www.w3.org/2000/svg"
                                               viewBox="0 0 48 48"
-                                              class="mr-4 h-6 w-6 fill-current"
+                                              class="${expanded ? 'rotate-180' : ''} size-5 fill-current text-gray-600 duration-300"
                                               aria-hidden="true"
                                           >
                                               <path d="m24 30.75-12-12 2.15-2.15L24 26.5l9.85-9.85L36 18.8Z" />
                                           </svg>
-                                          ${label}
                                       </button>
                                   `
-                                : html`
-                                      <div class="md:mr-4 md:w-6"></div>
-                                      <div class="text-sm font-bold">${label}</div>
-                                  `
+                                : html`<div class="text-base font-semibold">${label}</div>`
                         }
                     </div>
-                    <div class="flex h-12 w-12 items-center">
-                        ${
-                            purpose === 'necessary'
-                                ? html`
-                                      <cookie-solution--switch
-                                          checked
-                                          readonly
-                                          label="${label}"
-                                      ></cookie-solution--switch>
-                                  `
-                                : html`
-                                      <cookie-solution--switch
-                                          label="${label}"
-                                          ?checked="${this._status?.purposes?.[purpose]}"
-                                          @change="${($event: CustomEvent) =>
-                                              this._onPurposeChange(purpose, $event.detail)}"
-                                      ></cookie-solution--switch>
-                                  `
-                        }
-                    </div>
+                    ${
+                        purpose === 'necessary'
+                            ? html`
+                                  <cookie-solution--switch checked readonly label="${label}"></cookie-solution--switch>
+                              `
+                            : html`
+                                  <cookie-solution--switch
+                                      label="${label}"
+                                      ?checked="${this._status?.purposes?.[purpose]}"
+                                      @change="${($event: CustomEvent) => this._onPurposeChange(purpose, $event.detail)}"
+                                  ></cookie-solution--switch>
+                              `
+                    }
                 </div>
 
-                <div class="mb-4 md:pr-20 md:pl-10">
-                    <p class="text-sm text-gray-800">${content.texts[`customize_purpose_${purpose}_description`]}</p>
-                </div>
+                <p class="pb-4 text-sm/6 text-gray-600 md:pr-16">
+                    ${content.texts[`customize_purpose_${purpose}_description`]}
+                </p>
 
                 <div slot="content" id="cookie-solution-purpose-${purpose}" aria-hidden="${!expanded}">
-                    <div class="mb-8 md:mr-16 md:ml-10">
+                    <div class="grid gap-2 pb-4">
                         ${content.services[purpose].map(
                             (service) => html`
-                                <div class="mt-4 border-l-4 border-gray-300 px-4">
+                                <div class="rounded-lg bg-surface px-3 py-2.5">
                                     <div>
-                                        <span class="block text-sm font-medium md:inline">${service.name}</span>
-                                        <span class="block text-xs md:inline md:text-sm">(${service.provider})</span>
+                                        <span class="block text-sm font-semibold md:inline">${service.name}</span>
+                                        <span class="block text-xs text-gray-600 md:inline md:text-sm"
+                                            >(${service.provider})</span
+                                        >
                                     </div>
-                                    <div class="mt-2 divide-y divide-gray-100">
+                                    <div class="mt-1.5 divide-y divide-line">
                                         ${service.cookies.map((cookie) => this.cookieRow(content, cookie))}
                                     </div>
                                 </div>
@@ -659,12 +667,12 @@ export class CookieSolutionBanner extends LitElement {
 
     protected cookieRow(content: CookieSolutionContent, cookie: CookieConfig): unknown {
         return html`
-            <div class="grid grid-cols-2 items-center gap-2 py-1 sm:grid-cols-4">
+            <div class="grid grid-cols-2 items-center gap-x-2 gap-y-1 py-1.5 sm:grid-cols-4">
                 <div>
-                    <span class="text-xs font-bold italic">${cookie.name}</span>
+                    <span class="text-xs font-semibold">${cookie.name}</span>
                 </div>
                 <div class="flex justify-end sm:justify-start">
-                    <span class="rounded-lg bg-gray-100 px-2 py-1 text-xs font-bold text-gray-700">
+                    <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium text-gray-700 ring-1 ring-line">
                         <cookie-solution-duration
                             duration="${cookie.duration}"
                             locale="${this.config?.locale}"
@@ -672,7 +680,7 @@ export class CookieSolutionBanner extends LitElement {
                         ></cookie-solution-duration>
                     </span>
                 </div>
-                <div class="col-span-2 text-xs">${cookie.description}</div>
+                <div class="col-span-2 text-xs text-gray-600">${cookie.description}</div>
             </div>
         `;
     }

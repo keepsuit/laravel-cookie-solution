@@ -43,6 +43,7 @@ export interface CookieSolutionContent {
         button_accept_selected: string;
         button_refuse: string;
         button_customize: string;
+        button_close: string;
         consent_message: string;
         consent_title: string;
         customize_purpose_necessary: string;
