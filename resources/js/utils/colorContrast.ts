@@ -19,13 +19,12 @@ export function getContrastColor(color: string): 'black' | 'white' {
             .join('');
     }
 
-    // Convert to RGB value
-    let r = parseInt(hexcolor.substring(0, 2), 16);
-    let g = parseInt(hexcolor.substring(2, 4), 16);
-    let b = parseInt(hexcolor.substring(4, 6), 16);
+    const [r, g, b] = [0, 2, 4].map((i) => {
+        const channel = parseInt(hexcolor.substring(i, i + 2), 16) / 255;
 
-    // Get YIQ ratio
-    const yiq = (r * 299 + g * 587 + b * 114) / 1000;
+        return channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4;
+    });
 
-    return yiq >= 128 ? 'black' : 'white';
+    // WCAG luminance, same threshold as `--color-on-highlight`: below it the color reaches 4.5:1 on white.
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b < 0.18 ? 'white' : 'black';
 }
