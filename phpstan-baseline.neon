@@ -1,7 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: '#^Dead catch \- JsonException is never thrown in the try block\.$#'
-			identifier: catch.neverThrown
-			count: 1
-			path: src/CookieSolution.php
+	ignoreErrors: []
