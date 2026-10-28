@@ -16,10 +16,10 @@ Use a hex color: the selected tab text uses the highlight color only when it has
 
 Set the `layout` config value to choose how the banner looks:
 
-- `'modal'` (default): a dialog centered on the page.
-- `'card'`: a compact card in the bottom corner on the `toggle_position` side, a bottom sheet on mobile.
+- `'modal'` (default): a dialog centered on the page. It blocks the page until the user chooses.
+- `'card'`: a compact card in the bottom corner on the `toggle_position` side, a bottom sheet on mobile. It doesn't block the page: users can scroll and interact with it, and Esc closes the card only while focus is inside it.
 
-Both block the page until the user chooses and behave the same way. Unknown values fall back to `'modal'`.
+Unknown values fall back to `'modal'`.
 Headless frontends can override it before mounting: `mount({ ...config, layout: 'card' })`.
 
 ## Toggle position

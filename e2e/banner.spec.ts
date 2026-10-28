@@ -173,3 +173,44 @@ test("toggle 'auto' hides while the page has its own trigger", async ({ page }) 
     await page.click('#cookie-settings');
     await expect(dialog(page)).toBeVisible();
 });
+
+test.describe('card layout', () => {
+    test.beforeEach(() => test.skip(layout() !== 'card', 'Only the card leaves the page usable'));
+
+    test('the page stays interactive while the banner is open', async ({ page }) => {
+        await visit(page, {
+            body: `<button id="page-button" onclick="this.textContent = 'clicked'">Page</button><div style="height: 3000px"></div>`,
+        });
+        await expect(dialog(page)).toBeVisible();
+
+        await page.click('#page-button');
+        await expect(page.locator('#page-button')).toHaveText('clicked');
+
+        await page.mouse.wheel(0, 500);
+        await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
+        await expect(dialog(page)).toBeVisible();
+    });
+
+    test('Esc dismisses only with focus inside the banner', async ({ page }) => {
+        await visit(page, { body: '<button id="page-button">Page</button>' });
+        await expect(dialog(page)).toBeVisible();
+
+        await page.focus('#page-button');
+        await page.keyboard.press('Escape');
+        await expect(dialog(page)).toBeVisible();
+        expect(await storedPurposes(page)).toBeUndefined();
+
+        await banner(page).getByRole('tab', { name: content.texts.tab_customize }).focus();
+        await page.keyboard.press('Escape');
+        await expect(dialog(page)).toBeHidden();
+        const refused = { necessary: true, preferences: false, statistics: false, marketing: false };
+        expect(await storedPurposes(page)).toEqual(refused);
+
+        await toggle(page).getByRole('button').click();
+        await expect(dialog(page)).toBeVisible();
+        await page.keyboard.press('Escape');
+        await expect(dialog(page)).toBeHidden();
+        expect(await storedPurposes(page)).toEqual(refused);
+        await expect(toggle(page).getByRole('button')).toBeFocused();
+    });
+});

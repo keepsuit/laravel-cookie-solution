@@ -256,7 +256,12 @@ export class CookieSolutionBanner extends LitElement {
         clearTimeout(this._hideTimer);
         this._showModal = true;
         this._showModalStatus = 'showing';
-        setTimeout(() => (this._showModalStatus = 'visible'), 1);
+        setTimeout(() => {
+            // Closing right after opening must not be undone.
+            if (this._showModalStatus === 'showing') {
+                this._showModalStatus = 'visible';
+            }
+        }, 1);
     }
 
     private hide(): void {
@@ -304,7 +309,12 @@ export class CookieSolutionBanner extends LitElement {
         const dialog = this._dialogRef.value;
 
         if (dialog && !dialog.open && this._showModalStatus === 'showing') {
-            dialog.showModal();
+            // The card leaves the page usable.
+            if (this._layout === 'card') {
+                dialog.show();
+            } else {
+                dialog.showModal();
+            }
             this._focusSelectedTab();
         }
     }
@@ -350,6 +360,13 @@ export class CookieSolutionBanner extends LitElement {
 
         if (this._showModalStatus !== 'hiding') {
             this._onDismiss();
+        }
+    }
+
+    // Non-modal dialogs get no `cancel` on Esc. Keydown only reaches here with focus inside the banner.
+    private _onKeydown(event: KeyboardEvent): void {
+        if (event.key === 'Escape' && !this._dialogRef.value?.matches(':modal')) {
+            this._onCancel(event);
         }
     }
 
@@ -425,12 +442,15 @@ export class CookieSolutionBanner extends LitElement {
         return html`
             <dialog
                 class="${
-                    transitioning ? 'card:bg-transparent' : 'card:bg-gray-950/20'
-                } fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/40 p-0 backdrop-blur-xs backdrop:bg-transparent print:hidden card:backdrop-blur-none card:duration-300"
+                    this.config.toggle_position === 'left'
+                        ? 'sm:card:right-auto sm:card:left-6'
+                        : 'sm:card:right-6 sm:card:left-auto'
+                } fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/40 p-0 backdrop-blur-xs backdrop:bg-transparent print:hidden card:top-auto card:h-auto card:bg-transparent card:backdrop-blur-none sm:card:bottom-6 sm:card:w-[440px]"
                 part="banner-root"
                 aria-label="${this._content.texts.consent_title}"
                 @cancel="${this._onCancel}"
                 @close="${this._onClose}"
+                @keydown="${this._onKeydown}"
                 ${ref(this._dialogRef)}
             >
                 <div
@@ -439,14 +459,10 @@ export class CookieSolutionBanner extends LitElement {
                         transitioning
                             ? 'modal:scale-95 modal:opacity-0 card:translate-y-full sm:card:translate-y-4 sm:card:scale-[0.98] sm:card:opacity-0'
                             : 'card:translate-y-0'
-                    } ${
-                        this.config.toggle_position === 'left'
-                            ? 'sm:card:right-auto sm:card:left-6'
-                            : 'sm:card:right-6 sm:card:left-auto'
-                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300 card:inset-x-0 card:top-auto card:bottom-0 card:max-h-[85dvh] card:max-w-none card:translate-x-0 card:overflow-visible card:p-0 card:ease-sheet sm:card:bottom-6 sm:card:max-h-[calc(100dvh-3rem)] sm:card:w-[440px]"
+                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300 card:static card:max-h-[85dvh] card:max-w-none card:translate-x-0 card:overflow-visible card:p-0 card:ease-sheet sm:card:max-h-[calc(100dvh-3rem)]"
                 >
                     <div
-                        class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 card:overflow-hidden card:rounded-t-3xl card:rounded-b-none card:border-transparent card:shadow-card sm:card:rounded-3xl modal:shadow-xl modal:shadow-gray-900/5"
+                        class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 card:overflow-hidden card:rounded-t-3xl card:rounded-b-none card:border-transparent card:shadow-sheet sm:card:rounded-3xl sm:card:shadow-card modal:shadow-xl modal:shadow-gray-900/5"
                     >
                         ${this.header(this._content)}
                         <div
