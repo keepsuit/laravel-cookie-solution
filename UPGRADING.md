@@ -30,6 +30,7 @@ If you published the markdown policies in `resources/views/vendor/cookie-solutio
 
 - The banner is a native `<dialog>`: the `banner-root` part is now the `<dialog>` element.
 - The Esc key refuses non-necessary cookies and saves the choice on the first visit; when the banner is reopened, it closes it and keeps the stored choice.
+- Keyboard focus is shown with a ring in the highlight color instead of the browser outline.
 - The banner uses `cookie_name` and `cookie_lifetime` from the config (1.x always used `laravel_cookie_solution` and 365 days). If you changed `cookie_name`, users will be asked for consent again once.
 - The Blade bundle exposes its API on `window.CookieSolution` (`mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`).
 - The Blade view loads the bundle with `<script defer>` instead of `type="module"`: it no longer needs CORS headers when served from a CDN. If you published `script.blade.php`, publish it again.
