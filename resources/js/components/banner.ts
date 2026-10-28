@@ -12,7 +12,6 @@ import {
     CookieSolutionContent,
     CookieSolutionStatus,
 } from '../types';
-import { getContrastColor } from '../utils/colorContrast';
 
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
 
@@ -49,9 +48,6 @@ export class CookieSolutionBanner extends LitElement {
 
     @state()
     private _tab = 0;
-
-    @state()
-    private _contrastColor: 'black' | 'white' = 'white';
 
     @state()
     private _status: CookieSolutionStatus | undefined = undefined;
@@ -98,7 +94,6 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         this.setAttribute('layout', this._layout);
-        this._loadContrastColor();
         this._syncPageToggleObserver();
 
         const previous = changed.get('config');
@@ -174,12 +169,6 @@ export class CookieSolutionBanner extends LitElement {
             },
             { signal: this.disconnectedController?.signal },
         );
-    }
-
-    private _loadContrastColor(): void {
-        const highlightColor = getComputedStyle(this).getPropertyValue('--cs--color-highlight');
-
-        this._contrastColor = getContrastColor(highlightColor);
     }
 
     private _loadStatus(): void {
@@ -490,11 +479,7 @@ export class CookieSolutionBanner extends LitElement {
         // Below 24rem a third of the screen is too narrow for "Consentimiento" at 13px with an inset focus ring.
         const tab = (index: number, label: string) => html`
             <button
-                class="${
-                    this._contrastColor === 'white'
-                        ? 'aria-selected:text-highlight-text'
-                        : 'aria-selected:text-gray-900'
-                } min-h-10 w-full rounded-lg py-1 text-[13px] font-medium break-words hyphens-auto text-gray-700 duration-300 hover:text-gray-900 focus-visible:-outline-offset-5 max-[24rem]:text-xs max-[24rem]:focus-visible:outline-offset-0 sm:text-sm floating:min-h-8 floating:rounded-full floating:px-1 floating:py-1.5 floating:text-[13px]/tight floating:focus-visible:outline-offset-0 max-[24rem]:floating:text-xs/tight"
+                class="min-h-10 w-full rounded-lg py-1 text-[13px] font-medium break-words hyphens-auto text-gray-700 duration-300 hover:text-gray-900 focus-visible:-outline-offset-5 aria-selected:text-highlight-ink max-[24rem]:text-xs max-[24rem]:focus-visible:outline-offset-0 sm:text-sm floating:min-h-8 floating:rounded-full floating:px-1 floating:py-1.5 floating:text-[13px]/tight floating:focus-visible:outline-offset-0 max-[24rem]:floating:text-xs/tight"
                 role="tab"
                 id="cookie-solution-tab-${index}"
                 aria-controls="cookie-solution-tabpanel"

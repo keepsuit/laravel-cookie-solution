@@ -39,7 +39,7 @@ export class CookieSolutionToggle extends LitElement {
                 >
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="h-full w-full fill-highlight-text floating:fill-highlight"
+                        class="h-full w-full fill-highlight"
                         viewBox="0 0 48 48"
                         aria-hidden="true"
                     >

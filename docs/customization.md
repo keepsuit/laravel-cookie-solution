@@ -10,7 +10,7 @@ With Blade, set the `highlight_color` config value. Headless frontends set the C
 }
 ```
 
-Use a hex color: the selected tab text uses the highlight color only when it has at least 4.5:1 contrast on white, and only hex values are checked (with other formats the tab keeps the default text color).
+Any CSS color format works. Where the color is used for text, focus rings or icons on white, it is darkened as needed (keeping its hue) to stay readable; buttons get white or black text to match.
 
 ## Layout
 
