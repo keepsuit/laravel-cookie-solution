@@ -33,7 +33,7 @@ export class CookieSolutionToggle extends LitElement {
             >
                 <button
                     part="toggle-button"
-                    class="flex size-12 items-center justify-center rounded-2xl border border-line bg-surface p-2.5 shadow-sm duration-300 hover:border-highlight hover:shadow-md"
+                    class="flex size-12 items-center justify-center rounded-2xl border border-gray-200 bg-white p-2.5 shadow-sm duration-300 hover:shadow-md"
                     aria-label="${this.label}"
                     @click="${this._open}"
                 >

@@ -432,7 +432,7 @@ export class CookieSolutionBanner extends LitElement {
                     } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300"
                 >
                     <div
-                        class="flex w-full flex-col rounded-2xl border border-line bg-surface font-sans text-gray-900 shadow-xl shadow-gray-900/5"
+                        class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 shadow-xl shadow-gray-900/5"
                     >
                         ${this.header(this._content)}
                         <div
@@ -477,13 +477,13 @@ export class CookieSolutionBanner extends LitElement {
         `;
 
         return html`
-            <div class="shrink-0 border-b border-line px-4 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5">
+            <div class="shrink-0 border-b border-gray-200 px-4 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5">
                 <div class="flex items-start gap-4">
                     <h2 class="flex-1 text-2xl/tight font-semibold tracking-tight text-balance md:text-3xl/tight">
                         ${content.texts.consent_title}
                     </h2>
                     <button
-                        class="-mt-1 -mr-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-600 duration-300 hover:bg-highlight/10 hover:text-gray-900"
+                        class="-mt-1 -mr-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-600 duration-300 hover:bg-gray-100 hover:text-gray-900"
                         aria-label="${content.texts.button_close}"
                         @click="${this._onDismiss}"
                     >
@@ -499,10 +499,10 @@ export class CookieSolutionBanner extends LitElement {
                         </svg>
                     </button>
                 </div>
-                <div class="mt-5 rounded-xl border border-line bg-highlight/8 p-1">
+                <div class="mt-5 rounded-xl border border-gray-200 bg-gray-100 p-1">
                     <div class="relative">
                         <div
-                            class="absolute inset-y-0 w-1/3 rounded-lg border border-line bg-white duration-300"
+                            class="absolute inset-y-0 w-1/3 rounded-lg border border-gray-200 bg-white shadow-xs duration-300"
                             style="${`translate: ${this._tab * 100}% 0`}"
                             aria-hidden="true"
                         ></div>
@@ -521,10 +521,10 @@ export class CookieSolutionBanner extends LitElement {
         const primary =
             'block h-11 w-full rounded-lg border border-transparent bg-highlight-text px-3 text-sm font-semibold text-on-highlight duration-300 hover:ring-4 hover:ring-highlight/25';
         const secondary =
-            'block h-11 w-full rounded-lg border border-line bg-white px-3 text-sm font-semibold duration-300 hover:border-highlight';
+            'block h-11 w-full rounded-lg border border-gray-300 bg-white px-3 text-sm font-semibold duration-300 hover:bg-gray-50';
 
         return html`
-            <div class="grid shrink-0 gap-2 border-t border-line px-4 py-4 md:grid-cols-3 md:gap-3 md:px-8 md:py-5">
+            <div class="grid shrink-0 gap-2 border-t border-gray-200 px-4 py-4 md:grid-cols-3 md:gap-3 md:px-8 md:py-5">
                 <div>
                     <button class="${primary}" @click="${this._onRefuse}">${content.texts.button_refuse}</button>
                 </div>
@@ -597,7 +597,10 @@ export class CookieSolutionBanner extends LitElement {
         const label = content.texts[`customize_purpose_${purpose}`];
 
         return html`
-            <cookie-solution--collapsable class="block rounded-xl border border-line bg-white px-4" ?open="${expanded}">
+            <cookie-solution--collapsable
+                class="block rounded-xl border border-gray-200 bg-white px-4"
+                ?open="${expanded}"
+            >
                 <div class="flex items-center gap-4 pt-2">
                     <div class="flex min-h-11 flex-1 items-center">
                         ${
@@ -646,14 +649,14 @@ export class CookieSolutionBanner extends LitElement {
                     <div class="grid gap-2 pb-4">
                         ${content.services[purpose].map(
                             (service) => html`
-                                <div class="rounded-lg bg-surface px-3 py-2.5">
+                                <div class="rounded-lg bg-gray-50 px-3 py-2.5">
                                     <div>
                                         <span class="block text-sm font-semibold md:inline">${service.name}</span>
                                         <span class="block text-xs text-gray-600 md:inline md:text-sm"
                                             >(${service.provider})</span
                                         >
                                     </div>
-                                    <div class="mt-1.5 divide-y divide-line">
+                                    <div class="mt-1.5 divide-y divide-gray-200">
                                         ${service.cookies.map((cookie) => this.cookieRow(content, cookie))}
                                     </div>
                                 </div>
@@ -672,7 +675,9 @@ export class CookieSolutionBanner extends LitElement {
                     <span class="text-xs font-semibold">${cookie.name}</span>
                 </div>
                 <div class="flex justify-end sm:justify-start">
-                    <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium text-gray-700 ring-1 ring-line">
+                    <span
+                        class="rounded-md bg-white px-2 py-0.5 text-xs font-medium text-gray-700 ring-1 ring-gray-200"
+                    >
                         <cookie-solution-duration
                             duration="${cookie.duration}"
                             locale="${this.config?.locale}"

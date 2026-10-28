@@ -13,8 +13,6 @@
         from var(--color-highlight-text) xyz-d65 clamp(0, (0.18 - y) * 1000000, 0.9505)
             clamp(0, (0.18 - y) * 1000000, 1) clamp(0, (0.18 - y) * 1000000, 1.089)
     );
-    --color-surface: color-mix(in oklab, var(--color-highlight) 7%, white);
-    --color-line: color-mix(in oklab, var(--color-highlight) 22%, var(--color-gray-200));
     --inset-toggle-bottom: var(--cs--toggle-position-bottom, 1rem);
     --inset-toggle-x: var(--cs--toggle-position-x, 1rem);
     --z-index-toggle: var(--cs--toggle-z-index, 9999);
