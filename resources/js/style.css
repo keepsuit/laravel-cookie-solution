@@ -10,13 +10,13 @@
 @custom-variant modal (:host(:not([layout='floating'])) &);
 
 @theme inline {
+    /* As set, for fills: buttons and switches. */
+    --color-highlight-text: var(--cs--color-highlight, #c2410c);
     /* Darkened keeping the hue: luminance at most 0.29, at least 3:1 on white for rings and icons. */
     --color-highlight: color(
-        from var(--cs--color-highlight, #ea580c) xyz-d65 calc(x * min(1, 0.29 / y)) calc(y * min(1, 0.29 / y))
+        from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.29 / y)) calc(y * min(1, 0.29 / y))
             calc(z * min(1, 0.29 / y))
     );
-    /* The default highlight is below 4.5:1 on white, too low for small text. */
-    --color-highlight-text: var(--cs--color-highlight, #c2410c);
     /* Same darkening, at most 0.18: at least 4.5:1 on white for text. */
     --color-highlight-ink: color(
         from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.18 / y)) calc(y * min(1, 0.18 / y))

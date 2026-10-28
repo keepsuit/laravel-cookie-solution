@@ -67,10 +67,11 @@ return [
     | `--cs--color-highlight` CSS variable themselves.
     |
     | Colors that keep white button text and are used unchanged (at least
-    | 4.5:1 on white): #dc2626 (red), #db2777 (pink), #7c3aed (violet),
-    | #4f46e5 (indigo), #2563eb (blue), #0e7490 (cyan), #0f766e (teal),
-    | #15803d (green), #334155 (slate). Lighter colors get black button text
-    | and are darkened where used as text, focus ring or icon.
+    | 4.5:1 on white): #c2410c (orange, the default), #dc2626 (red),
+    | #db2777 (pink), #7c3aed (violet), #4f46e5 (indigo), #2563eb (blue),
+    | #0e7490 (cyan), #0f766e (teal), #15803d (green), #334155 (slate).
+    | Lighter colors get black button text and are darkened where used as
+    | text, focus ring or icon.
     |
     */
 
