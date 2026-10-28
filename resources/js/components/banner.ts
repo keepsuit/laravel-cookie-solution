@@ -463,7 +463,7 @@ export class CookieSolutionBanner extends LitElement {
                     this._contrastColor === 'white'
                         ? 'aria-selected:text-highlight-text'
                         : 'aria-selected:text-gray-900'
-                } min-h-10 w-full rounded-lg py-1 text-[13px] font-medium break-words hyphens-auto text-gray-700 duration-300 hover:text-gray-900 focus-visible:outline-offset-0 sm:text-sm"
+                } min-h-10 w-full rounded-lg py-1 text-[13px] font-medium break-words hyphens-auto text-gray-700 duration-300 hover:text-gray-900 focus-visible:-outline-offset-5 sm:text-sm"
                 role="tab"
                 id="cookie-solution-tab-${index}"
                 aria-controls="cookie-solution-tabpanel"
@@ -477,29 +477,8 @@ export class CookieSolutionBanner extends LitElement {
         `;
 
         return html`
-            <div class="shrink-0 border-b border-gray-200 px-4 pt-5 pb-4 md:px-8 md:pt-7 md:pb-5">
-                <div class="flex items-start gap-4">
-                    <h2 class="flex-1 text-2xl/tight font-semibold tracking-tight text-balance md:text-3xl/tight">
-                        ${content.texts.consent_title}
-                    </h2>
-                    <button
-                        class="-mt-1 -mr-2 flex size-10 shrink-0 items-center justify-center rounded-lg text-gray-600 duration-300 hover:bg-gray-100 hover:text-gray-900"
-                        aria-label="${content.texts.button_close}"
-                        @click="${this._onDismiss}"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 48 48"
-                            class="size-6 fill-current"
-                            aria-hidden="true"
-                        >
-                            <path
-                                d="m12.45 37.65-2.1-2.1L21.9 24 10.35 12.45l2.1-2.1L24 21.9l11.55-11.55 2.1 2.1L26.1 24l11.55 11.55-2.1 2.1L24 26.1Z"
-                            />
-                        </svg>
-                    </button>
-                </div>
-                <div class="mt-5 rounded-xl border border-gray-200 bg-gray-100 p-1">
+            <div class="shrink-0 border-b border-gray-200 p-4 md:px-8 md:py-5">
+                <div class="rounded-xl border border-gray-200 bg-gray-100 p-1">
                     <div class="relative">
                         <div
                             class="absolute inset-y-0 w-1/3 rounded-lg border border-gray-200 bg-white shadow-xs duration-300"
@@ -551,7 +530,10 @@ export class CookieSolutionBanner extends LitElement {
     protected consentTab(content: CookieSolutionContent): unknown {
         return html`
             <div part="banner-tab-consent">
-                <p class="text-sm/6 text-gray-700 md:text-base/7">${content.texts.consent_message}</p>
+                <h2 class="text-xl/tight font-semibold tracking-tight text-balance md:text-2xl/tight">
+                    ${content.texts.consent_title}
+                </h2>
+                <p class="mt-3 text-sm/6 text-gray-700 md:text-base/7">${content.texts.consent_message}</p>
             </div>
         `;
     }

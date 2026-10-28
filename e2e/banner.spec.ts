@@ -122,16 +122,11 @@ test('closing on the first visit refuses', async ({ page }) => {
 test('closing a reopened banner keeps the stored choice', async ({ page }) => {
     await visit(page, { cookie: acceptedAll });
 
-    for (const close of [
-        () => page.keyboard.press('Escape'),
-        () => banner(page).getByRole('button', { name: content.texts.button_close }).click(),
-    ]) {
-        await toggle(page).getByRole('button').click();
-        await expect(dialog(page)).toBeVisible();
-        await close();
-        await expect(dialog(page)).toBeHidden();
-        expect(await storedPurposes(page)).toEqual(acceptedAll.purposes);
-    }
+    await toggle(page).getByRole('button').click();
+    await expect(dialog(page)).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(dialog(page)).toBeHidden();
+    expect(await storedPurposes(page)).toEqual(acceptedAll.purposes);
 });
 
 test('a failed content request is retried on the next open', async ({ page }) => {
