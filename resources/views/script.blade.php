@@ -1,13 +1,6 @@
 @if($enabled)
-    @if($highlightColor)
-        <style>
-            :root {
-                --cs--color-highlight: {{ $highlightColor }};
-            }
-        </style>
-    @endif
-    <script type="module">
+    <script>
     window._cookieSolution = @json($config);
     </script>
-    <script type="module" src="{{ $scriptUrl }}"></script>
+    <script defer src="{{ $scriptUrl }}"></script>
 @endif

@@ -13,7 +13,7 @@ También podemos utilizar tu información para contactarte sobre actualizaciones
 
 ## Compartir Información
 
-No compartimos tu información personal con terceros, excepto en casos en los que estemos legalmente obligados a hacerlo.
+Compartimos tu información personal solo con los servicios enumerados en esta política y en los casos en los que estemos legalmente obligados a hacerlo.
 Tomamos medidas razonables para garantizar que los proveedores de servicios de terceros con los que trabajamos tengan medidas apropiadas para proteger tu información personal.
 
 ## Protección de Datos
@@ -26,5 +26,3 @@ Tienes derecho a acceder, corregir, eliminar o transferir tu información person
 También tienes derecho a oponerte al procesamiento de tu información personal o a solicitar que limitemos el procesamiento de tu información personal.
 
 Si tienes alguna pregunta o inquietud sobre nuestra Política de Privacidad o la manera en que manejamos tu información personal, contáctanos.
-
-Al utilizar nuestro sitio web, aceptas nuestra recopilación, uso y compartición de tu información personal de acuerdo con esta Política de Privacidad.

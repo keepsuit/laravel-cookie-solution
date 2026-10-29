@@ -8,14 +8,14 @@ return [
         'description' => 'DigitalOcean es un servicio de alojamiento que nos permite almacenar y procesar datos de manera segura y confiable. Los datos almacenados en DigitalOcean pueden incluir información personal como nombres, direcciones de correo electrónico y datos de navegación. DigitalOcean puede usar los datos de acuerdo con su propia política de privacidad, que se puede encontrar en el sitio web de DigitalOcean.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel utiliza cookies para recopilar datos sobre los visitantes del sitio web. Los datos recopilados por Facebook Pixel son anónimos y no incluyen información personal. Facebook puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Facebook. Puedes obtener más información sobre Facebook Pixel y cómo optar por no participar en la recopilación de datos visitando el sitio web de Facebook.',
+        'description' => 'Facebook Pixel utiliza cookies para recopilar datos sobre los visitantes del sitio web. Facebook puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Facebook. Puedes obtener más información sobre Facebook Pixel y cómo optar por no participar en la recopilación de datos visitando el sitio web de Facebook.',
         'cookies' => [
             '_fbp' => 'Se utiliza para almacenar y rastrear visitas en varios sitios web.',
             'fr' => 'Se utiliza para proporcionar entrega de anuncios o retargeting.',
         ],
     ],
     'google_ads_remarketing' => [
-        'description' => 'Google Ads Remarketing es un servicio que nos permite mostrar anuncios a usuarios que han visitado previamente nuestro sitio web. Google Ads Remarketing utiliza cookies para recopilar datos sobre los visitantes del sitio web. Los datos recopilados por Google Ads Remarketing son anónimos y no incluyen información personal. Google puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Google. Puedes obtener más información sobre Google Ads Remarketing y cómo optar por no participar en la recopilación de datos visitando el sitio web de Google Ads.',
+        'description' => 'Google Ads Remarketing es un servicio que nos permite mostrar anuncios a usuarios que han visitado previamente nuestro sitio web. Google Ads Remarketing utiliza cookies para recopilar datos sobre los visitantes del sitio web. Google puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Google. Puedes obtener más información sobre Google Ads Remarketing y cómo optar por no participar en la recopilación de datos visitando el sitio web de Google Ads.',
         'cookies' => [
             '_generic' => 'Se utiliza para proporcionar entrega de anuncios o retargeting',
             'NID' => 'Se utiliza para proporcionar entrega de anuncios o retargeting y almacenar preferencias de usuario',
@@ -26,7 +26,7 @@ return [
         ],
     ],
     'google_analytics_4' => [
-        'description' => 'Google Analytics es un servicio de estadísticas que utiliza cookies para recopilar datos sobre los visitantes del sitio web. Los datos recopilados por Google Analytics son anónimos y no incluyen información personal. Google puede usar los datos recopilados para contextualizar y personalizar los anuncios de su red publicitaria. Puedes obtener más información sobre Google Analytics y cómo optar por no participar en la recopilación de datos visitando el sitio web de Google Analytics.',
+        'description' => 'Google Analytics es un servicio de estadísticas que utiliza cookies para recopilar datos sobre los visitantes del sitio web. Google puede usar los datos recopilados para contextualizar y personalizar los anuncios de su red publicitaria. Puedes obtener más información sobre Google Analytics y cómo optar por no participar en la recopilación de datos visitando el sitio web de Google Analytics.',
         'cookies' => [
             '_ga' => 'Se utiliza para distinguir usuarios.',
             '_ga_*' => 'Se utiliza para mantener el estado de la sesión.',

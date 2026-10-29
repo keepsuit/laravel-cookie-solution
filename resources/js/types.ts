@@ -3,31 +3,45 @@ export type CookiePurpose = 'necessary' | 'preferences' | 'statistics' | 'market
 export interface CookieConfig {
     name: string;
     description: string;
+    purpose: CookiePurpose;
+    /** Duration in days, `0` for session cookies. */
     duration: number;
 }
 
 export interface ServiceConfig {
-    provider: string;
     name: string;
+    provider: string;
+    description: string;
+    privacy_policy_url: string | null;
+    data_processing_location: string | null;
     cookies: CookieConfig[];
 }
 
 export interface CookieSolutionConfig {
+    enabled: boolean;
+    locale: string;
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
-    toggle_enabled: boolean;
+    layout: 'modal' | 'floating';
+    /** Any CSS color, `null` for the default or the page's `--cs--color-highlight`. */
+    highlight_color: string | null;
+    toggle_enabled: boolean | 'auto';
     toggle_position: 'left' | 'right';
-    cookies: Record<CookiePurpose, ServiceConfig[]>;
-    integrations?: {
-        google_tag_manager?: boolean;
-        facebook_pixel?: boolean;
-    };
+    toggle_label: string;
+    /** Where the banner loads its content from, the first time it opens. */
+    content_url: string;
+    /** Inline content (e.g. rendered with SSR): skips the request to `content_url`. */
+    content?: CookieSolutionContent;
+}
+
+/** Response of the `content_url` endpoint. */
+export interface CookieSolutionContent {
+    services: Record<CookiePurpose, ServiceConfig[]>;
     texts: {
         tab_consent: string;
         tab_customize: string;
         tab_information: string;
-        button_show_banner: string;
         button_accept_all: string;
         button_accept_selected: string;
         button_refuse: string;
@@ -43,5 +57,18 @@ export interface CookieSolutionConfig {
         customize_purpose_marketing: string;
         customize_purpose_marketing_description: string;
         information_text: string;
+        duration_session: string;
     };
+}
+
+export interface CookieSolutionStatus {
+    timestamp: string;
+    digest?: string;
+    purposes: Record<CookiePurpose, boolean>;
+}
+
+/** Response of the `{api.path}/policies` endpoint. */
+export interface CookieSolutionPolicies {
+    cookie_policy: string;
+    privacy_policy: string;
 }

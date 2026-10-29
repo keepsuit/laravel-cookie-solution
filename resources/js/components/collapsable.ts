@@ -1,9 +1,8 @@
-import { html, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
+import { html, LitElement, PropertyValues } from 'lit';
+import { property } from 'lit/decorators.js';
 import { ref, createRef, Ref } from 'lit/directives/ref.js';
 import { styleSheet } from '../style';
 
-@customElement('cookie-solution--collapsable')
 export class CookieSolutionCollapsable extends LitElement {
     static styles = [styleSheet];
 
@@ -14,6 +13,12 @@ export class CookieSolutionCollapsable extends LitElement {
 
     private _updateContentStyle(): void {
         if (!this.contentRef.value) {
+            return;
+        }
+
+        // Without transitions `transitionend` never fires to reset the height.
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            this.contentRef.value.style.height = this.open ? 'auto' : '0px';
             return;
         }
 
@@ -41,21 +46,19 @@ export class CookieSolutionCollapsable extends LitElement {
         }
     }
 
-    private _onToggleOpenEvent(event: CustomEvent) {
-        event.stopPropagation();
-
-        this.open = !this.open;
-
-        this._updateContentStyle();
-    }
-
     protected firstUpdated() {
         this.contentRef.value!.style.height = this.open ? 'auto' : '0px';
     }
 
+    protected updated(changed: PropertyValues<this>) {
+        if (changed.get('open') !== undefined) {
+            this._updateContentStyle();
+        }
+    }
+
     protected render(): unknown {
         return html`
-            <div class="group" @toggle-open="${this._onToggleOpenEvent}">
+            <div class="group">
                 <slot></slot>
                 <div class="overflow-hidden transition-all duration-500" ${ref(this.contentRef)}>
                     <slot name="content"></slot>

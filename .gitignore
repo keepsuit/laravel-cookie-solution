@@ -3,7 +3,9 @@
 build
 composer.lock
 coverage
-docs
 testbench.yaml
 vendor
 node_modules
+/dist
+/test-results
+/playwright-report

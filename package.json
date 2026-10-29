@@ -1,33 +1,64 @@
 {
-    "name": "laravel-cookie-solution",
-    "version": "1.0.0",
+    "name": "@keepsuit/cookie-solution",
+    "version": "2.0.0",
+    "description": "Cookie consent banner and policy web components for Laravel Cookie Solution, usable headless from any frontend.",
+    "keywords": [
+        "cookie",
+        "cookie-consent",
+        "cookie-banner",
+        "gdpr",
+        "consent",
+        "laravel",
+        "web-components",
+        "lit"
+    ],
     "type": "module",
-    "main": "dist/laravel-cookie-solution.iife.js",
-    "module": "dist/laravel-cookie-solution.esm.js",
-    "types": "dist/laravel-cookie-solution.d.ts",
-    "repository": "git@github.com:keepsuit/laravel-cookie-solution.git",
+    "sideEffects": false,
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "import": "./dist/index.js"
+        }
+    },
+    "files": [
+        "dist"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/keepsuit/laravel-cookie-solution.git"
+    },
     "author": "Fabio Capucci <fabio.cappuc@gmail.com>",
     "license": "MIT",
     "scripts": {
-        "dev": "vite build --watch",
-        "build": "vite build --emptyOutDir",
-        "format": "prettier --write resources/js"
+        "dev": "vite build --mode iife --watch",
+        "build": "vite build && vite build --mode iife",
+        "test": "node --test 'resources/js/**/*.test.mjs'",
+        "format": "prettier --write resources/js",
+        "prepublishOnly": "pnpm build",
+        "test:e2e": "playwright test"
     },
     "devDependencies": {
-        "@tailwindcss/typography": "^0.5.19",
-        "@types/node": "^22.19.17",
-        "postcss": "^8.5.10",
-        "prettier": "^3.8.3",
-        "prettier-plugin-tailwindcss": "^0.7.3",
-        "rollup-plugin-minify-html-literals": "^1.2.6",
-        "tailwindcss": "^3.4.19",
-        "typescript": "^5.9.3",
-        "vite": "^7.3.2",
-        "vite-plugin-dts": "^4.5.4"
+        "@lit-labs/rollup-plugin-minify-html-literals": "^0.2.0",
+        "@playwright/test": "^1.64.1",
+        "@tailwindcss/postcss": "^4.3.3",
+        "@tailwindcss/typography": "^0.5.20",
+        "@types/node": "^26.6.5",
+        "postcss": "^8.5.31",
+        "prettier": "^3.9.10",
+        "prettier-plugin-tailwindcss": "^0.8.1",
+        "rolldown-plugin-dts": "^0.28.8",
+        "tailwindcss": "^4.3.3",
+        "typescript": "^7.0.2",
+        "vite": "^8.3.5"
     },
     "dependencies": {
-        "clsx": "^2.1.1",
-        "lit": "^3.3.2"
+        "lit": "^3.3.3"
     },
-    "packageManager": "pnpm@9.6.0+sha512.38dc6fba8dba35b39340b9700112c2fe1e12f10b17134715a4aa98ccf7bb035e76fd981cf0bb384dfa98f8d6af5481c2bef2f4266a24bfa20c34eb7147ce0b5e"
+    "devEngines": {
+        "packageManager": {
+            "name": "pnpm",
+            "version": "^11.28.9",
+            "onFail": "warn"
+        }
+    }
 }

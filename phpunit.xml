@@ -18,6 +18,10 @@
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+    <php>
+        <!-- The workbench writes `localhost:8000` into the testbench skeleton `.env`. -->
+        <env name="APP_URL" value="http://localhost" force="true"/>
+    </php>
     <logging>
         <junit outputFile="build/report.junit.xml"/>
     </logging>

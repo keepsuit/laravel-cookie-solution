@@ -1,5 +1,5 @@
 Diese Website verwendet Cookies, um die Benutzererfahrung zu verbessern.
-Durch die Nutzung unserer Website stimmen Sie der Verwendung von Cookies gemäß unserer Cookie-Richtlinie zu.
+Cookies, die nicht notwendig sind, werden nur nach Ihrer Zustimmung über das Cookie-Banner verwendet.
 
 ## Was sind Cookies?
 
@@ -17,12 +17,12 @@ Wir verwenden auch Cookies, um anonyme Analysen darüber zu sammeln, wie unsere 
 
 ## Opting Out von Cookies
 
-Sie haben die Möglichkeit, Cookies zu akzeptieren oder abzulehnen, indem Sie die Einstellungen in Ihrem Browser ändern.
-Bitte beachten Sie jedoch, dass das Deaktivieren von Cookies Sie daran hindern kann, bestimmte Funktionen unserer Website zu nutzen.
+Sie können Ihre Cookie-Einstellungen jederzeit über die Cookie-Einstellungen im Banner akzeptieren, ablehnen oder ändern.
+Zusätzlich können Sie Cookies auch in den Einstellungen Ihres Browsers blockieren oder löschen. Bitte beachten Sie jedoch, dass das Deaktivieren von Cookies Sie daran hindern kann, bestimmte Funktionen unserer Website zu nutzen.
 
 ## Datenschutz
 
-Wir werden keine über Cookies gesammelten Informationen mit Dritten teilen.
+Wir werden über Cookies gesammelte Informationen nur mit den in dieser Richtlinie aufgeführten Diensten teilen.
 Die gesammelten Daten werden ausschließlich für die in dieser Cookie-Richtlinie festgelegten Zwecke verwendet.
 
 In Übereinstimmung mit der EU-Datenschutz-Grundverordnung (DSGVO) werden wir Ihre Zustimmung einholen, bevor wir nicht-essentielle Cookies auf Ihrem Gerät platzieren.
@@ -30,5 +30,3 @@ In Übereinstimmung mit der EU-Datenschutz-Grundverordnung (DSGVO) werden wir Ih
 ## Kontakt
 
 Wenn Sie Fragen oder Bedenken bezüglich unserer Cookie-Richtlinie haben, kontaktieren Sie uns bitte.
-
-Durch die Nutzung unserer Website stimmen Sie unserer Verwendung von Cookies gemäß dieser Cookie-Richtlinie zu.

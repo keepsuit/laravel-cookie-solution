@@ -1,8 +1,9 @@
 import { defineConfig, Plugin } from 'vite';
 import { createHash } from 'crypto';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
-import tailwindcssNesting from 'tailwindcss/nesting';
-import tailwindcss from 'tailwindcss';
+import minifyHTML from '@lit-labs/rollup-plugin-minify-html-literals';
+import tailwindcss from '@tailwindcss/postcss';
+import { dts } from 'rolldown-plugin-dts';
+import type { Plugin as PostcssPlugin } from 'postcss';
 
 function libManifest(): Plugin {
     const manifest: Record<string, string> = {};
@@ -33,30 +34,63 @@ function libManifest(): Plugin {
     };
 }
 
-export default defineConfig({
+// Shadow roots ignore `@property`, so Tailwind's `--tw-*` initial values (emitted
+// as a fallback for browsers without `@property`) must always apply.
+function shadowRootProperties(): PostcssPlugin {
+    return {
+        postcssPlugin: 'shadow-root-properties',
+        OnceExit(root) {
+            root.walkAtRules('property', (rule) => {
+                rule.remove();
+            });
+            root.walkAtRules('supports', (rule) => {
+                if (rule.parent?.type === 'atrule' && (rule.parent as any).params === 'properties') {
+                    rule.replaceWith(rule.nodes ?? []);
+                }
+            });
+        },
+    };
+}
+
+export default defineConfig(({ mode }) => ({
     plugins: [
         {
             enforce: 'post',
             apply: 'build',
-            ...minifyHTML.default(),
+            ...minifyHTML(),
         },
-        libManifest(),
+        mode === 'iife' ? libManifest() : dts(),
     ],
-    build: {
-        outDir: 'resources/dist',
-        lib: {
-            entry: 'resources/js/laravel-cookie-solution.ts',
-            formats: ['iife'],
-            name: 'laravelCookieSolution',
-            fileName: (format) => `laravel-cookie-solution.js`,
-        },
+    build:
+        mode === 'iife'
+            ? {
+                  outDir: 'resources/dist',
+                  lib: {
+                      entry: 'resources/js/laravel-cookie-solution.ts',
+                      formats: ['iife'],
+                      name: 'CookieSolution',
+                      fileName: () => 'laravel-cookie-solution.js',
+                  },
+              }
+            : {
+                  outDir: 'dist',
+                  lib: {
+                      entry: 'resources/js/index.ts',
+                      formats: ['es'],
+                      // `dts()` adds an `index.d` entry: a fixed name would give it a `.ts` extension.
+                      fileName: (_, entryName) => `${entryName}.js`,
+                  },
+                  rolldownOptions: {
+                      external: [/^lit($|\/)/],
+                  },
+              },
+    oxc: {
+        // Keep the declarations emitted by `dts()` away from the TypeScript transform; replaces Vite's default exclude.
+        exclude: [/\.js$/, /\.d\.[cm]?ts$/],
     },
     css: {
         postcss: {
-            plugins: [
-                tailwindcssNesting,
-                tailwindcss,
-            ],
+            plugins: [tailwindcss(), shadowRootProperties()],
         },
     },
-});
+}));

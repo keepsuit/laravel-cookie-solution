@@ -9,6 +9,7 @@ use League\CommonMark\Extension\CommonMark\CommonMarkCoreExtension;
 use League\CommonMark\Extension\CommonMark\Node\Block\Heading;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListBlock;
 use League\CommonMark\Extension\CommonMark\Node\Block\ListItem;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Link;
 use League\CommonMark\Extension\DefaultAttributes\DefaultAttributesExtension;
 use League\CommonMark\MarkdownConverter;
 use League\CommonMark\Node\Block\Paragraph;
@@ -30,6 +31,9 @@ class DefaultMarkdownParser implements MarkdownParser
                 ],
                 ListItem::class => [
                     'part' => 'li',
+                ],
+                Link::class => [
+                    'part' => 'link',
                 ],
             ],
         ]);

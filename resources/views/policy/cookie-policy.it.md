@@ -1,5 +1,5 @@
 Questo sito web utilizza i cookie per migliorare l'esperienza utente.
-Utilizzando il nostro sito web, acconsenti all'utilizzo dei cookie in conformità con la nostra politica sui cookie.
+I cookie diversi da quelli necessari vengono utilizzati solo dopo che hai prestato il consenso tramite il banner dei cookie.
 
 ## Cosa sono i cookie?
 
@@ -17,12 +17,12 @@ Utilizziamo anche i cookie per raccogliere analisi anonime sull'utilizzo del nos
 
 ## Esclusione dai cookie
 
-Hai la possibilità di accettare o rifiutare i cookie modificando le impostazioni del tuo browser.
-Tuttavia, ti preghiamo di essere consapevole del fatto che disabilitare i cookie potrebbe impedirti di utilizzare alcune funzionalità del nostro sito web.
+Puoi accettare, rifiutare o modificare le tue preferenze sui cookie in qualsiasi momento dalle impostazioni dei cookie del banner.
+In aggiunta, puoi anche bloccare o eliminare i cookie dalle impostazioni del tuo browser. Tuttavia, ti preghiamo di essere consapevole del fatto che disabilitare i cookie potrebbe impedirti di utilizzare alcune funzionalità del nostro sito web.
 
 ## Protezione dei dati
 
-Non condivideremo alcuna informazione raccolta tramite i cookie con terze parti.
+Condivideremo le informazioni raccolte tramite i cookie solo con i servizi elencati in questa politica.
 I dati raccolti verranno utilizzati esclusivamente per gli scopi descritti in questa politica sui cookie.
 
 In conformità con il Regolamento generale sulla protezione dei dati dell'UE (GDPR), otterremo il tuo consenso prima di posizionare qualsiasi cookie non essenziale sul tuo dispositivo.
@@ -30,5 +30,3 @@ In conformità con il Regolamento generale sulla protezione dei dati dell'UE (GD
 ## Contattaci
 
 Se hai domande o preoccupazioni riguardo alla nostra politica sui cookie, non esitare a contattarci.
-
-Utilizzando il nostro sito web, acconsenti all'utilizzo dei cookie in conformità con questa politica sui cookie.

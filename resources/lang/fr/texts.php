@@ -7,7 +7,7 @@ return [
         'tab_information' => 'Information',
 
         'button_accept_all' => 'Accepter tout',
-        'button_accept_selected' => 'Accepter sélectionné',
+        'button_accept_selected' => 'Accepter la sélection',
         'button_refuse' => 'Refuser',
         'button_customize' => 'Personnaliser',
         'button_show_banner' => 'Ouvrir les paramètres des cookies',
@@ -19,6 +19,7 @@ return [
     'cookie_policy' => [
         'title' => 'Politique de cookies',
         'cookies_list' => 'Liste des cookies utilisés',
+        'duration_session' => 'Session',
 
         'purpose_necessary' => 'Nécessaire',
         'purpose_necessary_description' => 'Ces cookies sont nécessaires au bon fonctionnement du site web (comme l\'accès à la zone personnelle ou la sauvegarde de votre panier d\'achat). Le site web ne peut pas fonctionner correctement sans ces cookies.',
@@ -34,6 +35,7 @@ return [
         'title' => 'Politique de confidentialité',
         'services_list' => 'Services utilisés',
         'service_data_processing_location' => 'Emplacement du traitement des données:',
+        'service_privacy_policy' => 'politique de confidentialité',
         'data_processing_owner' => 'Propriétaire du traitement des données',
         'data_processing_owner_email' => 'Adresse email du propriétaire des données:',
     ],

@@ -8,14 +8,14 @@ return [
         'description' => 'DigitalOcean est un service d\'hébergement qui nous permet de stocker et de traiter des données de manière sécurisée et fiable. Les données stockées sur DigitalOcean peuvent inclure des informations personnelles telles que des noms, des adresses électroniques et des données de navigation. DigitalOcean peut utiliser les données conformément à sa propre politique de confidentialité, qui peut être consultée sur le site Web de DigitalOcean.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel utilise des cookies pour collecter des données sur les visiteurs du site Web. Les données collectées par Facebook Pixel sont anonymes et ne comprennent pas d\'informations personnelles. Facebook peut utiliser les données collectées pour cibler des publicités auprès des visiteurs du site Web et pour comprendre l\'efficacité des campagnes publicitaires de Facebook. Vous pouvez en savoir plus sur Facebook Pixel et sur la manière de refuser la collecte de données en visitant le site Web de Facebook.',
+        'description' => 'Facebook Pixel utilise des cookies pour collecter des données sur les visiteurs du site Web. Facebook peut utiliser les données collectées pour cibler des publicités auprès des visiteurs du site Web et pour comprendre l\'efficacité des campagnes publicitaires de Facebook. Vous pouvez en savoir plus sur Facebook Pixel et sur la manière de refuser la collecte de données en visitant le site Web de Facebook.',
         'cookies' => [
             '_fbp' => 'Utilisé pour stocker et suivre les visites sur les sites Web.',
             'fr' => 'Utilisé pour la diffusion de publicités ou le reciblage.',
         ],
     ],
     'google_ads_remarketing' => [
-        'description' => 'Google Ads Remarketing est un service qui nous permet d\'afficher des publicités aux utilisateurs qui ont déjà visité notre site Web. Google Ads Remarketing utilise des cookies pour collecter des données sur les visiteurs du site Web. Les données collectées par Google Ads Remarketing sont anonymes et ne comprennent pas d\'informations personnelles. Google peut utiliser les données collectées pour cibler des publicités auprès des visiteurs du site Web et pour comprendre l\'efficacité des campagnes publicitaires de Google. Vous pouvez en savoir plus sur Google Ads Remarketing et sur la manière de refuser la collecte de données en visitant le site Web de Google Ads.',
+        'description' => 'Google Ads Remarketing est un service qui nous permet d\'afficher des publicités aux utilisateurs qui ont déjà visité notre site Web. Google Ads Remarketing utilise des cookies pour collecter des données sur les visiteurs du site Web. Google peut utiliser les données collectées pour cibler des publicités auprès des visiteurs du site Web et pour comprendre l\'efficacité des campagnes publicitaires de Google. Vous pouvez en savoir plus sur Google Ads Remarketing et sur la manière de refuser la collecte de données en visitant le site Web de Google Ads.',
         'cookies' => [
             '_generic' => 'Utilisé pour la diffusion de publicités ou le reciblage.',
             'NID' => 'Utilisé pour la diffusion de publicités ou le reciblage et pour stocker les préférences de l\'utilisateur.',
@@ -26,7 +26,7 @@ return [
         ],
     ],
     'google_analytics_4' => [
-        'description' => 'Google Analytics est un service de statistiques qui utilise des cookies pour collecter des données sur les visiteurs du site Web. Les données collectées par Google Analytics sont anonymes et ne comprennent pas d\'informations personnelles. Google peut utiliser les données collectées pour contextualiser et personnaliser les publicités de son réseau publicitaire. Vous pouvez obtenir plus d\'informations sur Google Analytics et sur la manière de refuser la collecte de données en visitant le site Web de Google Analytics.',
+        'description' => 'Google Analytics est un service de statistiques qui utilise des cookies pour collecter des données sur les visiteurs du site Web. Google peut utiliser les données collectées pour contextualiser et personnaliser les publicités de son réseau publicitaire. Vous pouvez obtenir plus d\'informations sur Google Analytics et sur la manière de refuser la collecte de données en visitant le site Web de Google Analytics.',
         'cookies' => [
             '_ga' => 'Utilisé pour distinguer les utilisateurs.',
             '_ga_*' => 'Utilisé pour maintenir l\'état de la session.',

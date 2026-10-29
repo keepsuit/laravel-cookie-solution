@@ -1,73 +1,119 @@
 <?php
 
 return [
-    /**
-     * Enable or disable the cookie solution.
-     */
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enabled
+    |--------------------------------------------------------------------------
+    |
+    | Enable or disable the cookie solution (banner, script and API).
+    |
+    */
+
     'enabled' => env('COOKIE_SOLUTION_ENABLED', true),
 
-    /**
-     * Name of the cookie where we store the user's consent.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Consent Cookie
+    |--------------------------------------------------------------------------
+    |
+    | Name of the cookie where the user's consent is stored and its lifetime
+    | in days. Changing the name asks every user for consent again.
+    |
+    */
+
     'cookie_name' => 'laravel_cookie_solution',
 
-    /**
-     * The cookie's lifetime in days.
-     */
     'cookie_lifetime' => 365,
 
-    /**
-     * Banner highlight color (ex. #3522dd).
-     * If null, the default color will be used.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Highlight Color
+    |--------------------------------------------------------------------------
+    |
+    | Banner highlight color (ex. #3522dd), any CSS color format. If null,
+    | the default color is used, or the `--cs--color-highlight` CSS
+    | variable when the page sets it.
+    |
+    | Colors that keep white button text and are used unchanged (at least
+    | 4.5:1 on white): #c2410c (orange, the default), #dc2626 (red),
+    | #db2777 (pink), #7c3aed (violet), #4f46e5 (indigo), #2563eb (blue),
+    | #0e7490 (cyan), #0f766e (teal), #15803d (green), #334155 (slate).
+    | Lighter colors get black button text and are darkened where used as
+    | text, focus ring or icon.
+    |
+    */
+
     'highlight_color' => null,
 
-    /**
-     * Floating banner toggle
-     * if false, the banner toggle will not be displayed.
-     * You need to add "data-cookie-solution-toggle" attribute to an element to open the banner.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Layout
+    |--------------------------------------------------------------------------
+    |
+    | Banner layout: 'modal' (a dialog centered on the page, which blocks
+    | the page until the user chooses) or 'floating' (a compact card in the
+    | bottom corner on the toggle_position side, a bottom sheet on mobile,
+    | which leaves the page usable).
+    |
+    */
+
+    'layout' => 'modal',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Floating Toggle
+    |--------------------------------------------------------------------------
+    |
+    | Show the floating button that reopens the banner (true, false or
+    | 'auto'), and its position (left or right). Elements with the
+    | "data-cookie-solution-toggle" attribute open the banner too: with
+    | 'auto' the floating button is hidden while the page contains one.
+    |
+    */
+
     'toggle_enabled' => true,
 
-    /**
-     * Cookie toggle position (left or right).
-     */
     'toggle_position' => 'right',
 
-    /**
-     * The entity responsible for the processing of the data.
-     */
+    /*
+    |--------------------------------------------------------------------------
+    | Data Owner
+    |--------------------------------------------------------------------------
+    |
+    | The entity responsible for the processing of the data, shown in the
+    | privacy policy. The name and address are parsed as Markdown (you can
+    | use __text__ for bold and _text_ for italic).
+    |
+    */
+
     'data_owner' => [
-        /**
-         * Email address of the data owner.
-         */
         'contact_email' => null,
 
-        /**
-         * Name/Company name and address of the data owner.
-         * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
-         */
         'name_and_address' => null,
     ],
 
-    /**
-     * Integrations with other services.
-     */
-    'integrations' => [
-        /**
-         * Integration with Google Tag Manager consent mode.
-         *
-         * If enabled, the cookie solution script will automatically call
-         * `gtag('consent', { ... })` when the user accepts or rejects cookies.
-         */
-        'google_tag_manager' => true,
+    /*
+    |--------------------------------------------------------------------------
+    | API
+    |--------------------------------------------------------------------------
+    |
+    | JSON endpoints: banner configuration (GET {path}), banner content
+    | (GET {path}/content, loaded by every banner when it opens, Blade
+    | included) and policies (GET {path}/policies). The locale is read from
+    | the `locale` query parameter. Added middleware must not require
+    | authentication, start a session or rate limit by IP (server-side
+    | rendering sends every visitor from one IP).
+    |
+    */
 
-        /**
-         * Integration with Facebook pixel.
-         *
-         * If enabled, the cookie solution script will automatically call
-         * `fbq('consent', ...)` when the user accepts or rejects cookies.
-         */
-        'facebook_pixel' => true,
+    'api' => [
+        'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
+
+        'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
+
+        'middleware' => [],
     ],
+
 ];

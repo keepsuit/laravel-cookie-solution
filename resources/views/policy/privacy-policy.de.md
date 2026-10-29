@@ -13,7 +13,7 @@ Wir können Ihre Informationen auch verwenden, um Sie über Aktualisierungen uns
 
 ## Weitergabe von Informationen
 
-Wir geben Ihre personenbezogenen Daten nicht an Dritte weiter, außer in Fällen, in denen wir dazu gesetzlich verpflichtet sind.
+Wir geben Ihre personenbezogenen Daten nur an die in dieser Richtlinie aufgeführten Dienste weiter sowie in Fällen, in denen wir dazu gesetzlich verpflichtet sind.
 Wir ergreifen angemessene Maßnahmen, um sicherzustellen, dass alle Drittanbieter, mit denen wir zusammenarbeiten, angemessene Maßnahmen zum Schutz Ihrer personenbezogenen Daten ergreifen.
 
 ## Datenschutz
@@ -26,5 +26,3 @@ Sie haben das Recht, jederzeit auf Ihre personenbezogenen Daten zuzugreifen, sie
 Sie haben auch das Recht, der Verarbeitung Ihrer personenbezogenen Daten zu widersprechen oder zu beantragen, dass wir die Verarbeitung Ihrer personenbezogenen Daten einschränken.
 
 Wenn Sie Fragen oder Bedenken zu unserer Datenschutzrichtlinie oder zur Art und Weise haben, wie wir Ihre personenbezogenen Daten behandeln, kontaktieren Sie uns bitte.
-
-Durch die Nutzung unserer Website stimmen Sie unserer Erfassung, Verwendung und Weitergabe Ihrer personenbezogenen Daten gemäß dieser Datenschutzrichtlinie zu.
