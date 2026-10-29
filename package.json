@@ -27,7 +27,7 @@
         "type": "git",
         "url": "git+https://github.com/keepsuit/laravel-cookie-solution.git"
     },
-    "author": "Fabio Capucci <fabio.cappuc@gmail.com>",
+    "author": "Fabio Capucci <f.capucci@keepsuit.com>",
     "license": "MIT",
     "scripts": {
         "dev": "vite build --mode iife --watch",
