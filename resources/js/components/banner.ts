@@ -304,7 +304,8 @@ export class CookieSolutionBanner extends LitElement {
             } else {
                 dialog.showModal();
             }
-            this._focusSelectedTab();
+            // A focused tab would show its ring before any key is pressed.
+            dialog.focus();
         }
     }
 
@@ -434,9 +435,10 @@ export class CookieSolutionBanner extends LitElement {
                     this.config.toggle_position === 'left'
                         ? 'sm:floating:right-auto sm:floating:left-6'
                         : 'sm:floating:right-6 sm:floating:left-auto'
-                } fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/40 p-0 backdrop-blur-xs backdrop:bg-transparent print:hidden floating:top-auto floating:h-auto floating:bg-transparent floating:backdrop-blur-none sm:floating:bottom-6 sm:floating:w-[440px]"
+                } fixed inset-0 z-max m-0 h-full max-h-none w-full max-w-none border-0 bg-gray-900/40 p-0 backdrop-blur-xs outline-none backdrop:bg-transparent print:hidden floating:top-auto floating:h-auto floating:bg-transparent floating:backdrop-blur-none sm:floating:bottom-6 sm:floating:w-[440px]"
                 part="banner-root"
                 aria-label="${this._content.texts.consent_title}"
+                tabindex="-1"
                 @cancel="${this._onCancel}"
                 @close="${this._onClose}"
                 @keydown="${this._onKeydown}"
@@ -448,14 +450,14 @@ export class CookieSolutionBanner extends LitElement {
                         transitioning
                             ? 'modal:scale-95 modal:opacity-0 floating:translate-y-full sm:floating:translate-y-4 sm:floating:scale-[0.98] sm:floating:opacity-0'
                             : 'floating:translate-y-0'
-                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300 floating:static floating:max-h-[85dvh] floating:max-w-none floating:translate-x-0 floating:overflow-visible floating:p-0 floating:ease-sheet sm:floating:max-h-[calc(100dvh-3rem)]"
+                    } fixed top-1/2 left-1/2 z-max flex max-h-[90vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 overflow-hidden p-4 duration-300 floating:static floating:max-h-[min(800px,85dvh)] floating:max-w-none floating:translate-x-0 floating:overflow-visible floating:p-0 floating:ease-sheet sm:floating:max-h-[min(800px,calc(100dvh-3rem))]"
                 >
                     <div
                         class="flex w-full flex-col rounded-2xl border border-gray-200 bg-white font-sans text-gray-900 floating:overflow-hidden floating:rounded-t-3xl floating:rounded-b-none floating:border-b-0 floating:shadow-sheet sm:floating:rounded-3xl sm:floating:border-b sm:floating:shadow-floating modal:shadow-xl modal:shadow-gray-900/5"
                     >
                         ${this.header(this._content)}
                         <div
-                            class="flex-1 overflow-auto rounded-lg px-4 py-5 focus-visible:-outline-offset-4 md:px-8 floating:rounded-2xl floating:p-5"
+                            class="flex-1 overflow-auto rounded-lg px-4 py-5 focus-visible:-outline-offset-4 md:px-8 floating:rounded-2xl floating:p-5 floating:pt-2"
                             role="tabpanel"
                             id="cookie-solution-tabpanel"
                             aria-labelledby="cookie-solution-tab-${this._tab}"
@@ -494,7 +496,7 @@ export class CookieSolutionBanner extends LitElement {
 
         return html`
             <div
-                class="shrink-0 border-b border-gray-200 p-4 md:px-8 md:py-5 floating:border-b-0 floating:px-5 floating:pt-5 floating:pb-0"
+                class="shrink-0 border-b border-gray-200 p-4 md:px-8 md:py-5 floating:border-b-0 floating:px-5 floating:pt-5 floating:pb-3"
             >
                 <div class="rounded-xl border border-gray-200 bg-gray-100 p-1 floating:rounded-full floating:border-0">
                     <div class="relative">

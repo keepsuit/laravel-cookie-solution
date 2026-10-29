@@ -174,6 +174,19 @@ test("toggle 'auto' hides while the page has its own trigger", async ({ page }) 
     await expect(dialog(page)).toBeVisible();
 });
 
+test('the banner shows a focus ring only after a key press', async ({ page }) => {
+    await visit(page);
+    await expect(dialog(page)).toBeFocused();
+    const outline = () =>
+        banner(page).evaluate((host) => getComputedStyle(host.shadowRoot!.activeElement!).outlineStyle);
+    expect(await outline()).toBe('none');
+
+    await page.keyboard.press('Tab');
+
+    await expect(banner(page).getByRole('tab', { name: content.texts.tab_consent })).toBeFocused();
+    expect(await outline()).toBe('solid');
+});
+
 test.describe('floating layout', () => {
     test.beforeEach(() => test.skip(layout() !== 'floating', 'Only the floating layout leaves the page usable'));
 
