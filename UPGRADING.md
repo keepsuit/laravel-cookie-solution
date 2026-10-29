@@ -19,7 +19,7 @@ Remove the `integrations` key from your published `config/cookie-solution.php`.
 If you published the views or the translations, publish them again (or merge the changes):
 
 - New translation keys: `cookie_policy.duration_session`, `privacy_policy.service_privacy_policy`. Without them session cookies show the raw key.
-- The policy views have new `part` attributes and render session durations with a translated label.
+- The policy views have new `part` attributes, a refreshed default style (services as cards) and render session durations with a translated label.
 
 ### Default policy texts
 
