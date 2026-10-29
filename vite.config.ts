@@ -1,8 +1,8 @@
 import { defineConfig, Plugin } from 'vite';
 import { createHash } from 'crypto';
-import minifyHTML from 'rollup-plugin-minify-html-literals';
+import minifyHTML from '@lit-labs/rollup-plugin-minify-html-literals';
 import tailwindcss from '@tailwindcss/postcss';
-import dts from 'vite-plugin-dts';
+import { dts } from 'rolldown-plugin-dts';
 import type { Plugin as PostcssPlugin } from 'postcss';
 
 function libManifest(): Plugin {
@@ -57,9 +57,9 @@ export default defineConfig(({ mode }) => ({
         {
             enforce: 'post',
             apply: 'build',
-            ...minifyHTML.default(),
+            ...minifyHTML(),
         },
-        mode === 'iife' ? libManifest() : dts({ exclude: ['resources/js/laravel-cookie-solution.ts'], bundleTypes: true }),
+        mode === 'iife' ? libManifest() : dts(),
     ],
     build:
         mode === 'iife'
@@ -77,12 +77,17 @@ export default defineConfig(({ mode }) => ({
                   lib: {
                       entry: 'resources/js/index.ts',
                       formats: ['es'],
-                      fileName: () => 'index.js',
+                      // `dts()` adds an `index.d` entry: a fixed name would give it a `.ts` extension.
+                      fileName: (_, entryName) => `${entryName}.js`,
                   },
                   rolldownOptions: {
                       external: [/^lit($|\/)/],
                   },
               },
+    oxc: {
+        // Keep the declarations emitted by `dts()` away from the TypeScript transform; replaces Vite's default exclude.
+        exclude: [/\.js$/, /\.d\.[cm]?ts$/],
+    },
     css: {
         postcss: {
             plugins: [tailwindcss(), shadowRootProperties()],
