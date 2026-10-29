@@ -1,6 +1,6 @@
 {
     "name": "@keepsuit/cookie-solution",
-    "version": "2.0.0",
+    "version": "2.0.0-beta.1",
     "description": "Cookie consent banner and policy web components for Laravel Cookie Solution, usable headless from any frontend.",
     "keywords": [
         "cookie",
