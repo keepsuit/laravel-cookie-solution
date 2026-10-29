@@ -20,8 +20,8 @@ Laravel is the single source of truth: services, texts, translations and policie
 ## Gotchas
 
 - **Consent mode default first.** `gtag('consent', 'default', ...)` must run before GTM loads. Blade: `@include('cookie-solution::google-consent-mode')` in `<head>` before GTM. Headless: the inline snippet in `docs/tracking.md` in the server-rendered `<head>`; the stored consent is valid only when its `digest` equals the config `digest`, so copy the snippet with that check.
-- **Idempotent handlers.** `onStatusChange` fires immediately with the current status and again on every change, sometimes with the same status twice.
+- **Idempotent handlers.** `onStatusChange` fires with the status in effect (only `necessary` without a stored consent) and again on every change, sometimes with the same status twice.
 - **Purposes**: `necessary`, `preferences`, `statistics` (analytics: GA, PostHog, Clarity), `marketing` (ads: Pixel, Google Ads).
 - **Opening the banner**: `open()` (or `window.CookieSolution.open()` in Blade) or any element with `data-cookie-solution-toggle`. With such a link in the layout, set `toggle_enabled` to `'auto'` (hides the floating toggle while the link is on the page) or `false`; the link must be reachable on every viewport.
-- **Blade API**: `window.CookieSolution` exposes `mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`; changes also dispatch `cookie-solution-status-change` on `document`.
+- **Blade API**: `window.CookieSolution` exposes `mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`; `cookie-solution-status-default` (once per page) and `cookie-solution-status-change` are dispatched on `document`.
 - **Upgrading from 1.x**: follow `UPGRADING.md` on GitHub (integrations removed, new translation keys, revised default policy texts).

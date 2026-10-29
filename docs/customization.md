@@ -10,7 +10,7 @@ Set the `highlight_color` config value. It reaches headless frontends with the r
 }
 ```
 
-Any CSS color format works. Where the color is used for text, focus rings or icons on white, it is darkened as needed (keeping its hue) to stay readable; buttons get white or black text to match.
+Any CSS color format works (transparency is ignored). Where the color is used for text, focus rings or icons on white, it is darkened as needed (keeping its hue) to stay readable; buttons get white or black text to match. Browsers without CSS relative colors use the color as set, with white button text.
 
 ## Layout
 

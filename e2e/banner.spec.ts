@@ -174,20 +174,107 @@ test("toggle 'auto' hides while the page has its own trigger", async ({ page }) 
     await expect(dialog(page)).toBeVisible();
 });
 
+test('new services close an open banner until their content has loaded', async ({ page }) => {
+    await visit(page, { contentDelay: 300 });
+    await expect(dialog(page)).toBeVisible();
+
+    await page.evaluate(() =>
+        (window as any).CookieSolution.mount({
+            ...(window as any)._cookieSolution,
+            digest: 'new-services',
+            content_url: 'http://site.test/content?locale=en&v=2',
+        }),
+    );
+
+    await expect(dialog(page)).toBeHidden();
+    await expect(dialog(page)).toBeVisible();
+    await banner(page).getByRole('button', { name: content.texts.button_accept_all }).click();
+    expect(await storedPurposes(page)).toEqual(acceptedAll.purposes);
+});
+
+const recordEvents = `<script>
+    window.events = [];
+    for (const type of ['default', 'change']) {
+        document.addEventListener('cookie-solution-status-' + type, (event) => events.push([type, event.detail.purposes]));
+    }
+</script>`;
+const events = (page: Page) => page.evaluate(() => (window as any).events);
+const remount = (page: Page, config: object) =>
+    page.evaluate(async (config) => {
+        (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, ...config });
+        await document.querySelector('cookie-solution-banner')!.updateComplete;
+    }, config);
+const deniedPurposes = { necessary: true, preferences: false, statistics: false, marketing: false };
+
+test('the default status comes first, then only the user choices', async ({ page }) => {
+    await visit(page, { body: recordEvents });
+    await expect(dialog(page)).toBeVisible();
+    expect(await events(page)).toEqual([['default', deniedPurposes]]);
+
+    await banner(page).getByRole('button', { name: content.texts.button_accept_all }).click();
+
+    expect(await events(page)).toEqual([
+        ['default', deniedPurposes],
+        ['change', acceptedAll.purposes],
+    ]);
+});
+
+test('a remount emits a change only when the status in effect changes', async ({ page }) => {
+    await visit(page, { cookie: acceptedAll, body: recordEvents });
+    await expect(toggle(page).getByRole('button')).toBeVisible();
+
+    await remount(page, { locale: 'it' });
+    await remount(page, { digest: 'new-services' });
+    await remount(page, { digest: 'other-services' });
+
+    expect(await events(page)).toEqual([
+        ['default', acceptedAll.purposes],
+        ['change', deniedPurposes],
+    ]);
+    await expect(dialog(page)).toBeVisible();
+    expect(await page.evaluate(() => (window as any).CookieSolution.getStatus())).toBeUndefined();
+});
+
+test('onStatusChange starts from the status in effect', async ({ page }) => {
+    await visit(page);
+    await expect(dialog(page)).toBeVisible();
+
+    const received = await page.evaluate(() => {
+        const purposes: unknown[] = [];
+        (window as any).CookieSolution.onStatusChange((status: any) => purposes.push(status.purposes));
+        return purposes;
+    });
+
+    expect(received).toEqual([deniedPurposes]);
+});
+
+test('derived highlight colors are opaque and button text follows the luminance', async ({ page }) => {
+    const accept = () => banner(page).getByRole('button', { name: content.texts.button_accept_all });
+
+    await visit(page, { config: { ...boot, highlight_color: 'rgb(37 99 235 / 40%)' } });
+    await expect(accept()).toHaveCSS('background-color', 'color(srgb 0.145098 0.388235 0.921569)');
+    await expect(accept()).toHaveCSS('color', 'color(xyz-d65 0.9505 1 1.089)');
+
+    await page.evaluate(() =>
+        (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, highlight_color: '#fbbf24' }),
+    );
+    await expect(accept()).toHaveCSS('color', 'color(xyz-d65 0 0 0)');
+});
+
 test('highlight_color wins over the page CSS variable, which applies when it is null', async ({ page }) => {
     const pageColor = '<style>:root { --cs--color-highlight: #0f766e; }</style>';
     const refuse = () => banner(page).getByRole('button', { name: content.texts.button_refuse });
     const accept = () => banner(page).getByRole('button', { name: content.texts.button_accept_all });
 
     await visit(page, { body: pageColor, config: { ...boot, highlight_color: '#2563eb' } });
-    await expect(accept()).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+    await expect(accept()).toHaveCSS('background-color', 'color(srgb 0.145098 0.388235 0.921569)');
 
     await refuse().click();
     await page.evaluate(() =>
         (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, highlight_color: null }),
     );
     await toggle(page).getByRole('button').click();
-    await expect(accept()).toHaveCSS('background-color', 'rgb(15, 118, 110)');
+    await expect(accept()).toHaveCSS('background-color', 'color(srgb 0.0588235 0.462745 0.431373)');
 });
 
 test('the banner shows a focus ring only after a key press', async ({ page }) => {

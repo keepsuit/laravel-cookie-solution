@@ -3,7 +3,7 @@ import { property, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
-import { deleteCookie, readStatus, writeStatus } from '../utils/cookie';
+import { deleteCookie, newEmptyStatus, readStatus, samePurposes, writeStatus } from '../utils/cookie';
 import { fetchContent } from '../utils/content';
 import {
     CookieConfig,
@@ -15,17 +15,8 @@ import {
 
 type ShowModalStatus = 'hidden' | 'hiding' | 'showing' | 'visible';
 
-function newEmptyStatus(): CookieSolutionStatus {
-    return {
-        timestamp: new Date().toISOString(),
-        purposes: {
-            necessary: true,
-            preferences: false,
-            statistics: false,
-            marketing: false,
-        },
-    };
-}
+// Once per page, before any change: a remounted banner is a new element.
+let defaultEmitted = false;
 
 export class CookieSolutionBanner extends LitElement {
     static styles = [styleSheet];
@@ -102,21 +93,28 @@ export class CookieSolutionBanner extends LitElement {
         this._syncPageToggleObserver();
 
         const previous = changed.get('config');
+        // A new config with the same cookie (e.g. locale change) only updates texts.
+        const sameConsent =
+            previous?.digest === this.config.digest && previous?.cookie_name === this.config.cookie_name;
 
         if (this.config.content) {
             this._content = this.config.content;
-        } else if (previous?.content_url !== this.config.content_url) {
-            // An open banner keeps the old content until the new one arrives.
-            if (this._showModal) {
+        } else if (previous?.content_url !== this.config.content_url || !sameConsent) {
+            // An open banner keeps the old texts until the new ones arrive: the services are the same.
+            if (this._showModal && sameConsent) {
                 void this._loadContent();
             } else {
                 this._content = undefined;
             }
         }
 
-        // A new config with the same cookie (e.g. locale change) only updates texts.
-        if (previous?.digest === this.config.digest && previous?.cookie_name === this.config.cookie_name) {
+        if (sameConsent) {
             return;
+        }
+
+        // Consent must not be given on the old services: reopen once the new content has loaded.
+        if (this._showModal) {
+            this._closeNow();
         }
 
         this._loadStatus();
@@ -181,13 +179,22 @@ export class CookieSolutionBanner extends LitElement {
             return;
         }
 
+        const previous = this._status ?? newEmptyStatus();
         this._status = readStatus(this.config);
 
         if (!this._status) {
             deleteCookie(this.config.cookie_name);
         }
 
-        this._emitStatusChange();
+        const current = this._status ?? newEmptyStatus();
+
+        if (!defaultEmitted) {
+            defaultEmitted = true;
+            this._emitStatus('cookie-solution-status-default', current);
+        } else if (!samePurposes(previous, current)) {
+            // E.g. new services drop the stored consent: subscribers must deny what it granted.
+            this._emitStatus('cookie-solution-status-change', current);
+        }
     }
 
     private _saveStatus(): void {
@@ -197,19 +204,18 @@ export class CookieSolutionBanner extends LitElement {
 
         writeStatus(this.config, this._status);
 
-        this._emitStatusChange();
+        this._emitStatus('cookie-solution-status-change', this._status);
     }
 
-    private _emitStatusChange(): void {
-        if (this._status == null) {
-            return;
-        }
-
+    private _emitStatus(
+        type: 'cookie-solution-status-default' | 'cookie-solution-status-change',
+        status: CookieSolutionStatus,
+    ): void {
         this.dispatchEvent(
-            new CustomEvent('cookie-solution-status-change', {
+            new CustomEvent(type, {
                 bubbles: true,
                 // Listeners must not share the banner's state object.
-                detail: structuredClone(this._status),
+                detail: structuredClone(status),
             }),
         );
     }
@@ -256,6 +262,13 @@ export class CookieSolutionBanner extends LitElement {
                 this._showModalStatus = 'visible';
             }
         }, 1);
+    }
+
+    // Without `close()`: its async `close` event would count as a dismissal of the reopened banner.
+    private _closeNow(): void {
+        clearTimeout(this._hideTimer);
+        this._showModalStatus = 'hidden';
+        this._showModal = false;
     }
 
     private hide(): void {

@@ -9,9 +9,9 @@
 /* Only for what the floating layout must not inherit from the modal. */
 @custom-variant modal (:host(:not([layout='floating'])) &);
 
-@theme inline {
-    /* As set, for fills: buttons and switches. */
-    --color-highlight-text: var(--cs--color-highlight, #c2410c);
+@theme {
+    /* As set but opaque, for fills: buttons and switches. Not inline, so the fallback below can override them. */
+    --color-highlight-text: color(from var(--cs--color-highlight, #c2410c) srgb r g b / 1);
     /* Darkened keeping the hue: luminance at most 0.29, at least 3:1 on white for rings and icons. */
     --color-highlight: color(
         from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.29 / y)) calc(y * min(1, 0.29 / y))
@@ -27,6 +27,9 @@
         from var(--color-highlight-text) xyz-d65 clamp(0, (0.18 - y) * 1000000, 0.9505)
             clamp(0, (0.18 - y) * 1000000, 1) clamp(0, (0.18 - y) * 1000000, 1.089)
     );
+}
+
+@theme inline {
     --inset-toggle-bottom: var(--cs--toggle-position-bottom, 1rem);
     --inset-toggle-x: var(--cs--toggle-position-x, 1rem);
     --z-index-toggle: var(--cs--toggle-z-index, 9999);
@@ -79,6 +82,16 @@
         outline-style: solid;
         outline-width: 2px;
         outline-offset: 2px;
+    }
+}
+
+/* Without relative colors the derived colors are invalid: use the color as set, with white text. */
+@supports not (color: color(from red xyz-d65 calc(x * min(1, 0.29 / y)) y z)) {
+    :host {
+        --color-highlight-text: var(--cs--color-highlight, #c2410c);
+        --color-highlight: var(--color-highlight-text);
+        --color-highlight-ink: var(--color-highlight-text);
+        --color-on-highlight: white;
     }
 }
 

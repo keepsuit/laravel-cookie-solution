@@ -53,3 +53,11 @@ it('can render privacy policy view with data owner', function () {
 
     assertMatchesHtmlSnapshot($output);
 });
+
+it('passes the highlight color to the policy views', function (string $view) {
+    expect(view($view)->render())->not->toContain('--cs--color-highlight');
+
+    config()->set('cookie-solution.highlight_color', '#2563eb');
+
+    expect(view($view)->render())->toContain('style="--cs--color-highlight: #2563eb"');
+})->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);

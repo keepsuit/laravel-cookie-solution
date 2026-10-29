@@ -5,7 +5,7 @@ import { CookieSolutionDuration } from './components/duration';
 import { CookieSolutionPolicyFormatter } from './components/policyFormatter';
 import { CookieSolutionSwitch } from './components/switch';
 import { CookieSolutionToggle } from './components/toggle';
-import { readStatus } from './utils/cookie';
+import { newEmptyStatus, readStatus } from './utils/cookie';
 import { fetchContent } from './utils/content';
 
 export type {
@@ -37,6 +37,7 @@ declare global {
     }
 
     interface GlobalEventHandlersEventMap {
+        'cookie-solution-status-default': CustomEvent<CookieSolutionStatus>;
         'cookie-solution-status-change': CustomEvent<CookieSolutionStatus>;
     }
 }
@@ -104,6 +105,7 @@ export function getStatus(): CookieSolutionStatus | undefined {
     return readStatus(mountedConfig);
 }
 
+/** Called with the status in effect (the stored consent, or only `necessary` without one) and on every change. */
 export function onStatusChange(callback: (status: CookieSolutionStatus) => void): () => void {
     if (typeof document === 'undefined') {
         return () => {};
@@ -111,13 +113,16 @@ export function onStatusChange(callback: (status: CookieSolutionStatus) => void)
 
     const listener = (event: CustomEvent<CookieSolutionStatus>) => callback(event.detail);
 
+    document.addEventListener('cookie-solution-status-default', listener);
     document.addEventListener('cookie-solution-status-change', listener);
 
-    // The banner emits the stored status once on load: replay it for late subscribers.
-    const status = getStatus();
-    if (status) {
-        callback(status);
+    // Late subscribers missed the default event.
+    if (mountedConfig) {
+        callback(getStatus() ?? newEmptyStatus());
     }
 
-    return () => document.removeEventListener('cookie-solution-status-change', listener);
+    return () => {
+        document.removeEventListener('cookie-solution-status-default', listener);
+        document.removeEventListener('cookie-solution-status-change', listener);
+    };
 }

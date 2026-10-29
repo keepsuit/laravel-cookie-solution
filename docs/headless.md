@@ -47,7 +47,8 @@ open();
 // Current consent, or undefined before mount() or if the user has not chosen yet.
 getStatus();
 
-// Called immediately with the current consent (if any) and on every change.
+// Called with the status in effect (the stored consent, or only `necessary` without one) and on every change.
+// When the services change, the stored consent is dropped and it is called with only `necessary` granted.
 // It can be called more than once with the same status: keep handlers idempotent.
 const unsubscribe = onStatusChange((status) => {
     console.log(status.purposes); // { necessary, preferences, statistics, marketing }
@@ -91,4 +92,9 @@ export function useCookieConsent(): CookieSolutionStatus | undefined {
 }
 ```
 
-In Blade pages the same functions are available on `window.CookieSolution`, and every change dispatches a `cookie-solution-status-change` event on `document` (with the status in `event.detail`).
+In Blade pages the same functions are available on `window.CookieSolution`.
+
+The banner also dispatches two events on `document`, with the status in `event.detail`:
+
+- `cookie-solution-status-default`: once per page, before any change, with the stored consent or only `necessary` granted.
+- `cookie-solution-status-change`: when the user chooses, or when a new `mount()` changes the status in effect (e.g. new services drop the stored consent).

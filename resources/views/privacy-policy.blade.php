@@ -1,4 +1,4 @@
-<cookie-solution-policy-formatter>
+<cookie-solution-policy-formatter @if(config('cookie-solution.highlight_color')) style="--cs--color-highlight: {{ config('cookie-solution.highlight_color') }}" @endif>
     <div part="root" class="prose">
         <h1 part="headings h1">
             {{ __('cookie-solution::texts.privacy_policy.title') }}

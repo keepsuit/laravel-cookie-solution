@@ -55,12 +55,12 @@ It restores the stored consent only if it was given for the current configuratio
 </script>
 ```
 
-Then update it from the app:
+Then update it on every change (the default is already set):
 
 ```js
-onStatusChange((status) => {
-    gtag('consent', 'update', cookieSolutionConsent(status.purposes));
-    dataLayer.push({ event: 'cookie-solution-status-change', status: status.purposes });
+document.addEventListener('cookie-solution-status-change', (event) => {
+    gtag('consent', 'update', cookieSolutionConsent(event.detail.purposes));
+    dataLayer.push({ event: 'cookie-solution-status-change', status: event.detail.purposes });
 });
 ```
 
@@ -98,4 +98,4 @@ Clarity.consent(false);
 onStatusChange((status) => Clarity.consent(status.purposes.statistics));
 ```
 
-In Blade pages use `window.CookieSolution.onStatusChange` (after the banner script has loaded) or listen to the `cookie-solution-status-change` event.
+In Blade pages use `window.CookieSolution.onStatusChange` (after the banner script has loaded) or listen to the `cookie-solution-status-default` and `cookie-solution-status-change` events (see [Headless frontends](headless.md)).

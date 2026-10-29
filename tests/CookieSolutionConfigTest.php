@@ -26,6 +26,12 @@ it('generate base config for cookie solution', function () {
         ]);
 });
 
+it('falls back to the modal layout for an unknown value', function () {
+    config()->set('cookie-solution.layout', 'sidebar');
+
+    expect(CookieSolution::getConfig()['layout'])->toBe('modal');
+});
+
 it('generate the banner content', function () {
     expect(CookieSolution::getContent())
         ->toMatchArray([
