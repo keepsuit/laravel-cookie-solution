@@ -20,7 +20,6 @@ class ScriptViewComposer
 
         $view->with([
             'enabled' => $this->cookieSolution->enabled(),
-            'highlightColor' => config('cookie-solution.highlight_color'),
             'scriptUrl' => $scriptUrl,
             'config' => $config,
         ]);

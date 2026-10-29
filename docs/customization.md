@@ -2,7 +2,7 @@
 
 ## Highlight color
 
-With Blade, set the `highlight_color` config value. Headless frontends set the CSS variable themselves:
+Set the `highlight_color` config value. It reaches headless frontends with the rest of the config, so they can also override it in `mount({ ...config, highlight_color: '#3522dd' })`. With `highlight_color` set to `null`, the banner uses the `--cs--color-highlight` CSS variable when the page sets it:
 
 ```css
 :root {

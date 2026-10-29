@@ -13,13 +13,14 @@ use function Spatie\Snapshots\assertMatchesJsonSnapshot;
 
 it('generate base config for cookie solution', function () {
     expect(CookieSolution::getConfig())
-        ->not->toHaveKeys(['highlight_color', 'cookies', 'services', 'texts'])
+        ->not->toHaveKeys(['cookies', 'services', 'texts'])
         ->toMatchArray([
             'enabled' => true,
             'locale' => 'en',
             'cookie_name' => 'laravel_cookie_solution',
             'cookie_lifetime' => 365,
             'layout' => 'modal',
+            'highlight_color' => null,
             'toggle_label' => 'Open cookie settings',
             'content_url' => 'http://localhost/api/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
         ]);

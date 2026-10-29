@@ -94,6 +94,11 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         this.setAttribute('layout', this._layout);
+        if (this.config.highlight_color) {
+            this.style.setProperty('--cs--color-highlight', this.config.highlight_color);
+        } else {
+            this.style.removeProperty('--cs--color-highlight');
+        }
         this._syncPageToggleObserver();
 
         const previous = changed.get('config');

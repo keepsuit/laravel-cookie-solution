@@ -33,11 +33,11 @@ If you published the markdown policies in `resources/views/vendor/cookie-solutio
 - Keyboard focus is shown with a ring in the highlight color instead of the browser outline.
 - The banner uses `cookie_name` and `cookie_lifetime` from the config (1.x always used `laravel_cookie_solution` and 365 days). If you changed `cookie_name`, users will be asked for consent again once.
 - The Blade bundle exposes its API on `window.CookieSolution` (`mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`).
-- The Blade view loads the bundle with `<script defer>` instead of `type="module"`: it no longer needs CORS headers when served from a CDN. If you published `script.blade.php`, publish it again.
+- The Blade view loads the bundle with `<script defer>` instead of `type="module"`: it no longer needs CORS headers when served from a CDN. If you published `script.blade.php`, publish it again (it no longer receives `$highlightColor`).
 
 ### `window._cookieSolution` and `CookieSolution::getConfig()`
 
-The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `layout`, `toggle_*` and `content_url`).
+The inline configuration now contains only what every page needs (`enabled`, `locale`, `digest`, `cookie_name`, `cookie_lifetime`, `layout`, `highlight_color`, `toggle_*` and `content_url`). The highlight color is applied by the banner instead of a `<style>` block in the script view.
 Texts, services and the cookie policy are loaded from `content_url` (`GET /api/cookie-solution/content`) when the banner opens.
 If your own JavaScript read `cookies` or `texts` from `window._cookieSolution`, fetch `content_url` instead.
 In PHP, `CookieSolution::getConfig()` returns the same reduced configuration: texts and services (`cookies` in 1.x) are returned by `CookieSolution::getContent()`.

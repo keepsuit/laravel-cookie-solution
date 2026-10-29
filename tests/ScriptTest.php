@@ -20,14 +20,6 @@ it('outputs script', function () {
         );
 });
 
-it('outputs the highlight color style only when configured', function () {
-    expect(CookieSolution::script()->toHtml())->not->toContain('--cs--color-highlight');
-
-    config()->set('cookie-solution.highlight_color', '#3522dd');
-
-    expect(CookieSolution::script()->toHtml())->toContain('--cs--color-highlight: #3522dd;');
-});
-
 it('outputs nothing when disabled', function () {
     config()->set('cookie-solution.enabled', false);
 

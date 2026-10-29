@@ -62,9 +62,9 @@ return [
     | Highlight Color
     |--------------------------------------------------------------------------
     |
-    | Banner highlight color (ex. #3522dd) written by the Blade script view.
-    | If null, the default color is used. Headless frontends set the
-    | `--cs--color-highlight` CSS variable themselves.
+    | Banner highlight color (ex. #3522dd), any CSS color format. If null,
+    | the default color is used, or the `--cs--color-highlight` CSS
+    | variable when the page sets it.
     |
     | Colors that keep white button text and are used unchanged (at least
     | 4.5:1 on white): #c2410c (orange, the default), #dc2626 (red),

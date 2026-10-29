@@ -147,6 +147,7 @@ class CookieSolution
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'layout' => config('cookie-solution.layout', 'modal'),
+            'highlight_color' => config('cookie-solution.highlight_color'),
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
             'toggle_label' => __('cookie-solution::texts.banner.button_show_banner'),

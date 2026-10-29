@@ -174,6 +174,22 @@ test("toggle 'auto' hides while the page has its own trigger", async ({ page }) 
     await expect(dialog(page)).toBeVisible();
 });
 
+test('highlight_color wins over the page CSS variable, which applies when it is null', async ({ page }) => {
+    const pageColor = '<style>:root { --cs--color-highlight: #0f766e; }</style>';
+    const refuse = () => banner(page).getByRole('button', { name: content.texts.button_refuse });
+    const accept = () => banner(page).getByRole('button', { name: content.texts.button_accept_all });
+
+    await visit(page, { body: pageColor, config: { ...boot, highlight_color: '#2563eb' } });
+    await expect(accept()).toHaveCSS('background-color', 'rgb(37, 99, 235)');
+
+    await refuse().click();
+    await page.evaluate(() =>
+        (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, highlight_color: null }),
+    );
+    await toggle(page).getByRole('button').click();
+    await expect(accept()).toHaveCSS('background-color', 'rgb(15, 118, 110)');
+});
+
 test('the banner shows a focus ring only after a key press', async ({ page }) => {
     await visit(page);
     await expect(dialog(page)).toBeFocused();
