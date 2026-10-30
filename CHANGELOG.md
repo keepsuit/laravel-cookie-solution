@@ -2,6 +2,24 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.1.0 - 2026-10-30
+
+### Highlights
+
+- **One policy markup**: the Blade policy views and `GET {path}/policies` now render the same HTML (`partials/cookie-policy.blade.php`, `partials/privacy-policy.blade.php`). Headless frontends can wrap it in `<cookie-solution-policy-formatter>` and get the default styles, as [docs/headless.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.1.0/docs/headless.md) describes.
+- **Styling through parts**: the policy markup has no utility classes; the default styles target the `part` attributes. Without the formatter, the same parts work as attribute selectors (`[part~='service']`).
+- **Semantic policy markup**: services as lists (`role="list"`), cookies as description lists, a heading per service.
+- **Smaller bundle**: `@tailwindcss/typography` is replaced by the few rules the policies need (92.2 → 81.3 KB, gzip 22.0 → 20.5 KB). The rendering of the policy views and of the banner information tab is unchanged.
+
+### Changes for headless frontends
+
+- `GET {path}/policies` returns a different structure, with `part` attributes: check any CSS or parsing of that HTML.
+- New part `service-title` in the privacy policy.
+
+### Upgrading
+
+Policy views published from 2.0.0 keep working, with small spacing differences; publish them again to get the shared markup. See [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.1.0/UPGRADING.md).
+
 ## 2.0.0 - 2026-10-30
 
 ### Highlights
@@ -31,8 +49,8 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
-```
 
+```
 **Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.6.2...2.0.0
 
 ## 1.6.2 - 2026-10-28
