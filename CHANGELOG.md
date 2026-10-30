@@ -4,14 +4,36 @@ All notable changes to `laravel-cookie-solution` will be documented in this file
 
 ## 2.0.0 - 2026-10-30
 
-First stable release of 2.0. Requires Laravel 12 or 13.
+### Highlights
 
-See [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/UPGRADING.md) for the changes from 1.x and [Headless frontends](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/docs/headless.md) for the JSON endpoints and the npm package.
+- **Headless frontends**: the banner can be mounted from any frontend (React, SSR, SPA) with the new npm package [`@keepsuit/cookie-solution`](https://www.npmjs.com/package/@keepsuit/cookie-solution) (`mount`, `open`, `getStatus`, `onStatusChange`). Laravel serves the configuration through public JSON endpoints under `cookie-solution`. See [docs/headless.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/docs/headless.md).
+- **Lighter pages**: every page gets only a small boot config; texts, services and the cookie policy are loaded when the banner opens. Both are the same for every visitor, so pages can be cached.
+- **New design** with two layouts: `modal` (default) and `floating` (corner card, the page stays usable). The highlight color now drives readable derived colors automatically.
+- **Accessibility**: native `<dialog>`, WAI-ARIA tabs, labelled controls, keyboard-only focus ring, reduced motion.
+- **Status events**: `cookie-solution-status-default` (once per page) and `cookie-solution-status-change`.
+- **Policies**: restyled policy views, unstyled HTML for headless apps, revised default legal texts (no implicit consent).
 
-Changes since 2.0.0-beta.2:
+### Breaking changes
 
-* The API endpoints moved from `api/cookie-solution` to `cookie-solution`, so Laravel's default CORS config (`api/*`) no longer applies to them. If you published the config during the beta, update `api.path` or set `COOKIE_SOLUTION_API_PATH`.
-* Documented how the app's CORS config interacts with the endpoints.
+- Laravel 12 or 13 required.
+- The `integrations` config (gtag / fbq) is removed: add `@include('cookie-solution::google-consent-mode')` before Google Tag Manager; other services are covered in [docs/tracking.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/docs/tracking.md).
+- Published views, translations and markdown policies must be republished or merged; a published 1.x `script.blade.php` fails.
+- `window._cookieSolution` and `CookieSolution::getConfig()` contain only the boot configuration. Stored consents remain valid.
+
+### From the 2.0 betas
+
+- The API endpoints moved from `api/cookie-solution` to `cookie-solution`, so Laravel's default CORS config (`api/*`) no longer applies to them. If you published the config during the beta, update `api.path` or set `COOKIE_SOLUTION_API_PATH`.
+
+### Upgrading
+
+Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/UPGRADING.md)
+
+```sh
+composer require keepsuit/laravel-cookie-solution:^2.0
+npm i @keepsuit/cookie-solution   # headless frontends only
+```
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.6.2...2.0.0
 
 ## 1.6.2 - 2026-10-28
 
