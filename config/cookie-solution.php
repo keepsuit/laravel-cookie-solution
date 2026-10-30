@@ -111,7 +111,7 @@ return [
     'api' => [
         'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
 
-        'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
+        'path' => env('COOKIE_SOLUTION_API_PATH', 'cookie-solution'),
 
         'middleware' => [],
     ],

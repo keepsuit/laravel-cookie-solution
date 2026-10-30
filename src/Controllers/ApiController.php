@@ -33,7 +33,7 @@ class ApiController
         ]);
     }
 
-    // Public, cookieless data: any origin may read it, whatever the app's `cors.php` covers.
+    // Public, cookieless data: any origin may read it. `HandleCors` overrides this when `cors.paths` matches the path.
     protected function json(array $data): JsonResponse
     {
         return response()->json($data)->header('Access-Control-Allow-Origin', '*');

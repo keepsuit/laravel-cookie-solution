@@ -22,7 +22,7 @@ it('generate base config for cookie solution', function () {
             'layout' => 'modal',
             'highlight_color' => null,
             'toggle_label' => 'Open cookie settings',
-            'content_url' => 'http://localhost/api/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
+            'content_url' => 'http://localhost/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
         ]);
 });
 

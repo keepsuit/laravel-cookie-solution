@@ -9,5 +9,5 @@
     "toggle_enabled": true,
     "toggle_position": "right",
     "toggle_label": "Open cookie settings",
-    "content_url": "http://localhost/api/cookie-solution/content?locale=en&v=3be702cdd8edcde826a93e77a7d80621"
+    "content_url": "http://localhost/cookie-solution/content?locale=en&v=3be702cdd8edcde826a93e77a7d80621"
 }

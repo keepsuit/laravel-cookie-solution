@@ -33,4 +33,4 @@ Both contain only the boot configuration. Texts and services (`cookies` in 1.x) 
 
 ### API routes
 
-The package registers public JSON endpoints under `api/cookie-solution`, used by the Blade banner too (see [Headless frontends](docs/headless.md)). To change the path or the middleware, add the `api` group to your published config; the middleware must not require authentication or start a session.
+The package registers public JSON endpoints under `cookie-solution`, used by the Blade banner too (see [Headless frontends](docs/headless.md)). To change the path or the middleware, add the `api` group to your published config; the middleware must not require authentication or start a session.

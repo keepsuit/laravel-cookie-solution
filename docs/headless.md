@@ -6,7 +6,7 @@ Configure them in `config/cookie-solution.php`:
 ```php
 'api' => [
     'domain' => env('COOKIE_SOLUTION_API_DOMAIN'),
-    'path' => env('COOKIE_SOLUTION_API_PATH', 'api/cookie-solution'),
+    'path' => env('COOKIE_SOLUTION_API_PATH', 'cookie-solution'),
     'middleware' => [],
 ],
 ```
@@ -19,9 +19,17 @@ Configure them in `config/cookie-solution.php`:
 
 Every endpoint reads the locale from the `locale` query parameter (the app locale when missing; an invalid value returns 422).
 The responses are the same for every visitor, so the URL is enough as a cache key.
-The content is cached as immutable (`v` is a hash of the content) and allows any origin.
+The content is cached as immutable (`v` is a hash of the content).
 
 The endpoints need no middleware. If you add some, they must not require authentication, start a session (`web`, or `api` with `statefulApi()`) or rate limit by IP (`api` with `throttleApi()`: a server-side rendered frontend fetches the config for every visitor from the same IP).
+
+### CORS
+
+Every endpoint responds with `Access-Control-Allow-Origin: *`, so a frontend on another origin (or `COOKIE_SOLUTION_API_DOMAIN`) can read it without any change to your app.
+The requests are plain `GET`s without credentials, so there is no preflight.
+
+Laravel's `HandleCors` middleware applies `config/cors.php` to the routes matching its `paths` (`api/*` by default) and overrides the header set by the package.
+If the path falls under `cors.paths` (e.g. `COOKIE_SOLUTION_API_PATH=api/cookie-solution`), `allowed_origins` must allow every origin that loads the banner: with a single origin listed, any other origin is blocked.
 
 Install the frontend package:
 
@@ -35,7 +43,7 @@ The package has no side effects on import, so it can be imported during SSR. Cal
 import { mount, open, onStatusChange, getStatus, defineElements } from '@keepsuit/cookie-solution';
 import type { CookieSolutionConfig, CookieSolutionStatus } from '@keepsuit/cookie-solution';
 
-const config: CookieSolutionConfig = await fetch(`/api/cookie-solution?locale=${locale}`).then((r) => r.json());
+const config: CookieSolutionConfig = await fetch(`/cookie-solution?locale=${locale}`).then((r) => r.json());
 
 // Creates the banner (or updates it, e.g. after a locale change). With `config.enabled` false it removes the banner.
 // The banner content is fetched from `config.content_url` when the banner first opens.
