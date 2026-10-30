@@ -28,8 +28,8 @@ class ApiController
         $this->applyLocale($request);
 
         return $this->json([
-            'cookie_policy' => $this->render('cookie-solution::api.cookie-policy'),
-            'privacy_policy' => $this->render('cookie-solution::api.privacy-policy'),
+            'cookie_policy' => view('cookie-solution::partials.cookie-policy')->render(),
+            'privacy_policy' => view('cookie-solution::partials.privacy-policy')->render(),
         ]);
     }
 
@@ -60,11 +60,5 @@ class ApiController
         abort_unless(is_string($locale) && preg_match('/^[A-Za-z]{2,3}([_-][A-Za-z0-9]{2,8})*$/', $locale), 422);
 
         app()->setLocale($locale);
-    }
-
-    protected function render(string $view): string
-    {
-        // Policy markdown carries `part` hooks meant for the styled views only.
-        return preg_replace('/\s+part="[^"]*"/', '', view($view)->render());
     }
 }

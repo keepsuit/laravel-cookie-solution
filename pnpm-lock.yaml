@@ -210,9 +210,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.3.3
         version: 4.3.3
-      '@tailwindcss/typography':
-        specifier: ^0.5.20
-        version: 0.5.20(tailwindcss@4.3.3)
       '@types/node':
         specifier: ^26.6.5
         version: 26.6.5
@@ -774,11 +771,6 @@ packages:
   '@tailwindcss/postcss@4.3.3':
     resolution: {integrity: sha512-JTSZZGQi1AyKirbLN3azmjVzef92tcX7h+iSqPdaeStyFpGpDlKvvpxeOE8njhbUanbRwr3z8DyzhICWnMtQeg==}
 
-  '@tailwindcss/typography@0.5.20':
-    resolution: {integrity: sha512-hwbzQuNUfcPvbegQFatVPl/MY/tcM9KLl963hQ5laJKPh81TEZ1+dNG9PirGvcaDBkp+BCshExAyKVPW91dozw==}
-    peerDependencies:
-      tailwindcss: '>=3.0.0 || >=4.0.0 || insiders'
-
   '@types/estree@1.0.9':
     resolution: {integrity: sha512-GhdPgy1el4/ImP05X05Uw4cw2/M93BCUmnEvWZNStlCzEKME4Fkk+YpoA5OiHNQmoS7Cafb8Xa3Pya8m1Qrzeg==}
 
@@ -1007,11 +999,6 @@ packages:
 
   constant-case@3.0.4:
     resolution: {integrity: sha512-I2hSBi7Vvs7BEuJDr5dDHfzb/Ruj3FyvFyh7KLilAjNQw3Be+xgqUBA2W6scVEcL0hL1dwPRtIqEPVUCKkSsyQ==}
-
-  cssesc@3.0.0:
-    resolution: {integrity: sha512-/Tb/JcjK111nNScGob5MNtsntNM1aCNUDipB/TkwZFhyDrrE47SOx/18wF2bbjgc3ZzCSKW1T5nt5EbFoAz/Vg==}
-    engines: {node: '>=4'}
-    hasBin: true
 
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
@@ -1278,10 +1265,6 @@ packages:
     engines: {node: '>=20'}
     hasBin: true
 
-  postcss-selector-parser@6.0.10:
-    resolution: {integrity: sha512-IQ7TZdoaqbT+LCpShg46jnZVlhWD2w6iQYAcYXfHARZ7X1t/UGhhceQDs5X0cGqKvYlHNOuv7Oa1xmb0oQuA3w==}
-    engines: {node: '>=4'}
-
   postcss@8.5.31:
     resolution: {integrity: sha512-YUbWYCgErwnMAVkjUnYa+KlMBzGpHwiIt/DE7f0G33AuX2LH9UcTk6KgWxd3zRU+pN3u/C+Xl3EnMLM4Hea7Sg==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1446,9 +1429,6 @@ packages:
 
   upper-case@2.0.2:
     resolution: {integrity: sha512-KgdgDGJt2TpuwBUIjgG6lzw2GWFRCW9Qkfkiv0DxqHHLYJHmtmdUIKcZd8rHgFSjopVTlw6ggzCm1b8MFQwikg==}
-
-  util-deprecate@1.0.2:
-    resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
   vite@8.3.5:
     resolution: {integrity: sha512-z1YpjieJ9g0ebTmQpLBv/oq9E3F9EIlOe+7LahW8SrE3LTiG3udBRUXQOlYXP9b+IC2q2phHeVxj9xGlw34OEQ==}
@@ -1835,11 +1815,6 @@ snapshots:
       postcss: 8.5.31
       tailwindcss: 4.3.3
 
-  '@tailwindcss/typography@0.5.20(tailwindcss@4.3.3)':
-    dependencies:
-      postcss-selector-parser: 6.0.10
-      tailwindcss: 4.3.3
-
   '@types/estree@1.0.9': {}
 
   '@types/node@26.6.5':
@@ -1989,8 +1964,6 @@ snapshots:
       no-case: 3.0.4
       tslib: 2.8.1
       upper-case: 2.0.2
-
-  cssesc@3.0.0: {}
 
   detect-libc@2.1.2: {}
 
@@ -2225,11 +2198,6 @@ snapshots:
     dependencies:
       playwright-core: 1.64.1
 
-  postcss-selector-parser@6.0.10:
-    dependencies:
-      cssesc: 3.0.0
-      util-deprecate: 1.0.2
-
   postcss@8.5.31:
     dependencies:
       nanoid: 3.3.20
@@ -2391,8 +2359,6 @@ snapshots:
   upper-case@2.0.2:
     dependencies:
       tslib: 2.8.1
-
-  util-deprecate@1.0.2: {}
 
   vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.7)(jiti@2.7.0)(terser@5.51.2)(yaml@2.8.1):
     dependencies:

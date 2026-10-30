@@ -41,7 +41,6 @@
         "@lit-labs/rollup-plugin-minify-html-literals": "^0.2.0",
         "@playwright/test": "^1.64.1",
         "@tailwindcss/postcss": "^4.3.3",
-        "@tailwindcss/typography": "^0.5.20",
         "@types/node": "^26.6.5",
         "postcss": "^8.5.31",
         "prettier": "^3.9.10",
