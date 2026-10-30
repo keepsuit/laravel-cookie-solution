@@ -2,9 +2,13 @@
 
 ## Unreleased
 
+### Policies endpoint
+
+`GET {path}/policies` now returns the markup of the Blade policy views (`partials/cookie-policy.blade.php`, `partials/privacy-policy.blade.php`), with `part` attributes and a different structure: services are `ul`/`li` lists, cookies are `dl` lists, each service has its own heading. Check any CSS or parsing of that HTML in headless frontends.
+
 ### Policy views
 
-The policy views no longer use utility classes: the styles target their `part` attributes, and the markup is shared with the `policies` endpoint (`partials/cookie-policy.blade.php`, `partials/privacy-policy.blade.php`). Published 2.0.0 policy views render unstyled inside the formatter: publish them again or merge the changes. The privacy policy list has a new `service-title` part.
+The styles now target the `part` attributes instead of utility classes. Published 2.0.0 policy views keep working, with small spacing differences; publish them again to get the shared markup (the API serves the published partials too). New part: `service-title` in the privacy policy.
 
 ## From 1.x to 2.0
 

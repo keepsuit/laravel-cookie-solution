@@ -124,19 +124,24 @@
         @apply my-[1.25em];
     }
 
-    > ul {
+    > ul,
+    > :is(ul, ol) ul {
         @apply list-disc ps-[1.625em] marker:text-gray-300;
     }
 
-    > ol {
+    > ol,
+    > :is(ul, ol) ol {
         @apply list-decimal ps-[1.625em] marker:text-gray-500;
     }
 
-    > :is(ul, ol) > li {
+    > :is(ul, ol) li {
         @apply my-[0.5em] ps-[0.375em];
     }
 
-    > :is(h2, h3) + *,
+    > :is(ul, ol) li > :is(ul, ol) {
+        @apply my-[0.75em];
+    }
+
     > :first-child {
         @apply mt-0;
     }
@@ -162,8 +167,16 @@
 [part~='banner-tab-information'] {
     @apply text-sm/[1.7142857] text-gray-700;
 
+    > h1 {
+        @apply mb-[0.8em] text-[2.1428571em]/[1.2];
+    }
+
     > h2 {
         @apply mt-[1.6em] mb-[0.8em] text-[1.4285714em]/[1.4];
+    }
+
+    > h3 {
+        @apply mt-[1.5555556em] mb-[0.4444444em] text-[1.2857143em]/[1.5555556];
     }
 
     > :is(p, ul, ol) {
@@ -174,9 +187,14 @@
         @apply ps-[1.5714286em];
     }
 
-    > :is(ul, ol) > li {
+    > :is(ul, ol) li {
         @apply my-[0.2857143em] ps-[0.4285714em];
     }
+}
+
+/* After the banner sizes, which would otherwise win. */
+:is([part~='root'], [part~='data-owner'], [part~='banner-tab-information']) > :is(h2, h3) + * {
+    @apply mt-0;
 }
 
 /* Policy markup has no utility classes, so the headless HTML is the same; scoped to `root` to leave the banner alone. */

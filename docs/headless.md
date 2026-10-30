@@ -88,15 +88,19 @@ It uses the package custom elements: call `defineElements()` before rendering it
 
 The formatter reads its content once, when it is first rendered: remount it when the HTML changes (e.g. with a React `key`). It doesn't read `highlight_color`: set `--cs--color-highlight` on it yourself.
 
-```tsx
+Policy page with React:
+
+```jsx
 <cookie-solution-policy-formatter
-    key={locale}
+    key={policies.cookie_policy}
     style={{ '--cs--color-highlight': config.highlight_color }}
     dangerouslySetInnerHTML={{ __html: policies.cookie_policy }}
 />
 ```
 
-Example with React:
+With TypeScript, declare the element in `JSX.IntrinsicElements` and cast the `style` object to `React.CSSProperties`.
+
+Consent status with React:
 
 ```tsx
 import { useEffect, useState } from 'react';

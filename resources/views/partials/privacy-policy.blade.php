@@ -12,7 +12,7 @@
 
     @if(\Keepsuit\CookieSolution\Facades\CookieSolution::hasServices())
         <h2 part="headings h2">{{ __('cookie-solution::texts.privacy_policy.services_list') }}</h2>
-        <ul part="privacy-list">
+        <ul role="list" part="privacy-list">
             @foreach(\Keepsuit\CookieSolution\Facades\CookieSolution::services() as $service)
                 <li part="service">
                     <div part="service-header">

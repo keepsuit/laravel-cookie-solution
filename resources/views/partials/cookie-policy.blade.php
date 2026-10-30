@@ -10,16 +10,16 @@
                 @if($services->isNotEmpty())
                     <section part="purpose">
                         <h3 part="headings h3">{{ __('cookie-solution::texts.cookie_policy.purpose_'.$purpose) }}</h3>
-                        <ul part="services">
+                        <ul role="list" part="services">
                             @foreach($services as $service)
                                 @php
                                     /** @var \Keepsuit\CookieSolution\Service $service */
                                 @endphp
                                 <li part="service">
-                                    <p part="service-header">
+                                    <h4 part="service-header">
                                         <span part="service-name">{{ $service->name }}</span>
                                         <span part="service-provider">({{ $service->provider }})</span>
-                                    </p>
+                                    </h4>
                                     <dl part="service-cookies">
                                         @foreach($service->cookies as $cookie)
                                             <div part="cookie">

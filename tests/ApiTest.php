@@ -42,7 +42,10 @@ it('serves the policies with the same markup as the views, without the formatter
 
     expect(view('cookie-solution::cookie-policy')->render())->toContain(trim($policies['cookie_policy']))
         ->and(view('cookie-solution::privacy-policy')->render())->toContain(trim($policies['privacy_policy']))
-        ->and($policies['cookie_policy'].$policies['privacy_policy'])->not->toContain('cookie-solution-policy-formatter');
+        ->and($policies['cookie_policy'].$policies['privacy_policy'])
+        // Styles target parts: a class would have no CSS behind it.
+        ->not->toContain('class=')
+        ->not->toContain('cookie-solution-policy-formatter');
 });
 
 it('allows any origin on every endpoint', function () {
