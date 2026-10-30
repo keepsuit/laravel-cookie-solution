@@ -277,6 +277,121 @@ test('highlight_color wins over the page CSS variable, which applies when it is 
     await expect(accept()).toHaveCSS('background-color', 'color(srgb 0.0588235 0.462745 0.431373)');
 });
 
+// Luminance of theme colors as rendered in the banner; the canvas resolves any color format to sRGB.
+async function themeLuminance(page: Page, variables: string[]): Promise<Record<string, number>> {
+    return banner(page).evaluate(async (host, variables) => {
+        await (host as any).updateComplete;
+        const context = document.createElement('canvas').getContext('2d', { willReadFrequently: true })!;
+        const linear = (c: number) => ((c /= 255) <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+
+        return Object.fromEntries(
+            variables.map((variable) => {
+                const probe = document.createElement('i');
+                probe.style.color = `var(${variable})`;
+                host.shadowRoot!.append(probe);
+                context.fillStyle = getComputedStyle(probe).color;
+                probe.remove();
+                context.fillRect(0, 0, 1, 1);
+                const [r, g, b] = context.getImageData(0, 0, 1, 1).data;
+
+                return [variable, 0.2126 * linear(r) + 0.7152 * linear(g) + 0.0722 * linear(b)];
+            }),
+        );
+    }, variables);
+}
+
+const contrast = (a: number, b: number) => (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+
+for (const [scheme, backgrounds] of [
+    ['light', ['--color-white']],
+    ['dark', ['--color-white', '--color-gray-50', '--color-track']],
+] as const) {
+    test(`text and highlight stay readable in the ${scheme} color scheme`, async ({ page }) => {
+        await visit(page, { config: { ...boot, color_scheme: scheme } });
+        await expect(dialog(page)).toBeVisible();
+
+        for (const highlight_color of [null, '#334155', '#0e7490', '#fbbf24', '#ffffff', '#000000']) {
+            await page.evaluate(
+                (highlight_color) =>
+                    (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, highlight_color }),
+                highlight_color,
+            );
+            const colors = await themeLuminance(page, [
+                ...backgrounds,
+                '--color-gray-900',
+                '--color-gray-700',
+                '--color-gray-600',
+                '--color-gray-500',
+                '--color-highlight-ink',
+                '--color-highlight',
+            ]);
+
+            for (const background of backgrounds) {
+                for (const [variable, minimum] of [
+                    ['--color-gray-900', 4.5],
+                    ['--color-gray-700', 4.5],
+                    ['--color-gray-600', 4.5],
+                    // Ordered-list markers are text.
+                    ['--color-gray-500', 4.5],
+                    ['--color-highlight-ink', 4.5],
+                    ['--color-highlight', 3],
+                ] as const) {
+                    expect(
+                        contrast(colors[variable], colors[background]),
+                        `${variable} on ${background}, highlight ${highlight_color}`,
+                    ).toBeGreaterThanOrEqual(minimum);
+                }
+            }
+        }
+    });
+}
+
+test('the page CSS variables override the theme colors, nested components included', async ({ page }) => {
+    await visit(page, {
+        body: '<style>:root { --cs--color-background: #000; --cs--color-text: #fff; }</style>',
+        config: { ...boot, color_scheme: 'dark' },
+    });
+    await expect(dialog(page)).toBeVisible();
+    expect(await themeLuminance(page, ['--color-white', '--color-gray-900'])).toEqual({
+        '--color-white': 0,
+        '--color-gray-900': 1,
+    });
+    await banner(page).getByRole('tab', { name: content.texts.tab_customize }).click();
+    await expect(banner(page).getByRole('switch', { checked: false }).first()).toHaveCSS(
+        'background-color',
+        'rgb(0, 0, 0)',
+    );
+});
+
+test('the auto color scheme follows the system setting', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    await visit(page, { config: { ...boot, color_scheme: 'auto' } });
+    await expect(dialog(page)).toBeVisible();
+    expect((await themeLuminance(page, ['--color-white']))['--color-white']).toBeLessThan(0.05);
+
+    await page.emulateMedia({ colorScheme: 'light' });
+    expect((await themeLuminance(page, ['--color-white']))['--color-white']).toBe(1);
+});
+
+test('the policy formatter applies its highlight-color attribute and keeps a variable set by the page', async ({
+    page,
+}) => {
+    const formatter = (id: string) => page.locator(`#${id}`);
+    const highlight = (id: string) =>
+        formatter(id).evaluate((el) => getComputedStyle(el).getPropertyValue('--cs--color-highlight'));
+
+    await visit(page, {
+        body: `<cookie-solution-policy-formatter id="attribute" highlight-color="#2563eb"><p>a</p></cookie-solution-policy-formatter>
+            <cookie-solution-policy-formatter id="inline" style="--cs--color-highlight: #0f766e"><p>b</p></cookie-solution-policy-formatter>`,
+    });
+
+    await expect.poll(() => highlight('attribute')).toBe('#2563eb');
+    expect(await highlight('inline')).toBe('#0f766e');
+
+    await formatter('attribute').evaluate((el) => el.removeAttribute('highlight-color'));
+    await expect.poll(() => highlight('attribute')).toBe('');
+});
+
 test('the banner shows a focus ring only after a key press', async ({ page }) => {
     await visit(page);
     await expect(dialog(page)).toBeFocused();

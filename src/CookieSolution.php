@@ -42,6 +42,16 @@ class CookieSolution
         return config('cookie-solution.enabled', true);
     }
 
+    /**
+     * @return 'light'|'dark'|'auto'
+     */
+    public function colorScheme(): string
+    {
+        $colorScheme = config('cookie-solution.color_scheme');
+
+        return in_array($colorScheme, ['dark', 'auto'], true) ? $colorScheme : 'light';
+    }
+
     public function status(): CookieSolutionStatus
     {
         if ($this->status !== null) {
@@ -147,6 +157,7 @@ class CookieSolution
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
             'layout' => config('cookie-solution.layout') === 'floating' ? 'floating' : 'modal',
+            'color_scheme' => $this->colorScheme(),
             'highlight_color' => config('cookie-solution.highlight_color'),
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),

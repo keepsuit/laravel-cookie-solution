@@ -93,6 +93,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Color Scheme
+    |--------------------------------------------------------------------------
+    |
+    | Colors of the banner and the policy views: 'light', 'dark' or 'auto'
+    | (follows the visitor's system setting). With 'dark' and 'auto' the
+    | policy views expect a dark page background.
+    |
+    */
+
+    'color_scheme' => 'light',
+
+    /*
+    |--------------------------------------------------------------------------
     | Floating Toggle
     |--------------------------------------------------------------------------
     |
@@ -265,7 +278,7 @@ See [customization](docs/customization.md#policy-views) for the available parts 
 
 ## Documentation
 
-- [Customization](docs/customization.md): highlight color, layout, floating toggle, policy views and `::part()` styling.
+- [Customization](docs/customization.md): highlight color, layout, color scheme, floating toggle, policy views and `::part()` styling.
 - [Headless frontends](docs/headless.md): JSON API and the `@keepsuit/cookie-solution` npm package (React, SSR, SPA).
 - [Connecting tracking services](docs/tracking.md): Google Tag Manager consent mode, Facebook Pixel, PostHog, Microsoft Clarity.
 
