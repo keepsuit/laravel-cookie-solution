@@ -373,6 +373,25 @@ test('the auto color scheme follows the system setting', async ({ page }) => {
     expect((await themeLuminance(page, ['--color-white']))['--color-white']).toBe(1);
 });
 
+test('the policy formatter applies its highlight-color attribute and keeps a variable set by the page', async ({
+    page,
+}) => {
+    const formatter = (id: string) => page.locator(`#${id}`);
+    const highlight = (id: string) =>
+        formatter(id).evaluate((el) => getComputedStyle(el).getPropertyValue('--cs--color-highlight'));
+
+    await visit(page, {
+        body: `<cookie-solution-policy-formatter id="attribute" highlight-color="#2563eb"><p>a</p></cookie-solution-policy-formatter>
+            <cookie-solution-policy-formatter id="inline" style="--cs--color-highlight: #0f766e"><p>b</p></cookie-solution-policy-formatter>`,
+    });
+
+    await expect.poll(() => highlight('attribute')).toBe('#2563eb');
+    expect(await highlight('inline')).toBe('#0f766e');
+
+    await formatter('attribute').evaluate((el) => el.removeAttribute('highlight-color'));
+    await expect.poll(() => highlight('attribute')).toBe('');
+});
+
 test('the banner shows a focus ring only after a key press', async ({ page }) => {
     await visit(page);
     await expect(dialog(page)).toBeFocused();

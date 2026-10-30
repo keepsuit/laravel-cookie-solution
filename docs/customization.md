@@ -94,6 +94,7 @@ Users must always be able to change their consent: with `'auto'`, make sure the 
 ## Policy views
 
 The policy views are wrapped in the `<cookie-solution-policy-formatter>` component, which applies the default styles.
+Its `color-scheme` and `highlight-color` attributes come from the config.
 You can adjust them from your CSS with `::part()`:
 
 ```css
