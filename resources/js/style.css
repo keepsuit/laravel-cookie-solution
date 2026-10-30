@@ -11,14 +11,20 @@
     /* As set but opaque, for fills: buttons and switches. Not inline, so the fallback below can override them. */
     --color-highlight-text: color(from var(--cs--color-highlight, #c2410c) srgb r g b / 1);
     /* Darkened keeping the hue: luminance at most 0.29, at least 3:1 on white for rings and icons. */
-    --color-highlight: color(
-        from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.29 / y)) calc(y * min(1, 0.29 / y))
-            calc(z * min(1, 0.29 / y))
+    --color-highlight: var(
+        --cs-scheme-highlight,
+        color(
+            from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.29 / y)) calc(y * min(1, 0.29 / y))
+                calc(z * min(1, 0.29 / y))
+        )
     );
     /* Same darkening, at most 0.18: at least 4.5:1 on white for text. */
-    --color-highlight-ink: color(
-        from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.18 / y)) calc(y * min(1, 0.18 / y))
-            calc(z * min(1, 0.18 / y))
+    --color-highlight-ink: var(
+        --cs-scheme-highlight-ink,
+        color(
+            from var(--color-highlight-text) xyz-d65 calc(x * min(1, 0.18 / y)) calc(y * min(1, 0.18 / y))
+                calc(z * min(1, 0.18 / y))
+        )
     );
     /* White below 0.18 luminance, black above: at least 4.5:1 on any `highlight-text`, in any color format. */
     --color-on-highlight: color(
@@ -43,22 +49,75 @@
     --ease-sheet: cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-/* Tailwind 3 font stack and grays, to render as in v1. */
+/*
+ * Tailwind 3 font stack and grays, to render as in v1. Light values are the fallbacks; the public `--cs--color-*`
+ * override a group of shades, the `--cs-scheme-*` set the dark theme. Not inline: inner components resolve them.
+ */
 @theme {
     --font-sans:
         ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
         'Noto Color Emoji';
-    --color-gray-50: #f9fafb;
-    --color-gray-100: #f3f4f6;
-    --color-gray-200: #e5e7eb;
-    --color-gray-300: #d1d5db;
-    --color-gray-400: #9ca3af;
-    --color-gray-500: #6b7280;
-    --color-gray-600: #4b5563;
-    --color-gray-700: #374151;
-    --color-gray-800: #1f2937;
-    --color-gray-900: #111827;
-    --color-gray-950: #030712;
+    --color-white: var(--cs--color-background, var(--cs-scheme-white, #fff));
+    --color-gray-50: var(--cs--color-surface, var(--cs-scheme-gray-50, #f9fafb));
+    --color-gray-100: var(--cs-scheme-gray-100, #f3f4f6);
+    /* Tab bar track: below the panel in both schemes, while gray-100 dividers must show on a dark page. */
+    --color-track: var(--cs-scheme-track, #f3f4f6);
+    --color-gray-200: var(--cs--color-border, var(--cs-scheme-gray-200, #e5e7eb));
+    --color-gray-300: var(--cs--color-border, var(--cs-scheme-gray-300, #d1d5db));
+    --color-gray-500: var(--cs-scheme-gray-500, #6b7280);
+    --color-gray-600: var(--cs--color-text-muted, var(--cs-scheme-gray-600, #4b5563));
+    --color-gray-700: var(--cs--color-text-muted, var(--cs-scheme-gray-700, #374151));
+    --color-gray-900: var(--cs--color-text, var(--cs-scheme-gray-900, #111827));
+    /* Modal backdrop and shadow: dark in both themes. */
+    --color-scrim: #111827;
+    /* `scrim/40`, deeper in dark: a light veil would not dim a dark page. */
+    --color-backdrop: var(--cs-scheme-backdrop, rgb(17 24 39 / 40%));
+}
+
+/*
+ * Dark theme. Only on the outer hosts: a declaration on a bare `:host` would shadow it in the nested components.
+ * Highlight lightened toward white (linear in XYZ, so in gamut) to luminance 0.17 / 0.28: 3:1 and 4.5:1 on gray-800.
+ */
+@custom-variant scheme-dark {
+    :host([color-scheme='dark']) {
+        @slot;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        :host([color-scheme='auto']) {
+            @slot;
+        }
+    }
+}
+
+/* Nested components (switch, toggle, collapsable) follow the outer host: `all: initial` would reset it. */
+:host(:not([color-scheme])) {
+    color-scheme: inherit;
+}
+
+@variant scheme-dark {
+    color-scheme: dark;
+    /* The panel sits above dark pages; wells and the tab track sink below it, as in light. */
+    --cs-scheme-white: #1f2937;
+    --cs-scheme-gray-50: #111827;
+    --cs-scheme-track: #111827;
+    --cs-scheme-gray-100: #2b3544;
+    --cs-scheme-gray-200: #374151;
+    --cs-scheme-gray-300: #4b5563;
+    --cs-scheme-gray-500: #8b93a1;
+    --cs-scheme-gray-600: #9ca3af;
+    --cs-scheme-gray-700: #d1d5db;
+    --cs-scheme-gray-900: #f9fafb;
+    --cs-scheme-highlight: color(
+        from var(--color-highlight-text) xyz-d65 calc(x + max(0, (0.17 - y) / (1 - y)) * (0.9505 - x))
+            calc(y + max(0, (0.17 - y) / (1 - y)) * (1 - y)) calc(z + max(0, (0.17 - y) / (1 - y)) * (1.089 - z))
+    );
+    --cs-scheme-highlight-ink: color(
+        from var(--color-highlight-text) xyz-d65 calc(x + max(0, (0.28 - y) / (1 - y)) * (0.9505 - x))
+            calc(y + max(0, (0.28 - y) / (1 - y)) * (1 - y)) calc(z + max(0, (0.28 - y) / (1 - y)) * (1.089 - z))
+    );
+    --cs-scheme-backdrop: rgb(3 7 18 / 60%);
+    --cs-scheme-readonly-opacity: 65%;
 }
 
 @layer base {

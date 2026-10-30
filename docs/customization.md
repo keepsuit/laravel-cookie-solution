@@ -22,6 +22,33 @@ Set the `layout` config value to choose how the banner looks:
 Unknown values fall back to `'modal'`.
 Headless frontends can override it before mounting: `mount({ ...config, layout: 'floating' })`.
 
+## Color scheme
+
+Set the `color_scheme` config value:
+
+- `'light'` (default).
+- `'dark'`: for dark sites.
+- `'auto'`: follows the visitor's system setting (`prefers-color-scheme`).
+
+Unknown values fall back to `'light'`. With `'dark'` and `'auto'` the policy views have light text and no background of their own: the page behind them must be dark too.
+Headless frontends can override it before mounting, for example to follow the site's own theme switch, and call `mount()` again when it changes: `mount({ ...config, color_scheme: theme })`.
+
+In dark mode the highlight color is lightened where it is used for text, focus rings or icons, to stay readable on the dark background.
+
+To adjust the colors of either scheme, set these CSS variables on the page:
+
+```css
+:root {
+    --cs--color-background: #1e293b; /* panels, cards and badges */
+    --cs--color-surface: #0f172a; /* recessed areas: cookie lists in the banner */
+    --cs--color-text: #f8fafc; /* titles and names */
+    --cs--color-text-muted: #94a3b8; /* body text and descriptions */
+    --cs--color-border: #334155; /* borders and dividers */
+}
+```
+
+They apply in every scheme, so with `'auto'` set them inside a `@media (prefers-color-scheme: dark)` block. Check the contrast of your values: they replace the defaults as they are.
+
 ## Toggle position
 
 You can change the toggle position to `left` or `right` by changing the `toggle_position` config value (default to `right`).

@@ -61,3 +61,11 @@ it('passes the highlight color to the policy views', function (string $view) {
 
     expect(view($view)->render())->toContain('style="--cs--color-highlight: #2563eb"');
 })->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);
+
+it('passes the color scheme to the policy views', function (string $view) {
+    expect(view($view)->render())->toContain('color-scheme="light"');
+
+    config()->set('cookie-solution.color_scheme', 'dark');
+
+    expect(view($view)->render())->toContain('color-scheme="dark"');
+})->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);

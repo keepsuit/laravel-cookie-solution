@@ -20,6 +20,7 @@ it('generate base config for cookie solution', function () {
             'cookie_name' => 'laravel_cookie_solution',
             'cookie_lifetime' => 365,
             'layout' => 'modal',
+            'color_scheme' => 'light',
             'highlight_color' => null,
             'toggle_label' => 'Open cookie settings',
             'content_url' => 'http://localhost/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
@@ -30,6 +31,16 @@ it('falls back to the modal layout for an unknown value', function () {
     config()->set('cookie-solution.layout', 'sidebar');
 
     expect(CookieSolution::getConfig()['layout'])->toBe('modal');
+});
+
+it('falls back to the light color scheme for an unknown value', function () {
+    config()->set('cookie-solution.color_scheme', 'sepia');
+
+    expect(CookieSolution::getConfig()['color_scheme'])->toBe('light');
+
+    config()->set('cookie-solution.color_scheme', 'auto');
+
+    expect(CookieSolution::getConfig()['color_scheme'])->toBe('auto');
 });
 
 it('generate the banner content', function () {

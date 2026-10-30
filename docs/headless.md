@@ -86,13 +86,14 @@ The policies HTML is the markup of the Blade policy views, without styles.
 Wrap it in `<cookie-solution-policy-formatter>` for the default ones, or style it yourself through the `part` attributes as attribute selectors (`[part~='service']`; see [policy views](customization.md#policy-views) for the available parts).
 It uses the package custom elements: call `defineElements()` before rendering it.
 
-The formatter reads its content once, when it is first rendered: remount it when the HTML changes (e.g. with a React `key`). It doesn't read `highlight_color`: set `--cs--color-highlight` on it yourself.
+The formatter reads its content once, when it is first rendered: remount it when the HTML changes (e.g. with a React `key`). It doesn't read the config: set `--cs--color-highlight` and the `color-scheme` attribute on it yourself.
 
 Policy page with React:
 
 ```jsx
 <cookie-solution-policy-formatter
     key={policies.cookie_policy}
+    color-scheme={config.color_scheme}
     style={{ '--cs--color-highlight': config.highlight_color }}
     dangerouslySetInnerHTML={{ __html: policies.cookie_policy }}
 />

@@ -5,6 +5,7 @@
     "cookie_name": "laravel_cookie_solution",
     "cookie_lifetime": 365,
     "layout": "modal",
+    "color_scheme": "light",
     "highlight_color": null,
     "toggle_enabled": true,
     "toggle_position": "right",

@@ -24,6 +24,8 @@ export interface CookieSolutionConfig {
     cookie_name: string;
     cookie_lifetime: number;
     layout: 'modal' | 'floating';
+    /** `auto` follows the system `prefers-color-scheme`. */
+    color_scheme: 'light' | 'dark' | 'auto';
     /** Any CSS color, `null` for the default or the page's `--cs--color-highlight`. */
     highlight_color: string | null;
     toggle_enabled: boolean | 'auto';
