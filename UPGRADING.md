@@ -1,5 +1,11 @@
 # Upgrading
 
+## Unreleased
+
+### Policy views
+
+The policy views no longer use utility classes: the styles target their `part` attributes, and the markup is shared with the `policies` endpoint (`partials/cookie-policy.blade.php`, `partials/privacy-policy.blade.php`). Published 2.0.0 policy views render unstyled inside the formatter: publish them again or merge the changes. The privacy policy list has a new `service-title` part.
+
 ## From 1.x to 2.0
 
 ### Requirements

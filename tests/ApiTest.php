@@ -27,23 +27,22 @@ it('serves the rendered policies', function () {
 
     $this->getJson('/internal/cookie-solution/policies?locale=it')
         ->assertOk()
-        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1>Cookie policy</h1>')
+        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1 part="headings h1">Cookie policy</h1>')
             && str_contains($html, '<cookie-solution-duration duration="730" session-label="Sessione"></cookie-solution-duration>')
-            && str_contains($html, '<dt>_ga</dt>'))
-        ->assertJsonPath('privacy_policy', fn (string $html) => str_contains($html, '<h1>Privacy policy</h1>')
-            && str_contains($html, '<h3>Google Analytics 4 (Google LLC)</h3>'));
+            && str_contains($html, '<dt part="cookie-name">_ga</dt>'))
+        ->assertJsonPath('privacy_policy', fn (string $html) => str_contains($html, '<h1 part="headings h1">Privacy policy</h1>')
+            && str_contains($html, '<span part="service-name">Google Analytics 4</span>'));
 });
 
-it('serves the policies without styling hooks', function () {
+it('serves the policies with the same markup as the views, without the formatter', function () {
     CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->build());
     config()->set('cookie-solution.data_owner.name_and_address', 'Company');
 
     $policies = $this->getJson('/internal/cookie-solution/policies')->assertOk()->json();
 
-    expect($policies['cookie_policy'].$policies['privacy_policy'])
-        ->not->toContain('part=')
-        ->not->toContain('class=')
-        ->not->toContain('cookie-solution-policy-formatter');
+    expect(view('cookie-solution::cookie-policy')->render())->toContain(trim($policies['cookie_policy']))
+        ->and(view('cookie-solution::privacy-policy')->render())->toContain(trim($policies['privacy_policy']))
+        ->and($policies['cookie_policy'].$policies['privacy_policy'])->not->toContain('cookie-solution-policy-formatter');
 });
 
 it('allows any origin on every endpoint', function () {
@@ -66,7 +65,7 @@ it('reads the locale from the query on every endpoint', function () {
     $this->getJson('/internal/cookie-solution/content?locale=de')
         ->assertJsonPath('texts.tab_consent', __('cookie-solution::texts.banner.tab_consent', locale: 'de'));
     $this->getJson('/internal/cookie-solution/policies?locale=en')
-        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1>Cookies policy</h1>'));
+        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<h1 part="headings h1">Cookies policy</h1>'));
 });
 
 it('rejects invalid locales', function () {

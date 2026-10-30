@@ -597,11 +597,7 @@ export class CookieSolutionBanner extends LitElement {
     }
 
     protected informationTab(content: CookieSolutionContent): unknown {
-        return html`
-            <div class="prose prose-sm" part="banner-tab-information">
-                ${unsafeHTML(content.texts.information_text)}
-            </div>
-        `;
+        return html` <div part="banner-tab-information">${unsafeHTML(content.texts.information_text)}</div> `;
     }
 
     protected modalToggle(): unknown {

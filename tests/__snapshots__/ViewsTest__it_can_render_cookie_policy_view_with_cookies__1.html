@@ -1,9 +1,9 @@
 <html><body>
 <cookie-solution-policy-formatter>
-    <div part="root" class="prose">
-        <h1 part="headings h1">Cookies policy</h1>
+    <div part="root">
+    <h1 part="headings h1">Cookies policy</h1>
 
-        <p part="p">This website uses cookies to improve user experience.
+    <p part="p">This website uses cookies to improve user experience.
 Cookies other than necessary ones are used only after you give your consent through the cookie banner.</p>
 <h2 part="headings h2">What are cookies?</h2>
 <p part="p">Cookies are small text files that are placed on your device by websites that you visit.
@@ -29,93 +29,55 @@ The data collected will be used solely for the purposes outlined in this cookie 
 <p part="p">If you have any questions or concerns regarding our cookie policy, please contact us.</p>
 
 
-                    <h2 part="headings h2">
-                Used cookies list
-            </h2>
-            <div class="not-prose mt-6 space-y-8" part="cookie-list">
-                                                                                                                                    <div part="purpose">
-                            <div>
-                                <h3 class="text-base font-semibold text-gray-900" part="headings h3">Statistics</h3>
-                            </div>
-                            <div class="mt-3 grid gap-3" part="services">
-                                                                                                        <div class="rounded-xl border border-gray-200 px-4 py-3 sm:px-5 sm:py-4" part="service">
-                                        <div part="service-header">
-                                            <span class="block font-semibold text-gray-900 md:inline" part="service-name">Google Analytics 4</span>
-                                            <span class="block text-sm text-gray-600 md:inline" part="service-provider">(Google LLC)</span>
-                                        </div>
-                                        <div class="mt-2 divide-y divide-gray-100" part="service-cookies">
-                                                                                            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-1 py-2.5 sm:grid-cols-4" part="cookie">
-                                                    <div>
-                                                        <span class="text-sm font-semibold break-all text-gray-900" part="cookie-name">_ga</span>
-                                                    </div>
-                                                    <div class="flex justify-end sm:justify-start">
-                                                        <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium whitespace-nowrap text-gray-700 ring-1 ring-gray-200" part="cookie-duration">
-                                                            <cookie-solution-duration duration="730" session-label="Session"></cookie-solution-duration>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-span-2 text-sm text-gray-600" part="cookie-description">
-                                                        Used to distinguish users.
-                                                    </div>
-                                                </div>
-                                                                                            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-1 py-2.5 sm:grid-cols-4" part="cookie">
-                                                    <div>
-                                                        <span class="text-sm font-semibold break-all text-gray-900" part="cookie-name">_ga_*</span>
-                                                    </div>
-                                                    <div class="flex justify-end sm:justify-start">
-                                                        <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium whitespace-nowrap text-gray-700 ring-1 ring-gray-200" part="cookie-duration">
-                                                            <cookie-solution-duration duration="730" session-label="Session"></cookie-solution-duration>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-span-2 text-sm text-gray-600" part="cookie-description">
-                                                        Used to maintain session status.
-                                                    </div>
-                                                </div>
-                                                                                    </div>
+            <h2 part="headings h2">Used cookies list</h2>
+        <div part="cookie-list">
+                                                                                                        <section part="purpose">
+                        <h3 part="headings h3">Statistics</h3>
+                        <ul part="services">
+                                                                                            <li part="service">
+                                    <p part="service-header">
+                                        <span part="service-name">Google Analytics 4</span>
+                                        <span part="service-provider">(Google LLC)</span>
+                                    </p>
+                                    <dl part="service-cookies">
+                                                                                    <div part="cookie">
+                                                <dt part="cookie-name">_ga</dt>
+                                                <dd part="cookie-duration"><cookie-solution-duration duration="730" session-label="Session"></cookie-solution-duration></dd>
+                                                <dd part="cookie-description">Used to distinguish users.</dd>
+                                            </div>
+                                                                                    <div part="cookie">
+                                                <dt part="cookie-name">_ga_*</dt>
+                                                <dd part="cookie-duration"><cookie-solution-duration duration="730" session-label="Session"></cookie-solution-duration></dd>
+                                                <dd part="cookie-description">Used to maintain session status.</dd>
+                                            </div>
+                                                                            </dl>
+                                </li>
+                                                    </ul>
+                    </section>
+                                                                <section part="purpose">
+                        <h3 part="headings h3">Marketing</h3>
+                        <ul part="services">
+                                                                                            <li part="service">
+                                    <p part="service-header">
+                                        <span part="service-name">Facebook Pixel</span>
+                                        <span part="service-provider">(Meta Platforms, Inc.)</span>
+                                    </p>
+                                    <dl part="service-cookies">
+                                                                                    <div part="cookie">
+                                                <dt part="cookie-name">_fbp</dt>
+                                                <dd part="cookie-duration"><cookie-solution-duration duration="90" session-label="Session"></cookie-solution-duration></dd>
+                                                <dd part="cookie-description">Used to store and track visits across websites.</dd>
+                                            </div>
+                                                                                    <div part="cookie">
+                                                <dt part="cookie-name">fr</dt>
+                                                <dd part="cookie-duration"><cookie-solution-duration duration="90" session-label="Session"></cookie-solution-duration></dd>
+                                                <dd part="cookie-description">Used to provide ad delivery or retargeting.</dd>
+                                            </div>
+                                                                            </dl>
+                                </li>
+                                                    </ul>
+                    </section>
                                     </div>
-                                                            </div>
-                        </div>
-                                                                                <div part="purpose">
-                            <div>
-                                <h3 class="text-base font-semibold text-gray-900" part="headings h3">Marketing</h3>
-                            </div>
-                            <div class="mt-3 grid gap-3" part="services">
-                                                                                                        <div class="rounded-xl border border-gray-200 px-4 py-3 sm:px-5 sm:py-4" part="service">
-                                        <div part="service-header">
-                                            <span class="block font-semibold text-gray-900 md:inline" part="service-name">Facebook Pixel</span>
-                                            <span class="block text-sm text-gray-600 md:inline" part="service-provider">(Meta Platforms, Inc.)</span>
-                                        </div>
-                                        <div class="mt-2 divide-y divide-gray-100" part="service-cookies">
-                                                                                            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-1 py-2.5 sm:grid-cols-4" part="cookie">
-                                                    <div>
-                                                        <span class="text-sm font-semibold break-all text-gray-900" part="cookie-name">_fbp</span>
-                                                    </div>
-                                                    <div class="flex justify-end sm:justify-start">
-                                                        <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium whitespace-nowrap text-gray-700 ring-1 ring-gray-200" part="cookie-duration">
-                                                            <cookie-solution-duration duration="90" session-label="Session"></cookie-solution-duration>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-span-2 text-sm text-gray-600" part="cookie-description">
-                                                        Used to store and track visits across websites.
-                                                    </div>
-                                                </div>
-                                                                                            <div class="grid grid-cols-2 items-center gap-x-4 gap-y-1 py-2.5 sm:grid-cols-4" part="cookie">
-                                                    <div>
-                                                        <span class="text-sm font-semibold break-all text-gray-900" part="cookie-name">fr</span>
-                                                    </div>
-                                                    <div class="flex justify-end sm:justify-start">
-                                                        <span class="rounded-md bg-white px-2 py-0.5 text-xs font-medium whitespace-nowrap text-gray-700 ring-1 ring-gray-200" part="cookie-duration">
-                                                            <cookie-solution-duration duration="90" session-label="Session"></cookie-solution-duration>
-                                                        </span>
-                                                    </div>
-                                                    <div class="col-span-2 text-sm text-gray-600" part="cookie-description">
-                                                        Used to provide ad delivery or retargeting.
-                                                    </div>
-                                                </div>
-                                                                                    </div>
-                                    </div>
-                                                            </div>
-                        </div>
-                                                </div>
-            </div>
+    </div>
 </cookie-solution-policy-formatter>
 </body></html>

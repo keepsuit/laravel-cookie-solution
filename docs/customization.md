@@ -83,6 +83,8 @@ Available parts:
 
 - Text: `root`, `headings`, `h1`, `h2`, `h3`, `p`, `ul`, `ol`, `li`, `link`, `data-owner`.
 - Cookie policy: `cookie-list`, `purpose`, `services` (the services of a purpose), `service`, `service-header` (name and provider), `service-name`, `service-provider`, `service-cookies`, `cookie`, `cookie-name`, `cookie-duration`, `cookie-description`.
-- Privacy policy: `privacy-list`, `service`, `service-header` (name, provider and link), `service-name`, `service-provider`, `service-link`, `service-description`, `service-location`, `service-location-value`.
+- Privacy policy: `privacy-list`, `service`, `service-header` (title and link), `service-title` (name and provider), `service-name`, `service-provider`, `service-link`, `service-description`, `service-location`, `service-location-value`.
+
+The markup has no utility classes: without the formatter, the same parts work as attribute selectors (`[part~='service']`).
 
 For full control, publish the views with `php artisan vendor:publish --tag="cookie-solution-views"` and remove the formatter.

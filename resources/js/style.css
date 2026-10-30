@@ -1,8 +1,6 @@
 @import 'tailwindcss' source(none);
-@plugin '@tailwindcss/typography';
 
 @source '.';
-@source '../views/**/*.blade.php';
 
 /* Plain utilities style the modal layout; `floating:` ones win over them by specificity. */
 @custom-variant floating (:host([layout='floating']) &);
@@ -104,33 +102,160 @@
     }
 }
 
-/* The typography plugin bundles v4's oklch grays. */
-.prose {
-    max-width: 100%;
-    --tw-prose-body: var(--color-gray-700);
-    --tw-prose-headings: var(--color-gray-900);
-    --tw-prose-lead: var(--color-gray-600);
-    --tw-prose-links: var(--color-gray-900);
-    --tw-prose-bold: var(--color-gray-900);
-    --tw-prose-counters: var(--color-gray-500);
-    --tw-prose-bullets: var(--color-gray-300);
-    --tw-prose-hr: var(--color-gray-200);
-    --tw-prose-quotes: var(--color-gray-900);
-    --tw-prose-quote-borders: var(--color-gray-200);
-    --tw-prose-captions: var(--color-gray-500);
-    --tw-prose-kbd: var(--color-gray-900);
-    --tw-prose-code: var(--color-gray-900);
-    --tw-prose-pre-code: var(--color-gray-200);
-    --tw-prose-pre-bg: var(--color-gray-800);
-    --tw-prose-th-borders: var(--color-gray-300);
-    --tw-prose-td-borders: var(--color-gray-200);
-    --tw-prose-kbd-shadows: rgb(17 24 39 / 10%);
+/* Markdown text: direct children only, so the service lists keep their own styles. */
+:is([part~='root'], [part~='data-owner'], [part~='banner-tab-information']) {
+    > :is(h1, h2, h3) {
+        @apply text-gray-900;
+    }
+
+    > h1 {
+        @apply mb-[0.8888889em] text-[2.25em]/[1.1111111] font-extrabold;
+    }
+
+    > h2 {
+        @apply mt-[2em] mb-[1em] text-[1.25em]/[1.3333333] font-bold;
+    }
+
+    > h3 {
+        @apply mt-[1.6em] mb-[0.6em] text-[1.1em]/[1.6] font-semibold;
+    }
+
+    > :is(p, ul, ol) {
+        @apply my-[1.25em];
+    }
+
+    > ul {
+        @apply list-disc ps-[1.625em] marker:text-gray-300;
+    }
+
+    > ol {
+        @apply list-decimal ps-[1.625em] marker:text-gray-500;
+    }
+
+    > :is(ul, ol) > li {
+        @apply my-[0.5em] ps-[0.375em];
+    }
+
+    > :is(h2, h3) + *,
+    > :first-child {
+        @apply mt-0;
+    }
+
+    > :last-child {
+        @apply mb-0;
+    }
+
+    > :is(p, ul, ol) a {
+        @apply font-medium text-gray-900 underline;
+    }
+
+    > :is(p, ul, ol) strong {
+        @apply font-semibold text-gray-900;
+    }
 }
 
-.prose:not(.prose-sm) :where(h2) {
-    font-size: 1.25em;
+[part~='root'] {
+    @apply text-base/7 text-gray-700;
 }
 
-.prose:not(.prose-sm) :where(h3) {
-    font-size: 1.1em;
+/* Smaller and tighter in the banner. */
+[part~='banner-tab-information'] {
+    @apply text-sm/[1.7142857] text-gray-700;
+
+    > h2 {
+        @apply mt-[1.6em] mb-[0.8em] text-[1.4285714em]/[1.4];
+    }
+
+    > :is(p, ul, ol) {
+        @apply my-[1.1428571em];
+    }
+
+    > :is(ul, ol) {
+        @apply ps-[1.5714286em];
+    }
+
+    > :is(ul, ol) > li {
+        @apply my-[0.2857143em] ps-[0.4285714em];
+    }
+}
+
+/* Policy markup has no utility classes, so the headless HTML is the same; scoped to `root` to leave the banner alone. */
+[part~='root'] {
+    [part~='data-owner'] {
+        @apply text-sm;
+    }
+
+    [part~='cookie-list'] {
+        @apply mt-6 flex flex-col gap-8;
+    }
+
+    [part~='purpose'] > h3 {
+        @apply text-base font-semibold text-gray-900;
+    }
+
+    [part~='services'] {
+        @apply mt-3 grid gap-3;
+    }
+
+    /* A direct child of `root`, like the markdown lists: undo their styles. */
+    [part~='privacy-list'] {
+        @apply mt-6 mb-0 grid list-none gap-3 ps-0;
+
+        > li {
+            @apply my-0;
+        }
+    }
+
+    [part~='service'] {
+        @apply rounded-xl border border-gray-200 px-4 py-3 sm:px-5 sm:py-4;
+    }
+
+    [part~='privacy-list'] [part~='service-header'] {
+        @apply justify-between gap-4 md:flex;
+    }
+
+    [part~='service-name'] {
+        @apply block font-semibold text-gray-900 md:inline;
+    }
+
+    [part~='service-provider'] {
+        @apply block text-sm text-gray-600 md:inline;
+    }
+
+    [part~='service-link'] {
+        @apply mt-1 inline-block shrink-0 text-sm font-medium text-gray-900 underline decoration-gray-300 underline-offset-4 hover:decoration-current md:mt-0;
+    }
+
+    [part~='service-description'] {
+        @apply mt-2 text-sm/6 text-gray-600;
+    }
+
+    [part~='service-location'] {
+        @apply mt-3 flex flex-wrap items-center gap-2 text-sm text-gray-600;
+    }
+
+    [part~='service-location-value'],
+    [part~='cookie-duration'] > cookie-solution-duration {
+        @apply rounded-md bg-white px-2 py-0.5 text-xs font-medium whitespace-nowrap text-gray-700 ring-1 ring-gray-200;
+    }
+
+    [part~='service-cookies'] {
+        @apply mt-2 divide-y divide-gray-100;
+    }
+
+    [part~='cookie'] {
+        @apply grid grid-cols-2 items-center gap-x-4 gap-y-1 py-2.5 sm:grid-cols-4;
+    }
+
+    [part~='cookie-name'] {
+        @apply text-sm font-semibold break-all text-gray-900;
+    }
+
+    [part~='cookie-duration'] {
+        @apply flex justify-end sm:justify-start;
+    }
+
+    [part~='cookie-description'] {
+        @apply col-span-2 text-sm text-gray-600;
+    }
 }
