@@ -2,6 +2,17 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.0.0 - 2026-10-30
+
+First stable release of 2.0. Requires Laravel 12 or 13.
+
+See [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/UPGRADING.md) for the changes from 1.x and [Headless frontends](https://github.com/keepsuit/laravel-cookie-solution/blob/2.0.0/docs/headless.md) for the JSON endpoints and the npm package.
+
+Changes since 2.0.0-beta.2:
+
+* The API endpoints moved from `api/cookie-solution` to `cookie-solution`, so Laravel's default CORS config (`api/*`) no longer applies to them. If you published the config during the beta, update `api.path` or set `COOKIE_SOLUTION_API_PATH`.
+* Documented how the app's CORS config interacts with the endpoints.
+
 ## 1.6.2 - 2026-10-28
 
 ### What's Changed
