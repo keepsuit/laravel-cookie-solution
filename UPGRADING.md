@@ -1,6 +1,10 @@
 # Upgrading
 
-## From 2.2 to 2.3
+## From 2.1 to 2.2
+
+### Published policy views
+
+The policy views now pass `color_scheme` to the formatter. Published views don't: publish them again (`php artisan vendor:publish --tag=cookie-solution-views --force`), or add `color-scheme="{{ \Keepsuit\CookieSolution\Facades\CookieSolution::colorScheme() }}"` to `<cookie-solution-policy-formatter>`. Without it the policies stay light when `color_scheme` is `'dark'` or `'auto'`.
 
 ### Service factories
 
@@ -8,12 +12,6 @@
 - `PayPalServiceFactory` and `StripeServiceFactory` now report a data processing location, `USA` by default. Sites serving EEA visitors should pass `PayPalDataProcessingLocation::LUXEMBOURG` or `StripeDataProcessingLocation::IRELAND` to `location()`.
 - Google Ads Remarketing, Meta Pixel and Microsoft Clarity list different cookies, so visitors of sites using them are asked for consent again.
 - Misspelled location cases are renamed: `AmazonWebServicesLocation::SINAGAPORE`/`SWEEDEN` to `SINGAPORE`/`SWEDEN`, `DigitalOceanLocation::NEDERLANDS`/`SINAGAPORE` to `NETHERLANDS`/`SINGAPORE`, `ZohoDataProcessingLocation::NEDERLAND` to `NETHERLANDS`. The old names still work as deprecated aliases, but `->name` and `cases()` return the new names.
-
-## From 2.1 to 2.2
-
-### Published policy views
-
-The policy views now pass `color_scheme` to the formatter. Published views don't: publish them again (`php artisan vendor:publish --tag=cookie-solution-views --force`), or add `color-scheme="{{ \Keepsuit\CookieSolution\Facades\CookieSolution::colorScheme() }}"` to `<cookie-solution-policy-formatter>`. Without it the policies stay light when `color_scheme` is `'dark'` or `'auto'`.
 
 ## From 2.0 to 2.1
 
