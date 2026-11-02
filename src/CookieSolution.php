@@ -22,7 +22,7 @@ class CookieSolution
     protected array $services = [];
 
     protected array $markdownConfig = [
-        'html_input' => false,
+        'html_input' => 'escape',
         'allow_unsafe_links' => false,
     ];
 
