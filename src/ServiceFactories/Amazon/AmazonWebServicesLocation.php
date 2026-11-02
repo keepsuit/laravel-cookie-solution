@@ -24,20 +24,22 @@ enum AmazonWebServicesLocation
     case MALAYSIA;
     case MEXICO;
     case NEW_ZEALAND;
-    case SINAGAPORE;
+    case SINGAPORE;
     case SOUTH_AFRICA;
     case SOUTH_KOREA;
     case SPAIN;
-    case SWEEDEN;
+    case SWEDEN;
     case SWITZERLAND;
     case TAIWAN;
     case THAILAND;
     case UNITED_ARAB_EMIRATES;
     case USA;
 
-    const SINGAPORE = self::SINAGAPORE;
+    /** @deprecated Use SINGAPORE. */
+    const SINAGAPORE = self::SINGAPORE;
 
-    const SWEDEN = self::SWEEDEN;
+    /** @deprecated Use SWEDEN. */
+    const SWEEDEN = self::SWEDEN;
 
     public function country(): string
     {
@@ -65,10 +67,10 @@ enum AmazonWebServicesLocation
             self::IRELAND => Countries::getName('IE', app()->getLocale()),
             self::ITALY => Countries::getName('IT', app()->getLocale()),
             self::JAPAN => Countries::getName('JP', app()->getLocale()),
-            self::SINAGAPORE => Countries::getName('SG', app()->getLocale()),
+            self::SINGAPORE => Countries::getName('SG', app()->getLocale()),
             self::SOUTH_AFRICA => Countries::getName('ZA', app()->getLocale()),
             self::SOUTH_KOREA => Countries::getName('KR', app()->getLocale()),
-            self::SWEEDEN => Countries::getName('SE', app()->getLocale()),
+            self::SWEDEN => Countries::getName('SE', app()->getLocale()),
             self::USA => Countries::getName('US', app()->getLocale()),
         };
     }

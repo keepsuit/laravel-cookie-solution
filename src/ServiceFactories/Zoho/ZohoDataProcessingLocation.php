@@ -11,19 +11,20 @@ enum ZohoDataProcessingLocation
     case CHINA;
     case INDIA;
     case JAPAN;
-    case NEDERLAND;
+    case NETHERLANDS;
     case SAUDI_ARABIA;
     case SINGAPORE;
     case UNITED_ARAB_EMIRATES;
     case USA;
 
-    const NETHERLANDS = self::NEDERLAND;
+    /** @deprecated Use NETHERLANDS. */
+    const NEDERLAND = self::NETHERLANDS;
 
     public function provider(): string
     {
         return match ($this) {
             self::USA => 'Zoho Technologies',
-            self::NEDERLAND => 'Zoho Corporation B.V.',
+            self::NETHERLANDS => 'Zoho Corporation B.V.',
             self::AUSTRALIA => 'Zoho Corporation Pty. Ltd.',
             default => 'Zoho Corporation Pvt. Ltd.',
         };
@@ -39,7 +40,7 @@ enum ZohoDataProcessingLocation
             self::SINGAPORE => Countries::getName('SG', app()->getLocale()),
             self::UNITED_ARAB_EMIRATES => Countries::getName('AE', app()->getLocale()),
             self::USA => Countries::getName('US', app()->getLocale()),
-            self::NEDERLAND => Countries::getName('NL', app()->getLocale()),
+            self::NETHERLANDS => Countries::getName('NL', app()->getLocale()),
             self::AUSTRALIA => Countries::getName('AU', app()->getLocale()),
             self::INDIA => Countries::getName('IN', app()->getLocale()),
         };

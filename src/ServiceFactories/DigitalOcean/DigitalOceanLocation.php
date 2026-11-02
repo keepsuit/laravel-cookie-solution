@@ -11,13 +11,15 @@ enum DigitalOceanLocation
     case GERMANY;
     case GREAT_BRITAIN;
     case INDIA;
-    case NEDERLANDS;
-    case SINAGAPORE;
+    case NETHERLANDS;
+    case SINGAPORE;
     case USA;
 
-    const NETHERLANDS = self::NEDERLANDS;
+    /** @deprecated Use NETHERLANDS. */
+    const NEDERLANDS = self::NETHERLANDS;
 
-    const SINGAPORE = self::SINAGAPORE;
+    /** @deprecated Use SINGAPORE. */
+    const SINAGAPORE = self::SINGAPORE;
 
     public function country(): string
     {
@@ -27,8 +29,8 @@ enum DigitalOceanLocation
             self::CANADA => Countries::getName('CA', app()->getLocale()),
             self::GERMANY => Countries::getName('DE', app()->getLocale()),
             self::INDIA => Countries::getName('IN', app()->getLocale()),
-            self::NEDERLANDS => Countries::getName('NL', app()->getLocale()),
-            self::SINAGAPORE => Countries::getName('SG', app()->getLocale()),
+            self::NETHERLANDS => Countries::getName('NL', app()->getLocale()),
+            self::SINGAPORE => Countries::getName('SG', app()->getLocale()),
             self::USA => Countries::getName('US', app()->getLocale()),
         };
     }
