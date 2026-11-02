@@ -1,6 +1,6 @@
 ---
 name: cookie-solution
-description: Set up the keepsuit cookie banner (keepsuit/laravel-cookie-solution, @keepsuit/cookie-solution). Use when adding the cookie banner or cookie/privacy policy pages, registering cookie services, gating tracking scripts (GTM/GA, Facebook Pixel, PostHog, Clarity) on consent, connecting a headless/React frontend to it, or upgrading from 1.x.
+description: Set up the keepsuit cookie banner (keepsuit/laravel-cookie-solution, @keepsuit/cookie-solution). Use when adding the cookie banner or cookie/privacy policy pages, registering cookie services, gating tracking scripts (GTM/GA, Meta Pixel, PostHog, Clarity) on consent, connecting a headless/React frontend to it, or upgrading from 1.x.
 ---
 
 # Cookie Solution

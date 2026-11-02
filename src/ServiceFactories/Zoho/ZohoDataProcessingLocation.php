@@ -22,6 +22,7 @@ enum ZohoDataProcessingLocation
     public function provider(): string
     {
         return match ($this) {
+            self::USA => 'Zoho Technologies',
             self::NEDERLAND => 'Zoho Corporation B.V.',
             self::AUSTRALIA => 'Zoho Corporation Pty. Ltd.',
             default => 'Zoho Corporation Pvt. Ltd.',

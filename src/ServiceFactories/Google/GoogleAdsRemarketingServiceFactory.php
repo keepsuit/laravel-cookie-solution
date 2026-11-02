@@ -28,9 +28,10 @@ class GoogleAdsRemarketingServiceFactory extends ServiceFactory
             '_gcl_gs' => 90,
             '_gcl_ag' => 90,
             '_gcl_gb' => 90,
-            '_gac_gb_*' => 90,
+            '_gac_*' => 90,
             '__gads' => 13 * 30,
             'NID' => 6 * 30,
+            // EEA/UK lifetime, 24 months elsewhere.
             'IDE' => 13 * 30,
             'DSID' => 14,
         ])->map(function (int $duration, string $name) {

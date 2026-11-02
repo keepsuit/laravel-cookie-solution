@@ -12,7 +12,7 @@ enum StripeDataProcessingLocation
     public function provider(): string
     {
         return match ($this) {
-            self::USA => 'Stripe Inc.',
+            self::USA => 'Stripe, LLC',
             self::IRELAND => 'Stripe Technology Europe, Limited',
         };
     }

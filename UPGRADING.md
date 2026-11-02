@@ -1,5 +1,13 @@
 # Upgrading
 
+## From 2.2 to 2.3
+
+### Service factories
+
+- `FacebookPixelServiceFactory` now shows the service as "Meta Pixel".
+- `PayPalServiceFactory` and `StripeServiceFactory` now report a data processing location, `USA` by default. Sites serving EEA visitors should pass `PayPalDataProcessingLocation::LUXEMBOURG` or `StripeDataProcessingLocation::IRELAND` to `location()`.
+- Google Ads Remarketing, Meta Pixel and Microsoft Clarity list different cookies, so visitors of sites using them are asked for consent again.
+
 ## From 2.1 to 2.2
 
 ### Published policy views
