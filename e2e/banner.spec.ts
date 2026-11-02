@@ -348,13 +348,17 @@ for (const [scheme, backgrounds] of [
 
 test('the page CSS variables override the theme colors, nested components included', async ({ page }) => {
     await visit(page, {
-        body: '<style>:root { --cs--color-background: #000; --cs--color-text: #fff; }</style>',
+        body: '<style>:root { --cs--color-background: #000; --cs--color-text: #fff; --cs--color-border: #fff; --cs--color-surface: #fff; }</style>',
         config: { ...boot, color_scheme: 'dark' },
     });
     await expect(dialog(page)).toBeVisible();
-    expect(await themeLuminance(page, ['--color-white', '--color-gray-900'])).toEqual({
+    expect(
+        await themeLuminance(page, ['--color-white', '--color-gray-900', '--color-gray-100', '--color-track']),
+    ).toEqual({
         '--color-white': 0,
         '--color-gray-900': 1,
+        '--color-gray-100': 1,
+        '--color-track': 1,
     });
     await banner(page).getByRole('tab', { name: content.texts.tab_customize }).click();
     await expect(banner(page).getByRole('switch', { checked: false }).first()).toHaveCSS(
@@ -390,6 +394,31 @@ test('the policy formatter applies its highlight-color attribute and keeps a var
 
     await formatter('attribute').evaluate((el) => el.removeAttribute('highlight-color'));
     await expect.poll(() => highlight('attribute')).toBe('');
+});
+
+test('the policy formatter follows its color-scheme attribute, nested duration included', async ({ page }) => {
+    await page.emulateMedia({ colorScheme: 'dark' });
+    const markup = `<div part="root"><dl part="service-cookies"><div part="cookie"><dd part="cookie-duration"><cookie-solution-duration duration="60"></cookie-solution-duration></dd></div></dl></div>`;
+    await visit(page, {
+        body: ['light', 'dark', 'auto']
+            .map(
+                (scheme) =>
+                    `<cookie-solution-policy-formatter id="${scheme}" color-scheme="${scheme}">${markup}</cookie-solution-policy-formatter>`,
+            )
+            .join(''),
+    });
+    // The formatter renders a copy of its children in the shadow root.
+    const duration = (id: string) =>
+        page.locator(`#${id}`).evaluate(async (el: any) => {
+            await el.updateComplete;
+            const style = getComputedStyle(el.shadowRoot.querySelector('cookie-solution-duration'));
+
+            return [style.backgroundColor, style.color];
+        });
+
+    await expect.poll(() => duration('light')).toEqual(['rgb(255, 255, 255)', 'rgb(55, 65, 81)']);
+    expect(await duration('dark')).toEqual(['rgb(31, 41, 55)', 'rgb(209, 213, 219)']);
+    expect(await duration('auto')).toEqual(['rgb(31, 41, 55)', 'rgb(209, 213, 219)']);
 });
 
 test('the banner shows a focus ring only after a key press', async ({ page }) => {

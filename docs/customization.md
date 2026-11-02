@@ -33,14 +33,14 @@ Set the `color_scheme` config value:
 Unknown values fall back to `'light'`. With `'dark'` and `'auto'` the policy views have light text and no background of their own: the page behind them must be dark too.
 Headless frontends can override it before mounting, for example to follow the site's own theme switch, and call `mount()` again when it changes: `mount({ ...config, color_scheme: theme })`.
 
-In dark mode the highlight color is lightened where it is used for text, focus rings or icons, to stay readable on the dark background.
+In dark mode the highlight color is lightened where it is used for text, focus rings or icons, to stay readable on the dark background. Browsers without CSS relative colors mix it with white instead.
 
 To adjust the colors of either scheme, set these CSS variables on the page:
 
 ```css
 :root {
     --cs--color-background: #1e293b; /* panels, cards and badges */
-    --cs--color-surface: #0f172a; /* recessed areas: cookie lists in the banner */
+    --cs--color-surface: #0f172a; /* recessed areas: cookie lists and the tab bar in the banner */
     --cs--color-text: #f8fafc; /* titles and names */
     --cs--color-text-muted: #94a3b8; /* body text and descriptions */
     --cs--color-border: #334155; /* borders and dividers */

@@ -59,9 +59,9 @@
         'Noto Color Emoji';
     --color-white: var(--cs--color-background, var(--cs-scheme-white, #fff));
     --color-gray-50: var(--cs--color-surface, var(--cs-scheme-gray-50, #f9fafb));
-    --color-gray-100: var(--cs-scheme-gray-100, #f3f4f6);
+    --color-gray-100: var(--cs--color-border, var(--cs-scheme-gray-100, #f3f4f6));
     /* Tab bar track: below the panel in both schemes, while gray-100 dividers must show on a dark page. */
-    --color-track: var(--cs-scheme-track, #f3f4f6);
+    --color-track: var(--cs--color-surface, var(--cs-scheme-track, #f3f4f6));
     --color-gray-200: var(--cs--color-border, var(--cs-scheme-gray-200, #e5e7eb));
     --color-gray-300: var(--cs--color-border, var(--cs-scheme-gray-300, #d1d5db));
     --color-gray-500: var(--cs-scheme-gray-500, #6b7280);
@@ -146,9 +146,17 @@
 @supports not (color: color(from red xyz-d65 calc(x * min(1, 0.29 / y)) y z)) {
     :host {
         --color-highlight-text: var(--cs--color-highlight, #c2410c);
-        --color-highlight: var(--color-highlight-text);
-        --color-highlight-ink: var(--color-highlight-text);
+        --color-highlight: var(--cs-scheme-highlight-mix, var(--color-highlight-text));
+        --color-highlight-ink: var(--cs-scheme-highlight-ink-mix, var(--color-highlight-text));
         --color-on-highlight: white;
+    }
+
+    /* Dark: mixed with white, so even black reaches 3:1 and 4.5:1 on gray-800. */
+    @supports (color: color-mix(in srgb, red, white)) {
+        @variant scheme-dark {
+            --cs-scheme-highlight-mix: color-mix(in srgb, var(--color-highlight-text), white 50%);
+            --cs-scheme-highlight-ink-mix: color-mix(in srgb, var(--color-highlight-text), white 60%);
+        }
     }
 }
 

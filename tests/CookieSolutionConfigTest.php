@@ -41,6 +41,10 @@ it('falls back to the light color scheme for an unknown value', function () {
     config()->set('cookie-solution.color_scheme', 'auto');
 
     expect(CookieSolution::getConfig()['color_scheme'])->toBe('auto');
+
+    config()->set('cookie-solution.color_scheme', 'dark');
+
+    expect(CookieSolution::getConfig()['color_scheme'])->toBe('dark');
 });
 
 it('generate the banner content', function () {
