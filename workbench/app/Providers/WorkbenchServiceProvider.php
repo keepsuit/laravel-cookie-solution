@@ -25,7 +25,7 @@ use Keepsuit\CookieSolution\ServiceFactories\Scalapay\ScalapayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoCampaignsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoDataProcessingLocation;
-use Workbench\App\Http\Middleware\LocaleMiddleware;
+use Workbench\App\Http\Middleware\PreviewMiddleware;
 
 class WorkbenchServiceProvider extends ServiceProvider
 {
@@ -69,7 +69,7 @@ class WorkbenchServiceProvider extends ServiceProvider
 
         Route::prefix('{locale}')
             ->whereIn('locale', $locales)
-            ->middleware(LocaleMiddleware::class)
+            ->middleware(PreviewMiddleware::class)
             ->group(function () use ($locales) {
                 Route::view('/', 'index', [
                     'locales' => $locales,

@@ -26,7 +26,12 @@
         }
     </style>
 </head>
-<body class="font-sans antialiased">
+{{-- The policies have light text in dark mode: the page must be dark too. --}}
+<body @class([
+    'font-sans antialiased',
+    'bg-gray-900 text-gray-100' => \Keepsuit\CookieSolution\Facades\CookieSolution::colorScheme() === 'dark',
+    'dark:bg-gray-900 dark:text-gray-100' => \Keepsuit\CookieSolution\Facades\CookieSolution::colorScheme() === 'auto',
+])>
 <header class="max-w-screen-lg mx-auto px-4">
     <nav class="h-12 flex items-center gap-4">
         @foreach($locales as $locale)
