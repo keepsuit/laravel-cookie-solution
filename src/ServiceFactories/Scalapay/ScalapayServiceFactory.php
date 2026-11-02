@@ -14,7 +14,7 @@ class ScalapayServiceFactory extends ServiceFactory
             name: 'Scalapay',
             provider: 'Scalapay IP S.p.A.',
             description: __('cookie-solution::services.scalapay.description'),
-            privacyPolicyUrl: 'https://www.scalapay.com/privacy',
+            privacyPolicyUrl: 'https://paymentinstitute.scalapay.com/policy',
             dataProcessingLocation: Countries::getName('IT', app()->getLocale()),
         );
     }
