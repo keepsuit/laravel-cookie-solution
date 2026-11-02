@@ -38,7 +38,7 @@ export class CookieSolutionSwitch extends LitElement {
                 aria-disabled="${this.readonly}"
                 aria-label="${this.label}"
                 @click="${this._onClick}"
-                class="${this.readonly ? 'opacity-50' : ''} ${
+                class="${this.readonly ? 'opacity-[var(--cs-scheme-readonly-opacity,50%)]' : ''} ${
                     this.checked ? 'border-highlight-text bg-highlight-text' : 'border-gray-500 bg-white'
                 } flex h-7 w-12 shrink-0 cursor-pointer items-center rounded-full border-2 p-0.5 duration-300"
             >

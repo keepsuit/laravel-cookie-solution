@@ -1,5 +1,11 @@
 # Upgrading
 
+## Unreleased
+
+### Published policy views
+
+The policy views now pass `color_scheme` to the formatter. Published views don't: publish them again (`php artisan vendor:publish --tag=cookie-solution-views --force`), or add `color-scheme="{{ \Keepsuit\CookieSolution\Facades\CookieSolution::colorScheme() }}"` to `<cookie-solution-policy-formatter>`. Without it the policies stay light when `color_scheme` is `'dark'` or `'auto'`.
+
 ## From 2.0 to 2.1
 
 ### Policies endpoint

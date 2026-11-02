@@ -10,6 +10,7 @@ use Keepsuit\CookieSolution\Service;
 
 /**
  * @method static bool enabled()
+ * @method static string colorScheme()
  * @method static CookieSolutionStatus status()
  * @method static array getConfig()
  * @method static array getContent()

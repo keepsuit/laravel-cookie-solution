@@ -63,6 +63,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Color Scheme
+    |--------------------------------------------------------------------------
+    |
+    | Colors of the banner and the policy views: 'light', 'dark' or 'auto'
+    | (follows the visitor's system setting). With 'dark' and 'auto' the
+    | policy views expect a dark page background.
+    |
+    */
+
+    'color_scheme' => 'light',
+
+    /*
+    |--------------------------------------------------------------------------
     | Floating Toggle
     |--------------------------------------------------------------------------
     |

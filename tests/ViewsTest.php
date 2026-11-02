@@ -55,9 +55,17 @@ it('can render privacy policy view with data owner', function () {
 });
 
 it('passes the highlight color to the policy views', function (string $view) {
-    expect(view($view)->render())->not->toContain('--cs--color-highlight');
+    expect(view($view)->render())->not->toContain('highlight-color');
 
     config()->set('cookie-solution.highlight_color', '#2563eb');
 
-    expect(view($view)->render())->toContain('style="--cs--color-highlight: #2563eb"');
+    expect(view($view)->render())->toContain('highlight-color="#2563eb"');
+})->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);
+
+it('passes the color scheme to the policy views', function (string $view) {
+    expect(view($view)->render())->toContain('color-scheme="light"');
+
+    config()->set('cookie-solution.color_scheme', 'dark');
+
+    expect(view($view)->render())->toContain('color-scheme="dark"');
 })->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);
