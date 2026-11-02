@@ -69,3 +69,12 @@ it('passes the color scheme to the policy views', function (string $view) {
 
     expect(view($view)->render())->toContain('color-scheme="dark"');
 })->with(['cookie-solution::cookie-policy', 'cookie-solution::privacy-policy']);
+
+it('escapes HTML in the data owner', function () {
+    config()->set('cookie-solution.data_owner.name_and_address', 'Acme <b>Srl</b>');
+    config()->set('cookie-solution.data_owner.contact_email', 'privacy@acme.test');
+
+    expect((string) CookieSolution::dataOwnerHtml())
+        ->toContain('Acme &lt;b&gt;Srl&lt;/b&gt;')
+        ->toContain('privacy@acme.test');
+});
