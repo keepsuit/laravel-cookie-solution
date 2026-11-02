@@ -2,6 +2,14 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.2.1 - 2026-11-02
+
+### What's Changed
+
+* Escape HTML in the data owner Markdown by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/44
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/2.2.0...2.2.1
+
 ## 2.2.0 - 2026-11-02
 
 ### Highlights
@@ -81,6 +89,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 
 ```
