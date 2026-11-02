@@ -2,6 +2,38 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.2.0 - 2026-11-02
+
+### Highlights
+
+- **Dark color scheme**: the new `color_scheme` config value sets the colors of the banner and the policy views: `'light'` (default), `'dark'` or `'auto'` (follows the visitor's `prefers-color-scheme`). Unknown values fall back to `'light'`. With `'dark'` and `'auto'` the policy views have light text and expect a dark page background. See [docs/customization.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.2.0/docs/customization.md#color-scheme).
+- **Readable highlight color in dark mode**: where it is used for text, focus rings or icons, the highlight color is lightened to stay readable on the dark background. Browsers without CSS relative colors mix it with white instead.
+- **Theme color variables**: `--cs--color-background`, `--cs--color-surface`, `--cs--color-text`, `--cs--color-text-muted` and `--cs--color-border` adjust the colors in every scheme, nested components included.
+- **Formatter attributes**: `<cookie-solution-policy-formatter>` accepts `color-scheme` and `highlight-color` attributes. `CookieSolution::colorScheme()` returns the configured scheme.
+
+### Changes for headless frontends
+
+- `CookieSolutionConfig` has a new optional `color_scheme` field. Override it before mounting to follow the site's own theme switch: `mount({ ...config, color_scheme: theme })`.
+- The formatter doesn't read the config: pass `color_scheme` and `highlight_color` as its `color-scheme` and `highlight-color` attributes, as [docs/headless.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.2.0/docs/headless.md) shows. Setting `--cs--color-highlight` on it keeps working.
+- Bundle: 81.3 → 84.6 KB (gzip 20.5 → 21.0 KB).
+
+### Service updates
+
+Checked against the vendors' current documentation:
+
+- **Google Ads Remarketing**: drops the cookies Google no longer lists (`1P_JAR`, `DV`, `CONSENT`, `APISID`, `SSID`, `HSID`, `SID`, `OGPC`) and adds the conversion cookies `_gcl_au`, `_gcl_gs`, `_gcl_ag` and `_gcl_gb`. `__gads` and `IDE` now last 13 months.
+- **Meta Pixel**: `FacebookPixelServiceFactory` shows the service as "Meta Pixel", adds the `_fbc` cookie and links Meta's current privacy policy.
+- **Microsoft Clarity**: adds the `MUID`, `MR`, `ANONCHK` and `SM` cookies.
+- **PayPal and Stripe**: new `location()` option with the European entities, `PayPalDataProcessingLocation::LUXEMBOURG` and `StripeDataProcessingLocation::IRELAND`.
+- **Scalapay**: the provider is Scalapay IP S.p.A. (Italy), the payment institution, with its privacy policy.
+- **Zoho Campaigns**: fixes the privacy policy link, shows the provider of the selected data center and adds Canada, China, Japan, Saudi Arabia, Singapore and UAE.
+- **Amazon Web Services**: adds 11 regions (Hong Kong, Indonesia, Israel, Malaysia, Mexico, New Zealand, Spain, Switzerland, Taiwan, Thailand, UAE).
+- **Location names**: misspelled cases are renamed (`SINGAPORE`, `SWEDEN`, `NETHERLANDS`); the old names keep working as deprecated aliases.
+
+### Upgrading
+
+Nothing changes with the default `'light'` scheme. Policy views published from earlier versions don't set `color-scheme`: publish them again, or add the attribute to the formatter. Sites using Google Ads Remarketing, Meta Pixel or Microsoft Clarity ask visitors for consent again, because their cookie lists changed. PayPal and Stripe now report `USA` by default: pass the European location for EEA visitors. See [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/2.2.0/UPGRADING.md).
+
 ## 2.1.0 - 2026-10-30
 
 ### Highlights
@@ -49,6 +81,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 ```
 **Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/1.6.2...2.0.0
