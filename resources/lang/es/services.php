@@ -8,9 +8,10 @@ return [
         'description' => 'DigitalOcean es un servicio de alojamiento que nos permite almacenar y procesar datos de manera segura y confiable. Los datos almacenados en DigitalOcean pueden incluir información personal como nombres, direcciones de correo electrónico y datos de navegación. DigitalOcean puede usar los datos de acuerdo con su propia política de privacidad, que se puede encontrar en el sitio web de DigitalOcean.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel utiliza cookies para recopilar datos sobre los visitantes del sitio web. Facebook puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Facebook. Puedes obtener más información sobre Facebook Pixel y cómo optar por no participar en la recopilación de datos visitando el sitio web de Facebook.',
+        'description' => 'Meta Pixel utiliza cookies para recopilar datos sobre los visitantes del sitio web. Meta puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Meta. Puedes obtener más información sobre Meta Pixel y cómo optar por no participar en la recopilación de datos visitando el sitio web de Meta.',
         'cookies' => [
             '_fbp' => 'Se utiliza para almacenar y rastrear visitas en varios sitios web.',
+            '_fbc' => 'Se utiliza para almacenar el identificador del clic en el anuncio y atribuir conversiones.',
             'fr' => 'Se utiliza para proporcionar entrega de anuncios o retargeting.',
         ],
     ],
@@ -18,11 +19,8 @@ return [
         'description' => 'Google Ads Remarketing es un servicio que nos permite mostrar anuncios a usuarios que han visitado previamente nuestro sitio web. Google Ads Remarketing utiliza cookies para recopilar datos sobre los visitantes del sitio web. Google puede usar los datos recopilados para mostrar anuncios a los visitantes del sitio web y comprender la efectividad de las campañas publicitarias de Google. Puedes obtener más información sobre Google Ads Remarketing y cómo optar por no participar en la recopilación de datos visitando el sitio web de Google Ads.',
         'cookies' => [
             '_generic' => 'Se utiliza para proporcionar entrega de anuncios o retargeting',
+            '_conversion' => 'Se utiliza para almacenar información sobre los clics en anuncios y atribuir conversiones',
             'NID' => 'Se utiliza para proporcionar entrega de anuncios o retargeting y almacenar preferencias de usuario',
-            'CONSENT' => 'Se utiliza para almacenar preferencias de consentimiento',
-            'HSID' => 'Se utiliza para proporcionar prevención de fraude',
-            'SID' => 'Se utiliza para proporcionar entrega de anuncios o retargeting y proporcionar prevención de fraude',
-            '_gac_*' => 'Se utiliza para almacenar y rastrear el alcance de la audiencia',
         ],
     ],
     'google_analytics_4' => [
@@ -33,7 +31,7 @@ return [
         ],
     ],
     'google_tag_manager' => [
-        'description' => 'Google Tag Manager es un servicio que permite agregar y administrar varias etiquetas de marketing y análisis a través de una sola interfaz. Google Tag Manager no recopila ninguna información personal, pero puede enviar datos a otros servicios como Google Analytics, Adwords y otros. Puedes obtener más información sobre Google Tag Manager y sus prácticas de datos visitando el sitio web de Google Tag Manager.',
+        'description' => 'Google Tag Manager es un servicio que permite agregar y administrar varias etiquetas de marketing y análisis a través de una sola interfaz. Google Tag Manager no recopila ninguna información personal, pero puede enviar datos a otros servicios como Google Analytics, Google Ads y otros. Puedes obtener más información sobre Google Tag Manager y sus prácticas de datos visitando el sitio web de Google Tag Manager.',
     ],
     'klarna' => [
         'description' => 'Klarna es un servicio de pago que nos permite aceptar pagos a plazos de nuestros clientes. Klarna puede recopilar información personal como nombres, direcciones de correo electrónico e información de facturación para evaluar la idoneidad del usuario para sus métodos de pago y personalizar esos métodos de pago.',
@@ -47,6 +45,10 @@ return [
             '_clck' => 'Conserva el ID de usuario de Clarity y las preferencias, único para este sitio y atribuido al mismo ID de usuario.',
             '_clsk' => 'Conecta varias páginas vistas por un usuario en una sola grabación de sesión de Clarity.',
             'CLID' => 'Identifica la primera vez que Clarity vio a este usuario en cualquier sitio que utilice Clarity.',
+            'MUID' => 'Identifica de forma única los navegadores que visitan sitios de Microsoft.',
+            'MR' => 'Indica si se debe actualizar la cookie MUID.',
+            'ANONCHK' => 'Indica si la cookie MUID se transfiere a la cookie publicitaria ANID. Clarity no utiliza ANID, por lo que su valor es siempre 0.',
+            'SM' => 'Se utiliza para sincronizar la cookie MUID entre los dominios de Microsoft.',
         ],
     ],
     'paypal' => [

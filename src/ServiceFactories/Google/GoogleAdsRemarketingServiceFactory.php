@@ -23,28 +23,26 @@ class GoogleAdsRemarketingServiceFactory extends ServiceFactory
     public function build(): Service
     {
         $cookies = Collection::make([
+            '_gcl_au' => 90,
+            '_gcl_aw' => 90,
+            '_gcl_gs' => 90,
+            '_gcl_ag' => 90,
+            '_gcl_gb' => 90,
+            '_gac_gb_*' => 90,
+            '__gads' => 13 * 30,
             'NID' => 6 * 30,
-            '1P_JAR' => 30,
-            'DV' => 1,
-            'CONSENT' => 365,
-            'APISID' => 2 * 365,
-            'SSID' => 2 * 365,
-            'HSID' => 2 * 365,
-            'SID' => 2 * 365,
-            'OGPC' => 7,
-            '__gads' => 2 * 365,
-            'IDE' => 2 * 365,
+            'IDE' => 13 * 30,
             'DSID' => 14,
-            '_gcl_aw' => 3 * 30,
-            '_gac_*' => 3 * 30,
         ])->map(function (int $duration, string $name) {
             return new Cookie(
                 name: $name,
                 purpose: CookiePurpose::MARKETING,
                 duration: $duration,
-                description: Lang::has('cookie-solution::services.google_ads_remarketing.cookies.'.$name)
-                    ? __('cookie-solution::services.google_ads_remarketing.cookies.'.$name)
-                    : __('cookie-solution::services.google_ads_remarketing.cookies._generic'),
+                description: match (true) {
+                    str_starts_with($name, '_gcl_'), str_starts_with($name, '_gac_') => __('cookie-solution::services.google_ads_remarketing.cookies._conversion'),
+                    Lang::has('cookie-solution::services.google_ads_remarketing.cookies.'.$name) => __('cookie-solution::services.google_ads_remarketing.cookies.'.$name),
+                    default => __('cookie-solution::services.google_ads_remarketing.cookies._generic'),
+                },
             );
         })->all();
 

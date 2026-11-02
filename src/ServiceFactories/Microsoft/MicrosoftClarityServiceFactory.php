@@ -16,6 +16,11 @@ class MicrosoftClarityServiceFactory extends ServiceFactory
             '_clck' => 365,
             '_clsk' => 1,
             'CLID' => 365,
+            'MUID' => 390,
+            'MR' => 7,
+            // Actually 10 minutes: durations are whole days, so round up.
+            'ANONCHK' => 1,
+            'SM' => 0,
         ])->map(function (int $duration, string $name) {
             return new Cookie(
                 name: $name,

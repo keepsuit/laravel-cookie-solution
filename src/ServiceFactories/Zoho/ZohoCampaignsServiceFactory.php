@@ -20,9 +20,9 @@ class ZohoCampaignsServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Zoho Campaigns',
-            provider: 'Zoho Corporation Pvt. Ltd.',
+            provider: $this->location->provider(),
             description: __('cookie-solution::services.zoho_campaigns.description'),
-            privacyPolicyUrl: 'https://www.intuit.com/privacy/statement/',
+            privacyPolicyUrl: 'https://www.zoho.com/privacy.html',
             dataProcessingLocation: $this->location->country(),
         );
     }

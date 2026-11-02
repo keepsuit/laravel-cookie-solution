@@ -21,10 +21,10 @@ class FacebookPixelServiceFactory extends ServiceFactory
     public function build(): Service
     {
         return new Service(
-            name: 'Facebook Pixel',
+            name: 'Meta Pixel',
             provider: $this->location->provider(),
             description: __('cookie-solution::services.facebook_pixel.description'),
-            privacyPolicyUrl: 'https://www.facebook.com/privacy/explanation',
+            privacyPolicyUrl: 'https://www.facebook.com/privacy/policy/',
             dataProcessingLocation: $this->location->country(),
             cookies: [
                 new Cookie(
@@ -32,6 +32,12 @@ class FacebookPixelServiceFactory extends ServiceFactory
                     purpose: CookiePurpose::MARKETING,
                     duration: 3 * 30,
                     description: __('cookie-solution::services.facebook_pixel.cookies._fbp'),
+                ),
+                new Cookie(
+                    name: '_fbc',
+                    purpose: CookiePurpose::MARKETING,
+                    duration: 3 * 30,
+                    description: __('cookie-solution::services.facebook_pixel.cookies._fbc'),
                 ),
                 new Cookie(
                     name: 'fr',

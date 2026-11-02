@@ -7,13 +7,23 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class PayPalServiceFactory extends ServiceFactory
 {
+    protected PayPalDataProcessingLocation $location = PayPalDataProcessingLocation::USA;
+
+    public function location(PayPalDataProcessingLocation $location): static
+    {
+        $this->location = $location;
+
+        return $this;
+    }
+
     public function build(): Service
     {
         return new Service(
             name: 'PayPal',
-            provider: 'PayPal Inc.',
+            provider: $this->location->provider(),
             description: __('cookie-solution::services.paypal.description'),
-            privacyPolicyUrl: 'https://www.paypal.com/webapps/mpp/ua/privacy-full',
+            privacyPolicyUrl: 'https://www.paypal.com/legalhub/paypal/privacy-full',
+            dataProcessingLocation: $this->location->country(),
         );
     }
 }

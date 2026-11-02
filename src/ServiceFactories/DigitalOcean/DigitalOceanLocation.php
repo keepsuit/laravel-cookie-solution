@@ -15,6 +15,8 @@ enum DigitalOceanLocation
     case SINAGAPORE;
     case USA;
 
+    const NETHERLANDS = self::NEDERLANDS;
+
     public function country(): string
     {
         return match ($this) {
