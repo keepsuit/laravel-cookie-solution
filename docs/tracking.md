@@ -64,7 +64,7 @@ document.addEventListener('cookie-solution-status-change', (event) => {
 });
 ```
 
-## Facebook Pixel
+## Meta Pixel
 
 Revoke consent before `fbq('init', ...)`, then follow the user's choice:
 
@@ -88,6 +88,8 @@ onStatusChange((status) => {
 ```
 
 ## Microsoft Clarity
+
+Since October 31, 2025 Clarity requires a consent signal for visits from the EEA, the UK and Switzerland: without `Clarity.consent()` those visits are not fully tracked.
 
 ```js
 import Clarity from '@microsoft/clarity';

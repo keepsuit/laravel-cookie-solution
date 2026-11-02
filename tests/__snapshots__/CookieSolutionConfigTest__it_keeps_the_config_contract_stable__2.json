@@ -48,15 +48,21 @@
         ],
         "marketing": [
             {
-                "name": "Facebook Pixel",
+                "name": "Meta Pixel",
                 "provider": "Meta Platforms Ireland Limited",
-                "description": "Facebook Pixel uses cookies to collect data about website visitors. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.",
-                "privacy_policy_url": "https://www.facebook.com/privacy/explanation",
+                "description": "Meta Pixel uses cookies to collect data about website visitors. Meta may use the collected data to target ads to website visitors and to understand the effectiveness of Meta advertising campaigns. You can learn more about Meta Pixel and how to opt out of data collection by visiting the Meta website.",
+                "privacy_policy_url": "https://www.facebook.com/privacy/policy/",
                 "data_processing_location": "Ireland",
                 "cookies": [
                     {
                         "name": "_fbp",
                         "description": "Used to store and track visits across websites.",
+                        "purpose": "marketing",
+                        "duration": 90
+                    },
+                    {
+                        "name": "_fbc",
+                        "description": "Used to store the ad click identifier to attribute conversions.",
                         "purpose": "marketing",
                         "duration": 90
                     },

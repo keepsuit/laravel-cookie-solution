@@ -97,12 +97,13 @@ it('generate config with configured services', function () {
             'marketing' => [
                 [
                     'provider' => 'Meta Platforms Ireland Limited',
-                    'name' => 'Facebook Pixel',
-                    'privacy_policy_url' => 'https://www.facebook.com/privacy/explanation',
+                    'name' => 'Meta Pixel',
+                    'privacy_policy_url' => 'https://www.facebook.com/privacy/policy/',
                     'data_processing_location' => 'Ireland',
-                    'description' => 'Facebook Pixel uses cookies to collect data about website visitors. Facebook may use the collected data to target ads to website visitors and to understand the effectiveness of Facebook advertising campaigns. You can learn more about Facebook Pixel and how to opt out of data collection by visiting the Facebook website.',
+                    'description' => 'Meta Pixel uses cookies to collect data about website visitors. Meta may use the collected data to target ads to website visitors and to understand the effectiveness of Meta advertising campaigns. You can learn more about Meta Pixel and how to opt out of data collection by visiting the Meta website.',
                     'cookies' => [
                         ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90, 'purpose' => 'marketing'],
+                        ['name' => '_fbc', 'description' => 'Used to store the ad click identifier to attribute conversions.', 'duration' => 90, 'purpose' => 'marketing'],
                         ['name' => 'fr', 'description' => 'Used to provide ad delivery or retargeting.', 'duration' => 90, 'purpose' => 'marketing'],
                     ],
                 ],

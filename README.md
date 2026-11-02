@@ -280,7 +280,7 @@ See [customization](docs/customization.md#policy-views) for the available parts 
 
 - [Customization](docs/customization.md): highlight color, layout, color scheme, floating toggle, policy views and `::part()` styling.
 - [Headless frontends](docs/headless.md): JSON API and the `@keepsuit/cookie-solution` npm package (React, SSR, SPA).
-- [Connecting tracking services](docs/tracking.md): Google Tag Manager consent mode, Facebook Pixel, PostHog, Microsoft Clarity.
+- [Connecting tracking services](docs/tracking.md): Google Tag Manager consent mode, Meta Pixel, PostHog, Microsoft Clarity.
 
 ## Checking status
 

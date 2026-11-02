@@ -4,6 +4,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Scalapay;
 
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
+use Symfony\Component\Intl\Countries;
 
 class ScalapayServiceFactory extends ServiceFactory
 {
@@ -11,9 +12,10 @@ class ScalapayServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Scalapay',
-            provider: 'Scalapay s.r.l.',
+            provider: 'Scalapay IP S.p.A.',
             description: __('cookie-solution::services.scalapay.description'),
-            privacyPolicyUrl: 'https://www.scalapay.com/privacy',
+            privacyPolicyUrl: 'https://paymentinstitute.scalapay.com/policy',
+            dataProcessingLocation: Countries::getName('IT', app()->getLocale()),
         );
     }
 }

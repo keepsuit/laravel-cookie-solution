@@ -8,9 +8,10 @@ return [
         'description' => 'DigitalOcean ist ein Hosting-Dienst, der es uns ermöglicht, Daten auf sichere und zuverlässige Weise zu speichern und zu verarbeiten. Auf DigitalOcean gespeicherte Daten können persönliche Informationen wie Namen, E-Mail-Adressen und Browsing-Daten enthalten. DigitalOcean kann die Daten gemäß seiner eigenen Datenschutzrichtlinie verwenden, die auf der Website von DigitalOcean zu finden ist.',
     ],
     'facebook_pixel' => [
-        'description' => 'Facebook Pixel verwendet Cookies, um Daten über Website-Besucher zu sammeln. Facebook kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Facebook-Werbekampagnen zu verstehen. Weitere Informationen zu Facebook Pixel und wie Sie der Datensammlung widersprechen können, finden Sie auf der Facebook-Website.',
+        'description' => 'Meta Pixel verwendet Cookies, um Daten über Website-Besucher zu sammeln. Meta kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Meta-Werbekampagnen zu verstehen. Weitere Informationen zu Meta Pixel und wie Sie der Datensammlung widersprechen können, finden Sie auf der Meta-Website.',
         'cookies' => [
             '_fbp' => 'Wird verwendet, um Besuche auf Websites zu speichern und zu verfolgen.',
+            '_fbc' => 'Wird verwendet, um die Kennung des Anzeigenklicks zu speichern und Conversions zuzuordnen.',
             'fr' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen.',
         ],
     ],
@@ -18,11 +19,8 @@ return [
         'description' => 'Google Ads Remarketing ist ein Dienst, der es uns ermöglicht, Anzeigen für Benutzer anzuzeigen, die unsere Website zuvor besucht haben. Google Ads Remarketing verwendet Cookies, um Daten über Website-Besucher zu sammeln. Google kann die gesammelten Daten verwenden, um Anzeigen an Website-Besucher zu richten und die Wirksamkeit von Google-Werbekampagnen zu verstehen. Weitere Informationen zu Google Ads Remarketing und wie Sie der Datensammlung widersprechen können, finden Sie auf der Google Ads-Website.',
         'cookies' => [
             '_generic' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen.',
+            '_conversion' => 'Wird verwendet, um Informationen zu Anzeigenklicks zu speichern und Conversions zuzuordnen.',
             'NID' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen und die Benutzereinstellungen zu speichern.',
-            'CONSENT' => 'Wird verwendet, um Zustimmungseinstellungen zu speichern.',
-            'HSID' => 'Wird verwendet, um Betrugsprävention bereitzustellen.',
-            'SID' => 'Wird verwendet, um Anzeigen auszuliefern oder neu zu zielen und Betrugsprävention bereitzustellen.',
-            '_gac_*' => 'Wird verwendet, um die Reichweite des Publikums zu speichern und zu verfolgen.',
         ],
     ],
     'google_analytics_4' => [
@@ -33,7 +31,7 @@ return [
         ],
     ],
     'google_tag_manager' => [
-        'description' => 'Google Tag Manager ist ein Dienst, der es ermöglicht, verschiedene Marketing- und Analysetags über eine einzige Schnittstelle hinzuzufügen und zu verwalten. Google Tag Manager erhebt keine persönlichen Informationen, kann jedoch Daten an andere Dienste wie Google Analytics, Adwords und andere weitergeben. Weitere Informationen zu Google Tag Manager und seinen Datenpraktiken finden Sie auf der Website von Google Tag Manager.',
+        'description' => 'Google Tag Manager ist ein Dienst, der es ermöglicht, verschiedene Marketing- und Analysetags über eine einzige Schnittstelle hinzuzufügen und zu verwalten. Google Tag Manager erhebt keine persönlichen Informationen, kann jedoch Daten an andere Dienste wie Google Analytics, Google Ads und andere weitergeben. Weitere Informationen zu Google Tag Manager und seinen Datenpraktiken finden Sie auf der Website von Google Tag Manager.',
     ],
     'klarna' => [
         'description' => 'Klarna ist ein Zahlungsdienst, der es uns ermöglicht, Ratenzahlungen von unseren Kunden anzunehmen. Klarna kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln, um die Eignung des Benutzers für seine Zahlungsmethoden zu bewerten und diese Zahlungsmethoden zu personalisieren.',
@@ -47,6 +45,10 @@ return [
             '_clck' => 'Speichert die Clarity-Benutzer-ID und Einstellungen, die für diese Website eindeutig sind und demselben Benutzer zugeordnet werden.',
             '_clsk' => 'Verbindet mehrere Seitenaufrufe eines Nutzers zu einer einzigen Clarity-Sitzungsaufzeichnung.',
             'CLID' => 'Identifiziert das erste Mal, dass Clarity diesen Nutzer auf einer beliebigen Website mit Clarity gesehen hat.',
+            'MUID' => 'Identifiziert eindeutig Webbrowser, die Microsoft-Websites besuchen.',
+            'MR' => 'Gibt an, ob das MUID-Cookie aktualisiert werden soll.',
+            'ANONCHK' => 'Gibt an, ob das MUID-Cookie an das Werbe-Cookie ANID übertragen wird. Clarity verwendet ANID nicht, daher ist der Wert immer 0.',
+            'SM' => 'Wird verwendet, um das MUID-Cookie zwischen Microsoft-Domains zu synchronisieren.',
         ],
     ],
     'paypal' => [
