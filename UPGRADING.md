@@ -1,6 +1,6 @@
 # Upgrading
 
-## Unreleased
+## From 2.1 to 2.2
 
 ### Published policy views
 
