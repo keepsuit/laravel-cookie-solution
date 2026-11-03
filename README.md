@@ -231,6 +231,11 @@ class AppServiceProvider extends ServiceProvider
 }
 ```
 
+`CookieSolution` is a scoped instance: Octane and queue workers build a new one for every request and job, running the `afterResolving` callbacks again.
+Register services and resolvers there, not on the instance during `boot()`: they would be lost after the first request.
+The callbacks can read the current site or tenant, e.g. to register the services configured in a CMS.
+When a single request or job works on several sites, call `app()->forgetInstance(CookieSolution::class)` and `\Keepsuit\CookieSolution\Facades\CookieSolution::clearResolvedInstance()` before switching site.
+
 Update the config `config/cookie-solution.php` file with your data owner's contact email and name and address.
 
 ```php
@@ -280,14 +285,14 @@ See [customization](docs/customization.md#policy-views) for the available parts 
 ### Policy texts
 
 The policy texts are the Markdown files in `resources/views/vendor/cookie-solution/policy` (published with the views), then the package ones, then the `en` ones.
-To provide them from your app (e.g. a CMS), register a resolver in a service provider:
+To provide them from your app (e.g. a CMS), register a resolver where you register the services:
 
 ```php
-use Keepsuit\CookieSolution\Facades\CookieSolution;
+use Keepsuit\CookieSolution\CookieSolution;
 use Keepsuit\CookieSolution\Policy;
 
-CookieSolution::resolvePolicyTextUsing(function (Policy $policy, string $locale) {
-    return PolicyText::for($policy->value, $locale)?->markdown;
+$this->app->afterResolving(CookieSolution::class, function (CookieSolution $cookieSolution) {
+    $cookieSolution->resolvePolicyTextUsing(fn (Policy $policy, string $locale) => PolicyText::for($policy->value, $locale)?->markdown);
 });
 ```
 

@@ -24,7 +24,8 @@ class CookieSolutionServiceProvider extends PackageServiceProvider
 
     public function packageRegistered(): void
     {
-        $this->app->singleton(CookieSolution::class);
+        // Per-request state (consent, banner content): Octane and queue workers reset scoped instances.
+        $this->app->scoped(CookieSolution::class);
         $this->app->singleton(CookieSolutionAssets::class);
         $this->app->bind(MarkdownParser::class, DefaultMarkdownParser::class);
 
