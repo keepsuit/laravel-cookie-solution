@@ -2,6 +2,21 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.4.0 - 2026-11-03
+
+#### Highlights
+
+- **Consent across subdomains**: `cookie_domain` (env `COOKIE_SOLUTION_COOKIE_DOMAIN`, e.g. `.example.com`) writes the consent cookie on that domain, so `www.example.com` and `shop.example.com` ask only once. Use `env('SESSION_DOMAIN')` to follow the session cookie. The subdomains must register the same services, or each one asks again, and the domain must cover the current host. Default `null` keeps the cookie on the current host: nothing changes until it is set. When a host-only and a domain cookie coexist (e.g. right after setting the domain), the banner, `window.cookieSolutionSavedStatus()` and `CookieSolution::status()` read the newest one, so a later choice made on another subdomain is not masked by an older one.
+- **Default policy texts**: `CookieSolution::defaultPolicyText($policy, $locale)` returns the policy file for a locale (published or from the package, `null` when it has none), ignoring `resolvePolicyTextUsing()`: e.g. the starting point of a text edited in the app. See [Policy texts](https://github.com/keepsuit/laravel-cookie-solution#policy-texts).
+
+### What's Changed
+
+* Take the npm version from the release tag by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/57
+* Expose the policy file of a locale by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/58
+* Make the consent cookie domain configurable by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/59
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/2.3.0...2.4.0
+
 ## 2.3.0 - 2026-11-03
 
 #### Highlights
@@ -108,6 +123,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 
 
