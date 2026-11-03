@@ -57,7 +57,7 @@ export class InertScriptsController implements ReactiveController {
 
             if (purposes.every((purpose) => status.purposes[purpose as CookiePurpose])) {
                 this._handled.add(script);
-                this._queue = this._queue.then(() => execute(script));
+                this._queue = this._queue.then(() => (this._observer ? execute(script) : undefined));
             }
         }
     }
@@ -83,18 +83,19 @@ function execute(inert: HTMLScriptElement): Promise<void> {
     // Browsers hide the `nonce` attribute: only the property holds it.
     script.nonce = inert.nonce;
 
-    const src = inert.dataset.src;
-    const done = src
-        ? new Promise<void>((resolve) => {
-              script.addEventListener('load', () => resolve(), { once: true });
-              script.addEventListener('error', () => resolve(), { once: true });
-          })
-        : Promise.resolve();
+    const src = inert.getAttribute('data-src');
+    const done =
+        src === null
+            ? Promise.resolve()
+            : new Promise<void>((resolve) => {
+                  script.addEventListener('load', () => resolve(), { once: true });
+                  script.addEventListener('error', () => resolve(), { once: true });
+              });
 
-    if (src) {
-        script.src = src;
-    } else {
+    if (src === null) {
         script.text = inert.text;
+    } else {
+        script.src = src;
     }
 
     inert.replaceWith(script);

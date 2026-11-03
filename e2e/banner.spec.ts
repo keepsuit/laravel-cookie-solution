@@ -174,6 +174,29 @@ test('inert scripts added later run, in order, external ones before the next', a
     expect(await page.locator('#module').getAttribute('type')).toBe('module');
 });
 
+test('queued inert scripts stop when the banner is removed', async ({ page }) => {
+    await page.route('http://cdn.test/external.js', async (route) => {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await route.fulfill({ contentType: 'text/javascript', body: "(window.ran ??= []).push('external')" });
+    });
+    await visit(page, { cookie: acceptedAll });
+
+    await page.evaluate(
+        (html) => document.body.insertAdjacentHTML('beforeend', html),
+        inert('statistics', '', 'data-src="http://cdn.test/external.js"') +
+            inert('statistics', "(window.ran ??= []).push('inline')"),
+    );
+    // The external one is loading, the inline one waits for it.
+    await page.waitForSelector('script[src="http://cdn.test/external.js"]', { state: 'attached' });
+    await page.evaluate(() =>
+        (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, enabled: false }),
+    );
+
+    await expect.poll(() => ran(page)).toEqual(['external']);
+    await page.waitForTimeout(100);
+    expect(await ran(page)).toEqual(['external']);
+});
+
 test('inert scripts with an unknown purpose never run and warn', async ({ page }) => {
     const warnings: string[] = [];
     page.on('console', (message) => message.type() === 'warning' && warnings.push(message.text()));
