@@ -1,12 +1,12 @@
 import type { CookiePurpose, CookieSolutionConfig, CookieSolutionStatus } from '../types';
 
-export function setCookie(name: string, value: string, expireInDays: number): void {
+export function setCookie(name: string, value: string, expireInDays: number, domain?: string | null): void {
     const expiresAt = new Date(Date.now() + expireInDays * 24 * 60 * 60 * 1000);
     const secure = document.location.protocol === 'https:';
 
     document.cookie = `${name}=${encodeURIComponent(
         value,
-    )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax; ${secure ? ';secure' : ''}`;
+    )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax${domain ? `; domain=${domain}` : ''}${secure ? '; secure' : ''}`;
 }
 
 export function readCookie(name: string): string | undefined {
@@ -21,8 +21,12 @@ export function readCookie(name: string): string | undefined {
     return decodeURIComponent(value);
 }
 
-export function deleteCookie(name: string): void {
+export function deleteCookie(name: string, domain?: string | null): void {
     setCookie(name, '', -1);
+
+    if (domain) {
+        setCookie(name, '', -1, domain);
+    }
 }
 
 export function readStatus(
@@ -54,7 +58,17 @@ export function readStatus(
 }
 
 export function writeStatus(config: CookieSolutionConfig, status: CookieSolutionStatus): void {
-    setCookie(config.cookie_name, JSON.stringify({ ...status, digest: config.digest }), config.cookie_lifetime);
+    if (config.cookie_domain) {
+        // A host-only cookie from before the domain was set would be read first.
+        deleteCookie(config.cookie_name);
+    }
+
+    setCookie(
+        config.cookie_name,
+        JSON.stringify({ ...status, digest: config.digest }),
+        config.cookie_lifetime,
+        config.cookie_domain,
+    );
 }
 
 export function newEmptyStatus(): CookieSolutionStatus {

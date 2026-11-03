@@ -163,6 +163,7 @@ class CookieSolution
             'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
+            'cookie_domain' => config('cookie-solution.cookie_domain') ?? config('session.domain'),
             'layout' => config('cookie-solution.layout') === 'floating' ? 'floating' : 'modal',
             'color_scheme' => $this->colorScheme(),
             'highlight_color' => config('cookie-solution.highlight_color'),

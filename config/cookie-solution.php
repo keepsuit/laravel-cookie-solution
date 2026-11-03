@@ -18,14 +18,18 @@ return [
     | Consent Cookie
     |--------------------------------------------------------------------------
     |
-    | Name of the cookie where the user's consent is stored and its lifetime
-    | in days. Changing the name asks every user for consent again.
+    | Name of the cookie where the user's consent is stored, its lifetime
+    | in days and its domain. Changing the name asks every user for consent
+    | again. Set the domain (ex. '.example.com') to share the consent across
+    | subdomains; if null, `session.domain` is used.
     |
     */
 
     'cookie_name' => 'laravel_cookie_solution',
 
     'cookie_lifetime' => 365,
+
+    'cookie_domain' => null,
 
     /*
     |--------------------------------------------------------------------------
