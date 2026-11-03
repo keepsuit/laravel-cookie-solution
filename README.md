@@ -277,6 +277,27 @@ Create a route for the privacy policy page and include the privacy policy partia
 
 See [customization](docs/customization.md#policy-views) for the available parts and how to customize the views.
 
+### Policy texts
+
+The policy texts are the Markdown files in `resources/views/vendor/cookie-solution/policy` (published with the views), then the package ones, then the `en` ones.
+To provide them from your app (e.g. a CMS), register a resolver in a service provider:
+
+```php
+use Keepsuit\CookieSolution\Facades\CookieSolution;
+use Keepsuit\CookieSolution\Policy;
+
+CookieSolution::resolvePolicyTextUsing(function (Policy $policy, string $locale) {
+    return PolicyText::for($policy->value, $locale)?->markdown;
+});
+```
+
+Return a Markdown string, rendered like the files, or an `Htmlable`, printed as is (an empty `HtmlString` hides the text).
+`null` or a blank string falls back to the files: the resolver is called again for `en` when the locale has no file.
+The data owner, services and cookies are still appended after the text, and the banner and the policies endpoint use the same texts.
+
+The resolved text is not sanitized, HTML in the Markdown included: sanitize untrusted texts yourself.
+The resolver is called on every render: cache the texts in your app if needed.
+
 ## Documentation
 
 - [Customization](docs/customization.md): highlight color, layout, color scheme, floating toggle, policy views and `::part()` styling.

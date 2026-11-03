@@ -23,5 +23,6 @@ Laravel is the single source of truth: services, texts, translations and policie
 - **Idempotent handlers.** `onStatusChange` fires with the status in effect (only `necessary` without a stored consent) and again on every change, sometimes with the same status twice.
 - **Purposes**: `necessary`, `preferences`, `statistics` (analytics: GA, PostHog, Clarity), `marketing` (ads: Pixel, Google Ads).
 - **Opening the banner**: `open()` (or `window.CookieSolution.open()` in Blade) or any element with `data-cookie-solution-toggle`. With such a link in the layout, set `toggle_enabled` to `'auto'` (hides the floating toggle while the link is on the page) or `false`; the link must be reachable on every viewport.
+- **Policy texts from the app** (CMS, per site/locale): `CookieSolution::resolvePolicyTextUsing(fn (Policy $policy, string $locale) => ...)` in a service provider; return Markdown, an `Htmlable` (not sanitized), or `null` to fall back to the files (README, "Policy texts").
 - **Blade API**: `window.CookieSolution` exposes `mount`, `open`, `getStatus`, `onStatusChange`, `defineElements`; `cookie-solution-status-default` (once per page) and `cookie-solution-status-change` are dispatched on `document`.
 - **Upgrading from 1.x**: follow `UPGRADING.md` on GitHub (integrations removed, new translation keys, revised default policy texts).

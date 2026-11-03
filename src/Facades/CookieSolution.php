@@ -25,6 +25,7 @@ use Keepsuit\CookieSolution\Service;
  * @method static HtmlString privacyPolicyHtml()
  * @method static HtmlString dataOwnerHtml()
  * @method static \Keepsuit\CookieSolution\CookieSolution register(\Keepsuit\CookieSolution\Service $service)
+ * @method static \Keepsuit\CookieSolution\CookieSolution resolvePolicyTextUsing(\Closure|null $resolver)
  *
  * @see \Keepsuit\CookieSolution\CookieSolution
  */

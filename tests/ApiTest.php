@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Routing\RouteCollection;
+use Illuminate\Support\HtmlString;
 use Keepsuit\CookieSolution\Facades\CookieSolution;
+use Keepsuit\CookieSolution\Policy;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
 use Keepsuit\CookieSolution\Tests\ApiTestMiddleware;
 
@@ -110,4 +112,13 @@ it('translates services registered on resolving in the requested locale', functi
 
     $this->getJson('/internal/cookie-solution/content?locale=it')
         ->assertJsonPath('services.statistics.0.cookies.0.description', __('cookie-solution::services.google_analytics_4.cookies._ga', locale: 'it'));
+});
+
+it('serves the resolved policy texts', function () {
+    CookieSolution::resolvePolicyTextUsing(fn (Policy $policy, string $locale) => new HtmlString("<p>{$policy->value} {$locale}</p>"));
+
+    $this->getJson('/internal/cookie-solution/policies?locale=it')
+        ->assertOk()
+        ->assertJsonPath('cookie_policy', fn (string $html) => str_contains($html, '<p>cookie it</p>'))
+        ->assertJsonPath('privacy_policy', fn (string $html) => str_contains($html, '<p>privacy it</p>'));
 });
