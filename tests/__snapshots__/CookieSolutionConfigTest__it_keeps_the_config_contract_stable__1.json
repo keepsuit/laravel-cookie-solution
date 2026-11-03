@@ -4,6 +4,7 @@
     "digest": "25f0168d349d41c07528188edb37a3a307560188fb5b87a344194494967b31ed",
     "cookie_name": "laravel_cookie_solution",
     "cookie_lifetime": 365,
+    "cookie_domain": null,
     "layout": "modal",
     "color_scheme": "light",
     "highlight_color": null,

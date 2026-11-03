@@ -1,16 +1,20 @@
 import type { CookiePurpose, CookieSolutionConfig, CookieSolutionStatus } from '../types';
 
-export function setCookie(name: string, value: string, expireInDays: number): void {
+export function setCookie(name: string, value: string, expireInDays: number, domain?: string | null): void {
     const expiresAt = new Date(Date.now() + expireInDays * 24 * 60 * 60 * 1000);
     const secure = document.location.protocol === 'https:';
 
     document.cookie = `${name}=${encodeURIComponent(
         value,
-    )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax; ${secure ? ';secure' : ''}`;
+    )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax${domain ? `; domain=${domain}` : ''}${secure ? '; secure' : ''}`;
 }
 
+// The last match is the newest: browsers list the oldest first when a host-only and a domain cookie share the name.
 export function readCookie(name: string): string | undefined {
-    const cookie = document.cookie.split(';').find((cookie) => cookie.trim().startsWith(`${name}=`));
+    const cookie = document.cookie
+        .split(';')
+        .filter((cookie) => cookie.trim().startsWith(`${name}=`))
+        .pop();
 
     if (!cookie) {
         return undefined;
@@ -21,8 +25,12 @@ export function readCookie(name: string): string | undefined {
     return decodeURIComponent(value);
 }
 
-export function deleteCookie(name: string): void {
+export function deleteCookie(name: string, domain?: string | null): void {
     setCookie(name, '', -1);
+
+    if (domain) {
+        setCookie(name, '', -1, domain);
+    }
 }
 
 export function readStatus(
@@ -54,7 +62,12 @@ export function readStatus(
 }
 
 export function writeStatus(config: CookieSolutionConfig, status: CookieSolutionStatus): void {
-    setCookie(config.cookie_name, JSON.stringify({ ...status, digest: config.digest }), config.cookie_lifetime);
+    setCookie(
+        config.cookie_name,
+        JSON.stringify({ ...status, digest: config.digest }),
+        config.cookie_lifetime,
+        config.cookie_domain,
+    );
 }
 
 export function newEmptyStatus(): CookieSolutionStatus {

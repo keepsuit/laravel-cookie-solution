@@ -19,12 +19,23 @@ it('generate base config for cookie solution', function () {
             'locale' => 'en',
             'cookie_name' => 'laravel_cookie_solution',
             'cookie_lifetime' => 365,
+            'cookie_domain' => null,
             'layout' => 'modal',
             'color_scheme' => 'light',
             'highlight_color' => null,
             'toggle_label' => 'Open cookie settings',
             'content_url' => 'http://localhost/cookie-solution/content?locale=en&v='.CookieSolution::contentVersion(),
         ]);
+});
+
+it('passes only the configured cookie domain, not the session one', function () {
+    config()->set('session.domain', '.example.com');
+
+    expect(CookieSolution::getConfig()['cookie_domain'])->toBeNull();
+
+    config()->set('cookie-solution.cookie_domain', '.shop.example.com');
+
+    expect(CookieSolution::getConfig()['cookie_domain'])->toBe('.shop.example.com');
 });
 
 it('falls back to the modal layout for an unknown value', function () {

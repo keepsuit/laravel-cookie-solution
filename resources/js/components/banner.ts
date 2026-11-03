@@ -187,7 +187,7 @@ export class CookieSolutionBanner extends LitElement {
         this._status = readStatus(this.config);
 
         if (!this._status) {
-            deleteCookie(this.config.cookie_name);
+            deleteCookie(this.config.cookie_name, this.config.cookie_domain);
         }
 
         const current = this._status ?? newEmptyStatus();

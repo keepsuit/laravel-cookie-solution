@@ -65,7 +65,7 @@ class CookieSolution
             return $this->status;
         }
 
-        $json = \Illuminate\Support\Facades\Cookie::get(config('cookie-solution.cookie_name'));
+        $json = $this->consentCookie();
 
         if (! is_string($json)) {
             return $this->status = CookieSolutionStatus::default();
@@ -151,6 +151,20 @@ class CookieSolution
     }
 
     /**
+     * The newest consent cookie: browsers send the oldest first when a host-only and a domain cookie share the name.
+     */
+    protected function consentCookie(): mixed
+    {
+        $name = config('cookie-solution.cookie_name');
+
+        preg_match_all('/(?:^|;)\s*'.preg_quote($name, '/').'=([^;]*)/', (string) request()->header('Cookie'), $matches);
+
+        return count($matches[1]) > 1
+            ? rawurldecode(end($matches[1]))
+            : \Illuminate\Support\Facades\Cookie::get($name);
+    }
+
+    /**
      * Config needed on every page: the banner content is loaded from `content_url` only when the banner opens.
      */
     public function getConfig(): array
@@ -163,6 +177,7 @@ class CookieSolution
             'digest' => $this->configDigest(),
             'cookie_name' => config('cookie-solution.cookie_name'),
             'cookie_lifetime' => config('cookie-solution.cookie_lifetime'),
+            'cookie_domain' => config('cookie-solution.cookie_domain'),
             'layout' => config('cookie-solution.layout') === 'floating' ? 'floating' : 'modal',
             'color_scheme' => $this->colorScheme(),
             'highlight_color' => config('cookie-solution.highlight_color'),

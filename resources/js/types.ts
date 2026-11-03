@@ -23,6 +23,8 @@ export interface CookieSolutionConfig {
     digest: string;
     cookie_name: string;
     cookie_lifetime: number;
+    /** `null` for the current host only. */
+    cookie_domain: string | null;
     layout: 'modal' | 'floating';
     /** `auto` follows the system `prefers-color-scheme`. */
     color_scheme?: 'light' | 'dark' | 'auto';
