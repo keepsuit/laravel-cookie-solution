@@ -123,6 +123,90 @@ test('the saved status is readable before the bundle loads, only for the current
     expect(await page.evaluate(() => (window as any).early)).toBeUndefined();
 });
 
+const inert = (purposes: string, code: string, attributes = '') =>
+    `<script type="text/plain" data-cookie-solution-purposes="${purposes}" ${attributes}>${code}</script>`;
+const ran = (page: Page) => page.evaluate(() => (window as any).ran ?? []);
+const acceptAll = (page: Page) => banner(page).getByRole('button', { name: content.texts.button_accept_all }).click();
+
+test('inert scripts run once all their purposes are granted, at most once', async ({ page }) => {
+    await visit(page, {
+        body:
+            inert('necessary', "(window.ran ??= []).push('necessary')") +
+            inert('statistics', "(window.ran ??= []).push('statistics')") +
+            inert('statistics preferences', "(window.ran ??= []).push('statistics preferences')"),
+    });
+
+    await expect(dialog(page)).toBeVisible();
+    expect(await ran(page)).toEqual(['necessary']);
+
+    await acceptAll(page);
+    await expect.poll(() => ran(page)).toEqual(['necessary', 'statistics']);
+
+    await toggle(page).getByRole('button').click();
+    await acceptAll(page);
+    await expect(dialog(page)).toBeHidden();
+    expect(await ran(page)).toEqual(['necessary', 'statistics']);
+});
+
+test('inert scripts run with a saved consent, without opening the banner', async ({ page }) => {
+    await visit(page, { cookie: acceptedAll, body: inert('marketing', "(window.ran ??= []).push('marketing')") });
+
+    await expect.poll(() => ran(page)).toEqual(['marketing']);
+    await expect(dialog(page)).toBeHidden();
+});
+
+test('inert scripts added later run, in order, external ones before the next', async ({ page }) => {
+    await page.route('http://cdn.test/external.js', async (route) => {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await route.fulfill({ contentType: 'text/javascript', body: "(window.ran ??= []).push('external')" });
+    });
+    await visit(page, { cookie: acceptedAll });
+
+    await page.evaluate(
+        (html) => document.body.insertAdjacentHTML('beforeend', html),
+        inert('statistics', '', 'data-src="http://cdn.test/external.js" id="external"') +
+            inert('statistics', "(window.ran ??= []).push('inline')") +
+            inert('statistics', "(window.ran ??= []).push('module')", 'data-type="module" id="module"'),
+    );
+
+    await expect.poll(() => ran(page)).toEqual(['external', 'inline', 'module']);
+    expect(await page.locator('#external').getAttribute('src')).toBe('http://cdn.test/external.js');
+    expect(await page.locator('#module').getAttribute('type')).toBe('module');
+});
+
+test('queued inert scripts stop when the banner is removed', async ({ page }) => {
+    await page.route('http://cdn.test/external.js', async (route) => {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+        await route.fulfill({ contentType: 'text/javascript', body: "(window.ran ??= []).push('external')" });
+    });
+    await visit(page, { cookie: acceptedAll });
+
+    await page.evaluate(
+        (html) => document.body.insertAdjacentHTML('beforeend', html),
+        inert('statistics', '', 'data-src="http://cdn.test/external.js"') +
+            inert('statistics', "(window.ran ??= []).push('inline')"),
+    );
+    // The external one is loading, the inline one waits for it.
+    await page.waitForSelector('script[src="http://cdn.test/external.js"]', { state: 'attached' });
+    await page.evaluate(() =>
+        (window as any).CookieSolution.mount({ ...(window as any)._cookieSolution, enabled: false }),
+    );
+
+    await expect.poll(() => ran(page)).toEqual(['external']);
+    await page.waitForTimeout(100);
+    expect(await ran(page)).toEqual(['external']);
+});
+
+test('inert scripts with an unknown purpose never run and warn', async ({ page }) => {
+    const warnings: string[] = [];
+    page.on('console', (message) => message.type() === 'warning' && warnings.push(message.text()));
+
+    await visit(page, { cookie: acceptedAll, body: inert('statistic', "(window.ran ??= []).push('typo')") });
+
+    await expect.poll(() => warnings.some((warning) => warning.includes('statistic'))).toBe(true);
+    expect(await ran(page)).toEqual([]);
+});
+
 test('closing on the first visit refuses', async ({ page }) => {
     await visit(page);
     await expect(dialog(page)).toBeVisible();

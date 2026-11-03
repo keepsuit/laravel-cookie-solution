@@ -5,6 +5,7 @@ import { unsafeHTML } from 'lit/directives/unsafe-html.js';
 import { styleSheet } from '../style';
 import { deleteCookie, newEmptyStatus, readStatus, samePurposes, writeStatus } from '../utils/cookie';
 import { fetchContent } from '../utils/content';
+import { InertScriptsController } from './inert-scripts';
 import {
     CookieConfig,
     CookiePurpose,
@@ -50,6 +51,8 @@ export class CookieSolutionBanner extends LitElement {
     private _hasPageToggle = false;
 
     private _dialogRef = createRef<HTMLDialogElement>();
+
+    private _inertScripts = new InertScriptsController(this);
 
     private _pageToggleObserver?: MutationObserver;
 
@@ -189,6 +192,8 @@ export class CookieSolutionBanner extends LitElement {
 
         const current = this._status ?? newEmptyStatus();
 
+        this._inertScripts.setStatus(current);
+
         if (!defaultEmitted) {
             defaultEmitted = true;
             this._emitStatus('cookie-solution-status-default', current);
@@ -204,6 +209,7 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         writeStatus(this.config, this._status);
+        this._inertScripts.setStatus(this._status);
 
         this._emitStatus('cookie-solution-status-change', this._status);
     }

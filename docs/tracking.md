@@ -3,6 +3,25 @@
 The banner only stores the user's choice: each tracking service must be configured to wait for consent.
 The status has one boolean for each purpose: `necessary`, `preferences`, `statistics`, `marketing`.
 
+## Scripts that wait for consent
+
+Any other snippet (a third-party pixel, a chat widget, a tag pasted in a layout) can wait for consent without code: make it inert with `type="text/plain"` and list its purposes, separated by spaces.
+
+```html
+<script type="text/plain" data-cookie-solution-purposes="statistics">
+    // runs once statistics is granted
+</script>
+<script type="text/plain" data-cookie-solution-purposes="statistics marketing" data-src="https://example.com/pixel.js"></script>
+<script type="text/plain" data-cookie-solution-purposes="marketing" data-type="module" data-src="https://example.com/widget.js"></script>
+```
+
+- On the status in effect at page load (the saved consent, or only `necessary`) and on every change, each script whose purposes are **all** granted is replaced by an executable copy: `data-src` becomes `src`, `data-type` becomes `type`, the other attributes (`nonce` included) are kept.
+- Each script runs at most once per page, in document order: a script waits for the external one before it to load (or fail), as with the HTML parser.
+- Scripts added later (e.g. by a client-side navigation) run as soon as they are added, if their purposes are granted.
+- Revoking consent can't stop a script that already ran: the page must be reloaded.
+- An unknown purpose or an empty list never runs, and logs a warning in the console.
+- They need the banner: with the package disabled (`enabled` false) they never run.
+
 ## Google Tag Manager / Google Analytics (consent mode)
 
 Consent mode requires a default state **before** the GTM/gtag script is loaded.
