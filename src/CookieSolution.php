@@ -4,6 +4,7 @@ namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
@@ -293,12 +294,18 @@ class CookieSolution
 
     public function dataOwnerHtml(): HtmlString
     {
-        return Str::of(config('cookie-solution.data_owner.name_and_address', ''))
-            ->markdown(array_merge($this->markdownConfig, [
+        $nameAndAddress = config('cookie-solution.data_owner.name_and_address', '');
+
+        $html = match (true) {
+            $nameAndAddress instanceof Htmlable => $nameAndAddress->toHtml(),
+            default => Str::markdown((string) $nameAndAddress, array_merge($this->markdownConfig, [
                 'renderer' => [
                     'soft_break' => '<br>',
                 ],
-            ]))
+            ])),
+        };
+
+        return Str::of($html)
             ->when(config('cookie-solution.data_owner.contact_email'), function (Stringable $string, string $email) {
                 $contactEmail = Str::of(sprintf('__%s__ %s', __('cookie-solution::texts.privacy_policy.data_processing_owner_email'), $email))
                     ->markdown($this->markdownConfig);
