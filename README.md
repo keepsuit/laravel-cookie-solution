@@ -248,6 +248,7 @@ return [
         /**
          * Name/Company name and address of the data owner.
          * This is parsed as Markdown (you can use __text__ for bold and _text_ for italic).
+         * An Htmlable value (e.g. HtmlString) is rendered as is: set it at runtime, objects can't be cached by `config:cache`.
          */
         'name_and_address' => <<<MARKDOWN
             __Your Company Name__

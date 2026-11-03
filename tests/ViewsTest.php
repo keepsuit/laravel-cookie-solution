@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\HtmlString;
 use Keepsuit\CookieSolution\Facades\CookieSolution;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
@@ -76,5 +77,14 @@ it('escapes HTML in the data owner', function () {
 
     expect((string) CookieSolution::dataOwnerHtml())
         ->toContain('Acme &lt;b&gt;Srl&lt;/b&gt;')
+        ->toContain('privacy@acme.test');
+});
+
+it('renders an Htmlable data owner as is', function () {
+    config()->set('cookie-solution.data_owner.name_and_address', new HtmlString('<p>Acme <u>Srl</u></p>'));
+    config()->set('cookie-solution.data_owner.contact_email', 'privacy@acme.test');
+
+    expect((string) CookieSolution::dataOwnerHtml())
+        ->toContain('<p>Acme <u>Srl</u></p>')
         ->toContain('privacy@acme.test');
 });
