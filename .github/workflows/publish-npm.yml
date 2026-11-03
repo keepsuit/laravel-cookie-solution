@@ -34,14 +34,11 @@ jobs:
       - name: Update npm
         run: npm install -g npm@^11.5.1
 
-      - name: Check version matches release tag
+      # The tag is the version: package.json on the tagged commit may still hold the previous one.
+      - name: Set version from release tag
         run: |
           VERSION="${TAG#v}"
-          PACKAGE_VERSION="$(node -p "require('./package.json').version")"
-          if [ "$VERSION" != "$PACKAGE_VERSION" ]; then
-            echo "::error::package.json version ($PACKAGE_VERSION) does not match release tag ($TAG)"
-            exit 1
-          fi
+          npm pkg set version="$VERSION"
           if [[ "$VERSION" == *-* ]]; then
             echo "NPM_DIST_TAG=next" >> "$GITHUB_ENV"
           else

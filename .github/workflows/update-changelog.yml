@@ -20,9 +20,14 @@ jobs:
           latest-version: ${{ github.event.release.name }}
           release-notes: ${{ github.event.release.body }}
 
-      - name: Commit updated CHANGELOG
+      - name: Update package.json version
+        run: npm pkg set version="${TAG#v}"
+        env:
+          TAG: ${{ github.event.release.tag_name }}
+
+      - name: Commit updated CHANGELOG and package.json
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           branch: main
-          commit_message: Update CHANGELOG
-          file_pattern: CHANGELOG.md
+          commit_message: Update CHANGELOG and package.json version
+          file_pattern: CHANGELOG.md package.json
