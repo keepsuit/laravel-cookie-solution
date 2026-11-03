@@ -265,6 +265,14 @@ class CookieSolution
             return $this->markdown->parse($text);
         }
 
+        return $this->defaultPolicyText($policy, $locale);
+    }
+
+    /**
+     * The policy file for the locale, ignoring the resolver: e.g. the starting point of a text edited in the app.
+     */
+    public function defaultPolicyText(Policy $policy, string $locale): ?HtmlString
+    {
         $paths = [
             resource_path(sprintf('views/vendor/cookie-solution/policy/%s-policy.%s.md', $policy->value, $locale)),
             __DIR__.sprintf('/../resources/views/policy/%s-policy.%s.md', $policy->value, $locale),

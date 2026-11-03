@@ -302,6 +302,8 @@ Return a Markdown string, rendered like the files, or an `Htmlable`, printed as 
 `null` or a blank string falls back to the files: the resolver is called again for `en` when the locale has no file.
 The data owner, services and cookies are still appended after the text, and the banner and the policies endpoint use the same texts.
 
+`defaultPolicyText($policy, $locale)` returns the file for a locale (`null` when it has none), ignoring the resolver: e.g. to start an edited text from it.
+
 The resolved text is not sanitized, HTML in the Markdown included: sanitize untrusted texts yourself.
 The package doesn't cache the resolved texts: cache them in your app if needed.
 

@@ -23,6 +23,7 @@ use Keepsuit\CookieSolution\Service;
  * @method static HtmlString script()
  * @method static HtmlString cookiePolicyHtml()
  * @method static HtmlString privacyPolicyHtml()
+ * @method static HtmlString|null defaultPolicyText(\Keepsuit\CookieSolution\Policy $policy, string $locale)
  * @method static HtmlString dataOwnerHtml()
  * @method static \Keepsuit\CookieSolution\CookieSolution register(\Keepsuit\CookieSolution\Service $service)
  * @method static \Keepsuit\CookieSolution\CookieSolution resolvePolicyTextUsing(\Closure|null $resolver)
