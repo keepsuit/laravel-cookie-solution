@@ -62,8 +62,10 @@ export default defineConfig(({ mode }) => ({
         mode === 'iife' ? libManifest() : mode === 'saved-status' ? null : dts(),
     ],
     build:
+        // Built first: the ES build imports it as `?raw`. Old syntax: it sets the consent default, which must never fail.
         mode === 'saved-status'
             ? {
+                  target: 'es2017',
                   outDir: 'resources/dist',
                   emptyOutDir: false,
                   lib: {

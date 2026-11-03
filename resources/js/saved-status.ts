@@ -1,6 +1,7 @@
+import type { CookieSolutionConfig } from './types';
 import { readStatus } from './utils/cookie';
 
 // Injected by the wrapper in `savedStatusScript()` and `status.blade.php`.
-declare const __cookieSolutionConfig: { cookie_name: string; digest: string };
+declare const __cookieSolutionConfig: Pick<CookieSolutionConfig, 'cookie_name' | 'digest'>;
 
 window.cookieSolutionSavedStatus = () => readStatus(__cookieSolutionConfig);

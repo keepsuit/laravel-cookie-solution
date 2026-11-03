@@ -45,7 +45,7 @@ import { savedStatusScript } from '@keepsuit/cookie-solution';
     }
 
     gtag('consent', 'default', {
-        ...cookieSolutionConsent(window.cookieSolutionSavedStatus()?.purposes ?? {}),
+        ...cookieSolutionConsent(window.cookieSolutionSavedStatus?.()?.purposes ?? {}),
         wait_for_update: 500,
     });
 </script>
