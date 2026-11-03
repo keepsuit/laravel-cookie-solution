@@ -1,5 +1,11 @@
 # Upgrading
 
+## From 2.2 to 2.3
+
+### Scoped instance
+
+`CookieSolution` is now bound as a scoped instance instead of a singleton: on Octane and queue workers it is rebuilt for every request and job. Services and resolvers registered on the instance during `boot()` (e.g. `CookieSolution::register(...)` through the facade) are lost after the first request: register them in an `afterResolving` callback, as shown in the README. Nothing changes on PHP-FPM.
+
 ## From 2.1 to 2.2
 
 ### Published policy views

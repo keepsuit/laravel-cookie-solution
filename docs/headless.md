@@ -83,6 +83,7 @@ mount(config, {
 With SSR you can also pass the content inline (`mount({ ...config, content })`): no request is made, but the content is sent with every page.
 
 The policies HTML is the markup of the Blade policy views, without styles.
+Its texts come from the files or from your resolver: see [policy texts](../README.md#policy-texts).
 Wrap it in `<cookie-solution-policy-formatter>` for the default ones, or style it yourself through the `part` attributes as attribute selectors (`[part~='service']`; see [policy views](customization.md#policy-views) for the available parts).
 It uses the package custom elements: call `defineElements()` before rendering it.
 

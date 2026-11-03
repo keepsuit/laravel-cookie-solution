@@ -3,6 +3,7 @@
 namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
@@ -33,6 +34,11 @@ class CookieSolution
      * @var array<string, array>
      */
     protected array $content = [];
+
+    /**
+     * @var (Closure(Policy, string): (Htmlable|string|null))|null
+     */
+    protected ?Closure $policyTextResolver = null;
 
     public function __construct(
         protected MarkdownParser $markdown
@@ -212,6 +218,19 @@ class CookieSolution
     }
 
     /**
+     * Resolves the policy texts before the Markdown files; an `Htmlable` is printed as is, null falls back to the files.
+     *
+     * @param  (Closure(Policy, string): (Htmlable|string|null))|null  $resolver
+     */
+    public function resolvePolicyTextUsing(?Closure $resolver): self
+    {
+        $this->policyTextResolver = $resolver;
+        $this->content = [];
+
+        return $this;
+    }
+
+    /**
      * @return Collection<array-key,Service>
      */
     protected function getCookiesConfigForPurpose(CookiePurpose $cookiePurpose): Collection
@@ -234,33 +253,21 @@ class CookieSolution
         return new HtmlString(view('cookie-solution::script')->render());
     }
 
-    protected function cookiePolicyText(string $locale): ?HtmlString
+    protected function policyText(Policy $policy, string $locale): ?HtmlString
     {
-        $paths = [
-            resource_path(sprintf('views/vendor/cookie-solution/policy/cookie-policy.%s.md', $locale)),
-            __DIR__.sprintf('/../resources/views/policy/cookie-policy.%s.md', $locale),
-        ];
+        $text = $this->policyTextResolver !== null ? ($this->policyTextResolver)($policy, $locale) : null;
 
-        foreach ($paths as $path) {
-            if (! File::exists($path)) {
-                continue;
-            }
-
-            try {
-                return $this->renderMarkdownFile($path);
-            } catch (FileNotFoundException) {
-                continue;
-            }
+        if ($text instanceof Htmlable) {
+            return new HtmlString($text->toHtml());
         }
 
-        return null;
-    }
+        if (is_string($text) && ! blank($text)) {
+            return $this->markdown->parse($text);
+        }
 
-    protected function privacyPolicyText(string $locale): ?HtmlString
-    {
         $paths = [
-            resource_path(sprintf('views/vendor/cookie-solution/policy/privacy-policy.%s.md', $locale)),
-            __DIR__.sprintf('/../resources/views/policy/privacy-policy.%s.md', $locale),
+            resource_path(sprintf('views/vendor/cookie-solution/policy/%s-policy.%s.md', $policy->value, $locale)),
+            __DIR__.sprintf('/../resources/views/policy/%s-policy.%s.md', $policy->value, $locale),
         ];
 
         foreach ($paths as $path) {
@@ -280,15 +287,18 @@ class CookieSolution
 
     public function cookiePolicyHtml(): HtmlString
     {
-        return $this->cookiePolicyText(app()->getLocale())
-            ?? $this->cookiePolicyText('en')
-            ?? new HtmlString('');
+        return $this->policyHtml(Policy::COOKIE);
     }
 
     public function privacyPolicyHtml(): HtmlString
     {
-        return $this->privacyPolicyText(app()->getLocale())
-            ?? $this->privacyPolicyText('en')
+        return $this->policyHtml(Policy::PRIVACY);
+    }
+
+    protected function policyHtml(Policy $policy): HtmlString
+    {
+        return $this->policyText($policy, app()->getLocale())
+            ?? $this->policyText($policy, 'en')
             ?? new HtmlString('');
     }
 
