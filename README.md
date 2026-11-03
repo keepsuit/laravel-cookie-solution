@@ -296,7 +296,7 @@ Return a Markdown string, rendered like the files, or an `Htmlable`, printed as 
 The data owner, services and cookies are still appended after the text, and the banner and the policies endpoint use the same texts.
 
 The resolved text is not sanitized, HTML in the Markdown included: sanitize untrusted texts yourself.
-The resolver is called on every render: cache the texts in your app if needed.
+The package doesn't cache the resolved texts: cache them in your app if needed.
 
 ## Documentation
 

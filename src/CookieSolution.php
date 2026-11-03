@@ -3,6 +3,7 @@
 namespace Keepsuit\CookieSolution;
 
 use Carbon\Carbon;
+use Closure;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Support\Arr;
@@ -35,9 +36,9 @@ class CookieSolution
     protected array $content = [];
 
     /**
-     * @var (\Closure(Policy, string): (Htmlable|string|null))|null
+     * @var (Closure(Policy, string): (Htmlable|string|null))|null
      */
-    protected ?\Closure $policyTextResolver = null;
+    protected ?Closure $policyTextResolver = null;
 
     public function __construct(
         protected MarkdownParser $markdown
@@ -217,11 +218,11 @@ class CookieSolution
     }
 
     /**
-     * Resolves the policy texts before the Markdown files: return an `Htmlable` (printed as is), a Markdown string, or null to fall back to the files.
+     * Resolves the policy texts before the Markdown files; an `Htmlable` is printed as is, null falls back to the files.
      *
-     * @param  (\Closure(Policy, string): (Htmlable|string|null))|null  $resolver
+     * @param  (Closure(Policy, string): (Htmlable|string|null))|null  $resolver
      */
-    public function resolvePolicyTextUsing(?\Closure $resolver): self
+    public function resolvePolicyTextUsing(?Closure $resolver): self
     {
         $this->policyTextResolver = $resolver;
         $this->content = [];
@@ -286,15 +287,18 @@ class CookieSolution
 
     public function cookiePolicyHtml(): HtmlString
     {
-        return $this->policyText(Policy::Cookie, app()->getLocale())
-            ?? $this->policyText(Policy::Cookie, 'en')
-            ?? new HtmlString('');
+        return $this->policyHtml(Policy::COOKIE);
     }
 
     public function privacyPolicyHtml(): HtmlString
     {
-        return $this->policyText(Policy::Privacy, app()->getLocale())
-            ?? $this->policyText(Policy::Privacy, 'en')
+        return $this->policyHtml(Policy::PRIVACY);
+    }
+
+    protected function policyHtml(Policy $policy): HtmlString
+    {
+        return $this->policyText($policy, app()->getLocale())
+            ?? $this->policyText($policy, 'en')
             ?? new HtmlString('');
     }
 

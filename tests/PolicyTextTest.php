@@ -39,7 +39,7 @@ it('falls back to the en text of the resolver when the locale has neither a text
     app()->setLocale('xx');
 
     expect(CookieSolution::privacyPolicyHtml()->toHtml())->toContain('English')
-        ->and($calls)->toBe([[Policy::Privacy, 'xx'], [Policy::Privacy, 'en']]);
+        ->and($calls)->toBe([[Policy::PRIVACY, 'xx'], [Policy::PRIVACY, 'en']]);
 });
 
 it('uses the resolved text in the banner content', function () {
