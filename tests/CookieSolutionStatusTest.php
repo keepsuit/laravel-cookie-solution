@@ -64,6 +64,18 @@ it('load status from cookie when set', function () {
         ->purposeStatus(CookiePurpose::PREFERENCES)->toBeNull();
 });
 
+it('load the newest of duplicate consent cookies', function () {
+    $cookie = fn (bool $marketing) => 'laravel_cookie_solution='.rawurlencode(json_encode([
+        'timestamp' => now()->toIso8601String(),
+        'digest' => CookieSolution::getConfig()['digest'],
+        'purposes' => ['marketing' => $marketing],
+    ]));
+
+    app('request')->headers->set('Cookie', $cookie(true).'; other=1; '.$cookie(false));
+
+    expect(CookieSolution::status()->accepted(CookiePurpose::MARKETING))->toBeFalse();
+});
+
 it('load status from cookie written by the banner script', function () {
     $request = app('request');
     assert($request instanceof Request);

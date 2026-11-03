@@ -9,8 +9,12 @@ export function setCookie(name: string, value: string, expireInDays: number, dom
     )}; expires=${expiresAt.toUTCString()}; path=/; samesite=lax${domain ? `; domain=${domain}` : ''}${secure ? '; secure' : ''}`;
 }
 
+// The last match is the newest: browsers list the oldest first when a host-only and a domain cookie share the name.
 export function readCookie(name: string): string | undefined {
-    const cookie = document.cookie.split(';').find((cookie) => cookie.trim().startsWith(`${name}=`));
+    const cookie = document.cookie
+        .split(';')
+        .filter((cookie) => cookie.trim().startsWith(`${name}=`))
+        .pop();
 
     if (!cookie) {
         return undefined;
@@ -58,11 +62,6 @@ export function readStatus(
 }
 
 export function writeStatus(config: CookieSolutionConfig, status: CookieSolutionStatus): void {
-    if (config.cookie_domain) {
-        // A host-only cookie from before the domain was set would be read first.
-        deleteCookie(config.cookie_name);
-    }
-
     setCookie(
         config.cookie_name,
         JSON.stringify({ ...status, digest: config.digest }),

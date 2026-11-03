@@ -28,10 +28,10 @@ it('generate base config for cookie solution', function () {
         ]);
 });
 
-it('uses the session domain unless a cookie domain is configured', function () {
+it('passes only the configured cookie domain, not the session one', function () {
     config()->set('session.domain', '.example.com');
 
-    expect(CookieSolution::getConfig()['cookie_domain'])->toBe('.example.com');
+    expect(CookieSolution::getConfig()['cookie_domain'])->toBeNull();
 
     config()->set('cookie-solution.cookie_domain', '.shop.example.com');
 

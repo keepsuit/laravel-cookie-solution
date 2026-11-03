@@ -21,7 +21,10 @@ return [
     | Name of the cookie where the user's consent is stored, its lifetime
     | in days and its domain. Changing the name asks every user for consent
     | again. Set the domain (ex. '.example.com') to share the consent across
-    | subdomains; if null, `session.domain` is used.
+    | subdomains (they must register the same services, or each one asks
+    | again), or env('SESSION_DOMAIN') to follow the session cookie. The
+    | domain must cover the current host. If null, the consent applies to
+    | the current host only.
     |
     */
 
@@ -29,7 +32,7 @@ return [
 
     'cookie_lifetime' => 365,
 
-    'cookie_domain' => null,
+    'cookie_domain' => env('COOKIE_SOLUTION_COOKIE_DOMAIN'),
 
     /*
     |--------------------------------------------------------------------------

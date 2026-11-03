@@ -41,6 +41,12 @@ test('writeStatus writes the domain only when configured', () => {
     assert.match(document.cookie, /; domain=\.example\.com/);
 });
 
+test('readStatus reads the newest of duplicate cookies', () => {
+    const old = { ...status, digest: 'abc', purposes: { ...status.purposes, marketing: true } };
+    document.cookie = `${cookie(old)}; ${cookie({ ...status, digest: 'abc' })}`;
+    assert.deepEqual(readStatus(config), { ...status, digest: 'abc' });
+});
+
 test('writeStatus does not mutate its argument', () => {
     const input = { ...status };
     writeStatus(config, input);
