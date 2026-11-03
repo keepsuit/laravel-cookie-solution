@@ -48,3 +48,10 @@ it('uses the resolved text in the banner content', function () {
 
     expect(CookieSolution::getContent()['texts']['information_text'])->toBe('<p>Resolved</p>');
 });
+
+it('returns the policy file of a locale, ignoring the resolver', function () {
+    CookieSolution::resolvePolicyTextUsing(fn () => new HtmlString('<p>Resolved</p>'));
+
+    expect(CookieSolution::defaultPolicyText(Policy::COOKIE, 'it')?->toHtml())->toContain('<h2 part="headings h2">Cosa sono i cookie?</h2>')
+        ->and(CookieSolution::defaultPolicyText(Policy::COOKIE, 'xx'))->toBeNull();
+});
