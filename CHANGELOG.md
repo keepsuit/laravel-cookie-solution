@@ -2,6 +2,25 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.3.0 - 2026-11-03
+
+#### Highlights
+
+- **HTML data owner**: `data_owner.name_and_address` accepts an `Htmlable` (e.g. `HtmlString`), rendered as is. HTML from a rich text editor can be used directly, without converting it to Markdown. Objects can't be cached by `config:cache`, so set it at runtime: `config()->set('cookie-solution.data_owner.name_and_address', new HtmlString($html))`. String values are still parsed as Markdown with HTML escaped.
+- **Policy texts from the app**: `resolvePolicyTextUsing(fn (Policy $policy, string $locale) => ...)` provides the cookie and privacy policy texts before the Markdown files, e.g. per site and locale from a CMS. Return a Markdown string (rendered like the files), an `Htmlable` (printed as is, not sanitized; an empty one hides the text), or `null` to fall back to the files. Used by the policy views, `GET {path}/policies` and the banner. See [Policy texts](https://github.com/keepsuit/laravel-cookie-solution#policy-texts).
+- **Scoped instance**: `CookieSolution` is bound as a scoped instance instead of a singleton, so consent, banner content and services no longer leak across requests and jobs on Octane and queue workers. Register services and resolvers in an `afterResolving` callback, not on the instance during `boot()`: see [UPGRADING.md](https://github.com/keepsuit/laravel-cookie-solution/blob/main/UPGRADING.md#from-22-to-23). Nothing changes on PHP-FPM.
+- **Saved consent in `<head>`**: `window.cookieSolutionSavedStatus()` returns the consent saved for the current configuration (or `undefined`) synchronously, before the deferred script loads, e.g. to set a tracker's default state. It is defined by `cookie-solution::script` and `cookie-solution::google-consent-mode`, or alone with `@include('cookie-solution::status')`; headless frontends render `savedStatusScript(config)` from `@keepsuit/cookie-solution` in the server-side `<head>`. Read in the browser, so full-page caches stay safe. `google-consent-mode` now uses it instead of its own cookie reader. See [saved consent in `<head>`](https://github.com/keepsuit/laravel-cookie-solution/blob/main/docs/headless.md#saved-consent-in-head).
+- **Scripts that wait for consent**: `<script type="text/plain" data-cookie-solution-purposes="statistics marketing">` (inline, or empty with `data-src`; `data-type="module"` for modules) runs once all its purposes are granted, at most once per page and in document order, including scripts added later by client-side navigation. Useful for pixels, chat widgets and tags without a consent API. An unknown purpose never runs and logs a warning; revoking consent needs a reload. See [Scripts that wait for consent](https://github.com/keepsuit/laravel-cookie-solution/blob/main/docs/tracking.md#scripts-that-wait-for-consent).
+
+### What's Changed
+
+* Render an Htmlable data owner name and address as is by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/45
+* Resolve the policy texts from the app by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/54
+* Expose the saved consent synchronously in the head by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/55
+* Run inert scripts once their purposes are granted by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/56
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/2.2.1...2.3.0
+
 ## 2.2.1 - 2026-11-02
 
 ### What's Changed
@@ -89,6 +108,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 
 
