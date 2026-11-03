@@ -8,6 +8,8 @@ import { CookieSolutionToggle } from './components/toggle';
 import { newEmptyStatus, readStatus } from './utils/cookie';
 import { fetchContent } from './utils/content';
 
+export { savedStatusScript } from './saved-status-script';
+
 export type {
     CookieSolutionConfig,
     CookieSolutionContent,

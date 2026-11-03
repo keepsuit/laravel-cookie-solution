@@ -31,7 +31,7 @@
     "license": "MIT",
     "scripts": {
         "dev": "vite build --mode iife --watch",
-        "build": "vite build && vite build --mode iife",
+        "build": "vite build --mode saved-status && vite build && vite build --mode iife",
         "test": "node --test 'resources/js/**/*.test.mjs'",
         "format": "prettier --write resources/js",
         "prepublishOnly": "pnpm build",

@@ -123,3 +123,16 @@ The banner also dispatches two events on `document`, with the status in `event.d
 
 - `cookie-solution-status-default`: once per page, before any change, with the stored consent or only `necessary` granted.
 - `cookie-solution-status-change`: when the user chooses, or when a new `mount()` changes the status in effect (e.g. new services drop the stored consent).
+
+### Saved consent in `<head>`
+
+`getStatus()` works only after `mount()`. To read the saved consent synchronously in `<head>`, before any script loads (e.g. to set a tracker's default state), render the reader in the server-side `<head>`:
+
+```tsx
+import { savedStatusScript } from '@keepsuit/cookie-solution';
+
+<script dangerouslySetInnerHTML={{ __html: savedStatusScript(config) }} />
+```
+
+Then `window.cookieSolutionSavedStatus()` returns the consent saved for the current `digest`, or `undefined`. It reads the cookie on every call, in the browser only, so the server-rendered HTML is the same for every visitor.
+With Blade the reader is included by `cookie-solution::script` and `cookie-solution::google-consent-mode`, or alone with `@include('cookie-solution::status')`. It is not defined when the package is disabled: call it as `window.cookieSolutionSavedStatus?.()`.

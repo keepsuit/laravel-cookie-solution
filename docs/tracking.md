@@ -15,8 +15,14 @@ With Blade, include this view in `<head>` before GTM:
 
 It sets the default from the consent stored in the browser (the page HTML is the same for every visitor, so full-page caches are safe), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
 
-In a headless frontend render the same script in the server-side `<head>`, with `cookie_name` and `digest` from the config endpoint.
+In a headless frontend render the saved status reader and the same script in the server-side `<head>`.
 It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
+
+```tsx
+import { savedStatusScript } from '@keepsuit/cookie-solution';
+
+<script dangerouslySetInnerHTML={{ __html: savedStatusScript(config) }} />
+```
 
 ```html
 <script>
@@ -38,20 +44,10 @@ It restores the stored consent only if it was given for the current configuratio
         };
     }
 
-    (function () {
-        const config = { cookie_name: 'COOKIE_NAME', digest: 'DIGEST' };
-        let purposes = {};
-        try {
-            const value = document.cookie
-                .split('; ')
-                .find((cookie) => cookie.startsWith(config.cookie_name + '='));
-            const status = value && JSON.parse(decodeURIComponent(value.split('=')[1]));
-            if (status && status.digest === config.digest) {
-                purposes = status.purposes;
-            }
-        } catch (e) {}
-        gtag('consent', 'default', { ...cookieSolutionConsent(purposes), wait_for_update: 500 });
-    })();
+    gtag('consent', 'default', {
+        ...cookieSolutionConsent(window.cookieSolutionSavedStatus?.()?.purposes ?? {}),
+        wait_for_update: 500,
+    });
 </script>
 ```
 

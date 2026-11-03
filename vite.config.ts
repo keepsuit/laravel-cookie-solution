@@ -59,11 +59,25 @@ export default defineConfig(({ mode }) => ({
             apply: 'build',
             ...minifyHTML(),
         },
-        mode === 'iife' ? libManifest() : dts(),
+        mode === 'iife' ? libManifest() : mode === 'saved-status' ? null : dts(),
     ],
     build:
-        mode === 'iife'
+        // Built first: the ES build imports it as `?raw`. Old syntax: it sets the consent default, which must never fail.
+        mode === 'saved-status'
             ? {
+                  target: 'es2017',
+                  outDir: 'resources/dist',
+                  emptyOutDir: false,
+                  lib: {
+                      entry: 'resources/js/saved-status.ts',
+                      formats: ['iife'],
+                      name: 'cookieSolutionSavedStatus',
+                      fileName: () => 'saved-status.js',
+                  },
+              }
+            : mode === 'iife'
+            ? {
+                  emptyOutDir: false,
                   outDir: 'resources/dist',
                   lib: {
                       entry: 'resources/js/laravel-cookie-solution.ts',
