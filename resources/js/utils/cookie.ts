@@ -25,7 +25,9 @@ export function deleteCookie(name: string): void {
     setCookie(name, '', -1);
 }
 
-export function readStatus(config: CookieSolutionConfig): CookieSolutionStatus | undefined {
+export function readStatus(
+    config: Pick<CookieSolutionConfig, 'cookie_name' | 'digest'>,
+): CookieSolutionStatus | undefined {
     const value = readCookie(config.cookie_name);
 
     if (!value) {

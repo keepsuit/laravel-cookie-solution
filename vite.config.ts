@@ -59,11 +59,23 @@ export default defineConfig(({ mode }) => ({
             apply: 'build',
             ...minifyHTML(),
         },
-        mode === 'iife' ? libManifest() : dts(),
+        mode === 'iife' ? libManifest() : mode === 'saved-status' ? null : dts(),
     ],
     build:
-        mode === 'iife'
+        mode === 'saved-status'
             ? {
+                  outDir: 'resources/dist',
+                  emptyOutDir: false,
+                  lib: {
+                      entry: 'resources/js/saved-status.ts',
+                      formats: ['iife'],
+                      name: 'cookieSolutionSavedStatus',
+                      fileName: () => 'saved-status.js',
+                  },
+              }
+            : mode === 'iife'
+            ? {
+                  emptyOutDir: false,
                   outDir: 'resources/dist',
                   lib: {
                       entry: 'resources/js/laravel-cookie-solution.ts',

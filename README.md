@@ -203,6 +203,8 @@ Include the cookie solution script in your layout (it's recommended to include i
 @include('cookie-solution::script')
 ```
 
+It also defines `window.cookieSolutionSavedStatus()`, which returns the consent saved for the current configuration (or `undefined`) synchronously, before the deferred script loads. To use it earlier in `<head>`, include `cookie-solution::status` there. See [saved consent in `<head>`](docs/headless.md#saved-consent-in-head).
+
 Register used services in your 'AppServiceProvider' (You can register your own services with `Service` class):
 
 ```php

@@ -1,6 +1,6 @@
 @use('Keepsuit\CookieSolution\Facades\CookieSolution')
 @if(CookieSolution::enabled())
-    @php($config = CookieSolution::getConfig())
+    @include('cookie-solution::status')
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
@@ -21,20 +21,9 @@
         };
     }
 
-    // Read in the browser, not in PHP: a full-page cache would serve one visitor's consent to everyone.
     (function () {
-        var cookieName = @json($config['cookie_name']);
-        var digest = @json($config['digest']);
-        var purposes = {};
-
-        try {
-            var value = document.cookie.split('; ').find(function (cookie) { return cookie.indexOf(cookieName + '=') === 0; });
-            var status = value && JSON.parse(decodeURIComponent(value.slice(cookieName.length + 1)));
-
-            if (status && status.digest === digest && status.purposes) {
-                purposes = status.purposes;
-            }
-        } catch (e) {}
+        var status = window.cookieSolutionSavedStatus();
+        var purposes = status ? status.purposes : {};
 
         gtag('consent', 'default', Object.assign(cookieSolutionConsent(purposes), { wait_for_update: 500 }));
     })();

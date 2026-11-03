@@ -13,6 +13,7 @@ const boot = { ...snapshot(1), content_url: 'http://site.test/content?locale=en'
 const content = snapshot(2);
 const layout = () => test.info().project.metadata.layout;
 const bundle = readFileSync('resources/dist/laravel-cookie-solution.js', 'utf8');
+const savedStatus = readFileSync('resources/dist/saved-status.js', 'utf8');
 
 const acceptedAll = {
     timestamp: new Date().toISOString(),
@@ -104,6 +105,22 @@ test('a stored consent shows only the toggle and loads nothing', async ({ page }
         acceptedAll.purposes,
     );
     expect(requests).toHaveLength(0);
+});
+
+test('the saved status is readable before the bundle loads, only for the current digest', async ({ page }) => {
+    const body = `<script>(function (__cookieSolutionConfig) { ${savedStatus} })(${JSON.stringify({ cookie_name: boot.cookie_name, digest: boot.digest })});
+        window.early = window.cookieSolutionSavedStatus();
+        window.bundleLoaded = 'CookieSolution' in window;</script>`;
+
+    await visit(page, { cookie: acceptedAll, body });
+    expect(await page.evaluate(() => [(window as any).bundleLoaded, (window as any).early?.purposes])).toEqual([
+        false,
+        acceptedAll.purposes,
+    ]);
+
+    await page.context().clearCookies();
+    await visit(page, { cookie: { ...acceptedAll, digest: 'stale' }, body });
+    expect(await page.evaluate(() => (window as any).early)).toBeUndefined();
 });
 
 test('closing on the first visit refuses', async ({ page }) => {

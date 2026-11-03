@@ -8,8 +8,8 @@ it('reads the stored consent in the browser', function () {
 
     expect($output)
         ->toContain('function gtag()', "gtag('consent', 'default'", 'wait_for_update: 500')
-        ->toContain('var cookieName = "laravel_cookie_solution";')
-        ->toContain('var digest = "'.CookieSolution::getConfig()['digest'].'";')
+        ->toContain('window.cookieSolutionSavedStatus=')
+        ->toContain('var status = window.cookieSolutionSavedStatus();')
         ->toContain("document.addEventListener('cookie-solution-status-change'")
         ->toContain("gtag('consent', 'update'")
         ->toContain("dataLayer.push({ event: 'cookie-solution-status-change', status: event.detail.purposes })");

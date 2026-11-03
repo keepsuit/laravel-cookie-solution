@@ -40,6 +40,12 @@ class CookieSolutionAssets
         return $this->getAssetPath(self::SCRIPT_FILENAME);
     }
 
+    // Inlined, so read from the package: published assets may predate it.
+    public function getSavedStatusScript(): string
+    {
+        return trim(file_get_contents(__DIR__.'/../resources/dist/saved-status.js'));
+    }
+
     protected function getAssetPath(string $asset): string
     {
         if ($this->usePublishedAssets) {
