@@ -207,6 +207,78 @@ test('inert scripts with an unknown purpose never run and warn', async ({ page }
     expect(await ran(page)).toEqual([]);
 });
 
+const refusedAll = {
+    ...acceptedAll,
+    purposes: { necessary: true, preferences: false, statistics: false, marketing: false },
+};
+const embed = (purposes: string, id: string, attributes = '') =>
+    `<iframe id="${id}" data-cookie-solution-purposes="${purposes}" data-src="http://embed.test/${id}" ${attributes}></iframe>`;
+const placeholders = (page: Page) => page.locator('cookie-solution-embed-placeholder');
+const embedRequests = async (page: Page) => {
+    const requests: string[] = [];
+    await page.route('http://embed.test/**', (route) => {
+        requests.push(route.request().url());
+        return route.fulfill({ contentType: 'text/html', body: 'embed' });
+    });
+    return requests;
+};
+
+test('iframes wait behind a placeholder, whose button grants their purposes to every iframe', async ({ page }) => {
+    const requests = await embedRequests(page);
+    await visit(page, {
+        cookie: refusedAll,
+        body:
+            embed('marketing', 'video', 'width="560" height="315"') +
+            embed('marketing', 'map') +
+            embed('statistics', 'chart'),
+    });
+
+    await expect(placeholders(page)).toHaveCount(3);
+    await expect(page.locator('iframe')).toHaveCount(3);
+    for (const id of ['video', 'map', 'chart']) {
+        await expect(page.locator(`#${id}`)).toBeHidden();
+        expect(await page.locator(`#${id}`).getAttribute('src')).toBeNull();
+    }
+    expect(await placeholders(page).first().boundingBox()).toMatchObject({ width: 560, height: 315 });
+    await expect(placeholders(page).first()).toContainText(boot.embed_texts.message.replace(':purposes', 'Marketing'));
+
+    await placeholders(page).first().getByRole('button', { name: boot.embed_texts.button }).click();
+
+    await expect(page.locator('#video')).toHaveAttribute('src', 'http://embed.test/video');
+    await expect(page.locator('#map')).toHaveAttribute('src', 'http://embed.test/map');
+    await expect(page.locator('#video')).toBeVisible();
+    await expect(placeholders(page)).toHaveCount(1);
+    expect(await page.locator('#chart').getAttribute('src')).toBeNull();
+    expect(await storedPurposes(page)).toEqual({ ...refusedAll.purposes, marketing: true });
+    expect(requests.sort()).toEqual(['http://embed.test/map', 'http://embed.test/video']);
+});
+
+test('iframes load with a saved consent and go back behind the placeholder when it is revoked', async ({ page }) => {
+    await embedRequests(page);
+    await visit(page, { cookie: acceptedAll, body: embed('marketing', 'video') });
+
+    await expect(page.locator('#video')).toHaveAttribute('src', 'http://embed.test/video');
+    await expect(placeholders(page)).toHaveCount(0);
+
+    await toggle(page).getByRole('button').click();
+    await banner(page).getByRole('button', { name: content.texts.button_refuse }).click();
+
+    await expect(page.locator('#video')).toHaveAttribute('src', 'about:blank');
+    await expect(page.locator('#video')).toBeHidden();
+    await expect(placeholders(page)).toHaveCount(1);
+});
+
+test('iframes with an unknown purpose never load and warn', async ({ page }) => {
+    const warnings: string[] = [];
+    page.on('console', (message) => message.type() === 'warning' && warnings.push(message.text()));
+
+    await visit(page, { cookie: acceptedAll, body: embed('statistic', 'typo') });
+
+    await expect.poll(() => warnings.some((warning) => warning.includes('statistic'))).toBe(true);
+    expect(await page.locator('#typo').getAttribute('src')).toBeNull();
+    await expect(placeholders(page)).toHaveCount(0);
+});
+
 test('closing on the first visit refuses', async ({ page }) => {
     await visit(page);
     await expect(dialog(page)).toBeVisible();
@@ -566,6 +638,18 @@ test.describe('floating layout', () => {
         await page.mouse.wheel(0, 500);
         await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0);
         await expect(dialog(page)).toBeVisible();
+    });
+
+    test('a placeholder grants its purposes and closes the banner open on the first visit', async ({ page }) => {
+        await embedRequests(page);
+        await visit(page, { body: embed('marketing', 'video') });
+        await expect(dialog(page)).toBeVisible();
+
+        await placeholders(page).getByRole('button').click();
+
+        await expect(dialog(page)).toBeHidden();
+        await expect(page.locator('#video')).toHaveAttribute('src', 'http://embed.test/video');
+        expect(await storedPurposes(page)).toEqual({ ...refusedAll.purposes, marketing: true });
     });
 
     test('Esc dismisses only with focus inside the banner', async ({ page }) => {

@@ -11,5 +11,15 @@
     "toggle_enabled": true,
     "toggle_position": "right",
     "toggle_label": "Open cookie settings",
+    "embed_texts": {
+        "message": "This content is provided by a third party that uses cookies for: :purposes.",
+        "button": "Accept and load",
+        "purposes": {
+            "necessary": "Necessary",
+            "preferences": "Preferences",
+            "statistics": "Statistics",
+            "marketing": "Marketing"
+        }
+    },
     "content_url": "http://localhost/cookie-solution/content?locale=en&v=9e8a776df0c78b90abf4c6c269a911d1"
 }

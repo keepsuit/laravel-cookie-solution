@@ -33,6 +33,12 @@ export interface CookieSolutionConfig {
     toggle_enabled: boolean | 'auto';
     toggle_position: 'left' | 'right';
     toggle_label: string;
+    /** Shown in place of iframes waiting for consent; `message` contains `:purposes`. */
+    embed_texts: {
+        message: string;
+        button: string;
+        purposes: Record<CookiePurpose, string>;
+    };
     /** Where the banner loads its content from, the first time it opens. */
     content_url: string;
     /** Inline content (e.g. rendered with SSR): skips the request to `content_url`. */

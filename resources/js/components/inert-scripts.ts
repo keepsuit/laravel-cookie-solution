@@ -44,23 +44,34 @@ export class InertScriptsController implements ReactiveController {
                 continue;
             }
 
-            const purposes = (script.dataset.cookieSolutionPurposes ?? '').split(/\s+/).filter(Boolean);
+            const purposes = parsePurposes(script);
 
-            if (purposes.length === 0 || purposes.some((purpose) => !PURPOSES.includes(purpose as CookiePurpose))) {
+            if (!purposes) {
                 this._handled.add(script);
-                console.warn(
-                    `CookieSolution: invalid data-cookie-solution-purposes "${purposes.join(' ')}", the script will never run.`,
-                    script,
-                );
                 continue;
             }
 
-            if (purposes.every((purpose) => status.purposes[purpose as CookiePurpose])) {
+            if (purposes.every((purpose) => status.purposes[purpose])) {
                 this._handled.add(script);
                 this._queue = this._queue.then(() => (this._observer ? execute(script) : undefined));
             }
         }
     }
+}
+
+/** `undefined`, with a console warning, for an empty list or an unknown purpose: the element never loads. */
+export function parsePurposes(element: HTMLElement): CookiePurpose[] | undefined {
+    const purposes = (element.dataset.cookieSolutionPurposes ?? '').split(/\s+/).filter(Boolean);
+
+    if (purposes.length === 0 || purposes.some((purpose) => !PURPOSES.includes(purpose as CookiePurpose))) {
+        console.warn(
+            `CookieSolution: invalid data-cookie-solution-purposes "${purposes.join(' ')}", the ${element.localName} will never load.`,
+            element,
+        );
+        return undefined;
+    }
+
+    return purposes as CookiePurpose[];
 }
 
 function execute(inert: HTMLScriptElement): Promise<void> {

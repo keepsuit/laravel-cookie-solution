@@ -184,6 +184,16 @@ class CookieSolution
             'toggle_enabled' => config('cookie-solution.toggle_enabled', true),
             'toggle_position' => config('cookie-solution.toggle_position', 'right'),
             'toggle_label' => __('cookie-solution::texts.banner.button_show_banner'),
+            'embed_texts' => [
+                'message' => __('cookie-solution::texts.embed.message'),
+                'button' => __('cookie-solution::texts.embed.button'),
+                'purposes' => [
+                    'necessary' => __('cookie-solution::texts.cookie_policy.purpose_necessary'),
+                    'preferences' => __('cookie-solution::texts.cookie_policy.purpose_preferences'),
+                    'statistics' => __('cookie-solution::texts.cookie_policy.purpose_statistics'),
+                    'marketing' => __('cookie-solution::texts.cookie_policy.purpose_marketing'),
+                ],
+            ],
             'content_url' => route('cookie-solution.content', ['locale' => $locale, 'v' => $this->contentVersion()]),
         ];
     }

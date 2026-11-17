@@ -39,4 +39,9 @@ return [
         'data_processing_owner' => 'Titolare del trattamento dei dati',
         'data_processing_owner_email' => 'Indirizzo email del titolare:',
     ],
+
+    'embed' => [
+        'message' => 'Questo contenuto è fornito da terze parti che usano cookie per: :purposes.',
+        'button' => 'Accetta e carica',
+    ],
 ];
