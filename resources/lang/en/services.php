@@ -30,6 +30,18 @@ return [
             '_ga_*' => 'Used to maintain session status.',
         ],
     ],
+    'google_maps' => [
+        'description' => 'Google Maps is a map service that allows us to show interactive maps on our website. When a map is loaded, Google receives the visitor\'s IP address and may set cookies that it also uses to show ads to signed-out users.',
+        'cookies' => [
+            'NID' => 'Stores preferences and other information, and can be used by Google to show ads to signed-out users.',
+        ],
+    ],
+    'google_recaptcha' => [
+        'description' => 'Google reCAPTCHA is a security service that protects our forms from spam and abuse by analysing how visitors interact with the page. Google processes the collected data only to provide and secure the service.',
+        'cookies' => [
+            '_GRECAPTCHA' => 'Used for the risk analysis that tells humans from bots.',
+        ],
+    ],
     'google_tag_manager' => [
         'description' => 'Google Tag Manager is a service that allows to add and manage various marketing and analytics tags through a single interface. Google Tag Manager does not collect any personal information, but it may pass data to other services such as Google Analytics, Google Ads, and others. You can learn more about Google Tag Manager and its data practices by visiting the Google Tag Manager website.',
     ],
@@ -65,6 +77,29 @@ return [
     ],
     'stripe' => [
         'description' => 'Stripe is a payment service that allows us to accept payments from our customers. Stripe may collect personal information such as names, email addresses, and billing information.',
+    ],
+    'vimeo' => [
+        'description' => 'Vimeo is a video hosting service that allows us to show videos on our website. When a video is loaded, Vimeo receives the visitor\'s IP address and may set cookies to secure the player, remember its preferences and collect viewing statistics for the video owner.',
+        'cookies' => [
+            'player_clearance' => 'Used to protect the player from bots.',
+            'cf_clearance' => 'Set by Cloudflare to protect the player from bots.',
+            '__cf_bm' => 'Set by Cloudflare to recognize bot traffic.',
+            '_cfuvid' => 'Set by Cloudflare to enforce rate limits.',
+            'vuid' => 'Identifies the visitor to generate viewing statistics for the video owner.',
+            'player' => 'Stores the player preferences, such as volume, quality and captions.',
+            'flags' => 'Stores the player features enabled by the video owner.',
+        ],
+    ],
+    'youtube' => [
+        'description' => 'YouTube is a video hosting service that allows us to show videos on our website. When a video is loaded, Google receives the visitor\'s IP address and, when it is played, may set cookies and store data in the browser to secure the player, remember preferences, measure usage and personalize ads.',
+        'cookies' => [
+            'YSC' => 'Ensures that the requests within a browsing session are made by the user.',
+            '__Secure-YEC' => 'Used to detect spam, fraud and abuse.',
+            'PREF' => 'Stores preferences such as the player configuration.',
+            '__Secure-ROLLOUT_TOKEN' => 'Used to launch new features and measure their impact.',
+            '__Secure-YNID' => 'Used for analytics and, depending on the ad settings, for advertising.',
+            'VISITOR_INFO1_LIVE' => 'Used for analytics, personalized recommendations and, depending on the ad settings, for advertising.',
+        ],
     ],
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns is a marketing automation service that allows us to send emails to our customers. Zoho Campaigns may collect personal information such as names, email addresses, and browsing data.',

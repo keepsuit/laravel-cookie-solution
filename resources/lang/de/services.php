@@ -30,6 +30,18 @@ return [
             '_ga_*' => 'Wird verwendet, um den Sitzungsstatus aufrechtzuerhalten.',
         ],
     ],
+    'google_maps' => [
+        'description' => 'Google Maps ist ein Kartendienst, mit dem wir interaktive Karten auf unserer Website anzeigen. Beim Laden einer Karte erhält Google die IP-Adresse des Besuchers und kann Cookies setzen, die es auch verwendet, um nicht angemeldeten Nutzern Werbung anzuzeigen.',
+        'cookies' => [
+            'NID' => 'Speichert Präferenzen und andere Informationen und kann von Google verwendet werden, um nicht angemeldeten Nutzern Werbung anzuzeigen.',
+        ],
+    ],
+    'google_recaptcha' => [
+        'description' => 'Google reCAPTCHA ist ein Sicherheitsdienst, der unsere Formulare vor Spam und Missbrauch schützt, indem er analysiert, wie Besucher mit der Seite interagieren. Google verarbeitet die erhobenen Daten nur, um den Dienst bereitzustellen und zu schützen.',
+        'cookies' => [
+            '_GRECAPTCHA' => 'Wird für die Risikoanalyse verwendet, die Menschen von Bots unterscheidet.',
+        ],
+    ],
     'google_tag_manager' => [
         'description' => 'Google Tag Manager ist ein Dienst, der es ermöglicht, verschiedene Marketing- und Analysetags über eine einzige Schnittstelle hinzuzufügen und zu verwalten. Google Tag Manager erhebt keine persönlichen Informationen, kann jedoch Daten an andere Dienste wie Google Analytics, Google Ads und andere weitergeben. Weitere Informationen zu Google Tag Manager und seinen Datenpraktiken finden Sie auf der Website von Google Tag Manager.',
     ],
@@ -65,6 +77,29 @@ return [
     ],
     'stripe' => [
         'description' => 'Stripe ist ein Zahlungsdienst, der es uns ermöglicht, Zahlungen von unseren Kunden anzunehmen. Stripe kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln.',
+    ],
+    'vimeo' => [
+        'description' => 'Vimeo ist ein Video-Hosting-Dienst, mit dem wir Videos auf unserer Website anzeigen. Beim Laden eines Videos erhält Vimeo die IP-Adresse des Besuchers und kann Cookies setzen, um den Player zu schützen, seine Einstellungen zu speichern und Wiedergabestatistiken für den Eigentümer des Videos zu erheben.',
+        'cookies' => [
+            'player_clearance' => 'Wird verwendet, um den Player vor Bots zu schützen.',
+            'cf_clearance' => 'Wird von Cloudflare gesetzt, um den Player vor Bots zu schützen.',
+            '__cf_bm' => 'Wird von Cloudflare gesetzt, um Bot-Traffic zu erkennen.',
+            '_cfuvid' => 'Wird von Cloudflare gesetzt, um Anfragelimits durchzusetzen.',
+            'vuid' => 'Identifiziert den Besucher, um Wiedergabestatistiken für den Eigentümer des Videos zu erstellen.',
+            'player' => 'Speichert die Einstellungen des Players, wie Lautstärke, Qualität und Untertitel.',
+            'flags' => 'Speichert die vom Eigentümer des Videos aktivierten Player-Funktionen.',
+        ],
+    ],
+    'youtube' => [
+        'description' => 'YouTube ist ein Video-Hosting-Dienst, mit dem wir Videos auf unserer Website anzeigen. Beim Laden eines Videos erhält Google die IP-Adresse des Besuchers und kann bei der Wiedergabe Cookies setzen und Daten im Browser speichern, um den Player zu schützen, Einstellungen zu speichern, die Nutzung zu messen und Werbung zu personalisieren.',
+        'cookies' => [
+            'YSC' => 'Stellt sicher, dass die Anfragen innerhalb einer Browsersitzung vom Nutzer stammen.',
+            '__Secure-YEC' => 'Wird verwendet, um Spam, Betrug und Missbrauch zu erkennen.',
+            'PREF' => 'Speichert Präferenzen wie die Konfiguration des Players.',
+            '__Secure-ROLLOUT_TOKEN' => 'Wird verwendet, um neue Funktionen einzuführen und ihre Wirkung zu messen.',
+            '__Secure-YNID' => 'Wird für Statistiken und, je nach Werbeeinstellungen, für Werbung verwendet.',
+            'VISITOR_INFO1_LIVE' => 'Wird für Statistiken, personalisierte Empfehlungen und, je nach Werbeeinstellungen, für Werbung verwendet.',
+        ],
     ],
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns ist ein Marketing-Automatisierungsdienst, der es uns ermöglicht, E-Mails an unsere Kunden zu senden. Zoho Campaigns kann persönliche Informationen wie Namen, E-Mail-Adressen und Browsing-Daten sammeln.',

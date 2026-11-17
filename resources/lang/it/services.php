@@ -30,6 +30,18 @@ return [
             '_ga_*' => 'Utilizzato per mantenere lo stato della sessione.',
         ],
     ],
+    'google_maps' => [
+        'description' => 'Google Maps è un servizio di mappe che ci consente di mostrare mappe interattive sul nostro sito web. Al caricamento di una mappa Google riceve l\'indirizzo IP del visitatore e può impostare cookie che utilizza anche per mostrare annunci agli utenti non autenticati.',
+        'cookies' => [
+            'NID' => 'Memorizza preferenze e altre informazioni e può essere utilizzato da Google per mostrare annunci agli utenti non autenticati.',
+        ],
+    ],
+    'google_recaptcha' => [
+        'description' => 'Google reCAPTCHA è un servizio di sicurezza che protegge i nostri moduli da spam e abusi analizzando come i visitatori interagiscono con la pagina. Google tratta i dati raccolti solo per fornire e proteggere il servizio.',
+        'cookies' => [
+            '_GRECAPTCHA' => 'Utilizzato per l\'analisi del rischio che distingue le persone dai bot.',
+        ],
+    ],
     'google_tag_manager' => [
         'description' => "Google Tag Manager è un servizio che consente di aggiungere e gestire diversi tag di marketing e analisi attraverso un'unica interfaccia. Google Tag Manager non raccoglie alcuna informazione personale, ma può trasferire i dati ad altri servizi come Google Analytics, Google Ads e altri. Puoi saperne di più su Google Tag Manager e sulle sue pratiche relative ai dati visitando il sito web di Google Tag Manager.",
     ],
@@ -65,6 +77,29 @@ return [
     ],
     'stripe' => [
         'description' => 'Stripe è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. Stripe potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
+    ],
+    'vimeo' => [
+        'description' => 'Vimeo è un servizio di hosting video che ci consente di mostrare video sul nostro sito web. Al caricamento di un video Vimeo riceve l\'indirizzo IP del visitatore e può impostare cookie per proteggere il player, ricordarne le preferenze e raccogliere statistiche di visualizzazione per il proprietario del video.',
+        'cookies' => [
+            'player_clearance' => 'Utilizzato per proteggere il player dai bot.',
+            'cf_clearance' => 'Impostato da Cloudflare per proteggere il player dai bot.',
+            '__cf_bm' => 'Impostato da Cloudflare per riconoscere il traffico dei bot.',
+            '_cfuvid' => 'Impostato da Cloudflare per applicare i limiti di frequenza delle richieste.',
+            'vuid' => 'Identifica il visitatore per generare statistiche di visualizzazione per il proprietario del video.',
+            'player' => 'Memorizza le preferenze del player, come volume, qualità e sottotitoli.',
+            'flags' => 'Memorizza le funzioni del player attivate dal proprietario del video.',
+        ],
+    ],
+    'youtube' => [
+        'description' => 'YouTube è un servizio di hosting video che ci consente di mostrare video sul nostro sito web. Al caricamento di un video Google riceve l\'indirizzo IP del visitatore e, alla riproduzione, può impostare cookie e salvare dati nel browser per proteggere il player, ricordare le preferenze, misurare l\'utilizzo e personalizzare gli annunci.',
+        'cookies' => [
+            'YSC' => 'Verifica che le richieste di una sessione di navigazione provengano dall\'utente.',
+            '__Secure-YEC' => 'Utilizzato per rilevare spam, frodi e abusi.',
+            'PREF' => 'Memorizza preferenze come la configurazione del player.',
+            '__Secure-ROLLOUT_TOKEN' => 'Utilizzato per introdurre nuove funzioni e misurarne l\'impatto.',
+            '__Secure-YNID' => 'Utilizzato per statistiche e, in base alle impostazioni degli annunci, per la pubblicità.',
+            'VISITOR_INFO1_LIVE' => 'Utilizzato per statistiche, consigli personalizzati e, in base alle impostazioni degli annunci, per la pubblicità.',
+        ],
     ],
     'zoho_campaigns' => [
         'description' => 'Zoho Campaigns è un servizio di marketing che ci consente di inviare e-mail ai nostri clienti. Zoho Campaigns potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e dati di navigazione.',
