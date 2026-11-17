@@ -1,4 +1,4 @@
-import { mount } from './index';
+import { defineElements, mount } from './index';
 import type { CookieSolutionConfig } from './types';
 
 // Exposed as `window.CookieSolution` by the IIFE build (`lib.name`).
@@ -13,5 +13,6 @@ declare global {
 if (window._cookieSolution) {
     mount(window._cookieSolution);
 } else {
-    console.error('CookieSolution: No configuration found.');
+    // Pages without a banner still get styled policies.
+    defineElements();
 }
