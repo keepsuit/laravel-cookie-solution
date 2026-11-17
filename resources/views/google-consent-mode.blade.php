@@ -25,8 +25,14 @@
         var status = window.cookieSolutionSavedStatus();
         var purposes = status ? status.purposes : {};
 
-        gtag('consent', 'default', Object.assign(cookieSolutionConsent(purposes), { wait_for_update: 500 }));
+        gtag('consent', 'default', Object.assign(cookieSolutionConsent(purposes), { wait_for_update: {{ (int) config('cookie-solution.google_consent_mode.wait_for_update', 500) }} }));
     })();
+    @if(config('cookie-solution.google_consent_mode.url_passthrough'))
+    gtag('set', 'url_passthrough', true);
+    @endif
+    @if(config('cookie-solution.google_consent_mode.ads_data_redaction'))
+    gtag('set', 'ads_data_redaction', true);
+    @endif
 
     document.addEventListener('cookie-solution-status-change', function (event) {
         gtag('consent', 'update', cookieSolutionConsent(event.detail.purposes));
