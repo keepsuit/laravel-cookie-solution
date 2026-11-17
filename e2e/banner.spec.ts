@@ -21,7 +21,7 @@ const acceptedAll = {
     purposes: { necessary: true, preferences: false, statistics: true, marketing: true },
 };
 
-type Setup = { cookie?: object; config?: object; body?: string; contentDelay?: number; failContent?: number };
+type Setup = { cookie?: object; config?: object | null; body?: string; contentDelay?: number; failContent?: number };
 
 async function visit(page: Page, { cookie, config = boot, body = '', contentDelay = 0, failContent = 0 }: Setup = {}) {
     const requests: string[] = [];
@@ -57,7 +57,7 @@ async function visit(page: Page, { cookie, config = boot, body = '', contentDela
 
         return route.fulfill({
             contentType: 'text/html',
-            body: `<!doctype html><html lang="en"><body>${body}<script>window._cookieSolution = ${JSON.stringify({ ...config, layout: layout() })};</script><script defer src="http://cdn.test/bundle.js"></script></body></html>`,
+            body: `<!doctype html><html lang="en"><body>${body}${config ? `<script>window._cookieSolution = ${JSON.stringify({ ...config, layout: layout() })};</script>` : ''}<script defer src="http://cdn.test/bundle.js"></script></body></html>`,
         });
     });
 
@@ -495,6 +495,22 @@ test('the policy formatter applies its highlight-color attribute and keeps a var
 
     await formatter('attribute').evaluate((el) => el.removeAttribute('highlight-color'));
     await expect.poll(() => highlight('attribute')).toBe('');
+});
+
+test('without a configuration the script mounts no banner and still styles policies', async ({ page }) => {
+    const errors: string[] = [];
+    page.on('console', (message) => message.type() === 'error' && errors.push(message.text()));
+
+    await visit(page, {
+        config: null,
+        body: `<cookie-solution-policy-formatter><p>a</p></cookie-solution-policy-formatter>`,
+    });
+
+    await expect
+        .poll(() => page.locator('cookie-solution-policy-formatter').evaluate((el) => !!el.shadowRoot))
+        .toBe(true);
+    await expect(banner(page)).toHaveCount(0);
+    expect(errors).toEqual([]);
 });
 
 test('the policy formatter follows its color-scheme attribute, nested duration included', async ({ page }) => {
