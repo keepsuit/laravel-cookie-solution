@@ -2,6 +2,28 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.5.0 - 2026-11-17
+
+#### Highlights
+
+- **Embeds that wait for consent**: move an iframe's `src` to `data-src` and list its purposes, e.g. `<iframe data-cookie-solution-purposes="marketing" data-src="https://www.youtube-nocookie.com/embed/…">`. Until they are all granted the iframe is hidden behind a placeholder in the same box (its `class`, `style`, `width` and `height`), whose button grants them: every iframe and inert script waiting for them loads, the other choices are kept and an open banner closes. Revoking the consent unloads the iframe again. Placeholder texts are in the new `embed` translation group. See [Embeds that wait for consent](https://github.com/keepsuit/laravel-cookie-solution/blob/main/docs/tracking.md#embeds-that-wait-for-consent).
+- **Embed services**: `YouTubeServiceFactory`, `GoogleMapsServiceFactory`, `GoogleRecaptchaServiceFactory` and `VimeoServiceFactory` (`->doNotTrack()` for player URLs with `dnt=1`), with the iframe purposes each one needs. Any service can change the purpose of its cookies with `withCookiePurposes(CookiePurpose::MARKETING)` or `withCookiePurposes(['PREF' => CookiePurpose::MARKETING])`.
+- **Google consent mode options**: `google_consent_mode.wait_for_update`, `url_passthrough` and `ads_data_redaction` in the config. The defaults keep today's output, also with a published config without the key.
+- **Policies on pages without a banner**: loaded without `window._cookieSolution`, the script defines the elements (styled policies) instead of logging an error.
+
+#### Upgrade notes
+
+- Headless apps that build `CookieSolutionConfig` by hand, instead of fetching it from the API, must add `embed_texts` (TypeScript).
+
+### What's Changed
+
+* Define the elements when the script has no configuration by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/60
+* Make the Google consent mode options configurable by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/61
+* Block embedded iframes until consent, with a placeholder by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/62
+* Add YouTube, Vimeo, Google Maps and reCAPTCHA service factories by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/63
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/2.4.0...2.5.0
+
 ## 2.4.0 - 2026-11-03
 
 #### Highlights
@@ -123,6 +145,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 
 
