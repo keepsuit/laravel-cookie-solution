@@ -9,24 +9,15 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 /**
  * Google reCAPTCHA. Google classifies `_GRECAPTCHA` as necessary and, since April 2026, processes the data only to provide
- * the service; `purpose()` overrides it for a stricter reading.
+ * the service.
  */
 class GoogleRecaptchaServiceFactory extends ServiceFactory
 {
     protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
 
-    protected CookiePurpose $purpose = CookiePurpose::NECESSARY;
-
     public function location(GoogleDataProcessingLocation $location): static
     {
         $this->location = $location;
-
-        return $this;
-    }
-
-    public function purpose(CookiePurpose $purpose): static
-    {
-        $this->purpose = $purpose;
 
         return $this;
     }
@@ -42,7 +33,7 @@ class GoogleRecaptchaServiceFactory extends ServiceFactory
             cookies: [
                 new Cookie(
                     name: '_GRECAPTCHA',
-                    purpose: $this->purpose,
+                    purpose: CookiePurpose::NECESSARY,
                     // Not published by Google: 6 months as reported by cookie scanners.
                     duration: 180,
                     description: __('cookie-solution::services.google_recaptcha.cookies._GRECAPTCHA'),

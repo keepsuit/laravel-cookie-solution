@@ -30,6 +30,29 @@ class Service implements Arrayable
         ];
     }
 
+    /**
+     * Copy with one purpose for every cookie, or with the purposes of the named cookies changed.
+     *
+     * @param  CookiePurpose|array<string, CookiePurpose>  $purposes
+     */
+    public function withCookiePurposes(CookiePurpose|array $purposes): Service
+    {
+        if (is_array($purposes)) {
+            $unknown = array_diff(array_keys($purposes), array_map(fn (Cookie $cookie) => $cookie->name, $this->cookies));
+
+            if ($unknown !== []) {
+                throw new \InvalidArgumentException(sprintf('Service "%s" has no cookie named "%s".', $this->name, implode('", "', $unknown)));
+            }
+        }
+
+        return $this->cloneWithCookies(array_map(fn (Cookie $cookie) => new Cookie(
+            name: $cookie->name,
+            purpose: is_array($purposes) ? ($purposes[$cookie->name] ?? $cookie->purpose) : $purposes,
+            duration: $cookie->duration,
+            description: $cookie->description,
+        ), $this->cookies));
+    }
+
     public function cloneWithCookies(array $cookies): Service
     {
         return new Service(

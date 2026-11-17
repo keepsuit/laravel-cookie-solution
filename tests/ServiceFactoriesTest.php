@@ -76,7 +76,20 @@ it('lists only the cookies that secure the Vimeo player with do not track', func
         ->toBe(['player_clearance' => 'necessary', 'cf_clearance' => 'necessary', '__cf_bm' => 'necessary', '_cfuvid' => 'necessary']);
 });
 
-it('marks reCAPTCHA necessary unless another purpose is chosen', function () {
-    expect(GoogleRecaptchaServiceFactory::new()->build()->cookies[0]->purpose)->toBe(CookiePurpose::NECESSARY)
-        ->and(GoogleRecaptchaServiceFactory::new()->purpose(CookiePurpose::MARKETING)->build()->cookies[0]->purpose)->toBe(CookiePurpose::MARKETING);
+it('marks reCAPTCHA necessary', function () {
+    expect(GoogleRecaptchaServiceFactory::new()->build()->cookies[0]->purpose)->toBe(CookiePurpose::NECESSARY);
 });
+
+it('changes the purpose of every cookie or of the named ones', function () {
+    $purposes = fn ($service) => collect($service->cookies)->mapWithKeys(fn ($cookie) => [$cookie->name => $cookie->purpose->value])->all();
+    $youtube = YouTubeServiceFactory::new()->build();
+
+    expect(array_unique($purposes($youtube->withCookiePurposes(CookiePurpose::MARKETING))))->toBe(['YSC' => 'marketing'])
+        ->and($purposes($youtube->withCookiePurposes(['PREF' => CookiePurpose::MARKETING])))
+        ->toBe([...$purposes($youtube), 'PREF' => 'marketing'])
+        ->and($youtube->withCookiePurposes(['PREF' => CookiePurpose::MARKETING])->cookies[2]->duration)->toBe(240);
+});
+
+it('rejects a purpose for a cookie the service does not have', function () {
+    YouTubeServiceFactory::new()->build()->withCookiePurposes(['PERF' => CookiePurpose::MARKETING]);
+})->throws(InvalidArgumentException::class, 'Service "YouTube" has no cookie named "PERF".');
