@@ -34,3 +34,29 @@ it('renders nothing when disabled', function () {
 
     expect(trim(view('cookie-solution::google-consent-mode')->render()))->toBe('');
 });
+
+it('renders no optional consent mode settings by default', function () {
+    expect(view('cookie-solution::google-consent-mode')->render())
+        ->not->toContain("gtag('set'");
+});
+
+it('renders the configured consent mode options', function () {
+    config()->set('cookie-solution.google_consent_mode', [
+        'wait_for_update' => 1000,
+        'url_passthrough' => true,
+        'ads_data_redaction' => true,
+    ]);
+
+    expect(view('cookie-solution::google-consent-mode')->render())
+        ->toContain('wait_for_update: 1000')
+        ->toContain("gtag('set', 'url_passthrough', true);")
+        ->toContain("gtag('set', 'ads_data_redaction', true);");
+});
+
+it('keeps the defaults when the published config has no consent mode options', function () {
+    config()->set('cookie-solution.google_consent_mode', null);
+
+    expect(view('cookie-solution::google-consent-mode')->render())
+        ->toContain('wait_for_update: 500')
+        ->not->toContain("gtag('set'");
+});

@@ -116,6 +116,27 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Google Consent Mode
+    |--------------------------------------------------------------------------
+    |
+    | Used by the `cookie-solution::google-consent-mode` view. Google tags
+    | wait `wait_for_update` milliseconds for a consent update before
+    | firing. When ad storage is denied, `url_passthrough` keeps ad click
+    | information in page URLs and `ads_data_redaction` redacts ad click
+    | identifiers.
+    |
+    */
+
+    'google_consent_mode' => [
+        'wait_for_update' => 500,
+
+        'url_passthrough' => false,
+
+        'ads_data_redaction' => false,
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | API
     |--------------------------------------------------------------------------
     |

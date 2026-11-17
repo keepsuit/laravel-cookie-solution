@@ -34,6 +34,14 @@ With Blade, include this view in `<head>` before GTM:
 
 It sets the default from the consent stored in the browser (the page HTML is the same for every visitor, so full-page caches are safe), updates it when the user changes it, and pushes a `cookie-solution-status-change` event to `dataLayer` (usable as a GTM trigger).
 
+Options, under `google_consent_mode` in the config:
+
+| Option | Default | Effect |
+| --- | --- | --- |
+| `wait_for_update` | `500` | Milliseconds Google tags wait for a consent update before firing. |
+| `url_passthrough` | `false` | Renders `gtag('set', 'url_passthrough', true)`: with ad storage denied, ad click information is kept in page URLs. |
+| `ads_data_redaction` | `false` | Renders `gtag('set', 'ads_data_redaction', true)`: with ad storage denied, ad click identifiers are redacted. |
+
 In a headless frontend render the saved status reader and the same script in the server-side `<head>`.
 It restores the stored consent only if it was given for the current configuration (same `digest`): when you change the services, the banner asks again and Google must not keep the old consent.
 
@@ -67,6 +75,9 @@ import { savedStatusScript } from '@keepsuit/cookie-solution';
         ...cookieSolutionConsent(window.cookieSolutionSavedStatus?.()?.purposes ?? {}),
         wait_for_update: 500,
     });
+    // Optional, see the options above:
+    // gtag('set', 'url_passthrough', true);
+    // gtag('set', 'ads_data_redaction', true);
 </script>
 ```
 
