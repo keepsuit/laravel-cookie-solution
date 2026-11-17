@@ -175,3 +175,11 @@ it('passes the auto toggle mode to the script', function () {
 
     expect(CookieSolution::getConfig())->toHaveKey('toggle_enabled', 'auto');
 });
+
+it('translates the embed placeholder in every locale', function (string $locale) {
+    app()->setLocale($locale);
+
+    expect(CookieSolution::getConfig()['embed_texts'])
+        ->message->toContain(':purposes')->not->toStartWith('cookie-solution::')
+        ->button->not->toStartWith('cookie-solution::');
+})->with(['de', 'en', 'es', 'fr', 'it']);

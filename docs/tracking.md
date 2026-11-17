@@ -22,6 +22,27 @@ Any other snippet (a third-party pixel, a chat widget, a tag pasted in a layout)
 - An unknown purpose or an empty list never runs, and logs a warning in the console.
 - They need the banner: with the package disabled (`enabled` false) they never run.
 
+## Embeds that wait for consent
+
+Embedded videos and maps (YouTube, Vimeo, Google Maps…) set cookies as soon as the iframe loads. Move their `src` to `data-src` and list their purposes:
+
+```html
+<iframe
+    data-cookie-solution-purposes="marketing"
+    data-src="https://www.youtube-nocookie.com/embed/VIDEO_ID"
+    width="560"
+    height="315"
+    allowfullscreen
+></iframe>
+```
+
+- While its purposes are not **all** granted, the iframe is hidden and a `<cookie-solution-embed-placeholder>` is shown after it, in the same box (the iframe `class`, `style`, `width` and `height`). It names the purposes and has a button that grants them: every iframe and inert script waiting for them loads, the other choices are kept, and an open banner closes.
+- Once granted, `data-src` becomes `src`. If the consent is later revoked, the iframe is unloaded (`src` becomes `about:blank`) and the placeholder comes back.
+- Iframes added later (e.g. by a client-side navigation) are handled as soon as they are added.
+- An unknown purpose or an empty list never loads, and logs a warning in the console.
+- They need the banner: with the package disabled (`enabled` false) they never load and no placeholder is shown.
+- The placeholder follows the banner `color_scheme` and `highlight_color`; style it with the `embed-placeholder-root`, `embed-placeholder-message` and `embed-placeholder-button` parts. Its texts are in the `embed` group of the translations.
+
 ## Google Tag Manager / Google Analytics (consent mode)
 
 Consent mode requires a default state **before** the GTM/gtag script is loaded.

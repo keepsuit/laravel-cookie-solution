@@ -6,6 +6,7 @@ import { styleSheet } from '../style';
 import { deleteCookie, newEmptyStatus, readStatus, samePurposes, writeStatus } from '../utils/cookie';
 import { fetchContent } from '../utils/content';
 import { InertScriptsController } from './inert-scripts';
+import { EmbedsController } from './embeds';
 import {
     CookieConfig,
     CookiePurpose,
@@ -53,6 +54,8 @@ export class CookieSolutionBanner extends LitElement {
     private _dialogRef = createRef<HTMLDialogElement>();
 
     private _inertScripts = new InertScriptsController(this);
+
+    private _embeds = new EmbedsController(this, (purposes) => this.grant(purposes));
 
     private _pageToggleObserver?: MutationObserver;
 
@@ -113,6 +116,8 @@ export class CookieSolutionBanner extends LitElement {
         }
 
         if (sameConsent) {
+            // Placeholder texts follow the locale.
+            this._embeds.setState(this._status ?? newEmptyStatus(), this.config);
             return;
         }
 
@@ -193,6 +198,7 @@ export class CookieSolutionBanner extends LitElement {
         const current = this._status ?? newEmptyStatus();
 
         this._inertScripts.setStatus(current);
+        this._embeds.setState(current, this.config);
 
         if (!defaultEmitted) {
             defaultEmitted = true;
@@ -210,6 +216,7 @@ export class CookieSolutionBanner extends LitElement {
 
         writeStatus(this.config, this._status);
         this._inertScripts.setStatus(this._status);
+        this._embeds.setState(this._status, this.config);
 
         this._emitStatus('cookie-solution-status-change', this._status);
     }
@@ -403,6 +410,26 @@ export class CookieSolutionBanner extends LitElement {
 
         this._status = stored;
         this.hide();
+    }
+
+    /** Grants the purposes on top of the stored choice (not the unsaved one in the banner), and closes the banner. */
+    grant(purposes: CookiePurpose[]): void {
+        if (!this.config) {
+            return;
+        }
+
+        const stored = readStatus(this.config) ?? newEmptyStatus();
+
+        this._status = {
+            timestamp: new Date().toISOString(),
+            purposes: { ...stored.purposes, ...Object.fromEntries(purposes.map((purpose) => [purpose, true])) },
+        };
+
+        this._saveStatus();
+
+        if (this._showModal && this._showModalStatus !== 'hiding') {
+            this.hide();
+        }
     }
 
     private _onAcceptAll(): void {

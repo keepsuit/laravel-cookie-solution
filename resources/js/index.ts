@@ -2,6 +2,7 @@ import type { CookieSolutionConfig, CookieSolutionContent, CookieSolutionStatus 
 import { CookieSolutionBanner } from './components/banner';
 import { CookieSolutionCollapsable } from './components/collapsable';
 import { CookieSolutionDuration } from './components/duration';
+import { CookieSolutionEmbedPlaceholder } from './components/embedPlaceholder';
 import { CookieSolutionPolicyFormatter } from './components/policyFormatter';
 import { CookieSolutionSwitch } from './components/switch';
 import { CookieSolutionToggle } from './components/toggle';
@@ -23,6 +24,7 @@ export {
     CookieSolutionBanner,
     CookieSolutionCollapsable,
     CookieSolutionDuration,
+    CookieSolutionEmbedPlaceholder,
     CookieSolutionPolicyFormatter,
     CookieSolutionSwitch,
     CookieSolutionToggle,
@@ -33,6 +35,7 @@ declare global {
         'cookie-solution-toggle': CookieSolutionToggle;
         'cookie-solution-banner': CookieSolutionBanner;
         'cookie-solution-duration': CookieSolutionDuration;
+        'cookie-solution-embed-placeholder': CookieSolutionEmbedPlaceholder;
         'cookie-solution-policy-formatter': CookieSolutionPolicyFormatter;
         'cookie-solution--switch': CookieSolutionSwitch;
         'cookie-solution--collapsable': CookieSolutionCollapsable;
@@ -51,6 +54,7 @@ export function defineElements(): void {
         'cookie-solution-banner': CookieSolutionBanner,
         'cookie-solution-toggle': CookieSolutionToggle,
         'cookie-solution-duration': CookieSolutionDuration,
+        'cookie-solution-embed-placeholder': CookieSolutionEmbedPlaceholder,
         'cookie-solution-policy-formatter': CookieSolutionPolicyFormatter,
         'cookie-solution--switch': CookieSolutionSwitch,
         'cookie-solution--collapsable': CookieSolutionCollapsable,

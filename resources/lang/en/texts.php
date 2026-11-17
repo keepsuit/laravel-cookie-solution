@@ -39,4 +39,9 @@ return [
         'data_processing_owner' => 'Data processing owner',
         'data_processing_owner_email' => 'Data owner email:',
     ],
+
+    'embed' => [
+        'message' => 'This content is provided by a third party that uses cookies for: :purposes.',
+        'button' => 'Accept and load',
+    ],
 ];
