@@ -43,6 +43,29 @@ Embedded videos and maps (YouTube, Vimeo, Google Maps…) set cookies as soon as
 - They need the banner: with the package disabled (`enabled` false) they never load and no placeholder is shown.
 - The placeholder follows the banner `color_scheme` and `highlight_color`; style it with the `embed-placeholder-root`, `embed-placeholder-message` and `embed-placeholder-button` parts. Its texts are in the `embed` group of the translations.
 
+### Embed services
+
+Register the service of each embed, so its cookies are listed in the banner and in the cookie policy, and make its iframe wait for the suggested purposes:
+
+| Service | Factory | `data-cookie-solution-purposes` |
+| --- | --- | --- |
+| YouTube | `YouTubeServiceFactory` (`Google`) | `marketing`: Google uses its cookies also for advertising. Prefer `youtube-nocookie.com`: it sets cookies only on play, but still needs consent. |
+| Google Maps | `GoogleMapsServiceFactory` (`Google`) | `marketing`: Google uses `NID` also to show ads to signed-out users. |
+| Vimeo | `VimeoServiceFactory` (`Vimeo`) | `statistics`. With `->doNotTrack()`, for player URLs with `dnt=1`, Vimeo sets only the cookies that secure the player, listed as `necessary`: whether the iframe may then load without consent is the site's assessment. |
+| Google reCAPTCHA | `GoogleRecaptchaServiceFactory` (`Google`) | Not an iframe: load its script as is. `_GRECAPTCHA` is listed as `necessary`, as Google classifies it; since April 2026 Google processes reCAPTCHA data only to provide the service. The CNIL still names reCAPTCHA among captchas that need consent: for that reading use `->purpose(CookiePurpose::MARKETING)` and an [inert script](#scripts-that-wait-for-consent). Loading it from `www.recaptcha.net` avoids the other `google.com` cookies. |
+
+```php
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\YouTubeServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Vimeo\VimeoServiceFactory;
+
+$cookieSolution
+    ->register(YouTubeServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+    ->register(VimeoServiceFactory::new()->doNotTrack()->build());
+```
+
+The cookies are set by the provider's domain: the banner lists them but cannot delete them when consent is revoked.
+
 ## Google Tag Manager / Google Analytics (consent mode)
 
 Consent mode requires a default state **before** the GTM/gtag script is loaded.
