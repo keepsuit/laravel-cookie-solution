@@ -1,2 +1,5 @@
-allowBuilds:
-  esbuild: true
+autoInstallPeers: false
+peerDependencyRules:
+  # The lit minify plugin runs on vite's rolldown.
+  ignoreMissing:
+    - rollup
