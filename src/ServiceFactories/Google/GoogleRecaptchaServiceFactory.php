@@ -4,6 +4,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Google;
 
 use Keepsuit\CookieSolution\Cookie;
 use Keepsuit\CookieSolution\CookiePurpose;
+use Keepsuit\CookieSolution\DataProcessingArea;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
@@ -13,8 +14,21 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class GoogleRecaptchaServiceFactory extends ServiceFactory
 {
+    protected ?GoogleCloudEntity $entity = null;
+
     protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
 
+    /**
+     * Sets the contracting entity (reCAPTCHA is under the Google Cloud terms) and shows the data processing location as worldwide.
+     */
+    public function entity(GoogleCloudEntity $entity): static
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    /** @deprecated Use entity(). */
     public function location(GoogleDataProcessingLocation $location): static
     {
         $this->location = $location;
@@ -26,10 +40,13 @@ class GoogleRecaptchaServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Google reCAPTCHA',
-            provider: $this->location->provider(),
+            provider: ($this->entity ?? match ($this->location) {
+                GoogleDataProcessingLocation::USA => GoogleCloudEntity::USA,
+                GoogleDataProcessingLocation::IRELAND => GoogleCloudEntity::EMEA,
+            })->provider(),
             description: __('cookie-solution::services.google_recaptcha.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->location->country(),
+            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
             cookies: [
                 new Cookie(
                     name: '_GRECAPTCHA',

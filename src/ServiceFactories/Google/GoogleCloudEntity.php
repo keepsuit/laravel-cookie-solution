@@ -3,9 +3,9 @@
 namespace Keepsuit\CookieSolution\ServiceFactories\Google;
 
 /**
- * Contracting entity of the Gemini API paid services, by customer billing address.
+ * Google Cloud contracting entity (Gemini API, reCAPTCHA), by customer billing address.
  */
-enum GeminiEntity
+enum GoogleCloudEntity
 {
     case USA;
     /** EMEA except France, Italy and Poland. */

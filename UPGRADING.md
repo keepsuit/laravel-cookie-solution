@@ -15,7 +15,7 @@ The policy views now pass `color_scheme` to the formatter. Published views don't
 ### Service factories
 
 - `FacebookPixelServiceFactory` now shows the service as "Meta Pixel".
-- `PayPalServiceFactory` and `StripeServiceFactory` now report a data processing location, `USA` by default. Sites serving EEA visitors should pass `PayPalDataProcessingLocation::LUXEMBOURG` or `StripeDataProcessingLocation::IRELAND` to `location()`.
+- `PayPalServiceFactory` and `StripeServiceFactory` now report a data processing location, `USA` by default. Sites serving EEA visitors should pass `PayPalEntity::LUXEMBOURG` or `StripeEntity::IRELAND` to `entity()` (`location()` is deprecated).
 - Google Ads Remarketing, Meta Pixel and Microsoft Clarity list different cookies, so visitors of sites using them are asked for consent again.
 - Misspelled location cases are renamed: `AmazonWebServicesLocation::SINAGAPORE`/`SWEEDEN` to `SINGAPORE`/`SWEDEN`, `DigitalOceanLocation::NEDERLANDS`/`SINAGAPORE` to `NETHERLANDS`/`SINGAPORE`, `ZohoDataProcessingLocation::NEDERLAND` to `NETHERLANDS`. The old names still work as deprecated aliases, but `->name` and `cases()` return the new names.
 

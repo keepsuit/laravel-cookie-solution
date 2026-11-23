@@ -4,13 +4,27 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Meta;
 
 use Keepsuit\CookieSolution\Cookie;
 use Keepsuit\CookieSolution\CookiePurpose;
+use Keepsuit\CookieSolution\DataProcessingArea;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class FacebookPixelServiceFactory extends ServiceFactory
 {
+    protected ?MetaEntity $entity = null;
+
     protected MetaDataProcessingLocation $location = MetaDataProcessingLocation::USA;
 
+    /**
+     * Sets the contracting entity and shows the data processing location as worldwide.
+     */
+    public function entity(MetaEntity $entity): static
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    /** @deprecated Use entity(). */
     public function location(MetaDataProcessingLocation $location): static
     {
         $this->location = $location;
@@ -22,10 +36,10 @@ class FacebookPixelServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Meta Pixel',
-            provider: $this->location->provider(),
+            provider: $this->entity?->provider() ?? $this->location->provider(),
             description: __('cookie-solution::services.facebook_pixel.description'),
             privacyPolicyUrl: 'https://www.facebook.com/privacy/policy/',
-            dataProcessingLocation: $this->location->country(),
+            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
             cookies: [
                 new Cookie(
                     name: '_fbp',

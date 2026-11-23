@@ -4,16 +4,20 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Stripe;
 
 use Symfony\Component\Intl\Countries;
 
+/**
+ * @deprecated Use the factory's `entity()` with StripeEntity, which shows the location as worldwide.
+ */
 enum StripeDataProcessingLocation
 {
     case USA;
     case IRELAND;
 
+    /** @deprecated Use StripeEntity. */
     public function provider(): string
     {
         return match ($this) {
-            self::USA => 'Stripe, LLC',
-            self::IRELAND => 'Stripe Technology Europe, Limited',
+            self::USA => StripeEntity::USA->provider(),
+            self::IRELAND => StripeEntity::IRELAND->provider(),
         };
     }
 

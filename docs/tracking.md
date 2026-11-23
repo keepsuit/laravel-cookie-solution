@@ -55,14 +55,16 @@ Register the service of each embed, so its cookies are listed in the banner and 
 | Google reCAPTCHA | `GoogleRecaptchaServiceFactory` (`Google`) | Not an iframe: load its script as is. `_GRECAPTCHA` is listed as `necessary`, as Google classifies it; since April 2026 Google processes reCAPTCHA data only to provide the service. The CNIL still names reCAPTCHA among captchas that need consent: for that reading use `->build()->withCookiePurposes(CookiePurpose::MARKETING)` and an [inert script](#scripts-that-wait-for-consent). Loading it from `www.recaptcha.net` avoids the other `google.com` cookies. |
 
 ```php
-use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\YouTubeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Vimeo\VimeoServiceFactory;
 
 $cookieSolution
-    ->register(YouTubeServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+    ->register(YouTubeServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
     ->register(VimeoServiceFactory::new()->doNotTrack()->build());
 ```
+
+For YouTube and Google Maps embeds Google is the controller for the visitor's country: `GoogleEntity::IRELAND` (Google Ireland Limited) serves EEA and Swiss visitors, `USA` (Google LLC) the others. Since April 2026 reCAPTCHA is provided under the Google Cloud terms: its `->entity()` takes a `GoogleCloudEntity`, by the site's billing address.
 
 The cookies are set by the provider's domain: the banner lists them but cannot delete them when consent is revoked.
 
