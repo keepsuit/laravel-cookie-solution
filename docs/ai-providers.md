@@ -23,7 +23,7 @@ $cookieSolution->register(
 | --- | --- | --- | --- |
 | `openai` | `OpenAI\OpenAIServiceFactory` | `OpenAIEntity`: `USA` (OpenAI OpCo, LLC), `IRELAND` (OpenAI Ireland Ltd.) | `OpenAIDataProcessingLocation`: `WORLDWIDE`, `EUROPE` (projects with European data residency, `eu.api.openai.com`) |
 | `anthropic` | `Anthropic\AnthropicServiceFactory` | `AnthropicEntity`: `USA` (Anthropic, PBC), `IRELAND` (Anthropic Ireland, Limited) | `AnthropicDataProcessingLocation`: `WORLDWIDE`, `USA` (`us` inference geography) |
-| `gemini` | `Google\GeminiServiceFactory` | `GeminiEntity`: `USA` (Google LLC), `IRELAND` (Google Cloud EMEA Limited), `ITALY` (Google Cloud Italy S.r.l.) | Worldwide |
+| `gemini` | `Google\GeminiServiceFactory` | `GeminiEntity` (by billing address): `USA` (Google LLC), `EMEA` (Google Cloud EMEA Limited, EMEA except France, Italy and Poland), `FRANCE` (Google Cloud France), `ITALY` (Google Cloud Italy S.r.l.), `POLAND` (Google Cloud Poland Sp. z o.o) | Worldwide |
 | `azure` | `Microsoft\AzureOpenAIServiceFactory` | `MicrosoftEntity`: `USA` (Microsoft Corporation), `IRELAND` (Microsoft Ireland Operations Limited) | `AzureOpenAIDataProcessingLocation`: `WORLDWIDE` (Global deployment), `EUROPE`, `USA` (Data Zone deployments) |
 | `bedrock` | `Amazon\AmazonBedrockServiceFactory` | `AmazonWebServicesEntity`: `USA` (Amazon Web Services, Inc.), `LUXEMBOURG` (Amazon Web Services EMEA SARL) | `AmazonWebServicesLocation::USA` (`us-east-1`, the `laravel/ai` default), any `AmazonWebServicesLocation`, or `DataProcessingArea::EUROPE` / `WORLDWIDE` for cross-region inference profiles |
 | `mistral` | `Mistral\MistralServiceFactory` | Mistral AI | `MistralDataProcessingLocation`: `EUROPE`, `USA` (`api.us.mistral.ai`) |
