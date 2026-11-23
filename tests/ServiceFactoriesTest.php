@@ -2,10 +2,19 @@
 
 use Illuminate\Support\Arr;
 use Keepsuit\CookieSolution\CookiePurpose;
+use Keepsuit\CookieSolution\DataProcessingArea;
+use Keepsuit\CookieSolution\ServiceFactories\Amazon\AmazonBedrockServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Amazon\AmazonWebServicesEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Amazon\AmazonWebServicesLocation;
 use Keepsuit\CookieSolution\ServiceFactories\Amazon\AmazonWebServicesServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Anthropic\AnthropicDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Anthropic\AnthropicEntity;
+use Keepsuit\CookieSolution\ServiceFactories\Anthropic\AnthropicServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Cloudflare\CloudflareAiGatewayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\DigitalOcean\DigitalOceanLocation;
 use Keepsuit\CookieSolution\ServiceFactories\DigitalOcean\DigitalOceanServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GeminiEntity;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GeminiServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAdsRemarketingServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
@@ -13,11 +22,23 @@ use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleMapsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleRecaptchaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\YouTubeServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Groq\GroqEntity;
+use Keepsuit\CookieSolution\ServiceFactories\Groq\GroqServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Klarna\KlarnaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Mailchimp\MailchimpServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftClarityServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftEntity;
+use Keepsuit\CookieSolution\ServiceFactories\Mistral\MistralDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Mistral\MistralServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\OpenAI\OpenAIDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\OpenAI\OpenAIEntity;
+use Keepsuit\CookieSolution\ServiceFactories\OpenAI\OpenAIServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\OpenRouter\OpenRouterDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\OpenRouter\OpenRouterServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogAnalyticsServiceFactory;
@@ -25,7 +46,10 @@ use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogDataProcessingLocati
 use Keepsuit\CookieSolution\ServiceFactories\Scalapay\ScalapayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\TypeSafe\TypeSafeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Vimeo\VimeoServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\XAI\XAIDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\XAI\XAIServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoCampaignsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoDataProcessingLocation;
 
@@ -44,15 +68,35 @@ it('builds every service in every location without untranslated keys', function 
         [PostHogAnalyticsServiceFactory::class, PostHogDataProcessingLocation::class],
         [StripeServiceFactory::class, StripeDataProcessingLocation::class],
         [ZohoCampaignsServiceFactory::class, ZohoDataProcessingLocation::class],
+        [AnthropicServiceFactory::class, AnthropicDataProcessingLocation::class],
+        [AzureAiServiceFactory::class, AzureAiDataProcessingLocation::class],
+        [AmazonBedrockServiceFactory::class, AmazonWebServicesLocation::class],
+        [AmazonBedrockServiceFactory::class, DataProcessingArea::class],
+        [MistralServiceFactory::class, MistralDataProcessingLocation::class],
+        [OpenAIServiceFactory::class, OpenAIDataProcessingLocation::class],
+        [OpenRouterServiceFactory::class, OpenRouterDataProcessingLocation::class],
+        [XAIServiceFactory::class, XAIDataProcessingLocation::class],
+    ];
+
+    $entities = [
+        [AmazonBedrockServiceFactory::class, AmazonWebServicesEntity::class],
+        [AnthropicServiceFactory::class, AnthropicEntity::class],
+        [AzureAiServiceFactory::class, MicrosoftEntity::class],
+        [GeminiServiceFactory::class, GeminiEntity::class],
+        [GroqServiceFactory::class, GroqEntity::class],
+        [OpenAIServiceFactory::class, OpenAIEntity::class],
     ];
 
     $services = collect($located)
         ->flatMap(fn (array $pair) => array_map(fn ($location) => $pair[0]::new()->location($location)->build(), $pair[1]::cases()))
+        ->merge(collect($entities)->flatMap(fn (array $pair) => array_map(fn ($entity) => $pair[0]::new()->entity($entity)->build(), $pair[1]::cases())))
         ->merge(array_map(fn (string $factory) => $factory::new()->build(), [
             KlarnaServiceFactory::class,
             MailchimpServiceFactory::class,
             MicrosoftClarityServiceFactory::class,
             ScalapayServiceFactory::class,
+            CloudflareAiGatewayServiceFactory::class,
+            TypeSafeServiceFactory::class,
             VimeoServiceFactory::class,
         ]))
         ->push(VimeoServiceFactory::new()->doNotTrack()->build());
@@ -65,6 +109,27 @@ it('has the same service translation keys in every language', function (string $
 
     expect($keys($locale))->toEqualCanonicalizing($keys('en'));
 })->with(['de', 'es', 'fr', 'it']);
+
+it('has the same data processing area translations in every language', function (string $locale) {
+    $areas = fn (string $locale) => array_keys((require __DIR__."/../resources/lang/{$locale}/texts.php")['data_processing_areas']);
+
+    expect($areas($locale))->toBe(array_map(fn (DataProcessingArea $area) => $area->value, DataProcessingArea::cases()));
+})->with(['de', 'en', 'es', 'fr', 'it']);
+
+it('shows an area as the location of services processed outside a single country', function () {
+    app()->setLocale('it');
+
+    expect(OpenAIServiceFactory::new()->build()->dataProcessingLocation)->toBe('In tutto il mondo')
+        ->and(OpenAIServiceFactory::new()->location(OpenAIDataProcessingLocation::EUROPE)->build()->dataProcessingLocation)->toBe('Europa')
+        ->and(AmazonBedrockServiceFactory::new()->build()->dataProcessingLocation)->toBe('Stati Uniti')
+        ->and(AmazonBedrockServiceFactory::new()->location(DataProcessingArea::EUROPE)->build()->dataProcessingLocation)->toBe('Europa');
+});
+
+it('links the OpenAI privacy policy of the chosen entity', function () {
+    expect(OpenAIServiceFactory::new()->entity(OpenAIEntity::IRELAND)->build())
+        ->provider->toBe('OpenAI Ireland Ltd.')
+        ->privacyPolicyUrl->toBe('https://openai.com/policies/eu-privacy-policy/');
+});
 
 it('lists only the cookies that secure the Vimeo player with do not track', function () {
     $purposes = fn (VimeoServiceFactory $factory) => collect($factory->build()->cookies)->mapWithKeys(fn ($cookie) => [$cookie->name => $cookie->purpose->value])->all();

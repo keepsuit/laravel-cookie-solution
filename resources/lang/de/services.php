@@ -1,8 +1,20 @@
 <?php
 
 return [
+    'amazon_bedrock' => [
+        'description' => 'Amazon Bedrock ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Amazon Bedrock übermittelt.',
+    ],
     'amazon_web_services' => [
         'description' => 'Amazon Web Services (AWS) ist ein Hosting-Dienst, der es uns ermöglicht, Daten auf sichere und zuverlässige Weise zu speichern und zu verarbeiten. Auf AWS gespeicherte Daten können persönliche Informationen wie Namen, E-Mail-Adressen und Browsing-Daten enthalten. Amazon kann die Daten gemäß seiner eigenen Datenschutzrichtlinie verwenden, die auf der Website von Amazon Web Services zu finden ist. Wir ergreifen angemessene Maßnahmen, um sicherzustellen, dass auf AWS gespeicherte Daten geschützt und sicher sind, können jedoch die absolute Sicherheit von auf Servern Dritter gespeicherten Daten nicht garantieren.',
+    ],
+    'anthropic' => [
+        'description' => 'Anthropic ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Anthropic übermittelt.',
+    ],
+    'azure_ai' => [
+        'description' => 'Azure AI ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Azure AI übermittelt.',
+    ],
+    'cloudflare_ai_gateway' => [
+        'description' => 'Cloudflare AI Gateway ist ein Dienst, der Anfragen an KI-Anbieter weiterleitet. Texte, Dateien und andere Inhalte, die an die Funktionen unserer Website gesendet werden, die ihn nutzen, und personenbezogene Daten enthalten können, laufen über Cloudflare.',
     ],
     'digital_ocean' => [
         'description' => 'DigitalOcean ist ein Hosting-Dienst, der es uns ermöglicht, Daten auf sichere und zuverlässige Weise zu speichern und zu verarbeiten. Auf DigitalOcean gespeicherte Daten können persönliche Informationen wie Namen, E-Mail-Adressen und Browsing-Daten enthalten. DigitalOcean kann die Daten gemäß seiner eigenen Datenschutzrichtlinie verwenden, die auf der Website von DigitalOcean zu finden ist.',
@@ -30,6 +42,9 @@ return [
             '_ga_*' => 'Wird verwendet, um den Sitzungsstatus aufrechtzuerhalten.',
         ],
     ],
+    'google_gemini' => [
+        'description' => 'Google Gemini ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Google Gemini übermittelt.',
+    ],
     'google_maps' => [
         'description' => 'Google Maps ist ein Kartendienst, mit dem wir interaktive Karten auf unserer Website anzeigen. Beim Laden einer Karte erhält Google die IP-Adresse des Besuchers und kann Cookies setzen, die es auch verwendet, um nicht angemeldeten Nutzern Werbung anzuzeigen.',
         'cookies' => [
@@ -44,6 +59,9 @@ return [
     ],
     'google_tag_manager' => [
         'description' => 'Google Tag Manager ist ein Dienst, der es ermöglicht, verschiedene Marketing- und Analysetags über eine einzige Schnittstelle hinzuzufügen und zu verwalten. Google Tag Manager erhebt keine persönlichen Informationen, kann jedoch Daten an andere Dienste wie Google Analytics, Google Ads und andere weitergeben. Weitere Informationen zu Google Tag Manager und seinen Datenpraktiken finden Sie auf der Website von Google Tag Manager.',
+    ],
+    'groq' => [
+        'description' => 'Groq ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Groq übermittelt.',
     ],
     'klarna' => [
         'description' => 'Klarna ist ein Zahlungsdienst, der es uns ermöglicht, Ratenzahlungen von unseren Kunden anzunehmen. Klarna kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln, um die Eignung des Benutzers für seine Zahlungsmethoden zu bewerten und diese Zahlungsmethoden zu personalisieren.',
@@ -63,6 +81,15 @@ return [
             'SM' => 'Wird verwendet, um das MUID-Cookie zwischen Microsoft-Domains zu synchronisieren.',
         ],
     ],
+    'mistral' => [
+        'description' => 'Mistral AI ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an Mistral AI übermittelt.',
+    ],
+    'openai' => [
+        'description' => 'OpenAI ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an OpenAI übermittelt.',
+    ],
+    'openrouter' => [
+        'description' => 'OpenRouter ist ein Dienst, der Anfragen an die KI-Modelle verschiedener Anbieter weiterleitet. Texte, Dateien und andere Inhalte, die an die Funktionen unserer Website gesendet werden, die ihn nutzen, und personenbezogene Daten enthalten können, werden an OpenRouter und an die Anbieter der verwendeten Modelle übermittelt.',
+    ],
     'paypal' => [
         'description' => 'PayPal ist ein Zahlungsdienst, der es uns ermöglicht, Zahlungen von unseren Kunden anzunehmen. PayPal kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln.',
     ],
@@ -78,6 +105,9 @@ return [
     'stripe' => [
         'description' => 'Stripe ist ein Zahlungsdienst, der es uns ermöglicht, Zahlungen von unseren Kunden anzunehmen. Stripe kann persönliche Informationen wie Namen, E-Mail-Adressen und Rechnungsinformationen sammeln.',
     ],
+    'typesafe' => [
+        'description' => 'TypeSafe ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an TypeSafe übermittelt.',
+    ],
     'vimeo' => [
         'description' => 'Vimeo ist ein Video-Hosting-Dienst, mit dem wir Videos auf unserer Website anzeigen. Beim Laden eines Videos erhält Vimeo die IP-Adresse des Besuchers und kann Cookies setzen, um den Player zu schützen, seine Einstellungen zu speichern und Wiedergabestatistiken für den Eigentümer des Videos zu erheben.',
         'cookies' => [
@@ -89,6 +119,9 @@ return [
             'player' => 'Speichert die Einstellungen des Players, wie Lautstärke, Qualität und Untertitel.',
             'flags' => 'Speichert die vom Eigentümer des Videos aktivierten Player-Funktionen.',
         ],
+    ],
+    'xai' => [
+        'description' => 'xAI ist ein Dienst für künstliche Intelligenz, den wir für einige Funktionen unserer Website nutzen. Texte, Dateien und andere Inhalte, die an diese Funktionen gesendet werden und personenbezogene Daten enthalten können, werden zur Verarbeitung an xAI übermittelt.',
     ],
     'youtube' => [
         'description' => 'YouTube ist ein Video-Hosting-Dienst, mit dem wir Videos auf unserer Website anzeigen. Beim Laden eines Videos erhält Google die IP-Adresse des Besuchers und kann bei der Wiedergabe Cookies setzen und Daten im Browser speichern, um den Player zu schützen, Einstellungen zu speichern, die Nutzung zu messen und Werbung zu personalisieren.',

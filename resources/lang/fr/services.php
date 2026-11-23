@@ -1,8 +1,20 @@
 <?php
 
 return [
+    'amazon_bedrock' => [
+        'description' => 'Amazon Bedrock est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Amazon Bedrock pour être traités.',
+    ],
     'amazon_web_services' => [
         'description' => 'Amazon Web Services (AWS) est un service d\'hébergement qui nous permet de stocker et de traiter des données de manière sécurisée et fiable. Les données stockées sur AWS peuvent inclure des informations personnelles telles que des noms, des adresses électroniques et des données de navigation. Amazon peut utiliser les données conformément à sa propre politique de confidentialité, qui peut être consultée sur le site Web d\'Amazon Web Services. Nous prenons des mesures raisonnables pour garantir que les données stockées sur AWS sont protégées et sécurisées, mais nous ne pouvons pas garantir la sécurité absolue des données stockées sur des serveurs tiers.',
+    ],
+    'anthropic' => [
+        'description' => 'Anthropic est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Anthropic pour être traités.',
+    ],
+    'azure_ai' => [
+        'description' => 'Azure AI est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Azure AI pour être traités.',
+    ],
+    'cloudflare_ai_gateway' => [
+        'description' => 'Cloudflare AI Gateway est un service qui transmet les requêtes aux fournisseurs d\'intelligence artificielle. Les textes, fichiers et autres contenus envoyés aux fonctionnalités de notre site qui l\'utilisent, qui peuvent contenir des données personnelles, transitent par Cloudflare.',
     ],
     'digital_ocean' => [
         'description' => 'DigitalOcean est un service d\'hébergement qui nous permet de stocker et de traiter des données de manière sécurisée et fiable. Les données stockées sur DigitalOcean peuvent inclure des informations personnelles telles que des noms, des adresses électroniques et des données de navigation. DigitalOcean peut utiliser les données conformément à sa propre politique de confidentialité, qui peut être consultée sur le site Web de DigitalOcean.',
@@ -30,6 +42,9 @@ return [
             '_ga_*' => 'Utilisé pour maintenir l\'état de la session.',
         ],
     ],
+    'google_gemini' => [
+        'description' => 'Google Gemini est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Google Gemini pour être traités.',
+    ],
     'google_maps' => [
         'description' => 'Google Maps est un service de cartographie qui nous permet d\'afficher des cartes interactives sur notre site web. Au chargement d\'une carte, Google reçoit l\'adresse IP du visiteur et peut déposer des cookies qu\'il utilise aussi pour afficher des annonces aux utilisateurs non connectés.',
         'cookies' => [
@@ -44,6 +59,9 @@ return [
     ],
     'google_tag_manager' => [
         'description' => 'Google Tag Manager est un service qui permet d\'ajouter et de gérer diverses balises marketing et analytiques via une seule interface. Google Tag Manager ne collecte aucune information personnelle, mais il peut transmettre des données à d\'autres services tels que Google Analytics, Google Ads, et d\'autres. Vous pouvez en savoir plus sur Google Tag Manager et sur ses pratiques en matière de données en visitant le site Web de Google Tag Manager.',
+    ],
+    'groq' => [
+        'description' => 'Groq est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Groq pour être traités.',
     ],
     'klarna' => [
         'description' => 'Klarna est un service de paiement qui nous permet d\'accepter des paiements échelonnés de nos clients. Klarna peut collecter des informations personnelles telles que des noms, des adresses électroniques et des informations de facturation afin d\'évaluer l\'adéquation de l\'utilisateur à ses méthodes de paiement et de personnaliser ces méthodes de paiement.',
@@ -63,6 +81,15 @@ return [
             'SM' => 'Utilisé pour synchroniser le cookie MUID entre les domaines Microsoft.',
         ],
     ],
+    'mistral' => [
+        'description' => 'Mistral AI est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à Mistral AI pour être traités.',
+    ],
+    'openai' => [
+        'description' => 'OpenAI est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à OpenAI pour être traités.',
+    ],
+    'openrouter' => [
+        'description' => 'OpenRouter est un service qui transmet les requêtes aux modèles d\'intelligence artificielle de plusieurs fournisseurs. Les textes, fichiers et autres contenus envoyés aux fonctionnalités de notre site qui l\'utilisent, qui peuvent contenir des données personnelles, sont transmis à OpenRouter et aux fournisseurs des modèles utilisés.',
+    ],
     'paypal' => [
         'description' => 'PayPal est un service de paiement qui nous permet d\'accepter des paiements de nos clients. PayPal peut collecter des informations personnelles telles que des noms, des adresses électroniques et des informations de facturation.',
     ],
@@ -78,6 +105,9 @@ return [
     'stripe' => [
         'description' => 'Stripe est un service de paiement qui nous permet d\'accepter des paiements de nos clients. Stripe peut collecter des informations personnelles telles que des noms, des adresses électroniques et des informations de facturation.',
     ],
+    'typesafe' => [
+        'description' => 'TypeSafe est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à TypeSafe pour être traités.',
+    ],
     'vimeo' => [
         'description' => 'Vimeo est un service d\'hébergement vidéo qui nous permet d\'afficher des vidéos sur notre site web. Au chargement d\'une vidéo, Vimeo reçoit l\'adresse IP du visiteur et peut déposer des cookies pour sécuriser le lecteur, mémoriser ses préférences et collecter des statistiques de visionnage pour le propriétaire de la vidéo.',
         'cookies' => [
@@ -89,6 +119,9 @@ return [
             'player' => 'Enregistre les préférences du lecteur, comme le volume, la qualité et les sous-titres.',
             'flags' => 'Enregistre les fonctionnalités du lecteur activées par le propriétaire de la vidéo.',
         ],
+    ],
+    'xai' => [
+        'description' => 'xAI est un service d\'intelligence artificielle que nous utilisons pour fournir certaines fonctionnalités de notre site. Les textes, fichiers et autres contenus envoyés à ces fonctionnalités, qui peuvent contenir des données personnelles, sont transmis à xAI pour être traités.',
     ],
     'youtube' => [
         'description' => 'YouTube est un service d\'hébergement vidéo qui nous permet d\'afficher des vidéos sur notre site web. Au chargement d\'une vidéo, Google reçoit l\'adresse IP du visiteur et, lors de la lecture, peut déposer des cookies et enregistrer des données dans le navigateur pour sécuriser le lecteur, mémoriser les préférences, mesurer l\'utilisation et personnaliser les annonces.',

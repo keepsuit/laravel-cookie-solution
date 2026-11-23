@@ -1,8 +1,20 @@
 <?php
 
 return [
+    'amazon_bedrock' => [
+        'description' => 'Amazon Bedrock is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Amazon Bedrock for processing.',
+    ],
     'amazon_web_services' => [
         'description' => 'Amazon Web Services (AWS) is hosting service that allows us to store and process data in a secure and reliable manner. Data stored on AWS may include personal information such as names, email addresses, and browsing data. Amazon may use the data in accordance with its own privacy policy, which can be found on the Amazon Web Services website. We take reasonable steps to ensure that data stored on AWS is protected and secure, but we cannot guarantee the absolute security of data stored on third-party servers.',
+    ],
+    'anthropic' => [
+        'description' => 'Anthropic is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Anthropic for processing.',
+    ],
+    'azure_ai' => [
+        'description' => 'Azure AI is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Azure AI for processing.',
+    ],
+    'cloudflare_ai_gateway' => [
+        'description' => 'Cloudflare AI Gateway is a service that forwards requests to artificial intelligence providers. The texts, files and other content sent to the features of our website that use it, which may include personal data, pass through Cloudflare.',
     ],
     'digital_ocean' => [
         'description' => 'DigitalOcean is a hosting service that allows us to store and process data in a secure and reliable manner. Data stored on DigitalOcean may include personal information such as names, email addresses, and browsing data. DigitalOcean may use the data in accordance with its own privacy policy, which can be found on the DigitalOcean website.',
@@ -30,6 +42,9 @@ return [
             '_ga_*' => 'Used to maintain session status.',
         ],
     ],
+    'google_gemini' => [
+        'description' => 'Google Gemini is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Google Gemini for processing.',
+    ],
     'google_maps' => [
         'description' => 'Google Maps is a map service that allows us to show interactive maps on our website. When a map is loaded, Google receives the visitor\'s IP address and may set cookies that it also uses to show ads to signed-out users.',
         'cookies' => [
@@ -44,6 +59,9 @@ return [
     ],
     'google_tag_manager' => [
         'description' => 'Google Tag Manager is a service that allows to add and manage various marketing and analytics tags through a single interface. Google Tag Manager does not collect any personal information, but it may pass data to other services such as Google Analytics, Google Ads, and others. You can learn more about Google Tag Manager and its data practices by visiting the Google Tag Manager website.',
+    ],
+    'groq' => [
+        'description' => 'Groq is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Groq for processing.',
     ],
     'klarna' => [
         'description' => 'Klarna is a payment service that allows us to accept installment payments from our customers. Klarna may collect personal information such as names, email addresses, and billing information in order to evaluate the user\'s suitability for its payment methods and personalize those payment methods.',
@@ -63,6 +81,15 @@ return [
             'SM' => 'Used to synchronize the MUID cookie across Microsoft domains.',
         ],
     ],
+    'mistral' => [
+        'description' => 'Mistral AI is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to Mistral AI for processing.',
+    ],
+    'openai' => [
+        'description' => 'OpenAI is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to OpenAI for processing.',
+    ],
+    'openrouter' => [
+        'description' => 'OpenRouter is a service that forwards requests to the artificial intelligence models of several providers. The texts, files and other content sent to the features of our website that use it, which may include personal data, are transmitted to OpenRouter and to the providers of the models used.',
+    ],
     'paypal' => [
         'description' => 'PayPal is a payment service that allows us to accept payments from our customers. PayPal may collect personal information such as names, email addresses, and billing information.',
     ],
@@ -78,6 +105,9 @@ return [
     'stripe' => [
         'description' => 'Stripe is a payment service that allows us to accept payments from our customers. Stripe may collect personal information such as names, email addresses, and billing information.',
     ],
+    'typesafe' => [
+        'description' => 'TypeSafe is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to TypeSafe for processing.',
+    ],
     'vimeo' => [
         'description' => 'Vimeo is a video hosting service that allows us to show videos on our website. When a video is loaded, Vimeo receives the visitor\'s IP address and may set cookies to secure the player, remember its preferences and collect viewing statistics for the video owner.',
         'cookies' => [
@@ -89,6 +119,9 @@ return [
             'player' => 'Stores the player preferences, such as volume, quality and captions.',
             'flags' => 'Stores the player features enabled by the video owner.',
         ],
+    ],
+    'xai' => [
+        'description' => 'xAI is an artificial intelligence service that we use to provide some features of our website. The texts, files and other content sent to these features, which may include personal data, are transmitted to xAI for processing.',
     ],
     'youtube' => [
         'description' => 'YouTube is a video hosting service that allows us to show videos on our website. When a video is loaded, Google receives the visitor\'s IP address and, when it is played, may set cookies and store data in the browser to secure the player, remember preferences, measure usage and personalize ads.',

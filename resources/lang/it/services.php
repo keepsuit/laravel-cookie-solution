@@ -1,8 +1,20 @@
 <?php
 
 return [
+    'amazon_bedrock' => [
+        'description' => 'Amazon Bedrock è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Amazon Bedrock.',
+    ],
     'amazon_web_services' => [
         'description' => "Amazon Web Services (AWS) è un servizio di hosting che ci consente di archiviare ed elaborare i dati in modo sicuro e affidabile. I dati archiviati su AWS possono includere informazioni personali come nomi, indirizzi e-mail e dati di navigazione. Amazon può utilizzare i dati in conformità con la propria politica sulla privacy, che può essere trovata sul sito web di Amazon Web Services. Adottiamo misure ragionevoli per garantire che i dati archiviati su AWS siano protetti e sicuri, ma non possiamo garantire l'assoluta sicurezza dei dati archiviati su server di terze parti.",
+    ],
+    'anthropic' => [
+        'description' => 'Anthropic è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Anthropic.',
+    ],
+    'azure_ai' => [
+        'description' => 'Azure AI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Azure AI.',
+    ],
+    'cloudflare_ai_gateway' => [
+        'description' => 'Cloudflare AI Gateway è un servizio che inoltra le richieste ai fornitori di intelligenza artificiale. I testi, i file e gli altri contenuti inviati alle funzionalità del nostro sito che lo utilizzano, che possono includere dati personali, transitano da Cloudflare.',
     ],
     'digital_ocean' => [
         'description' => 'DigitalOcean è un servizio di hosting che ci consente di archiviare ed elaborare i dati in modo sicuro e affidabile. I dati archiviati su DigitalOcean possono includere informazioni personali come nomi, indirizzi e-mail e dati di navigazione. DigitalOcean può utilizzare i dati in conformità con la propria politica sulla privacy, che può essere trovata sul sito web di DigitalOcean.',
@@ -30,6 +42,9 @@ return [
             '_ga_*' => 'Utilizzato per mantenere lo stato della sessione.',
         ],
     ],
+    'google_gemini' => [
+        'description' => 'Google Gemini è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Google Gemini.',
+    ],
     'google_maps' => [
         'description' => 'Google Maps è un servizio di mappe che ci consente di mostrare mappe interattive sul nostro sito web. Al caricamento di una mappa Google riceve l\'indirizzo IP del visitatore e può impostare cookie che utilizza anche per mostrare annunci agli utenti non autenticati.',
         'cookies' => [
@@ -44,6 +59,9 @@ return [
     ],
     'google_tag_manager' => [
         'description' => "Google Tag Manager è un servizio che consente di aggiungere e gestire diversi tag di marketing e analisi attraverso un'unica interfaccia. Google Tag Manager non raccoglie alcuna informazione personale, ma può trasferire i dati ad altri servizi come Google Analytics, Google Ads e altri. Puoi saperne di più su Google Tag Manager e sulle sue pratiche relative ai dati visitando il sito web di Google Tag Manager.",
+    ],
+    'groq' => [
+        'description' => 'Groq è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Groq.',
     ],
     'klarna' => [
         'description' => 'Klarna è un servizio di pagamento che ci consente di accettare pagamenti a rate dai nostri clienti. Klarna potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione per valutare l\'idoneità dell\'utente ai suoi metodi di pagamento e personalizzare tali metodi di pagamento.',
@@ -63,6 +81,15 @@ return [
             'SM' => 'Utilizzato per sincronizzare il cookie MUID tra i domini Microsoft.',
         ],
     ],
+    'mistral' => [
+        'description' => 'Mistral AI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Mistral AI.',
+    ],
+    'openai' => [
+        'description' => 'OpenAI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da OpenAI.',
+    ],
+    'openrouter' => [
+        'description' => 'OpenRouter è un servizio che inoltra le richieste ai modelli di intelligenza artificiale di diversi fornitori. I testi, i file e gli altri contenuti inviati alle funzionalità del nostro sito che lo utilizzano, che possono includere dati personali, vengono trasmessi a OpenRouter e ai fornitori dei modelli utilizzati.',
+    ],
     'paypal' => [
         'description' => 'PayPal è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. PayPal potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
     ],
@@ -78,6 +105,9 @@ return [
     'stripe' => [
         'description' => 'Stripe è un servizio di pagamento che ci consente di accettare pagamenti dai nostri clienti. Stripe potrebbe raccogliere informazioni personali come nomi, indirizzi e-mail e informazioni di fatturazione.',
     ],
+    'typesafe' => [
+        'description' => 'TypeSafe è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da TypeSafe.',
+    ],
     'vimeo' => [
         'description' => 'Vimeo è un servizio di hosting video che ci consente di mostrare video sul nostro sito web. Al caricamento di un video Vimeo riceve l\'indirizzo IP del visitatore e può impostare cookie per proteggere il player, ricordarne le preferenze e raccogliere statistiche di visualizzazione per il proprietario del video.',
         'cookies' => [
@@ -89,6 +119,9 @@ return [
             'player' => 'Memorizza le preferenze del player, come volume, qualità e sottotitoli.',
             'flags' => 'Memorizza le funzioni del player attivate dal proprietario del video.',
         ],
+    ],
+    'xai' => [
+        'description' => 'xAI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da xAI.',
     ],
     'youtube' => [
         'description' => 'YouTube è un servizio di hosting video che ci consente di mostrare video sul nostro sito web. Al caricamento di un video Google riceve l\'indirizzo IP del visitatore e, alla riproduzione, può impostare cookie e salvare dati nel browser per proteggere il player, ricordare le preferenze, misurare l\'utilizzo e personalizzare gli annunci.',
