@@ -2,6 +2,37 @@
 
 All notable changes to `laravel-cookie-solution` will be documented in this file.
 
+## 2.6.0 - 2026-11-23
+
+##### Highlights
+
+- **AI provider services**: `OpenAIServiceFactory`, `AnthropicServiceFactory`, `GeminiServiceFactory`, `AzureAiServiceFactory`, `AmazonBedrockServiceFactory`, `MistralServiceFactory`, `XAIServiceFactory`, `GroqServiceFactory`, `TypeSafeServiceFactory`, `OpenRouterServiceFactory` and `CloudflareAiGatewayServiceFactory`, for the providers used through `laravel/ai`. They set no cookies and are listed in the privacy policy. See [AI providers](https://github.com/keepsuit/laravel-cookie-solution/blob/main/docs/ai-providers.md).
+- **Contracting entity**: `->entity()` on the Google, Meta, Stripe, PayPal and Zoho factories (`GoogleEntity`, `GoogleCloudEntity` for reCAPTCHA, `MetaEntity`, `StripeEntity`, `PayPalEntity`, `ZohoEntity`).
+- **Data processing areas**: `DataProcessingArea::EUROPE` and `WORLDWIDE` for locations that are not a single country. Zoho adds the `EUROPE` and `UNITED_KINGDOM` data centers.
+
+##### Upgrade notes
+
+- **The privacy policy text changes without code changes.** Review it if it was approved:
+  
+  - Google, Meta, Stripe and PayPal are shown as processed worldwide (they commit to no processing country) instead of Ireland, Luxembourg or the United States.
+  - Corrected entity names: PayPal ("PayPal, Inc.", "PayPal (Europe) S.à r.l. et Cie, S.C.A."), Stripe Ireland ("Stripe Payments Europe, Limited"), reCAPTCHA (Google Cloud entities, "Google Cloud EMEA Limited" for `IRELAND`), Zoho (the entity of each data center's region).
+  - Zoho `NETHERLANDS` is shown as Europe.
+  
+  Visitors are not asked for consent again.
+  
+- **Deprecated**: `->location()` and the location enums of Google, Meta, Stripe and PayPal (it now only selects the entity; use `->entity()`), `ZohoDataProcessingLocation::NETHERLANDS` (use `EUROPE`). They will be removed in 3.0 (#64).
+  
+- Sites with published translations get the new keys from the package; republish them only to customise the new texts.
+  
+
+### What's Changed
+
+* Add AI provider service factories by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/65
+* Add an entity option to the existing service factories by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/66
+* Update dependencies by @cappuc in https://github.com/keepsuit/laravel-cookie-solution/pull/67
+
+**Full Changelog**: https://github.com/keepsuit/laravel-cookie-solution/compare/2.5.0...2.6.0
+
 ## 2.5.0 - 2026-11-17
 
 #### Highlights
@@ -145,6 +176,7 @@ Follow the upgrade guide: [UPGRADING.md](https://github.com/keepsuit/laravel-coo
 ```sh
 composer require keepsuit/laravel-cookie-solution:^2.0
 npm i @keepsuit/cookie-solution   # headless frontends only
+
 
 
 
