@@ -8,7 +8,7 @@ use Symfony\Component\Intl\Countries;
 /**
  * Deployment type: Global, or a Data Zone.
  */
-enum AzureOpenAIDataProcessingLocation
+enum AzureAiDataProcessingLocation
 {
     case WORLDWIDE;
     case EUROPE;

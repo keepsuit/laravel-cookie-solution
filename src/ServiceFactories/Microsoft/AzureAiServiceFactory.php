@@ -5,11 +5,14 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Microsoft;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
-class AzureOpenAIServiceFactory extends ServiceFactory
+/**
+ * Models deployed on Azure, now branded Microsoft Foundry (formerly Azure OpenAI and Azure AI Foundry).
+ */
+class AzureAiServiceFactory extends ServiceFactory
 {
     protected MicrosoftEntity $entity = MicrosoftEntity::USA;
 
-    protected AzureOpenAIDataProcessingLocation $location = AzureOpenAIDataProcessingLocation::WORLDWIDE;
+    protected AzureAiDataProcessingLocation $location = AzureAiDataProcessingLocation::WORLDWIDE;
 
     public function entity(MicrosoftEntity $entity): static
     {
@@ -18,7 +21,7 @@ class AzureOpenAIServiceFactory extends ServiceFactory
         return $this;
     }
 
-    public function location(AzureOpenAIDataProcessingLocation $location): static
+    public function location(AzureAiDataProcessingLocation $location): static
     {
         $this->location = $location;
 
@@ -28,9 +31,9 @@ class AzureOpenAIServiceFactory extends ServiceFactory
     public function build(): Service
     {
         return new Service(
-            name: 'Azure OpenAI',
+            name: 'Azure AI',
             provider: $this->entity->provider(),
-            description: __('cookie-solution::services.azure_openai.description'),
+            description: __('cookie-solution::services.azure_ai.description'),
             privacyPolicyUrl: 'https://www.microsoft.com/privacy/privacystatement',
             dataProcessingLocation: $this->location->country(),
         );

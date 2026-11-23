@@ -28,8 +28,8 @@ use Keepsuit\CookieSolution\ServiceFactories\Klarna\KlarnaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Mailchimp\MailchimpServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
-use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureOpenAIDataProcessingLocation;
-use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureOpenAIServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftClarityServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Mistral\MistralDataProcessingLocation;
@@ -69,7 +69,7 @@ it('builds every service in every location without untranslated keys', function 
         [StripeServiceFactory::class, StripeDataProcessingLocation::class],
         [ZohoCampaignsServiceFactory::class, ZohoDataProcessingLocation::class],
         [AnthropicServiceFactory::class, AnthropicDataProcessingLocation::class],
-        [AzureOpenAIServiceFactory::class, AzureOpenAIDataProcessingLocation::class],
+        [AzureAiServiceFactory::class, AzureAiDataProcessingLocation::class],
         [AmazonBedrockServiceFactory::class, AmazonWebServicesLocation::class],
         [AmazonBedrockServiceFactory::class, DataProcessingArea::class],
         [MistralServiceFactory::class, MistralDataProcessingLocation::class],
@@ -81,7 +81,7 @@ it('builds every service in every location without untranslated keys', function 
     $entities = [
         [AmazonBedrockServiceFactory::class, AmazonWebServicesEntity::class],
         [AnthropicServiceFactory::class, AnthropicEntity::class],
-        [AzureOpenAIServiceFactory::class, MicrosoftEntity::class],
+        [AzureAiServiceFactory::class, MicrosoftEntity::class],
         [GeminiServiceFactory::class, GeminiEntity::class],
         [GroqServiceFactory::class, GroqEntity::class],
         [OpenAIServiceFactory::class, OpenAIEntity::class],

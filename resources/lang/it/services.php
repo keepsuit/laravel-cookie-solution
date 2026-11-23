@@ -10,8 +10,8 @@ return [
     'anthropic' => [
         'description' => 'Anthropic è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Anthropic.',
     ],
-    'azure_openai' => [
-        'description' => 'Azure OpenAI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Azure OpenAI.',
+    'azure_ai' => [
+        'description' => 'Azure AI è un servizio di intelligenza artificiale che utilizziamo per fornire alcune funzionalità del nostro sito. I testi, i file e gli altri contenuti inviati a queste funzionalità, che possono includere dati personali, vengono elaborati da Azure AI.',
     ],
     'cloudflare_ai_gateway' => [
         'description' => 'Cloudflare AI Gateway è un servizio che inoltra le richieste ai fornitori di intelligenza artificiale. I testi, i file e gli altri contenuti inviati alle funzionalità del nostro sito che lo utilizzano, che possono includere dati personali, transitano da Cloudflare.',
