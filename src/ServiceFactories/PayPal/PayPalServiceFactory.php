@@ -8,13 +8,8 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class PayPalServiceFactory extends ServiceFactory
 {
-    protected ?PayPalEntity $entity = null;
+    protected PayPalEntity $entity = PayPalEntity::USA;
 
-    protected PayPalDataProcessingLocation $location = PayPalDataProcessingLocation::USA;
-
-    /**
-     * Sets the contracting entity and shows the data processing location as worldwide.
-     */
     public function entity(PayPalEntity $entity): static
     {
         $this->entity = $entity;
@@ -22,10 +17,10 @@ class PayPalServiceFactory extends ServiceFactory
         return $this;
     }
 
-    /** @deprecated Use entity(). */
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(PayPalDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -34,10 +29,10 @@ class PayPalServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'PayPal',
-            provider: $this->entity?->provider() ?? $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.paypal.description'),
             privacyPolicyUrl: 'https://www.paypal.com/legalhub/paypal/privacy-full',
-            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
         );
     }
 }

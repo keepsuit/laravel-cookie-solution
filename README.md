@@ -241,7 +241,7 @@ class AppServiceProvider extends ServiceProvider
 ```
 
 `->entity()` sets the provider's contracting entity, usually by the site's country (e.g. `IRELAND` for EEA sites).
-Google, Meta, Stripe and PayPal do not commit to a processing country, so with an entity their location is shown as worldwide; their `->location()` is deprecated and will be removed in the next major.
+Google, Meta, Stripe and PayPal do not commit to a processing country, so their location is shown as worldwide; their `->location()` is deprecated, only selects the entity and will be removed in the next major.
 Zoho's `->location()` is the data center and stays.
 
 `CookieSolution` is a scoped instance: Octane and queue workers build a new one for every request and job, running the `afterResolving` callbacks again.

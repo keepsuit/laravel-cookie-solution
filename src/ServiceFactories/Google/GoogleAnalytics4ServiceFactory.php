@@ -10,15 +10,10 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class GoogleAnalytics4ServiceFactory extends ServiceFactory
 {
-    protected ?GoogleEntity $entity = null;
-
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
+    protected GoogleEntity $entity = GoogleEntity::USA;
 
     protected int $cookieDurationInDays = 730;
 
-    /**
-     * Sets the contracting entity and shows the data processing location as worldwide.
-     */
     public function entity(GoogleEntity $entity): static
     {
         $this->entity = $entity;
@@ -26,10 +21,10 @@ class GoogleAnalytics4ServiceFactory extends ServiceFactory
         return $this;
     }
 
-    /** @deprecated Use entity(). */
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -45,10 +40,10 @@ class GoogleAnalytics4ServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Google Analytics 4',
-            provider: $this->entity?->provider() ?? $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.google_analytics_4.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: [
                 new Cookie(
                     name: '_ga',

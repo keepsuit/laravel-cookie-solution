@@ -5,7 +5,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Google;
 use Symfony\Component\Intl\Countries;
 
 /**
- * @deprecated Use the factory's `entity()` (GoogleEntity, or GoogleCloudEntity for reCAPTCHA), which shows the location as worldwide.
+ * @deprecated Use the factory's `entity()`: the data is processed worldwide, so these cases only select the entity.
  */
 enum GoogleDataProcessingLocation
 {
@@ -13,14 +13,21 @@ enum GoogleDataProcessingLocation
     case IRELAND;
 
     /** @deprecated Use GoogleEntity. */
-    public function provider(): string
+    public function entity(): GoogleEntity
     {
         return match ($this) {
-            self::USA => GoogleEntity::USA->provider(),
-            self::IRELAND => GoogleEntity::IRELAND->provider(),
+            self::USA => GoogleEntity::USA,
+            self::IRELAND => GoogleEntity::IRELAND,
         };
     }
 
+    /** @deprecated Use GoogleEntity. */
+    public function provider(): string
+    {
+        return $this->entity()->provider();
+    }
+
+    /** @deprecated The data is processed worldwide. */
     public function country(): string
     {
         return match ($this) {

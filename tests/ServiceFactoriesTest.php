@@ -157,10 +157,10 @@ it('links the OpenAI privacy policy of the chosen entity', function () {
         ->privacyPolicyUrl->toBe('https://openai.com/policies/eu-privacy-policy/');
 });
 
-it('keeps the entity and location of the deprecated location option', function () {
+it('selects only the entity with the deprecated location option', function () {
     expect(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
         ->provider->toBe('Google Ireland Limited')
-        ->dataProcessingLocation->toBe('Ireland');
+        ->dataProcessingLocation->toBe('Worldwide');
 });
 
 it('maps the deprecated reCAPTCHA location to a Google Cloud entity', function () {

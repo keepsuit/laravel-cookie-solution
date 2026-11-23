@@ -14,13 +14,8 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class GoogleRecaptchaServiceFactory extends ServiceFactory
 {
-    protected ?GoogleCloudEntity $entity = null;
+    protected GoogleCloudEntity $entity = GoogleCloudEntity::USA;
 
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
-
-    /**
-     * Sets the contracting entity (reCAPTCHA is under the Google Cloud terms) and shows the data processing location as worldwide.
-     */
     public function entity(GoogleCloudEntity $entity): static
     {
         $this->entity = $entity;
@@ -28,10 +23,13 @@ class GoogleRecaptchaServiceFactory extends ServiceFactory
         return $this;
     }
 
-    /** @deprecated Use entity(). */
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = match ($location) {
+            GoogleDataProcessingLocation::USA => GoogleCloudEntity::USA,
+            GoogleDataProcessingLocation::IRELAND => GoogleCloudEntity::EMEA,
+        };
 
         return $this;
     }
@@ -40,13 +38,10 @@ class GoogleRecaptchaServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Google reCAPTCHA',
-            provider: ($this->entity ?? match ($this->location) {
-                GoogleDataProcessingLocation::USA => GoogleCloudEntity::USA,
-                GoogleDataProcessingLocation::IRELAND => GoogleCloudEntity::EMEA,
-            })->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.google_recaptcha.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: [
                 new Cookie(
                     name: '_GRECAPTCHA',

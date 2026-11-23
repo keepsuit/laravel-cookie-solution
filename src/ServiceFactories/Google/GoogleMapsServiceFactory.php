@@ -13,13 +13,8 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class GoogleMapsServiceFactory extends ServiceFactory
 {
-    protected ?GoogleEntity $entity = null;
+    protected GoogleEntity $entity = GoogleEntity::USA;
 
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
-
-    /**
-     * Sets the contracting entity and shows the data processing location as worldwide.
-     */
     public function entity(GoogleEntity $entity): static
     {
         $this->entity = $entity;
@@ -27,10 +22,10 @@ class GoogleMapsServiceFactory extends ServiceFactory
         return $this;
     }
 
-    /** @deprecated Use entity(). */
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -39,10 +34,10 @@ class GoogleMapsServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Google Maps',
-            provider: $this->entity?->provider() ?? $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.google_maps.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: [
                 new Cookie(
                     name: 'NID',

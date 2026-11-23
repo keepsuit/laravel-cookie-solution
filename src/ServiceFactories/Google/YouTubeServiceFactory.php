@@ -13,13 +13,8 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class YouTubeServiceFactory extends ServiceFactory
 {
-    protected ?GoogleEntity $entity = null;
+    protected GoogleEntity $entity = GoogleEntity::USA;
 
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
-
-    /**
-     * Sets the contracting entity and shows the data processing location as worldwide.
-     */
     public function entity(GoogleEntity $entity): static
     {
         $this->entity = $entity;
@@ -27,10 +22,10 @@ class YouTubeServiceFactory extends ServiceFactory
         return $this;
     }
 
-    /** @deprecated Use entity(). */
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -48,10 +43,10 @@ class YouTubeServiceFactory extends ServiceFactory
 
         return new Service(
             name: 'YouTube',
-            provider: $this->entity?->provider() ?? $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.youtube.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->entity ? DataProcessingArea::WORLDWIDE->label() : $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: array_map(
                 fn (string $name, array $cookie) => new Cookie(
                     name: $name,

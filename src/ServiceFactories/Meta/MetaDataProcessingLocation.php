@@ -5,7 +5,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Meta;
 use Symfony\Component\Intl\Countries;
 
 /**
- * @deprecated Use the factory's `entity()` with MetaEntity, which shows the location as worldwide.
+ * @deprecated Use the factory's `entity()`: the data is processed worldwide, so these cases only select the entity.
  */
 enum MetaDataProcessingLocation
 {
@@ -13,14 +13,21 @@ enum MetaDataProcessingLocation
     case IRELAND;
 
     /** @deprecated Use MetaEntity. */
-    public function provider(): string
+    public function entity(): MetaEntity
     {
         return match ($this) {
-            self::USA => MetaEntity::USA->provider(),
-            self::IRELAND => MetaEntity::IRELAND->provider(),
+            self::USA => MetaEntity::USA,
+            self::IRELAND => MetaEntity::IRELAND,
         };
     }
 
+    /** @deprecated Use MetaEntity. */
+    public function provider(): string
+    {
+        return $this->entity()->provider();
+    }
+
+    /** @deprecated The data is processed worldwide. */
     public function country(): string
     {
         return match ($this) {

@@ -18,10 +18,6 @@ parameters:
           path: config/*
         - '#Unsafe usage of new static#'
         # Factories keep using their deprecated location enums until the next major.
-        - identifier: method.deprecatedEnum
-          path: src/ServiceFactories/*
-        - identifier: classConstant.deprecatedEnum
-          path: src/ServiceFactories/*
         - identifier: method.deprecated
           path: src/ServiceFactories/*
         - identifier: classConstant.deprecated
