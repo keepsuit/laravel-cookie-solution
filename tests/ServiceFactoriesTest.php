@@ -13,11 +13,12 @@ use Keepsuit\CookieSolution\ServiceFactories\Anthropic\AnthropicServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Cloudflare\CloudflareAiGatewayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\DigitalOcean\DigitalOceanLocation;
 use Keepsuit\CookieSolution\ServiceFactories\DigitalOcean\DigitalOceanServiceFactory;
-use Keepsuit\CookieSolution\ServiceFactories\Google\GeminiEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GeminiServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAdsRemarketingServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleCloudEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleMapsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleRecaptchaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
@@ -28,6 +29,7 @@ use Keepsuit\CookieSolution\ServiceFactories\Klarna\KlarnaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Mailchimp\MailchimpServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\AzureAiServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Microsoft\MicrosoftClarityServiceFactory;
@@ -40,11 +42,13 @@ use Keepsuit\CookieSolution\ServiceFactories\OpenAI\OpenAIServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\OpenRouter\OpenRouterDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\OpenRouter\OpenRouterServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalEntity;
 use Keepsuit\CookieSolution\ServiceFactories\PayPal\PayPalServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogAnalyticsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\PostHog\PostHogDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\Scalapay\ScalapayServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Stripe\StripeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\TypeSafe\TypeSafeServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Vimeo\VimeoServiceFactory;
@@ -52,6 +56,29 @@ use Keepsuit\CookieSolution\ServiceFactories\XAI\XAIDataProcessingLocation;
 use Keepsuit\CookieSolution\ServiceFactories\XAI\XAIServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoCampaignsServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Zoho\ZohoEntity;
+
+function entityFactories(): array
+{
+    return [
+        [AmazonBedrockServiceFactory::class, AmazonWebServicesEntity::class],
+        [AnthropicServiceFactory::class, AnthropicEntity::class],
+        [AzureAiServiceFactory::class, MicrosoftEntity::class],
+        [GeminiServiceFactory::class, GoogleCloudEntity::class],
+        [GroqServiceFactory::class, GroqEntity::class],
+        [OpenAIServiceFactory::class, OpenAIEntity::class],
+        [GoogleAdsRemarketingServiceFactory::class, GoogleEntity::class],
+        [GoogleAnalytics4ServiceFactory::class, GoogleEntity::class],
+        [GoogleMapsServiceFactory::class, GoogleEntity::class],
+        [GoogleRecaptchaServiceFactory::class, GoogleCloudEntity::class],
+        [GoogleTagManagerServiceFactory::class, GoogleEntity::class],
+        [YouTubeServiceFactory::class, GoogleEntity::class],
+        [FacebookPixelServiceFactory::class, MetaEntity::class],
+        [PayPalServiceFactory::class, PayPalEntity::class],
+        [StripeServiceFactory::class, StripeEntity::class],
+        [ZohoCampaignsServiceFactory::class, ZohoEntity::class],
+    ];
+}
 
 it('builds every service in every location without untranslated keys', function () {
     $located = [
@@ -78,18 +105,9 @@ it('builds every service in every location without untranslated keys', function 
         [XAIServiceFactory::class, XAIDataProcessingLocation::class],
     ];
 
-    $entities = [
-        [AmazonBedrockServiceFactory::class, AmazonWebServicesEntity::class],
-        [AnthropicServiceFactory::class, AnthropicEntity::class],
-        [AzureAiServiceFactory::class, MicrosoftEntity::class],
-        [GeminiServiceFactory::class, GeminiEntity::class],
-        [GroqServiceFactory::class, GroqEntity::class],
-        [OpenAIServiceFactory::class, OpenAIEntity::class],
-    ];
-
     $services = collect($located)
         ->flatMap(fn (array $pair) => array_map(fn ($location) => $pair[0]::new()->location($location)->build(), $pair[1]::cases()))
-        ->merge(collect($entities)->flatMap(fn (array $pair) => array_map(fn ($entity) => $pair[0]::new()->entity($entity)->build(), $pair[1]::cases())))
+        ->merge(collect(entityFactories())->flatMap(fn (array $pair) => array_map(fn ($entity) => $pair[0]::new()->entity($entity)->build(), $pair[1]::cases())))
         ->merge(array_map(fn (string $factory) => $factory::new()->build(), [
             KlarnaServiceFactory::class,
             MailchimpServiceFactory::class,
@@ -102,6 +120,14 @@ it('builds every service in every location without untranslated keys', function 
         ->push(VimeoServiceFactory::new()->doNotTrack()->build());
 
     expect(json_encode($services->map->toArray()))->not->toContain('cookie-solution::');
+});
+
+it('prints the entity chosen with entity()', function () {
+    foreach (entityFactories() as [$factory, $entities]) {
+        foreach ($entities::cases() as $entity) {
+            expect($factory::new()->entity($entity)->build()->provider)->toBe($entity->provider());
+        }
+    }
 });
 
 it('has the same service translation keys in every language', function (string $locale) {
@@ -129,6 +155,29 @@ it('links the OpenAI privacy policy of the chosen entity', function () {
     expect(OpenAIServiceFactory::new()->entity(OpenAIEntity::IRELAND)->build())
         ->provider->toBe('OpenAI Ireland Ltd.')
         ->privacyPolicyUrl->toBe('https://openai.com/policies/eu-privacy-policy/');
+});
+
+it('selects only the entity with the deprecated location option', function () {
+    expect(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
+        ->provider->toBe('Google Ireland Limited')
+        ->dataProcessingLocation->toBe('Worldwide');
+});
+
+it('maps the deprecated reCAPTCHA location to a Google Cloud entity', function () {
+    expect(GoogleRecaptchaServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build()->provider)->toBe('Google Cloud EMEA Limited');
+});
+
+it('shows the location as worldwide once the entity is set', function () {
+    expect(StripeServiceFactory::new()->location(StripeDataProcessingLocation::IRELAND)->entity(StripeEntity::IRELAND)->build())
+        ->provider->toBe('Stripe Payments Europe, Limited')
+        ->dataProcessingLocation->toBe('Worldwide');
+});
+
+it('sets the Zoho entity independently of the data center', function () {
+    expect(ZohoCampaignsServiceFactory::new()->entity(ZohoEntity::GERMANY)->location(ZohoDataProcessingLocation::EUROPE)->build())
+        ->provider->toBe('Zoho Corporation GmbH')
+        ->dataProcessingLocation->toBe('Europe')
+        ->and(ZohoCampaignsServiceFactory::new()->location(ZohoDataProcessingLocation::JAPAN)->build()->provider)->toBe('Zoho Japan Corporation');
 });
 
 it('lists only the cookies that secure the Vimeo player with do not track', function () {

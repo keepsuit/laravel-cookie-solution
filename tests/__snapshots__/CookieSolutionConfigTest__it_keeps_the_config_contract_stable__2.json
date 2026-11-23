@@ -29,7 +29,7 @@
                 "provider": "Google Ireland Limited",
                 "description": "Google Analytics is a statistics service and uses cookies to collect data on website visitors. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.",
                 "privacy_policy_url": "https://policies.google.com/privacy",
-                "data_processing_location": "Ireland",
+                "data_processing_location": "Worldwide",
                 "cookies": [
                     {
                         "name": "_ga",
@@ -52,7 +52,7 @@
                 "provider": "Meta Platforms Ireland Limited",
                 "description": "Meta Pixel uses cookies to collect data about website visitors. Meta may use the collected data to target ads to website visitors and to understand the effectiveness of Meta advertising campaigns. You can learn more about Meta Pixel and how to opt out of data collection by visiting the Meta website.",
                 "privacy_policy_url": "https://www.facebook.com/privacy/policy/",
-                "data_processing_location": "Ireland",
+                "data_processing_location": "Worldwide",
                 "cookies": [
                     {
                         "name": "_fbp",

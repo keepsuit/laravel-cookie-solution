@@ -6,16 +6,25 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Lang;
 use Keepsuit\CookieSolution\Cookie;
 use Keepsuit\CookieSolution\CookiePurpose;
+use Keepsuit\CookieSolution\DataProcessingArea;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class GoogleAdsRemarketingServiceFactory extends ServiceFactory
 {
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
+    protected GoogleEntity $entity = GoogleEntity::USA;
 
+    public function entity(GoogleEntity $entity): static
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -49,10 +58,10 @@ class GoogleAdsRemarketingServiceFactory extends ServiceFactory
 
         return new Service(
             name: 'Google Ads Remarketing',
-            provider: $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.google_ads_remarketing.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: $cookies
         );
     }

@@ -4,6 +4,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Google;
 
 use Keepsuit\CookieSolution\Cookie;
 use Keepsuit\CookieSolution\CookiePurpose;
+use Keepsuit\CookieSolution\DataProcessingArea;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
@@ -13,11 +14,22 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class GoogleRecaptchaServiceFactory extends ServiceFactory
 {
-    protected GoogleDataProcessingLocation $location = GoogleDataProcessingLocation::USA;
+    protected GoogleCloudEntity $entity = GoogleCloudEntity::USA;
 
+    public function entity(GoogleCloudEntity $entity): static
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(GoogleDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = match ($location) {
+            GoogleDataProcessingLocation::USA => GoogleCloudEntity::USA,
+            GoogleDataProcessingLocation::IRELAND => GoogleCloudEntity::EMEA,
+        };
 
         return $this;
     }
@@ -26,10 +38,10 @@ class GoogleRecaptchaServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Google reCAPTCHA',
-            provider: $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.google_recaptcha.description'),
             privacyPolicyUrl: 'https://policies.google.com/privacy',
-            dataProcessingLocation: $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
             cookies: [
                 new Cookie(
                     name: '_GRECAPTCHA',

@@ -11,9 +11,9 @@ use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
  */
 class GeminiServiceFactory extends ServiceFactory
 {
-    protected GeminiEntity $entity = GeminiEntity::USA;
+    protected GoogleCloudEntity $entity = GoogleCloudEntity::USA;
 
-    public function entity(GeminiEntity $entity): static
+    public function entity(GoogleCloudEntity $entity): static
     {
         $this->entity = $entity;
 

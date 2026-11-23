@@ -222,23 +222,27 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Keepsuit\CookieSolution\CookieSolution;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
-use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
-use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaEntity;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
         $this->app->afterResolving(CookieSolution::class, function (CookieSolution $cookieSolution) {
-            $cookieSolution->register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-                ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-                ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+            $cookieSolution->register(GoogleAnalytics4ServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+                ->register(GoogleTagManagerServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+                ->register(FacebookPixelServiceFactory::new()->entity(MetaEntity::IRELAND)->build());
         });
     }
 }
 ```
+
+`->entity()` sets the provider's contracting entity, usually by the site's country (e.g. `IRELAND` for EEA sites).
+Google, Meta, Stripe and PayPal do not commit to a processing country, so their location is shown as worldwide; their `->location()` is deprecated, only selects the entity and will be removed in the next major.
+Zoho's `->location()` is the data center and stays.
 
 `CookieSolution` is a scoped instance: Octane and queue workers build a new one for every request and job, running the `afterResolving` callbacks again.
 Register services and resolvers there, not on the instance during `boot()`: they would be lost after the first request.

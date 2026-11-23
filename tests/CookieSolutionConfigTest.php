@@ -3,11 +3,11 @@
 use Keepsuit\CookieSolution\Contracts\MarkdownParser;
 use Keepsuit\CookieSolution\Facades\CookieSolution;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleAnalytics4ServiceFactory;
-use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleEntity;
 use Keepsuit\CookieSolution\ServiceFactories\Google\GoogleTagManagerServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Klarna\KlarnaServiceFactory;
 use Keepsuit\CookieSolution\ServiceFactories\Meta\FacebookPixelServiceFactory;
-use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaDataProcessingLocation;
+use Keepsuit\CookieSolution\ServiceFactories\Meta\MetaEntity;
 
 use function Spatie\Snapshots\assertMatchesJsonSnapshot;
 
@@ -86,9 +86,9 @@ it('generate the banner content', function () {
 });
 
 it('generate config with configured services', function () {
-    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->entity(MetaEntity::IRELAND)->build());
 
     expect(CookieSolution::getContent()['services'])
         ->toMatchArray([
@@ -97,7 +97,7 @@ it('generate config with configured services', function () {
                     'name' => 'Google Analytics 4',
                     'provider' => 'Google Ireland Limited',
                     'privacy_policy_url' => 'https://policies.google.com/privacy',
-                    'data_processing_location' => 'Ireland',
+                    'data_processing_location' => 'Worldwide',
                     'description' => 'Google Analytics is a statistics service and uses cookies to collect data on website visitors. Google may use the data collected to contextualize and personalize the ads of its advertising network. You can get more information about Google Analytics and how to opt out of data collection by visiting the Google Analytics website.',
                     'cookies' => [
                         ['name' => '_ga', 'description' => 'Used to distinguish users.', 'duration' => 730, 'purpose' => 'statistics'],
@@ -110,7 +110,7 @@ it('generate config with configured services', function () {
                     'provider' => 'Meta Platforms Ireland Limited',
                     'name' => 'Meta Pixel',
                     'privacy_policy_url' => 'https://www.facebook.com/privacy/policy/',
-                    'data_processing_location' => 'Ireland',
+                    'data_processing_location' => 'Worldwide',
                     'description' => 'Meta Pixel uses cookies to collect data about website visitors. Meta may use the collected data to target ads to website visitors and to understand the effectiveness of Meta advertising campaigns. You can learn more about Meta Pixel and how to opt out of data collection by visiting the Meta website.',
                     'cookies' => [
                         ['name' => '_fbp', 'description' => 'Used to store and track visits across websites.', 'duration' => 90, 'purpose' => 'marketing'],
@@ -123,9 +123,9 @@ it('generate config with configured services', function () {
 });
 
 it('generate config digest to invalidate consent on change', function () {
-    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->entity(MetaEntity::IRELAND)->build());
 
     $config = CookieSolution::getConfig();
 
@@ -137,9 +137,9 @@ it('generate config digest to invalidate consent on change', function () {
 });
 
 it('keeps the config contract stable', function () {
-    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(GoogleTagManagerServiceFactory::new()->location(GoogleDataProcessingLocation::IRELAND)->build())
-        ->register(FacebookPixelServiceFactory::new()->location(MetaDataProcessingLocation::IRELAND)->build());
+    CookieSolution::register(GoogleAnalytics4ServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(GoogleTagManagerServiceFactory::new()->entity(GoogleEntity::IRELAND)->build())
+        ->register(FacebookPixelServiceFactory::new()->entity(MetaEntity::IRELAND)->build());
 
     assertMatchesJsonSnapshot(json_encode(CookieSolution::getConfig()));
     assertMatchesJsonSnapshot(json_encode(CookieSolution::getContent()));

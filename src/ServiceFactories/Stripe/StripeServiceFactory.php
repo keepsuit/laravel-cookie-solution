@@ -2,16 +2,25 @@
 
 namespace Keepsuit\CookieSolution\ServiceFactories\Stripe;
 
+use Keepsuit\CookieSolution\DataProcessingArea;
 use Keepsuit\CookieSolution\Service;
 use Keepsuit\CookieSolution\ServiceFactories\ServiceFactory;
 
 class StripeServiceFactory extends ServiceFactory
 {
-    protected StripeDataProcessingLocation $location = StripeDataProcessingLocation::USA;
+    protected StripeEntity $entity = StripeEntity::USA;
 
+    public function entity(StripeEntity $entity): static
+    {
+        $this->entity = $entity;
+
+        return $this;
+    }
+
+    /** @deprecated Use entity(): the data is processed worldwide, this only selects the entity. */
     public function location(StripeDataProcessingLocation $location): static
     {
-        $this->location = $location;
+        $this->entity = $location->entity();
 
         return $this;
     }
@@ -20,10 +29,10 @@ class StripeServiceFactory extends ServiceFactory
     {
         return new Service(
             name: 'Stripe',
-            provider: $this->location->provider(),
+            provider: $this->entity->provider(),
             description: __('cookie-solution::services.stripe.description'),
             privacyPolicyUrl: 'https://stripe.com/privacy',
-            dataProcessingLocation: $this->location->country(),
+            dataProcessingLocation: DataProcessingArea::WORLDWIDE->label(),
         );
     }
 }
