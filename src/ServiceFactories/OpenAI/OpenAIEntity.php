@@ -5,6 +5,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\OpenAI;
 enum OpenAIEntity
 {
     case USA;
+    /** Contracting party for EEA and Swiss customers. */
     case IRELAND;
 
     public function provider(): string

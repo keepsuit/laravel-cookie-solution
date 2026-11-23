@@ -5,6 +5,7 @@ namespace Keepsuit\CookieSolution\ServiceFactories\Anthropic;
 enum AnthropicEntity
 {
     case USA;
+    /** Contracting party for EEA, Swiss and UK customers. */
     case IRELAND;
 
     public function provider(): string
