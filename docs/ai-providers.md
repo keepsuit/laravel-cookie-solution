@@ -30,7 +30,7 @@ $cookieSolution->register(
 | `xai` | `XAI\XAIServiceFactory` | SpaceX Super Intelligence LLC | `XAIDataProcessingLocation`: `WORLDWIDE`, `USA` (`us.api.x.ai`) |
 | `groq` | `Groq\GroqServiceFactory` | `GroqEntity`: `USA` (Groq LLC), `UNITED_KINGDOM` (Groq UK Limited) | United States |
 | `typesafe` | `TypeSafe\TypeSafeServiceFactory` | TypeSafe AI, Inc. | United States |
-| `openrouter` | `OpenRouter\OpenRouterServiceFactory` | OpenRouter, Inc. | `OpenRouterDataProcessingLocation`: `WORLDWIDE`, `EUROPE` (EU in-region routing, `eu.openrouter.ai`) |
+| `openrouter` | `OpenRouter\OpenRouterServiceFactory` | OpenRouter, Inc. | `OpenRouterDataProcessingLocation`: `WORLDWIDE`, `EUROPE`, `USA` (in-region routing, `eu.openrouter.ai` and `us.openrouter.ai`) |
 | — | `Cloudflare\CloudflareAiGatewayServiceFactory` | Cloudflare, Inc. | Worldwide |
 
 All factories are in `Keepsuit\CookieSolution\ServiceFactories`. A location that is not a single country is shown as an area (`DataProcessingArea`: "Europe", "Worldwide"); use `DataProcessingArea::EUROPE->label()` for a `Service` built by hand.
