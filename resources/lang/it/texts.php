@@ -44,4 +44,9 @@ return [
         'message' => 'Questo contenuto è fornito da terze parti che usano cookie per: :purposes.',
         'button' => 'Accetta e carica',
     ],
+
+    'data_processing_areas' => [
+        'europe' => 'Europa',
+        'worldwide' => 'In tutto il mondo',
+    ],
 ];

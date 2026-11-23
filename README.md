@@ -319,6 +319,7 @@ The package doesn't cache the resolved texts: cache them in your app if needed.
 - [Customization](docs/customization.md): highlight color, layout, color scheme, floating toggle, policy views and `::part()` styling.
 - [Headless frontends](docs/headless.md): JSON API and the `@keepsuit/cookie-solution` npm package (React, SSR, SPA).
 - [Connecting tracking services](docs/tracking.md): scripts that wait for consent (`type="text/plain"`), embeds that wait for consent (`<iframe data-src>` with a placeholder, YouTube, Vimeo, Google Maps and reCAPTCHA services), Google Tag Manager consent mode, Meta Pixel, PostHog, Microsoft Clarity.
+- [AI providers](docs/ai-providers.md): OpenAI, Anthropic, Gemini, Azure OpenAI, Bedrock, Mistral, xAI, Groq, TypeSafe, OpenRouter and Cloudflare AI Gateway services for the privacy policy, with their entities and data processing locations.
 
 ## Checking status
 
